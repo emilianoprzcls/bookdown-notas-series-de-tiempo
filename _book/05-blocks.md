@@ -1,6 +1,6 @@
-# Blocks
+# pene
 
-## Equations
+## ecuaciones
 
 Here is an equation.
 

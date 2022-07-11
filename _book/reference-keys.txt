@@ -14,13 +14,11 @@ parts
 footnotes-and-citations
 footnotes
 citations
-blocks
-equations
+pene
+ecuaciones
 theorems-and-proofs
 callout-blocks
 sharing-your-book
 publishing
 pages
 metadata-for-sharing
-url-your-book-url-like-httpsbookdown.orgyihuibookdown
-thm:tri
