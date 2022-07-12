@@ -7,6 +7,7 @@ documentclass: book
 bibliography: [book.bib, packages.bib]
 description: "Trabajo siempre en proceso de mejora, para cualquier comentario o aclaración, contactar al correo benjov@ciencias.unam.mx o omarxalpha@gmail.com"
 biblio-style: apalike
+link-citations: yes
 csl: chicago-fullnote-bibliography.csl
 ---
 
