@@ -112,7 +112,7 @@ primarias.
 Finalmente, la Figura \@ref(fig:fig5) ilustra un característica que también resulta de gran interés en el analásis de series de tiempo: los datos de alta frecuencia y de comportamiento no regular. Como se puede observar, en la Figura \@ref(fig:fig5) se muestran las diferencias logarítmicas de las series de IGAE de la actividad total, el IPC y el TDC.
 
 <div class="figure" style="text-align: center">
-<img src="index_files/figure-html/fig5-1.png" alt="Tasas de Crecimiento mensuales (diferencias logarítmicas) de Indicador Global de la Actividad Económica, Índice de Precios y Cotizaciones de la Bolsa Mexicana de Valores (Panel Derecho) y Tipo de Cambio para Solventar Obligaciones en Moneda Extranjera, Ene.2002-May.2021 " width="672" />
+<img src="index_files/figure-html/fig5-1.png" alt="Tasas de Crecimiento mensuales (diferencias logarítmicas) de Indicador Global de la Actividad Económica, Índice de Precios y Cotizaciones de la Bolsa Mexicana de Valores (Panel Derecho) y Tipo de Cambio para Solventar Obligaciones en Moneda Extranjera, Ene.2002-May.2021 " width="90%" />
 <p class="caption">(\#fig:fig5)Tasas de Crecimiento mensuales (diferencias logarítmicas) de Indicador Global de la Actividad Económica, Índice de Precios y Cotizaciones de la Bolsa Mexicana de Valores (Panel Derecho) y Tipo de Cambio para Solventar Obligaciones en Moneda Extranjera, Ene.2002-May.2021 </p>
 </div>
 

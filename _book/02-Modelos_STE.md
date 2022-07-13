@@ -373,6 +373,6 @@ Table: (\#tab:foo) Estadísticas descriptivas del número de pasajeros en el Met
 | $Q^* = T \sum_{j = 1}^{2} \hat{\rho} (j)^2$ | 290.9279 |
 
 <div class="figure" style="text-align: center">
-<img src="autocorrelación_metro.png" alt="Función de Autocorrelación: 150 rezagos del número de pasajeros en el Metro de la CCDMX, enero 2000 a junio de 2019" width="90%" />
+<img src="autocorrelacion_metro.png" alt="Función de Autocorrelación: 150 rezagos del número de pasajeros en el Metro de la CCDMX, enero 2000 a junio de 2019" width="90%" />
 <p class="caption">(\#fig:fig33)Función de Autocorrelación: 150 rezagos del número de pasajeros en el Metro de la CCDMX, enero 2000 a junio de 2019</p>
 </div>
