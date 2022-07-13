@@ -95,12 +95,12 @@
 <h3>
 <span class="header-section-number">4.1.1</span> AR(1)<a class="anchor" aria-label="anchor" href="#ar1"><i class="fas fa-link"></i></a>
 </h3>
-<p>Como primer caso analizaremos al proceso autoregresivo de primer orden, <span class="math inline">\(AR(1)\)</span>, el cual podemos definir como una Ecuación Lineal en Diferencia Estocástica de Primer Orden. Diremos que una Ecuación Lineal en Diferencia de Primer Orden es estocástica si en su representación analítica considera un componente estocástico como en la ecuación (<span class="math inline">\(\ref{EDO_Est}\)</span>) descrita a continuación:
-<span class="math display">\[\begin{equation}
+<p>Como primer caso analizaremos al proceso autoregresivo de primer orden, <span class="math inline">\(AR(1)\)</span>, el cual podemos definir como una Ecuación Lineal en Diferencia Estocástica de Primer Orden. Diremos que una Ecuación Lineal en Diferencia de Primer Orden es estocástica si en su representación analítica considera un componente estocástico como en la ecuación <a href="procesos-estacionarios-univariados.html#eq:EDOEst">(4.1)</a> descrita a continuación:
+<span class="math display" id="eq:EDOEst">\[\begin{equation}
     X_t = a_0 + a_1 X_{t-1} + U_t
-    \label{EDO_Est}
+    \tag{4.1}
 \end{equation}\]</span></p>
-<p>Donde <span class="math inline">\(a_0\)</span> es un término constante, <span class="math inline">\(U_t\)</span> es un proceso estacionario, con media cero (0), una varianza finita y constante (<span class="math inline">\(\sigma^2\)</span>) y una covarianza que depende de la distancia entre <span class="math inline">\(t\)</span> y cualquier <span class="math inline">\(t-s\)</span> (<span class="math inline">\(\gamma_s\)</span>)–que no depende de los valores pasados o futuros de la variable–, <span class="math inline">\(X_0\)</span> es el valor inicial de <span class="math inline">\(X_t\)</span>. No obstante, en general vamos a asumir que la covarianza será cero (0), por lo que tendremos un proceso puramente aleatorio. Considerando la ecuación (<span class="math inline">\(\ref{EDO_Est}\)</span> y un proceso de sustitución sucesivo podemos establecer lo siguiente, empezando con <span class="math inline">\(X_1\)</span>:
+<p>Donde <span class="math inline">\(a_0\)</span> es un término constante, <span class="math inline">\(U_t\)</span> es un proceso estacionario, con media cero (0), una varianza finita y constante (<span class="math inline">\(\sigma^2\)</span>) y una covarianza que depende de la distancia entre <span class="math inline">\(t\)</span> y cualquier <span class="math inline">\(t-s\)</span> (<span class="math inline">\(\gamma_s\)</span>)–que no depende de los valores pasados o futuros de la variable–, <span class="math inline">\(X_0\)</span> es el valor inicial de <span class="math inline">\(X_t\)</span>. No obstante, en general vamos a asumir que la covarianza será cero (0), por lo que tendremos un proceso puramente aleatorio. Considerando la ecuación <a href="procesos-estacionarios-univariados.html#eq:EDOEst">(4.1)</a> y un proceso de sustitución sucesivo podemos establecer lo siguiente, empezando con <span class="math inline">\(X_1\)</span>:
 <span class="math display">\[\begin{eqnarray*}
     X_{1} &amp; = &amp; a_0 + a_1 X_{0} + U_{1}
 \end{eqnarray*}\]</span></p>
@@ -117,7 +117,7 @@ X_{3} &amp; = &amp; a_0 + \alpha X_{2} + U_{3} \\
     &amp; = &amp; a_0 + a_1 a_0 + a_1^2 a_0 + a_1^3 X_{0} + a_1^2 U_{1} + a_1 U_{2} + U_{3}
 \end{eqnarray*}\]</span></p>
 <p>Así, para cualquier <span class="math inline">\(X_t\)</span>, <span class="math inline">\(t = 1, 2, 3, \ldots\)</span>, obtendríamos:
-<span class="math display">\[\begin{eqnarray}
+<span class="math display" id="eq:EDOSSol">\[\begin{eqnarray}
 X_{t} &amp; = &amp; a_0 + a_1 X_{t - 1} + U_{t} \nonumber \\
     &amp; = &amp; a_0 + a_1 (a_0 + a_1 a_0 + a_1^2 a_0 + \ldots + a_1^{t-2} a_0 + a_1^{t-1} X_{0} \nonumber \\
     &amp;   &amp; + a_1^{t-2} U_{1} + \ldots + a_1 U_{t - 2} + U_{t - 1}) + U_{t} \nonumber \\
@@ -126,49 +126,61 @@ X_{t} &amp; = &amp; a_0 + a_1 X_{t - 1} + U_{t} \nonumber \\
     &amp; = &amp; (1 + a_1 + a_1^2 + a_1^3 + \ldots + a_1^{t-1}) a_0 + a_1^{t} X_{0} \nonumber \\
     &amp;   &amp; + a_1^{t-1} U_{1} + \ldots + a_1^2 U_{t - 2} + a_1 U_{t - 1} + U_{t}  \nonumber\\
     &amp; = &amp; \frac{1 - a_1^t}{1 - a_1} a_0 + a_1^{t} X_{0} + \sum^{t-1}_{j = 0} a_1^{j} U_{t - j}
-    \label{EDO_S_Sol}
+    \tag{4.2}
 \end{eqnarray}\]</span></p>
-<p>De esta forma en la ecuación (<span class="math inline">\(\ref{EDO_S_Sol}\)</span>) observamos un proceso que es explicado por dos partes: una que depende del tiempo y otra que depende de un proceso estocástico. Asimismo, debe notarse que la condición de convergencia es idéntica que en el caso de ecuaciones en diferencia estudiadas al inicio del curso: <span class="math inline">\(\abs{a_1} &lt; 1\)</span>, por lo que cuando <span class="math inline">\(t \to \infty\)</span>, la expresión (<span class="math inline">\(\ref{EDO_S_Sol}\)</span>) será la siguiente:
-<span class="math display">\[\begin{equation}
+<p>De esta forma en la ecuación <a href="procesos-estacionarios-univariados.html#eq:EDOSSol">(4.2)</a> observamos un proceso que es explicado por dos partes: una que depende del tiempo y otra que depende de un proceso estocástico. Asimismo, debe notarse que la condición de convergencia es idéntica que en el caso de ecuaciones en diferencia estudiadas al inicio del curso: <span class="math inline">\(\lvert a_1 \lvert &lt; 1\)</span>, por lo que cuando <span class="math inline">\(t \to \infty\)</span>, la expresión <a href="procesos-estacionarios-univariados.html#eq:EDOSSol">(4.2)</a> será la siguiente:
+<span class="math display" id="eq:EDOSLP">\[\begin{equation}
     X_t = \frac{1}{1 - a_1} a_0 + \sum^{\infty}_{j = 0} a_1^{j} U_{t - j}
-    \label{EDO_S_LP}
+    \tag{4.3}
 \end{equation}\]</span></p>
 <p>Así, desaparece la parte dependiente del tiempo y únicamente prevalece la parte que es dependiente del proceso estocástico. Esta es la solución de largo plazo del proceso <span class="math inline">\(AR(1)\)</span>, la cual depende del proceso estocástico. Notemos, además, que esta solución implica que la variable o la serie de tiempo <span class="math inline">\(X_t\)</span> es tambien un proceso estocástico que hereda las propiedades de <span class="math inline">\(U_t\)</span>. Así, <span class="math inline">\(X_t\)</span> es también un proceso estocástico estacionario, como demostraremos más adelante.</p>
-<p>Observemos que la ecuación (<span class="math inline">\(\ref{EDO_S_LP}\)</span>) se puede reescribir si consideramos la formulación que en la literatura se denomina como la descomposición de Wold, en la cual se define que es posible asumir que <span class="math inline">\(\psi_j = a_1^j\)</span> y se considera el caso en el cual <span class="math inline">\(\abs{a_1} &lt; 1\)</span>, de esta forma tendremos que por ejemplo cuando:
+<p>Observemos que la ecuación <a href="procesos-estacionarios-univariados.html#eq:EDOSLP">(4.3)</a> se puede reescribir si consideramos la formulación que en la literatura se denomina como la descomposición de Wold, en la cual se define que es posible asumir que <span class="math inline">\(\psi_j = a_1^j\)</span> y se considera el caso en el cual <span class="math inline">\(\lvert a_1 \lvert&lt; 1\)</span>, de esta forma tendremos que por ejemplo cuando:
 <span class="math display">\[\begin{equation*}
     \sum^{\infty}_{j = 0} \psi^2_j = \sum^{\infty}_{j = 0} a_1^{2j} = \frac{1}{1 - a_1^2}
 \end{equation*}\]</span></p>
 <p>Alternativamente y de forma similar a las ecuaciones en diferencia estudiadas previamente podemos escribir el proceso <span class="math inline">\(AR(1)\)</span> mediante el uso del operador rezago como:
-<span class="math display">\[\begin{eqnarray}
+<span class="math display" id="eq:AR1">\[\begin{eqnarray}
     X_t &amp; = &amp; a_0 + a_1 L X_t + U_t \nonumber \\
     X_t - a_1 L X_t &amp; = &amp; a_0 + U_t \nonumber \\
     (1 - a_1 L) X_t &amp; = &amp; a_0 + U_t \nonumber \\
     X_t &amp; = &amp; \frac{a_0}{1 - a_1 L} + \frac{1}{1 - a_1 L} U_t
-    \label{AR_1}
+    \tag{4.4}
 \end{eqnarray}\]</span></p>
 <p>En esta última ecuación retomamos el siguiente término para reescribirlo como:
-<span class="math display">\[\begin{equation}
+<span class="math display" id="eq:AR2">\[\begin{equation}
     \frac{1}{1 - a_1 L} = 1 + a_1 L + a_1^2 L^2 + a_1^3 L^3 + \ldots
+    \tag{4.5}
 \end{equation}\]</span></p>
-<p>Tomando este resultado para sustituirlo en ecuación (<span class="math inline">\(\ref{AR_1}\)</span>), obtenemos la siguiente expresión:
-<span class="math display">\[\begin{eqnarray}
+<p>Tomando este resultado para sustituirlo en ecuación <a href="procesos-estacionarios-univariados.html#eq:AR1">(4.4)</a>, obtenemos la siguiente expresión:
+<span class="math display" id="eq:AR1Sol">\[\begin{eqnarray}
 X_t &amp; = &amp; (1 + a_1 L + a_1^2 L^2 + a_1^3 L^3 + \ldots) a_0 + (1 + a_1 L + a_1^2 L^2 + a_1^3 L^3 + \ldots) U_t \nonumber \\
     &amp; = &amp; (1 + a_1 + a_1^2 + a_1^3 + \ldots) a_0 + U_t + a_1 U_{t-1} + a_1^2 U_{t-2} + a_1^3 U_{t-3} + \ldots \nonumber \\
     &amp; = &amp; \frac{a_0}{1 - a_1} + \sum^{\infty}_{j = 0} a_1^j U_{t-j}
-    \label{AR1_Sol}
+    \tag{4.6}
 \end{eqnarray}\]</span></p>
-<p>Donde la condición de convergencia y estabilidad del proceso descrito en esta ecuación es que <span class="math inline">\(\abs{a_1} &lt; 1\)</span>. Por lo que hemos demostrado que mediante el uso del operador de rezago es posible llegar al mismo resultado que obtuvimos mediante el procedimiento de sustituciones iterativas.</p>
-<p>La ecuación (<span class="math inline">\(\ref{AR1_Sol}\)</span>) se puede interpretar como sigue. La solución o trayectoria de equilibrio de un AR(1) se divide en dos partes. La primera es una constante que depende de los valores de <span class="math inline">\(a_0\)</span> y <span class="math inline">\(a_1\)</span>. La segunda parte es la suma ponderada de las desviaciones o errores observados y acumulados en el tiempo hasta el momento <span class="math inline">\(t\)</span>.</p>
-Ahora obtendremos los momentos que describen a la serie de tiempo cuando se trata de un porceso <span class="math inline">\(AR(1)\)</span>. Para ello debemos obtener la media, la varianza y las covarianzas de <span class="math inline">\(X_t\)</span>. Para los siguientes resultados debemos recordar y tener en mente que si <span class="math inline">\(U_t\)</span> es un proceso puramente aleatorio, entonces:
-<p>Dicho lo anterior y partiendo de la ecuación (<span class="math inline">\(\ref{AR1_Sol}\)</span>), el primer momento o valor esperado de la serie de tiempo será el siguiente:
-<span class="math display">\[\begin{eqnarray}
+<p>Donde la condición de convergencia y estabilidad del proceso descrito en esta ecuación es que <span class="math inline">\(\lvert a_1 \lvert &lt; 1\)</span>. Por lo que hemos demostrado que mediante el uso del operador de rezago es posible llegar al mismo resultado que obtuvimos mediante el procedimiento de sustituciones iterativas.</p>
+<p>La ecuación <a href="procesos-estacionarios-univariados.html#eq:AR1Sol">(4.6)</a> se puede interpretar como sigue. La solución o trayectoria de equilibrio de un AR(1) se divide en dos partes. La primera es una constante que depende de los valores de <span class="math inline">\(a_0\)</span> y <span class="math inline">\(a_1\)</span>. La segunda parte es la suma ponderada de las desviaciones o errores observados y acumulados en el tiempo hasta el momento <span class="math inline">\(t\)</span>.</p>
+<p>Ahora obtendremos los momentos que describen a la serie de tiempo cuando se trata de un porceso <span class="math inline">\(AR(1)\)</span>. Para ello debemos obtener la media, la varianza y las covarianzas de <span class="math inline">\(X_t\)</span>. Para los siguientes resultados debemos recordar y tener en mente que si <span class="math inline">\(U_t\)</span> es un proceso puramente aleatorio, entonces:</p>
+<ol style="list-style-type: decimal">
+<li>
+<span class="math inline">\(\mathbb{E}[U_t] = 0\)</span> para todo <span class="math inline">\(t\)</span>
+</li>
+<li>
+<span class="math inline">\(Var[U_t] = \sigma^2\)</span> para todo <span class="math inline">\(t\)</span>
+</li>
+<li>
+<span class="math inline">\(Cov[U_t, U_s] = 0\)</span> para todo <span class="math inline">\(t \neq s\)</span>
+</li>
+</ol>
+<p>Dicho lo anterior y partiendo de la ecuación <a href="procesos-estacionarios-univariados.html#eq:AR1Sol">(4.6)</a>, el primer momento o valor esperado de la serie de tiempo será el siguiente:
+<span class="math display" id="eq:AR1m1">\[\begin{eqnarray}
 \mathbb{E}[X_t] &amp; = &amp; \mathbb{E} \left[ \frac{a_0}{1 - a_1} + \sum^{\infty}_{j = 0} a_1^j U_{t-j} \right] \nonumber \\
     &amp; = &amp; \frac{a_0}{1 - a_1} + \sum^{\infty}_{j = 0} a_1^j \mathbb{E}[U_{t-j}] \nonumber \\
     &amp; = &amp; \frac{a_0}{1 - a_1} = \mu
-    \label{AR1_m1}
+    \tag{4.7}
 \end{eqnarray}\]</span></p>
-<p>Respecto de la varianza podemos escribir la siguiente expresión a partir de la ecuación (<span class="math inline">\(\ref{AR1_Sol}\)</span>):
-<span class="math display">\[\begin{eqnarray}
+<p>Respecto de la varianza podemos escribir la siguiente expresión a partir de la ecuación <a href="procesos-estacionarios-univariados.html#eq:AR1Sol">(4.6)</a>:
+<span class="math display" id="eq:AR1Var">\[\begin{eqnarray}
 Var[X_t] &amp; = &amp; \mathbb{E}[(X_t - \mu)^2] \nonumber \\
     &amp; = &amp; \mathbb{E} \left[ \left( \frac{a_0}{1 - a_1} + \sum^{\infty}_{j = 0} a_1^j U_{t-j} - \frac{a_0}{1 - a_1} \right)^2 \right] \nonumber \\
     &amp; = &amp; \mathbb{E}[(U_{t} + a_1 U_{t-1} + a_1^2 U_{t-2} + a_1^3 U_{t-3} + \ldots)^2] \nonumber \\
@@ -178,29 +190,48 @@ Var[X_t] &amp; = &amp; \mathbb{E}[(X_t - \mu)^2] \nonumber \\
     &amp; = &amp; \sigma^2 + a_1^2 \sigma^2 + a_1^4 \sigma^2 + a_1^6 \sigma^2 + \ldots \nonumber \\
     &amp; = &amp; \sigma^2 (1 + a_1^2 + a_1^4 + a_1^6 + \ldots) \nonumber \\
     &amp; = &amp; \sigma^2 \frac{1}{1 - a_1^2} = \gamma(0)
-    \label{AR1_Var}
+    \tag{4.8}
 \end{eqnarray}\]</span></p>
 <p>Previo a analizar la covarianza de la serie recordemos que para el proceso puramente aleatorio <span class="math inline">\(U_t\)</span> su varianza y covarianza puede verse como <span class="math inline">\(\mathbb{E}[U_t, U_s] = \sigma^2\)</span>, para <span class="math inline">\(t = s\)</span>, y <span class="math inline">\(\mathbb{E}[U_t, U_s] = 0\)</span>, para cualquier otro caso, respectivamente.</p>
-<p>Dicho lo anterior, partiendo de la ecuación (<span class="math inline">\(\ref{AR1_Sol}\)</span>) la covarianza de la serie estará dada por:
-<span class="math display">\[\begin{eqnarray}
+<p>Dicho lo anterior, partiendo de la ecuación <a href="procesos-estacionarios-univariados.html#eq:AR1Sol">(4.6)</a> la covarianza de la serie estará dada por:
+<span class="math display" id="eq:AR1Cov">\[\begin{eqnarray}
 Cov(X_t, X_{t-\tau}) &amp; = &amp; \mathbb{E}[(X_t - \mu)(X_{t-\tau} - \mu)] \nonumber \\
     &amp; = &amp; \mathbb{E} \left[ \left( \frac{a_0}{1 - a_1} + \sum^{\infty}_{j = 0} a_1^j U_{t-j} - \frac{a_0}{1 - a_1} \right) \right. \nonumber \\
     &amp;   &amp; \left. \times \left( \frac{a_0}{1 - a_1} + \sum^{\infty}_{j = 0} a_1^j U_{t-\tau-j} - \frac{a_0}{1 - a_1} \right) \right] \nonumber \\
     &amp; = &amp; a_1^{\tau} \mathbb{E}[U^2_{t-\tau} + a_1 U^2_{t-\tau-1} + a_1^2 U^2_{t-\tau-2} + a_1^3 U^2_{t-\tau-3} + \ldots] \nonumber \\
     &amp; = &amp; a_1^{\tau} \sigma^2 \frac{1}{1 - a_1^2} = \gamma(\tau)
-    \label{AR1_Cov}
+    \tag{4.9}
 \end{eqnarray}\]</span></p>
-<p>Notése que con estos resultados en las ecuaciones (<span class="math inline">\(\ref{AR1_Var}\)</span>) y (<span class="math inline">\(\ref{AR1_Cov}\)</span>) podemos construir la función de autocorrelación teórica como sigue:
-<span class="math display">\[\begin{eqnarray}
+<p>Notése que con estos resultados en las ecuaciones <a href="procesos-estacionarios-univariados.html#eq:AR1Var">(4.8)</a> y <a href="procesos-estacionarios-univariados.html#eq:AR1Cov">(4.9)</a> podemos construir la función de autocorrelación teórica como sigue:
+<span class="math display" id="eq:emi1">\[\begin{eqnarray}
 \rho(\tau) &amp; = &amp; \frac{\gamma(\tau)}{\gamma(0)} \nonumber \\
     &amp; = &amp; a_1^\tau
+    \tag{4.10}
 \end{eqnarray}\]</span></p>
-<p>Donde <span class="math inline">\(\tau = 1, 2, 3, \ldots\)</span> y <span class="math inline">\(\abs{a_1} &lt; 1\)</span>. Este último resultado significa que cuando el proceso autoregresivo es de orden 1 (es decir, AR(1)) la función de autocorrelación teóricamente es igual al parámetro <span class="math inline">\(a_1\)</span> elevado al número de rezagos considerados. No obstante, note que esto no significa que la autocorrelación observada sea como lo expresa en planteamiento anterior. Por el contrario, una observación sencilla mostraría que la autocorrelación observada sería ligeramente distinta a la autocorrelación teórica.</p>
-<p>Ahora veámos algunos ejemplos. En el primer ejemplo simularemos una serie y mostraremos el analísis de un proceso construído considerando un proceso puramente aleatorio como componente <span class="math inline">\(U_t\)</span>. Por su parte, en un segundo ejemplo aplicaremos el análisis a una serie de tiempo de una variable económica observada.</p>
-<p>Para el primer ejemplo consideremos un proceso dado por la forma de un <span class="math inline">\(AR(1)\)</span> como en la ecuación (<span class="math inline">\(\ref{AR_1}\)</span>) cuya solución esta dada por la ecuación (<span class="math inline">\(\ref{AR1_Sol}\)</span>). En especifico, supongamos que el término o componente estocástico <span class="math inline">\(U_t\)</span> es una serie generada a partir de numeros aleatorios de una función normal con media <span class="math inline">\(0\)</span> y desviación estándar <span class="math inline">\(4\)</span>. Los detalles del proceso simulado se muestra en las siguientes gráficas.</p>
-La Figura <span class="math inline">\(\ref{G_AR_1_Real}\)</span> ilustra el comportamiento que se debería observar en una serie considerando el procedimiento iterativo de construcción. Por su parte, la Figura <span class="math inline">\(\ref{G_AR_1_Teo}\)</span> ilustra el proceso o trayectoria de la solución de la serie de tiempo. Finalmente, las Figuras <span class="math inline">\(\ref{G_AR_1_FACr}\)</span> y <span class="math inline">\(\ref{G_AR_1_FACt}\)</span> muestran el correlograma calculado considerando una función de autocorrelación aplicada al porceso real y una función de autocorrelación aplicada al proceso teórico, respectivamente.
-Recordemos que una trayectoria de equilibrio o solución de un <span class="math inline">\(AR(1)\)</span> es como se muestra en la ecuación (<span class="math inline">\(\ref{AR1_Sol}\)</span>). Así, nuestra serie simulada cumple con la característica de que los errores son más relevantes cuando la serie es corta. Por el contrario, los errores son menos relevantes, cuando la serie es muy larga. La Figura <span class="math inline">\(\ref{G_AR_1_Comb}\)</span> ilustra esta observación de la trayectoria de equilibrio.
-<p>Para el segundo ejemplo consideremos una aplicación a una serie de tiempo en especifico: Pasajeros transportados mensualmente en el Sistema de Transporte Colectivo Metro (pasajeros medidos en millones).</p>
+<p>Donde <span class="math inline">\(\tau = 1, 2, 3, \ldots\)</span> y <span class="math inline">\(\lvert a_1 \lvert &lt; 1\)</span>. Este último resultado significa que cuando el proceso autoregresivo es de orden 1 (es decir, AR(1)) la función de autocorrelación teóricamente es igual al parámetro <span class="math inline">\(a_1\)</span> elevado al número de rezagos considerados. No obstante, note que esto no significa que la autocorrelación observada sea como lo expresa en planteamiento anterior. Por el contrario, una observación sencilla mostraría que la autocorrelación observada sería ligeramente distinta a la autocorrelación teórica.</p>
+<p>Ahora veámos algunos ejemplos. En el primer ejemplo simularemos una serie y mostraremos el analísis de un proceso construído considerando un proceso puramente aleatorio como componente <span class="math inline">\(U_t\)</span>.<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content="&lt;p&gt;El procedimiento e implementación del ejercicio está en el archivo R denominado Clase 4 del repositorio de GitHub.&lt;/p&gt;"><sup>2</sup></a> Por su parte, en un segundo ejemplo aplicaremos el análisis a una serie de tiempo de una variable económica observada.<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content="&lt;p&gt;El procedimiento e implementación del ejercicio está en el archivo R denominado Clase 5 del repositorio de GitHub.&lt;/p&gt;"><sup>3</sup></a></p>
+<p>Para el primer ejemplo consideremos un proceso dado por la forma de un <span class="math inline">\(AR(1)\)</span> como en la ecuación <a href="procesos-estacionarios-univariados.html#eq:AR1">(4.4)</a> cuya solución esta dada por la ecuación <a href="procesos-estacionarios-univariados.html#eq:AR1Sol">(4.6)</a>. En especifico, supongamos que el término o componente estocástico <span class="math inline">\(U_t\)</span> es una serie generada a partir de numeros aleatorios de una función normal con media <span class="math inline">\(0\)</span> y desviación estándar <span class="math inline">\(4\)</span>. Los detalles del proceso simulado se muestra en las siguientes gráficas.</p>
+<p>La Figura <a href="procesos-estacionarios-univariados.html#fig:GAR1Com">4.1</a> ilustra el comportamiento que se debería observar en una serie considerando el procedimiento iterativo de construcción. Por su parte, la Figura <a href="procesos-estacionarios-univariados.html#fig:GAR1Teo">4.2</a> ilustra el proceso o trayectoria de la solución de la serie de tiempo. Finalmente, las Figuras <span class="math inline">\(\ref{G_AR_1_FACr}\)</span> y <span class="math inline">\(\ref{G_AR_1_FACt}\)</span> muestran el correlograma calculado considerando una función de autocorrelación aplicada al porceso real y una función de autocorrelación aplicada al proceso teórico, respectivamente.</p>
+Recordemos que una trayectoria de equilibrio o solución de un <span class="math inline">\(AR(1)\)</span> es como se muestra en la ecuación <a href="procesos-estacionarios-univariados.html#eq:AR1Sol">(4.6)</a>. Así, nuestra serie simulada cumple con la característica de que los errores son más relevantes cuando la serie es corta. Por el contrario, los errores son menos relevantes, cuando la serie es muy larga. La Figura <a href="#fig:fig66"><strong>??</strong></a> ilustra esta observación de la trayectoria de equilibrio.
+<p>Para el segundo ejemplo consideremos una aplicación a una serie de tiempo en especifico: Pasajeros transportados mensualmente en el Sistema de Transporte Colectivo Metro (pasajeros medidos en millones).<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content="&lt;p&gt;Fuente: INEGI, .&lt;/p&gt;"><sup>4</sup></a></p>
+<blockquote>
+<p>Figura <a href="procesos-estacionarios-univariados.html#fig:GAR1Com">4.1</a>: AR(1) considerando <span class="math inline">\(X_t=5+0.9X_{t-1}+U_t\)</span> ; <span class="math inline">\(X_0=50\)</span> y que <span class="math inline">\(U_t\)</span>~<span class="math inline">\(N(0, 4)\)</span> y que <span class="math inline">\(U_t \sim \mathcal{N}(0, 4)\)</span></p>
+</blockquote>
+<div class="figure" style="text-align: center">
+<span style="display:block;" id="fig:GAR1Com"></span>
+<img src="G_AR_1_Comb.png" alt="." width="100%"><p class="caption">
+Figure 4.1: .
+</p>
+</div>
+<blockquote>
+<p>Figura <a href="procesos-estacionarios-univariados.html#fig:GAR1Teo">4.2</a>: <span class="math inline">\(X_t = \frac{5}{1 - 0.9} + \sum_{j = 0}^{t-1} 0.9^j U_{t-j}\)</span>, y que <span class="math inline">\(U_t \sim \mathcal{N}(0, 4)\)</span>}</p>
+</blockquote>
+<div class="figure" style="text-align: center">
+<span style="display:block;" id="fig:GAR1Teo"></span>
+<img src="G_AR_1_Teo.png" alt="." width="100%"><p class="caption">
+Figure 4.2: .
+</p>
+</div>
 <p>A la serie se le aplicará una metodología de estimación dada por el método de Máxima Verosimilitud (ML, por sus siglás en inglés). Antes de realizar el proceso de estimación consideremos una transformación de diferencias logaritmicas, con el objeto de obtener una serie de tiempo expresada en tasas de crecimiento y con un comportamiento parecido a un proceso estacionario.</p>
 <p>Así, para cada una de las series que analicemos en diferencias logaritmicas las expresaremos bajo la siguiente transformación: <span class="math display">\[\begin{equation*}
     DLX_t = log(X_t) - log(X_{t-k})
@@ -259,7 +290,7 @@ Ahora, podemos agrupar todos los términos en función del exponente asociado al
 <span class="math display">\[\begin{equation}
     \lambda^2 - \lambda a_1 - a_2 = 0
 \end{equation}\]</span></p>
-<p>Así, la condición de estabilidad de la trayectoria es que <span class="math inline">\(\abs{\lambda_i} &lt; 1\)</span>, para <span class="math inline">\(i = 1, 2\)</span>. Es decir, es necesario que cada una de las raíces sea, en valor absoluto, siempre menor que la unidad. Estas son las condiciones de estabilidad para el proceso <span class="math inline">\(AR(2)\)</span>.</p>
+<p>Así, la condición de estabilidad de la trayectoria es que <span class="math inline">\(\lvert\lambda_i\lvert &lt; 1\)</span>, para <span class="math inline">\(i = 1, 2\)</span>. Es decir, es necesario que cada una de las raíces sea, en valor absoluto, siempre menor que la unidad. Estas son las condiciones de estabilidad para el proceso <span class="math inline">\(AR(2)\)</span>.</p>
 <p>Finalmente, al igual que en un <span class="math inline">\(AR(1)\)</span>, a continuación determinamos los momentos de una serie que sigue un proceso <span class="math inline">\(AR(2)\)</span>. Iniciamos con la determinación de la media de la serie:
 <span class="math display">\[\begin{equation}
     \mathbb{E}[X_t] = \mu = \frac{a_0}{1 - a_1 - a_2}
@@ -321,7 +352,7 @@ Para ambos casos entre parentésis indicamos los errores estándar y reportamos 
 <span class="math display">\[\begin{equation}
     \lambda^p - a_1 \lambda^{p-1} - a_2 \lambda^{p-2} - a_3 \lambda^{p-3} - \ldots - a_p = 0
 \end{equation}\]</span></p>
-<p>Así, solo si el polinomio anterior tiene raíces cuyo valor absoluto sea menor a uno (<span class="math inline">\(\abs{\lambda_i} &lt; 1\)</span>) y si <span class="math inline">\(1 - a_1 L - a_2 L^2 - a_3 L^3 - \ldots - a_p L^p &lt; 1\)</span> podremos decir que el proceso es convergente y estable. Lo anterior significa que la ecuación (<span class="math inline">\(\ref{Pol_A}\)</span>) puede expresarse en términos de la descomposición de Wold o como la suma infinita de términos como:
+<p>Así, solo si el polinomio anterior tiene raíces cuyo valor absoluto sea menor a uno (<span class="math inline">\(\lvert\lambda_i\lvert &lt; 1\)</span>) y si <span class="math inline">\(1 - a_1 L - a_2 L^2 - a_3 L^3 - \ldots - a_p L^p &lt; 1\)</span> podremos decir que el proceso es convergente y estable. Lo anterior significa que la ecuación (<span class="math inline">\(\ref{Pol_A}\)</span>) puede expresarse en términos de la descomposición de Wold o como la suma infinita de términos como:
 <span class="math display">\[\begin{equation}
     \frac{1}{1 - a_1 L  - a_2 L^2 - a_3 L^3  - \ldots - a_p L^p} = \psi_0 + \psi_1 L + \psi_2 L^2 + \psi_3 L^3 + \ldots
 \end{equation}\]</span></p>
@@ -464,7 +495,7 @@ Entre parentésis indicamos los errores estándar y reportamos el estadístico d
     U_ t &amp; = &amp; - \frac{\mu}{1 - b_1} + \frac{1}{1 - b_1 L} X_t \nonumber \\
     &amp; = &amp; - \frac{\mu}{1 - b_1} + X_t + b_1 X_{t-1} + b_1^2 X_{t-2} + \ldots \nonumber
 \end{eqnarray}\]</span></p>
-<p>Donde la condición para que se cumpla esta ecuación es que <span class="math inline">\(\abs{b_1} &lt; 1\)</span>. La manera de interpretar esta condición es como una condición de estabilidad de la solución y cómo una condición de invertibilidad. Notemos que un <span class="math inline">\(MA(1)\)</span> (y en general un <span class="math inline">\(MA(q)\)</span>) es equivalente a un <span class="math inline">\(AR(\infty)\)</span>, es decir, cuando se invierte un MA se genera un AR con infinitos rezagos.</p>
+<p>Donde la condición para que se cumpla esta ecuación es que <span class="math inline">\(\lvert b_1 \lvert&lt; 1\)</span>. La manera de interpretar esta condición es como una condición de estabilidad de la solución y cómo una condición de invertibilidad. Notemos que un <span class="math inline">\(MA(1)\)</span> (y en general un <span class="math inline">\(MA(q)\)</span>) es equivalente a un <span class="math inline">\(AR(\infty)\)</span>, es decir, cuando se invierte un MA se genera un AR con infinitos rezagos.</p>
 <p>En esta sección no desarrollaremos un ejemplo, primero explicaremos en qué consiste una modelación del tipo <span class="math inline">\(MA(q)\)</span> y después platearemos un ejemplo en concreto.</p>
 </div>
 <div id="maq" class="section level3" number="4.2.2">
@@ -524,7 +555,7 @@ Entre parentésis indicamos los errores estándar y reportamos el estadístico d
 <span class="math display">\[\begin{equation}
     1 - b_1 x - b_2 x^2 - \ldots b_q x^q = 0
 \end{equation}\]</span></p>
-<p>El cual debe cumplir que <span class="math inline">\(\abs{x_i} &lt; 1\)</span> y que <span class="math inline">\(1 - b_1 - b_2 - \ldots b_q &lt; 1\)</span>.</p>
+<p>El cual debe cumplir que <span class="math inline">\(\lvert x_i \lvert &lt; 1\)</span> y que <span class="math inline">\(1 - b_1 - b_2 - \ldots b_q &lt; 1\)</span>.</p>
 <p>Ahora veamos un ejemplo del proceso <span class="math inline">\(MA(q)\)</span>, para lo cual retomaremos la serie de Pasajeros transportados en el metro de la CDMX (<span class="math inline">\(PaxMetro\)</span>). Estimaremos el <span class="math inline">\(MA(q)\)</span> mediante el método de máxima verosimilitud (ML). Antes de realizar el proceso de estimación consideremos una transformación de la serie en logaritmos y una más en diferencias logaritmicas; lo anterior con el objeto de obtener un conjunto de series de tiempo suavizada y expresada en tasas de crecimiento, con un comportamiento parecido a un proceso estacionario.</p>
 <p>La serie de Pasajeros transportados en el metro de la CDMX se muestra en la Figura <span class="math inline">\(\ref{G_Pax_Metro}\)</span> se muestra la gráfica de la serie en niveles (sin transformación logarítmica y con transformación logarítmica) y en diferencias logarítmicas mensuales (es decir, con una diferencia respecto del mes inmediato anterior). Utilizaremos la serie en diferencias, ya que es la que parece ser estacionaria. Esta serie tiene la peculiaridad de que tiene un salto a la baja y uno al alza entre septiembre de 2017 y octubre de 2017. Para controlar ese efecto, en nuestro modelo <span class="math inline">\(MA(q)\)</span> incluiremos dos variables dummies para dichos meses.</p>
 A continuación, estimaremos una <span class="math inline">\(MA(4)\)</span> para la serie en diferencias:
@@ -573,7 +604,7 @@ De esta forma podemos establecer el siguiente sistema de coeficientes indetermin
     X_t = \frac{\delta}{1 - a_1} + U_t + (a_1 - b_1) U_{t - 1} + a_1(a_1 - b_1) U_{t - 2} + a_1^2(a_1 - b_1) U_{t - 3} + \ldots
     \label{ARMA11_Sol}
 \end{equation}\]</span></p>
-<p>En la ecuación (<span class="math inline">\(\ref{ARMA11_Sol}\)</span>) las condiciones de estabilidad y de invertibilidad del sistema (de un MA a un AR, y viceversa) estarán dadas por: <span class="math inline">\(\abs{a_1} &lt; 1\)</span> y <span class="math inline">\(\abs{b_1} &lt; 1\)</span>. Adicionalmente, la ecuación (<span class="math inline">\(\ref{ARMA11_Sol}\)</span>) expresa cómo una serie que tiene un comportamiento <span class="math inline">\(ARMA(1, 1)\)</span> es equivalente a una serie modelada bajo un <span class="math inline">\(MA(\infty)\)</span>.</p>
+<p>En la ecuación (<span class="math inline">\(\ref{ARMA11_Sol}\)</span>) las condiciones de estabilidad y de invertibilidad del sistema (de un MA a un AR, y viceversa) estarán dadas por: <span class="math inline">\(\lvert a_1 \lvert &lt; 1\)</span> y <span class="math inline">\(\lvert b_1 \lvert&lt; 1\)</span>. Adicionalmente, la ecuación (<span class="math inline">\(\ref{ARMA11_Sol}\)</span>) expresa cómo una serie que tiene un comportamiento <span class="math inline">\(ARMA(1, 1)\)</span> es equivalente a una serie modelada bajo un <span class="math inline">\(MA(\infty)\)</span>.</p>
 <p>Al igual que en los demás modelos, ahora determinaremos los momentos del proceso <span class="math inline">\(ARMA(1, 1)\)</span>. La media estará dada por:
 <span class="math display">\[\begin{eqnarray}
     \mathbb{E}[X_t] &amp; = &amp; \mathbb{E}[\delta + a_1 X_{t-1} + U_t - b_1 U_{t-1}] \nonumber \\
@@ -751,6 +782,7 @@ Continuando con el ejemplo, en la Figura (<span class="math inline">\(\ref{Pax_N
 
 </div>
 </div>
+
   <div class="chapter-nav">
 <div class="prev"><a href="modelos-de-series-de-tiempo-estacionarias.html"><span class="header-section-number">3</span> Modelos de Series de Tiempo Estacionarias</a></div>
 <div class="next"><a href="footnotes-and-citations.html"><span class="header-section-number">5</span> Footnotes and citations</a></div>
