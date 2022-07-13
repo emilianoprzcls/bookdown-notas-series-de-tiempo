@@ -116,6 +116,7 @@ eq:eqautocorr6
 eq:eqautocorr7
 eq:eqautocorr8
 fig:fig32
+fig:fig33
 eq:binom
 thm:tri
 introducción
