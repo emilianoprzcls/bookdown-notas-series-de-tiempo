@@ -351,7 +351,7 @@ La cual tiene una distribución $\chi^2$ con $2$ grados de libertad y donde $T$ 
 Veamos un ejemplo para ilustrar el uso de la función de autocorrelación. Tomemos como variable al número de pasajeros transportados por el sistema de transporte del metro de la CDMX.^[Los datos y algoritmo está disponible en el repositorio de GitHub y corresponde a la Clase 3.] Los datos empleados fueron tomados del INEGI y son una serie de tiempo en el periodo que va de enero de 2000 a junio de 2019, es decir, 234 observaciones. Como se puede apreciar en la Figura \@ref(fig:fig32), el número de pasajeros por mes ha oscilado significativamente a lo largo de tiempo. Incluso podemos observar un cambio estructural de la serie entre 2011 y 2012. Asimismo, podemos ubicar una caida atípica que ocurrió en septiembre de 2017.
 
 <div class="figure" style="text-align: center">
-<img src="Pax_Metro.png" alt="Evolución del número de pasajeros en el Metro de la CDMX, enero 2000 a junio de 2019" width="90%" />
+<img src="imagenes/Pax_Metro.png" alt="Evolución del número de pasajeros en el Metro de la CDMX, enero 2000 a junio de 2019" width="90%" />
 <p class="caption">(\#fig:fig32)Evolución del número de pasajeros en el Metro de la CDMX, enero 2000 a junio de 2019</p>
 </div>
 
@@ -373,6 +373,6 @@ Table: (\#tab:foo) Estadísticas descriptivas del número de pasajeros en el Met
 | $Q^* = T \sum_{j = 1}^{2} \hat{\rho} (j)^2$ | 290.9279 |
 
 <div class="figure" style="text-align: center">
-<img src="autocorrelacion_metro.png" alt="Función de Autocorrelación: 150 rezagos del número de pasajeros en el Metro de la CCDMX, enero 2000 a junio de 2019" width="90%" />
+<img src="imagenes/autocorrelacion_metro.png" alt="Función de Autocorrelación: 150 rezagos del número de pasajeros en el Metro de la CCDMX, enero 2000 a junio de 2019" width="90%" />
 <p class="caption">(\#fig:fig33)Función de Autocorrelación: 150 rezagos del número de pasajeros en el Metro de la CCDMX, enero 2000 a junio de 2019</p>
 </div>

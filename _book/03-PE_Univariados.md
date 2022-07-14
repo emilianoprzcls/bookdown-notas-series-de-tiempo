@@ -143,54 +143,43 @@ Ahora veámos algunos ejemplos. En el primer ejemplo simularemos una serie y mos
 
 Para el primer ejemplo consideremos un proceso dado por la forma de un $AR(1)$ como en la ecuación \@ref(eq:AR1) cuya solución esta dada por la ecuación \@ref(eq:AR1Sol). En especifico, supongamos que el término o componente estocástico $U_t$ es una serie generada a partir de numeros aleatorios de una función normal con media $0$ y desviación estándar $4$. Los detalles del proceso simulado se muestra en las siguientes gráficas. 
 
-La Figura \@ref(fig:GAR1Com) ilustra el comportamiento que se debería observar en una serie considerando el procedimiento iterativo de construcción. Por su parte, la Figura \@ref(fig:GAR1Teo) ilustra el proceso o trayectoria de la solución de la serie de tiempo. Finalmente, las Figuras \ref{G_AR_1_FACr} y \ref{G_AR_1_FACt} muestran el correlograma calculado considerando una función de autocorrelación aplicada al porceso real y una función de autocorrelación aplicada al proceso teórico, respectivamente.
+La Figura \@ref(fig:GAR1Real) ilustra el comportamiento que se debería observar en una serie considerando el procedimiento iterativo de construcción. Por su parte, la Figura \@ref(fig:GAR1Teo) ilustra el proceso o trayectoria de la solución de la serie de tiempo. Finalmente, las Figuras \@ref(fig:GAR1FACr) y \@ref(fig:GAR1FACr) muestran el correlograma calculado considerando una función de autocorrelación aplicada al porceso real y una función de autocorrelación aplicada al proceso teórico, respectivamente.
 
 
-\begin{figure}
-  \centering
-    \includegraphics[width = 1.0 \textwidth]{G_AR_1_Teo}
-  \caption{AR(1) considerando $X_t = \frac{5}{1 - 0.9} + \sum_{j = 0}^{t-1} 0.9^j U_{t-j}$, y que $U_t \sim \mathcal{N}(0, 4)$}
-  \label{G_AR_1_Teo}
-\end{figure}
-
-\begin{figure}
-  \centering
-    \includegraphics[width=0.7 \textwidth]{G_AR_1_FACr}
-  \caption{Función de autocorrelación de un AR(1): $\rho(\tau) = \frac{\gamma(\tau)}{\gamma(0)}$}
-  \label{G_AR_1_FACr}
-\end{figure}
-
-\begin{figure}
-  \centering
-    \includegraphics[width=0.7 \textwidth]{G_AR_1_FACt}
-  \caption{Función de autocorrelación de un AR(1): $\rho(\tau) = a_1^\tau$}
-  \label{G_AR_1_FACt}
-\end{figure}
-
-
-Recordemos que una trayectoria de equilibrio o solución de un $AR(1)$ es como se muestra en la ecuación \@ref(eq:AR1Sol). Así, nuestra serie simulada cumple con la característica de que los errores son más relevantes cuando la serie es corta. Por el contrario, los errores son menos relevantes, cuando la serie es muy larga. La Figura \@ref(fig:fig66) ilustra esta observación de la trayectoria de equilibrio.
-\begin{figure}
-  \centering
-    \includegraphics[width = 1.0 \textwidth]{G_AR_1_Comb}
-  \caption{AR(1) considerando en conjunto $X_t = 5 + 0.9 X_{t-1} + U_t$; $X_0 = 50$ y $X_t = \frac{5}{1 - 0.9} + \sum_{j = 0}^{t-1} 0.9^j U_{t-j}$, y que $U_t \sim \mathcal{N}(0, 4)$}
-  \label{G_AR_1_Comb}
-\end{figure}
+Recordemos que una trayectoria de equilibrio o solución de un $AR(1)$ es como se muestra en la ecuación \@ref(eq:AR1Sol). Así, nuestra serie simulada cumple con la característica de que los errores son más relevantes cuando la serie es corta. Por el contrario, los errores son menos relevantes, cuando la serie es muy larga. La Figura \@ref(fig:GAR1Com) ilustra esta observación de la trayectoria de equilibrio.
 
 Para el segundo ejemplo consideremos una aplicación a una serie de tiempo en especifico: Pasajeros transportados mensualmente en el Sistema de Transporte Colectivo Metro (pasajeros medidos en millones).^[Fuente: INEGI, \url{https://www.inegi.org.mx/app/indicadores/?tm=0&t=1090}.]
 
+<div class="figure" style="text-align: center">
+<img src="imagenes/G_AR_1_Real.png" alt="." width="100%" />
+<p class="caption">(\#fig:GAR1Real).</p>
+</div>
 > Figura \@ref(fig:GAR1Com): AR(1) considerando $X_t=5+0.9X_{t-1}+U_t$ ; $X_0=50$ y que $U_t$~$N(0, 4)$ y que $U_t \sim \mathcal{N}(0, 4)$
 
-<div class="figure" style="text-align: center">
-<img src="G_AR_1_Comb.png" alt="." width="100%" />
-<p class="caption">(\#fig:GAR1Com).</p>
-</div>
 
+<div class="figure" style="text-align: center">
+<img src="imagenes/G_AR_1_Teo.png" alt="." width="100%" />
+<p class="caption">(\#fig:GAR1Teo).</p>
+</div>
 > Figura \@ref(fig:GAR1Teo): $X_t = \frac{5}{1 - 0.9} + \sum_{j = 0}^{t-1} 0.9^j U_{t-j}$, y que $U_t \sim \mathcal{N}(0, 4)$}
 
 <div class="figure" style="text-align: center">
-<img src="G_AR_1_Teo.png" alt="." width="100%" />
-<p class="caption">(\#fig:GAR1Teo).</p>
+<img src="imagenes/G_AR_1_FACr.png" alt="." width="100%" />
+<p class="caption">(\#fig:GAR1FACr).</p>
 </div>
+> Figura \@ref(fig:GAR1FACr): Función de autocorrelación de un AR(1): $\rho(\tau)=\frac{\gamma(\tau)}{\gamma(0)}$
+
+<div class="figure" style="text-align: center">
+<img src="imagenes/G_AR_1_FACt.png" alt="." width="100%" />
+<p class="caption">(\#fig:GAR1FACt).</p>
+</div>
+> Figura \@ref(fig:GAR1FACr): Función de autocorrelación de un AR(1): $\rho(\tau)= a_1^\tau$
+
+<div class="figure" style="text-align: center">
+<img src="imagenes/G_AR_1_Comb.png" alt="." width="100%" />
+<p class="caption">(\#fig:GAR1Com).</p>
+</div>
+> Figura \@ref(fig:GAR1FACr): AR(1) considerando en conjunto $X_t = 5 + 0.9 X_{t-1} + U_t$; $X_0 = 50$ y $X_t = \frac{5}{1 - 0.9} + \sum_{j = 0}^{t-1} 0.9^j U_{t-j}$, y que $U_t \sim \mathcal{N}(0, 4)$
 
 A la serie se le aplicará una metodología de estimación dada por el método de Máxima Verosimilitud (ML, por sus siglás en inglés). Antes de realizar el proceso de estimación consideremos una transformación de diferencias logaritmicas, con el objeto de obtener una serie de tiempo expresada en tasas de crecimiento\footnote{Estas no son porcentuales, para hacerlas porcentuales faltaría multiplicar por 100 a la serie.} y con un comportamiento parecido a un proceso estacionario. 
 

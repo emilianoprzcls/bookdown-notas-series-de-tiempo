@@ -127,8 +127,11 @@ eq:AR1m1
 eq:AR1Var
 eq:AR1Cov
 eq:emi1
-fig:GAR1Com
+fig:GAR1Real
 fig:GAR1Teo
+fig:GAR1FACr
+fig:GAR1FACt
+fig:GAR1Com
 eq:binom
 thm:tri
 introducción

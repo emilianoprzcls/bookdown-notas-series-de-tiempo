@@ -382,7 +382,7 @@ Veamos un ejemplo para ilustrar el uso de la función de autocorrelación. Tomem
 
 ```{r fig32, fig.cap = "Evolución del número de pasajeros en el Metro de la CDMX, enero 2000 a junio de 2019", fig.align='center', echo=FALSE, out.width="90%"}
 
-knitr::include_graphics("Pax_Metro.png")
+knitr::include_graphics("imagenes/Pax_Metro.png")
 
 ```
 
@@ -405,6 +405,6 @@ Table: (\#tab:foo) Estadísticas descriptivas del número de pasajeros en el Met
 
 ```{r fig33, fig.cap = "Función de Autocorrelación: 150 rezagos del número de pasajeros en el Metro de la CCDMX, enero 2000 a junio de 2019", fig.align='center', echo=FALSE, out.width="90%"}
 
-knitr::include_graphics("autocorrelacion_metro.png")
+knitr::include_graphics("imagenes/autocorrelacion_metro.png")
 
 ```

@@ -211,27 +211,54 @@ Cov(X_t, X_{t-\tau}) &amp; = &amp; \mathbb{E}[(X_t - \mu)(X_{t-\tau} - \mu)] \no
 <p>Donde <span class="math inline">\(\tau = 1, 2, 3, \ldots\)</span> y <span class="math inline">\(\lvert a_1 \lvert &lt; 1\)</span>. Este último resultado significa que cuando el proceso autoregresivo es de orden 1 (es decir, AR(1)) la función de autocorrelación teóricamente es igual al parámetro <span class="math inline">\(a_1\)</span> elevado al número de rezagos considerados. No obstante, note que esto no significa que la autocorrelación observada sea como lo expresa en planteamiento anterior. Por el contrario, una observación sencilla mostraría que la autocorrelación observada sería ligeramente distinta a la autocorrelación teórica.</p>
 <p>Ahora veámos algunos ejemplos. En el primer ejemplo simularemos una serie y mostraremos el analísis de un proceso construído considerando un proceso puramente aleatorio como componente <span class="math inline">\(U_t\)</span>.<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content="&lt;p&gt;El procedimiento e implementación del ejercicio está en el archivo R denominado Clase 4 del repositorio de GitHub.&lt;/p&gt;"><sup>2</sup></a> Por su parte, en un segundo ejemplo aplicaremos el análisis a una serie de tiempo de una variable económica observada.<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content="&lt;p&gt;El procedimiento e implementación del ejercicio está en el archivo R denominado Clase 5 del repositorio de GitHub.&lt;/p&gt;"><sup>3</sup></a></p>
 <p>Para el primer ejemplo consideremos un proceso dado por la forma de un <span class="math inline">\(AR(1)\)</span> como en la ecuación <a href="procesos-estacionarios-univariados.html#eq:AR1">(4.4)</a> cuya solución esta dada por la ecuación <a href="procesos-estacionarios-univariados.html#eq:AR1Sol">(4.6)</a>. En especifico, supongamos que el término o componente estocástico <span class="math inline">\(U_t\)</span> es una serie generada a partir de numeros aleatorios de una función normal con media <span class="math inline">\(0\)</span> y desviación estándar <span class="math inline">\(4\)</span>. Los detalles del proceso simulado se muestra en las siguientes gráficas.</p>
-<p>La Figura <a href="procesos-estacionarios-univariados.html#fig:GAR1Com">4.1</a> ilustra el comportamiento que se debería observar en una serie considerando el procedimiento iterativo de construcción. Por su parte, la Figura <a href="procesos-estacionarios-univariados.html#fig:GAR1Teo">4.2</a> ilustra el proceso o trayectoria de la solución de la serie de tiempo. Finalmente, las Figuras <span class="math inline">\(\ref{G_AR_1_FACr}\)</span> y <span class="math inline">\(\ref{G_AR_1_FACt}\)</span> muestran el correlograma calculado considerando una función de autocorrelación aplicada al porceso real y una función de autocorrelación aplicada al proceso teórico, respectivamente.</p>
-Recordemos que una trayectoria de equilibrio o solución de un <span class="math inline">\(AR(1)\)</span> es como se muestra en la ecuación <a href="procesos-estacionarios-univariados.html#eq:AR1Sol">(4.6)</a>. Así, nuestra serie simulada cumple con la característica de que los errores son más relevantes cuando la serie es corta. Por el contrario, los errores son menos relevantes, cuando la serie es muy larga. La Figura <a href="#fig:fig66"><strong>??</strong></a> ilustra esta observación de la trayectoria de equilibrio.
+<p>La Figura <a href="procesos-estacionarios-univariados.html#fig:GAR1Real">4.1</a> ilustra el comportamiento que se debería observar en una serie considerando el procedimiento iterativo de construcción. Por su parte, la Figura <a href="procesos-estacionarios-univariados.html#fig:GAR1Teo">4.2</a> ilustra el proceso o trayectoria de la solución de la serie de tiempo. Finalmente, las Figuras <a href="procesos-estacionarios-univariados.html#fig:GAR1FACr">4.3</a> y <a href="procesos-estacionarios-univariados.html#fig:GAR1FACr">4.3</a> muestran el correlograma calculado considerando una función de autocorrelación aplicada al porceso real y una función de autocorrelación aplicada al proceso teórico, respectivamente.</p>
+<p>Recordemos que una trayectoria de equilibrio o solución de un <span class="math inline">\(AR(1)\)</span> es como se muestra en la ecuación <a href="procesos-estacionarios-univariados.html#eq:AR1Sol">(4.6)</a>. Así, nuestra serie simulada cumple con la característica de que los errores son más relevantes cuando la serie es corta. Por el contrario, los errores son menos relevantes, cuando la serie es muy larga. La Figura <a href="procesos-estacionarios-univariados.html#fig:GAR1Com">4.5</a> ilustra esta observación de la trayectoria de equilibrio.</p>
 <p>Para el segundo ejemplo consideremos una aplicación a una serie de tiempo en especifico: Pasajeros transportados mensualmente en el Sistema de Transporte Colectivo Metro (pasajeros medidos en millones).<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content="&lt;p&gt;Fuente: INEGI, .&lt;/p&gt;"><sup>4</sup></a></p>
+<div class="figure" style="text-align: center">
+<span style="display:block;" id="fig:GAR1Real"></span>
+<img src="imagenes/G_AR_1_Real.png" alt="." width="100%"><p class="caption">
+Figure 4.1: .
+</p>
+</div>
 <blockquote>
-<p>Figura <a href="procesos-estacionarios-univariados.html#fig:GAR1Com">4.1</a>: AR(1) considerando <span class="math inline">\(X_t=5+0.9X_{t-1}+U_t\)</span> ; <span class="math inline">\(X_0=50\)</span> y que <span class="math inline">\(U_t\)</span>~<span class="math inline">\(N(0, 4)\)</span> y que <span class="math inline">\(U_t \sim \mathcal{N}(0, 4)\)</span></p>
+<p>Figura <a href="procesos-estacionarios-univariados.html#fig:GAR1Com">4.5</a>: AR(1) considerando <span class="math inline">\(X_t=5+0.9X_{t-1}+U_t\)</span> ; <span class="math inline">\(X_0=50\)</span> y que <span class="math inline">\(U_t\)</span>~<span class="math inline">\(N(0, 4)\)</span> y que <span class="math inline">\(U_t \sim \mathcal{N}(0, 4)\)</span></p>
 </blockquote>
 <div class="figure" style="text-align: center">
-<span style="display:block;" id="fig:GAR1Com"></span>
-<img src="G_AR_1_Comb.png" alt="." width="100%"><p class="caption">
-Figure 4.1: .
+<span style="display:block;" id="fig:GAR1Teo"></span>
+<img src="imagenes/G_AR_1_Teo.png" alt="." width="100%"><p class="caption">
+Figure 4.2: .
 </p>
 </div>
 <blockquote>
 <p>Figura <a href="procesos-estacionarios-univariados.html#fig:GAR1Teo">4.2</a>: <span class="math inline">\(X_t = \frac{5}{1 - 0.9} + \sum_{j = 0}^{t-1} 0.9^j U_{t-j}\)</span>, y que <span class="math inline">\(U_t \sim \mathcal{N}(0, 4)\)</span>}</p>
 </blockquote>
 <div class="figure" style="text-align: center">
-<span style="display:block;" id="fig:GAR1Teo"></span>
-<img src="G_AR_1_Teo.png" alt="." width="100%"><p class="caption">
-Figure 4.2: .
+<span style="display:block;" id="fig:GAR1FACr"></span>
+<img src="imagenes/G_AR_1_FACr.png" alt="." width="100%"><p class="caption">
+Figure 4.3: .
 </p>
 </div>
+<blockquote>
+<p>Figura <a href="procesos-estacionarios-univariados.html#fig:GAR1FACr">4.3</a>: Función de autocorrelación de un AR(1): <span class="math inline">\(\rho(\tau)=\frac{\gamma(\tau)}{\gamma(0)}\)</span></p>
+</blockquote>
+<div class="figure" style="text-align: center">
+<span style="display:block;" id="fig:GAR1FACt"></span>
+<img src="imagenes/G_AR_1_FACt.png" alt="." width="100%"><p class="caption">
+Figure 4.4: .
+</p>
+</div>
+<blockquote>
+<p>Figura <a href="procesos-estacionarios-univariados.html#fig:GAR1FACr">4.3</a>: Función de autocorrelación de un AR(1): <span class="math inline">\(\rho(\tau)= a_1^\tau\)</span></p>
+</blockquote>
+<div class="figure" style="text-align: center">
+<span style="display:block;" id="fig:GAR1Com"></span>
+<img src="imagenes/G_AR_1_Comb.png" alt="." width="100%"><p class="caption">
+Figure 4.5: .
+</p>
+</div>
+<blockquote>
+<p>Figura <a href="procesos-estacionarios-univariados.html#fig:GAR1FACr">4.3</a>: AR(1) considerando en conjunto <span class="math inline">\(X_t = 5 + 0.9 X_{t-1} + U_t\)</span>; <span class="math inline">\(X_0 = 50\)</span> y <span class="math inline">\(X_t = \frac{5}{1 - 0.9} + \sum_{j = 0}^{t-1} 0.9^j U_{t-j}\)</span>, y que <span class="math inline">\(U_t \sim \mathcal{N}(0, 4)\)</span></p>
+</blockquote>
 <p>A la serie se le aplicará una metodología de estimación dada por el método de Máxima Verosimilitud (ML, por sus siglás en inglés). Antes de realizar el proceso de estimación consideremos una transformación de diferencias logaritmicas, con el objeto de obtener una serie de tiempo expresada en tasas de crecimiento y con un comportamiento parecido a un proceso estacionario.</p>
 <p>Así, para cada una de las series que analicemos en diferencias logaritmicas las expresaremos bajo la siguiente transformación: <span class="math display">\[\begin{equation*}
     DLX_t = log(X_t) - log(X_{t-k})
