@@ -1,7 +1,7 @@
 --- 
 title: "Notas de Clase: Series de Tiempo"
 author: "Benjamín Oliva, Omar Alfaro-Rivera y Emiliano Pérez Caullieres"
-date: "2022-07-13"
+date: "2022-07-14"
 site: bookdown::bookdown_site
 documentclass: book
 bibliography: [book.bib, packages.bib]
@@ -84,8 +84,8 @@ Destacamos que el ICC mide las expectativas de los consumidores en
 razón de la información pasada y de la esperada, segun dichos consumidores.
 
 <div class="figure" style="text-align: center">
-<img src="index_files/figure-html/fig3-1.png" alt="índice de Precios y Cotizaciones de la Bolsa Mexicana de Valores (Panel Derecho) y Tipo de Cambio para Solventar Obligaciones en Moneda Extranjera, pesos por dólar (Panel izquierdo), Ene.2002-May.2021 " width="672" />
-<p class="caption">(\#fig:fig3)índice de Precios y Cotizaciones de la Bolsa Mexicana de Valores (Panel Derecho) y Tipo de Cambio para Solventar Obligaciones en Moneda Extranjera, pesos por dólar (Panel izquierdo), Ene.2002-May.2021 </p>
+<img src="index_files/figure-html/fig3-1.png" alt="Índice de Precios y Cotizaciones de la Bolsa Mexicana de Valores (Panel Derecho) y Tipo de Cambio para Solventar Obligaciones en Moneda Extranjera, pesos por dólar (Panel izquierdo), Ene.2002-May.2021 " width="672" />
+<p class="caption">(\#fig:fig3)Índice de Precios y Cotizaciones de la Bolsa Mexicana de Valores (Panel Derecho) y Tipo de Cambio para Solventar Obligaciones en Moneda Extranjera, pesos por dólar (Panel izquierdo), Ene.2002-May.2021 </p>
 </div>
 
 Así, es probable que las dos series de tiempo exhiban un gran peso para los

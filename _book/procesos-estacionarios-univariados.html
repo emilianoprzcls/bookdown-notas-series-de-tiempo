@@ -21,28 +21,6 @@
     
     div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
   </style>
-<style type="text/css">
-    /* Used with Pandoc 2.11+ new --citeproc when CSL is used */
-    div.csl-bib-body { }
-    div.csl-entry {
-      clear: both;
-        }
-    .hanging div.csl-entry {
-      margin-left:2em;
-      text-indent:-2em;
-    }
-    div.csl-left-margin {
-      min-width:2em;
-      float:left;
-    }
-    div.csl-right-inline {
-      margin-left:2em;
-      padding-left:1em;
-    }
-    div.csl-indent {
-      margin-left: 2em;
-    }
-  </style>
 <link rel="stylesheet" href="style.css">
 </head>
 <body data-spy="scroll" data-target="#toc">
@@ -69,10 +47,6 @@
 <li><a class="" href="elementos-de-ecuaciones-en-diferencia.html"><span class="header-section-number">2</span> Elementos de Ecuaciones en Diferencia</a></li>
 <li><a class="" href="modelos-de-series-de-tiempo-estacionarias.html"><span class="header-section-number">3</span> Modelos de Series de Tiempo Estacionarias</a></li>
 <li><a class="active" href="procesos-estacionarios-univariados.html"><span class="header-section-number">4</span> Procesos estacionarios univariados</a></li>
-<li><a class="" href="footnotes-and-citations.html"><span class="header-section-number">5</span> Footnotes and citations</a></li>
-<li><a class="" href="prueba.html"><span class="header-section-number">6</span> PRUEBA</a></li>
-<li><a class="" href="sharing-your-book.html"><span class="header-section-number">7</span> Sharing your book</a></li>
-<li><a class="" href="references.html">References</a></li>
 </ul>
 
         <div class="book-extra">
@@ -440,39 +414,44 @@ Figure 4.8: Inverso de las Raíces del polinomio característico.
 <span class="header-section-number">4.1.3</span> AR(p)<a class="anchor" aria-label="anchor" href="#arp"><i class="fas fa-link"></i></a>
 </h3>
 <p>Veremos ahora una generalización de los procesos autoregresivos (AR). Esta generalización es conocida como un proceso <span class="math inline">\(AR(p)\)</span> y que puede ser descrito por la siguiente ecuación en diferencia estocástica:
-<span class="math display">\[\begin{equation}
+<span class="math display" id="eq:ARpEq">\[\begin{equation}
     X_t = a_0 + a_1 X_{t-1} + a_2 X_{t-2} + a_3 X_{t-3} + \ldots + a_p X_{t-p} + U_t
-    \label{ARp_Eq}
+    \tag{4.24}
 \end{equation}\]</span></p>
-<p>Donde <span class="math inline">\(a_p \neq 0\)</span>, y <span class="math inline">\(U_t\)</span> es un proceso puramente aleatorio con media cero (0), varianza constante (<span class="math inline">\(\sigma^2\)</span>) y covarianza cero (0). Usando el operador rezago, <span class="math inline">\(L^k\)</span>, para <span class="math inline">\(k = 0, 1, 2, \ldots, p\)</span>, obtenemos la siguiente expresión de la ecuación (<span class="math inline">\(\ref{ARp_Eq}\)</span>):
-<span class="math display">\[\begin{equation}
+<p>Donde <span class="math inline">\(a_p \neq 0\)</span>, y <span class="math inline">\(U_t\)</span> es un proceso puramente aleatorio con media cero (0), varianza constante (<span class="math inline">\(\sigma^2\)</span>) y covarianza cero (0). Usando el operador rezago, <span class="math inline">\(L^k\)</span>, para <span class="math inline">\(k = 0, 1, 2, \ldots, p\)</span>, obtenemos la siguiente expresión de la ecuación <a href="procesos-estacionarios-univariados.html#eq:ARpEq">(4.24)</a>:
+<span class="math display" id="eq:ARpEq1">\[\begin{equation}
     (1 - a_1 L - a_2 L^2 - a_3 L^3 - \ldots - a_p L^p) X_t = a_0 + U_t
+    \tag{4.25}
 \end{equation}\]</span></p>
 <p>Definamos el polinomio <span class="math inline">\(\alpha(L)\)</span> como:
-<span class="math display">\[\begin{equation}
+<span class="math display" id="eq:PolA">\[\begin{equation}
     \alpha(L) = 1 - a_1 L - a_2 L^2 - a_3 L^3 - \ldots - a_p L^p
-    \label{Pol_A}
+    \tag{4.26}
 \end{equation}\]</span></p>
 <p>De forma similar que en los procesos <span class="math inline">\(AR(1)\)</span> y <span class="math inline">\(AR(2)\)</span>, las condiciones de estabilidad del proceso <span class="math inline">\(AR(p)\)</span> estarán dadas por la solución de la ecuación característica:
-<span class="math display">\[\begin{equation}
+<span class="math display" id="eq:PolA1">\[\begin{equation}
     \lambda^p - a_1 \lambda^{p-1} - a_2 \lambda^{p-2} - a_3 \lambda^{p-3} - \ldots - a_p = 0
+        \tag{4.27}
 \end{equation}\]</span></p>
-<p>Así, solo si el polinomio anterior tiene raíces cuyo valor absoluto sea menor a uno (<span class="math inline">\(\lvert\lambda_i\lvert &lt; 1\)</span>) y si <span class="math inline">\(1 - a_1 L - a_2 L^2 - a_3 L^3 - \ldots - a_p L^p &lt; 1\)</span> podremos decir que el proceso es convergente y estable. Lo anterior significa que la ecuación (<span class="math inline">\(\ref{Pol_A}\)</span>) puede expresarse en términos de la descomposición de Wold o como la suma infinita de términos como:
-<span class="math display">\[\begin{equation}
+<p>Así, solo si el polinomio anterior tiene raíces cuyo valor absoluto sea menor a uno (<span class="math inline">\(\lvert\lambda_i\lvert &lt; 1\)</span>) y si <span class="math inline">\(1 - a_1 L - a_2 L^2 - a_3 L^3 - \ldots - a_p L^p &lt; 1\)</span> podremos decir que el proceso es convergente y estable. Lo anterior significa que la ecuación <a href="procesos-estacionarios-univariados.html#eq:PolA">(4.26)</a> puede expresarse en términos de la descomposición de Wold o como la suma infinita de términos como:
+<span class="math display" id="eq:PolA2">\[\begin{equation}
     \frac{1}{1 - a_1 L  - a_2 L^2 - a_3 L^3  - \ldots - a_p L^p} = \psi_0 + \psi_1 L + \psi_2 L^2 + \psi_3 L^3 + \ldots
+\tag{4.28}
 \end{equation}\]</span></p>
 <p>Donde, por construcción de <span class="math inline">\(\alpha(L) \alpha^{-1}(L) = 1\)</span> implica que <span class="math inline">\(\psi_0 = 1\)</span>. De forma similar a los proceso AR(1) y AR(2), es posible determinar el valor de los coefieentes <span class="math inline">\(\psi_j\)</span> en términos de los coefientes <span class="math inline">\(a_i\)</span>. Así, la solución del proceso <span class="math inline">\(AR(p)\)</span> estará dada por:
-<span class="math display">\[\begin{equation}
+<span class="math display" id="eq:ARpEqSol">\[\begin{equation}
     X_t = \frac{a_0}{1 - a_1  - a_2 - a_3  - \ldots - a_p} + \sum^{\infty}_{j = 0} \psi_j U_{t-j}
-    \label{ARp_Eq_Sol}
+    \tag{4.29}
 \end{equation}\]</span></p>
-<p>Considerando la solución de la ecuación (<span class="math inline">\(\ref{ARp_Eq}\)</span>) expresada en la ecuación (<span class="math inline">\(\ref{ARp_Eq_Sol}\)</span>) podemos determinar los momentos del proceso y que estarán dados por una media como:
-<span class="math display">\[\begin{equation}
+<p>Considerando la solución de la ecuación <a href="procesos-estacionarios-univariados.html#eq:ARpEq">(4.24)</a> expresada en la ecuación <a href="procesos-estacionarios-univariados.html#eq:ARpEqSol">(4.29)</a> podemos determinar los momentos del proceso y que estarán dados por una media como:
+<span class="math display" id="eq:ARpEqSol1">\[\begin{equation}
     \mathbb{E}[X_t] = \mu = \frac{a_o}{1 - a_1  - a_2 - a_3  - \ldots - a_p}
+        \tag{4.30}
 \end{equation}\]</span></p>
 <p>Lo anterior, considerado que <span class="math inline">\(\mathbb{E}[U_t] = 0\)</span>, para todo <span class="math inline">\(t\)</span>. Para determinar la varianza del proceso, sin pérdida de generalidad, podemos definir una ecuación: <span class="math inline">\(\gamma(\tau) = \mathbb{E}[X_{t - \tau} X_t]\)</span>, la cual (omitiendo la constante, ya que la correlación de una constante con cuaquier variable aleatoria que depende del tiempo es cero (0)) puede ser escrita como:
-<span class="math display">\[\begin{equation}
+<span class="math display" id="eq:ARpEqSol2">\[\begin{equation}
     \gamma(\tau) = \mathbb{E}[(X_{t - \tau}) \cdot (a_1 X_{t-1} + a_2 X_{t-2} + a_3 X_{t-3} + \ldots + + a_p X_{t-p} + U_t)]
+        \tag{4.31}
 \end{equation}\]</span></p>
 <p>Donde <span class="math inline">\(\tau = 0, 1, 2, \ldots, p\)</span> y <span class="math inline">\(a_0 = 0\)</span>, lo que implica que <span class="math inline">\(\mu = 0\)</span>. De lo anterior obtenemos el siguiente conjunto de ecuaciones mediante sustituciones de los valores de <span class="math inline">\(\tau\)</span>:
 <span class="math display">\[\begin{eqnarray}
@@ -482,13 +461,14 @@ Figure 4.8: Inverso de las Raíces del polinomio característico.
     \gamma(p) &amp; = &amp; a_1 \gamma(p-1) + a_2 \gamma(p-2) + \ldots + a_p \gamma(0) \nonumber
 \end{eqnarray}\]</span></p>
 <p>De esta forma, es fácil observar que la ecuación general para <span class="math inline">\(p &gt; 0\)</span> estará dada por:
-<span class="math display">\[\begin{equation}
+<span class="math display" id="eq:Gammap">\[\begin{equation}
     \gamma(p) - a_1 \gamma(\tau - 1) - a_2 \gamma(\tau - 2) - \ldots - a_p \gamma(\tau - p) = 0
-    \label{Gamma_p}
+    \tag{4.32}
 \end{equation}\]</span></p>
-<p>Dividiendo la ecuación (<span class="math inline">\(\ref{Gamma_p}\)</span>) por <span class="math inline">\(\gamma(0)\)</span>, se obtiene la siguiente ecuación:
-<span class="math display">\[\begin{equation}
+<p>Dividiendo la ecuación <a href="procesos-estacionarios-univariados.html#eq:Gammap">(4.32)</a> por <span class="math inline">\(\gamma(0)\)</span>, se obtiene la siguiente ecuación:
+<span class="math display" id="eq:Gammap1">\[\begin{equation}
     \rho(p) - a_1 \rho(\tau - 1) + a_2 \rho(\tau - 2) + \ldots + a_p \rho(\tau - p) = 0
+        \tag{4.33}
 \end{equation}\]</span></p>
 <p>Así, podemos escribir el siguiente sistema de ecuaciones:
 <span class="math display">\[\begin{eqnarray}
@@ -498,7 +478,7 @@ Figure 4.8: Inverso de las Raíces del polinomio característico.
     \rho(p) &amp; = &amp; a_1 \rho(p-1) + a_2 \rho(p-2) + \ldots + a_p \nonumber
 \end{eqnarray}\]</span></p>
 <p>Lo anterior se puede expresar como un conjunto de vectores y matrices de la siguiente forma:
-<span class="math display">\[\begin{equation}
+<span class="math display" id="eq:Gammap2">\[\begin{equation}
     \left[
     \begin{array}{c}
         \rho(1) \\
@@ -526,19 +506,47 @@ Figure 4.8: Inverso de las Raíces del polinomio característico.
         a_p \\
     \end{array}
     \right]
+\tag{4.34}
 \end{equation}\]</span></p>
 <p>De lo anterior podemos escribir la siguiente ecuación que es una forma alternativa para expresar los valores de los coefientes <span class="math inline">\(a_i\)</span> de la la solución del proceso <span class="math inline">\(AR(p)\)</span>:
-<span class="math display">\[\begin{equation}
+<span class="math display" id="eq:Gammap3">\[\begin{equation}
     \mathbf{\rho} = \mathbf{R} \mathbf{a}
+  \tag{4.35}
 \end{equation}\]</span></p>
 <p>Es decir, podemos obtener la siguiente expresión:
-<span class="math display">\[\begin{equation}
+<span class="math display" id="eq:Gammap4">\[\begin{equation}
     \mathbf{a} = \mathbf{R}^{-1} \mathbf{\rho}
+    \tag{4.36}
 \end{equation}\]</span></p>
 <p>Ahora veámos un ejemplo. Utilizaremos la serie de Pasajeros en vuelos internacionales de salida para estimar un <span class="math inline">\(AR(p)\)</span> mediante el método de máxima verosimilitud (ML). Antes de realizar el proceso de estimación consideremos una transformación de la serie en logaritmos y una más en diferencias logaritmicas; lo anterior con el objeto de obtener un conjunto de series de tiempo suavizada y expresada en tasas de crecimiento, con un comportamiento parecido a un proceso estacionario.</p>
-Primero, para decidir si se realizará un <span class="math inline">\(AR(p)\)</span> para la serie en niveles o en diferencias análizaremos su gráfica. La serie de e Pasajeros en vuelos internacionales de salidas se muestra en la Figura <span class="math inline">\(\ref{G_Pax_Int}\)</span>. En está se muestra la gráfica de la serie en niveles (sin transformación logaritmica y con transformación logaritmica) y en diferencias logaritmicas mensuales (es decir, con diferencia respecto del mes inmediato anterior).
-De la gráfica en la Figura <span class="math inline">\(\ref{G_Pax_Int}\)</span> observamos que quizá le mejor forma de estimar un AR(p) es mediante la serie en diferencias, ya que ésta es la que parece ser una serie estacionaria. A continuación, estimaremos una AR(4) para la serie en diferencias logarimitcas (<span class="math inline">\(DLPaxInt_t\)</span>):
-Entre parentésis indicamos los errores estándar y reportamos el estadístico de Akaike, AIC. Finalmente, podemos determinar si las soluciones serán convergentes, para ello en la Figura <span class="math inline">\(\ref{G_Roots_ARp}\)</span> mostramos las raíces asociadas a cada uno de los polinomios. De la inspección visual podemos concluir que el AR(4) representan una solución convergente y estable.
+<p>Primero, para decidir si se realizará un <span class="math inline">\(AR(p)\)</span> para la serie en niveles o en diferencias análizaremos su gráfica. La serie de e Pasajeros en vuelos internacionales de salidas se muestra en la Figura <a href="procesos-estacionarios-univariados.html#fig:GPaxInt">4.9</a>. En está se muestra la gráfica de la serie en niveles (sin transformación logaritmica y con transformación logaritmica) y en diferencias logaritmicas mensuales (es decir, con diferencia respecto del mes inmediato anterior).</p>
+<p>De la gráfica en la Figura <a href="procesos-estacionarios-univariados.html#fig:GPaxInt">4.9</a> observamos que quizá le mejor forma de estimar un AR(p) es mediante la serie en diferencias, ya que ésta es la que parece ser una serie estacionaria. A continuación, estimaremos una AR(4) para la serie en diferencias logarimitcas (<span class="math inline">\(DLPaxInt_t\)</span>):</p>
+<p><span class="math display">\[\begin{eqnarray}
+    DLPaxInt_t &amp; = &amp; 0.0050 &amp; - &amp; 0.2701  &amp; DLPaxInt_{t-1} \\
+    &amp;  &amp; (0.0052) &amp;  &amp; (0.0655) &amp; \\
+    &amp;  &amp;  &amp; - &amp; 0.4326 &amp; DLPaxNal_{t-2} \\
+    &amp;  &amp;  &amp;  &amp; (0.0664) &amp; \\
+    &amp;  &amp;  &amp; - &amp; 0.1956 &amp; DLPaxNal_{t-3} \\
+    &amp;  &amp;  &amp;  &amp; (0.0664) &amp; \\
+    &amp;  &amp;  &amp; - &amp; 0.0316 &amp; DLPaxNal_{t-4} \\
+    &amp;  &amp;  &amp;  &amp; (0.0653) &amp;
+\end{eqnarray}\]</span>
+<span class="math display">\[\begin{eqnarray}
+\hat{\sigma}^2 &amp; = &amp; 0.02371 &amp; y &amp; AIC &amp; = &amp; -198.16
+\end{eqnarray}\]</span></p>
+<p>Entre parentésis indicamos los errores estándar y reportamos el estadístico de Akaike, AIC. Finalmente, podemos determinar si las soluciones serán convergentes, para ello en la Figura <a href="procesos-estacionarios-univariados.html#fig:GRootsARp">4.10</a> mostramos las raíces asociadas a cada uno de los polinomios. De la inspección visual podemos concluir que el AR(4) representan una solución convergente y estable.</p>
+<div class="figure" style="text-align: center">
+<span style="display:block;" id="fig:GPaxInt"></span>
+<img src="imagenes/G_Pax_Int.png" alt="Pasajeros en vuelos internacionales de salida en niveles y en diferencias logaritmicas." width="100%"><p class="caption">
+Figure 4.9: Pasajeros en vuelos internacionales de salida en niveles y en diferencias logaritmicas.
+</p>
+</div>
+<div class="figure" style="text-align: center">
+<span style="display:block;" id="fig:GRootsARp"></span>
+<img src="imagenes/G_Roots_ARp.png" alt="Inverso de las Raíces del polinomio característico." width="100%"><p class="caption">
+Figure 4.10: Inverso de las Raíces del polinomio característico.
+</p>
+</div>
 </div>
 </div>
 <div id="procesos-de-medias-móviles-ma" class="section level2" number="4.2">
@@ -550,44 +558,48 @@ Entre parentésis indicamos los errores estándar y reportamos el estadístico d
 <span class="header-section-number">4.2.1</span> MA(1)<a class="anchor" aria-label="anchor" href="#ma1"><i class="fas fa-link"></i></a>
 </h3>
 <p>Una vez planteado el proceso generalizado de <span class="math inline">\(AR(p)\)</span>, iniciamos el planteamiento de los proceso de medias móviles, denotados como <span class="math inline">\(MA(q)\)</span>. Iniciemos con el planteamiento del proceso <span class="math inline">\(MA(1)\)</span>, que se puede escribir como una ecuación como la siguiente:
-<span class="math display">\[\begin{equation}
+<span class="math display" id="eq:MA1Eq">\[\begin{equation}
     X_t = \mu + U_t - b_1 U_{t-1}
-    \label{MA1_Eq}
+    \tag{4.37}
 \end{equation}\]</span></p>
 <p>O como:
-<span class="math display">\[\begin{equation}
+<span class="math display" id="eq:MA1Eq1">\[\begin{equation}
     X_t - \mu = (1 - b_1 L) U_{t}
+    \tag{4.38}
 \end{equation}\]</span></p>
 <p>Donde <span class="math inline">\(U_t\)</span> es un proceso puramente aleatorio, es decir, con <span class="math inline">\(\mathbb{E}[U_t] = 0\)</span>, <span class="math inline">\(Var[U_t] = \sigma^2\)</span>, y <span class="math inline">\(Cov[U_t, U_s] = 0\)</span>. Así, un proceso <span class="math inline">\(MA(1)\)</span> puede verse como un proceso AR con una descomposición de Wold en la que <span class="math inline">\(\psi_0 = 1\)</span>, <span class="math inline">\(\psi_1 = - b_1\)</span> y <span class="math inline">\(\psi_j = 0\)</span> para todo <span class="math inline">\(j &gt; 1\)</span>.</p>
 <p>Al igual que los procesos autoregresivos, determinaremos los momentos de un proceso <span class="math inline">\(MA(1)\)</span>. En el caso de la media observamos que será:
-<span class="math display">\[\begin{eqnarray}
+<span class="math display" id="eq:MA1Eq2">\[\begin{eqnarray}
     \mathbb{E}[X_t] &amp; = &amp; \mu + \mathbb{E}[U_t] - b_1 \mathbb{E}[U_{t - 1}] \nonumber \\
     &amp; = &amp; \mu
+    \tag{4.39}
 \end{eqnarray}\]</span></p>
 <p>Por su parte la varianza estará dada por:
-<span class="math display">\[\begin{eqnarray}
+<span class="math display" id="eq:MA1Eq3">\[\begin{eqnarray}
     Var[X_t] &amp; = &amp; \mathbb{E}[(X_t - \mu)^2] \nonumber \\
     &amp; = &amp; \mathbb{E}[(U_t - b_1 U_{t-1})^2] \nonumber \\
     &amp; = &amp; \mathbb{E}[U_t^2 - 2 b_1 U_t U_{t-1} + b_1^2 U_{t - 1}^2] \nonumber \\
     &amp; = &amp;\mathbb{E}[U_t^2] - 2 b_1 \mathbb{E}[U_t U_{t-1}] + b_1^2 \mathbb{E}[U_{t - 1}^2]] \nonumber \\
     &amp; = &amp; \sigma^2 + b_1^2 \sigma^2 \nonumber \\
     &amp; = &amp; (1 + b_1^2) \sigma^2 = \gamma(0)
+    \tag{4.40}
 \end{eqnarray}\]</span></p>
 <p>De esta forma, la varianza del proceso es constante en cualquier periodo <span class="math inline">\(t\)</span>. Para determinar la covarianza utilizaremos la siguiente ecuación:
-<span class="math display">\[\begin{eqnarray}
+<span class="math display" id="eq:MA1Cov">\[\begin{eqnarray}
     \mathbb{E}[(x_t - \mu)(x_{t + \tau} - \mu)] &amp; = &amp; \mathbb{E}[(U_t - b_1 U_{t-1})(U_{t + \tau} - b_1 U_{t + \tau - 1})] \nonumber \\
     &amp; = &amp; \mathbb{E}[U_t U_{t + \tau} - b_1 U_t U_{t + \tau - 1} - b_1 U_{t - 1} U_{t + \tau} \nonumber \\
     &amp;   &amp; + b_1^2 U_{t - 1} U_{t + \tau - 1}] \nonumber \\
     &amp; = &amp; \mathbb{E}[U_t U_{t + \tau}] - b_1 \mathbb{E}[U_t U_{t + \tau - 1}] \nonumber \\
     &amp;   &amp; - b_1 \mathbb{E}[U_{t - 1} U_{t + \tau}] + b_1^2 \mathbb{E}[U_{t - 1} U_{t + \tau - 1}]
-    \label{MA1_Cov}
+    \tag{4.41}
 \end{eqnarray}\]</span></p>
-<p>Si hacemos sustituciones de diferentes valores de <span class="math inline">\(\tau\)</span> en la ecuación (<span class="math inline">\(\ref{MA1_Cov}\)</span>) notaremos que la covarianza será distinta de cero únicamente para el caso de <span class="math inline">\(\tau = 1, -1\)</span>. En ambos casos tendremos como resultado:
-<span class="math display">\[\begin{eqnarray}
+<p>Si hacemos sustituciones de diferentes valores de <span class="math inline">\(\tau\)</span> en la ecuación <a href="procesos-estacionarios-univariados.html#eq:MA1Cov">(4.41)</a> notaremos que la covarianza será distinta de cero únicamente para el caso de <span class="math inline">\(\tau = 1, -1\)</span>. En ambos casos tendremos como resultado:
+<span class="math display" id="eq:MA1Cov1">\[\begin{eqnarray}
     \mathbb{E}[(x_t - \mu)(x_{t + 1} - \mu)] &amp; = &amp; \mathbb{E}[(x_t - \mu)(x_{t - 1} - \mu)] \nonumber \\
     &amp; = &amp; - b_1 \mathbb{E}[U_t U_{t}] \nonumber \\
     &amp; = &amp; - b_1 \mathbb{E}[U_{t - 1} U_{t - 1}] \nonumber \\
     &amp; = &amp; - b_1^2 \sigma^2 = \gamma(1)
+        \tag{4.42}
 \end{eqnarray}\]</span></p>
 <p>De esta forma tendremos que las funciones de autocorrelación estarán dadas por los siguientes casos:
 <span class="math display">\[\begin{eqnarray}
@@ -595,7 +607,7 @@ Entre parentésis indicamos los errores estándar y reportamos el estadístico d
     \rho(1) &amp; = &amp; \frac{- b_1}{1 + b_1^2} \nonumber \\
     \rho(\tau) &amp; = &amp; 0 \text{ para todo } \tau &gt; 1 \nonumber
 \end{eqnarray}\]</span></p>
-<p>Ahora regresando a la ecuación (<span class="math inline">\(\ref{MA1_Eq}\)</span>), su solución la podemos expresar como:
+<p>Ahora regresando a la ecuación <a href="procesos-estacionarios-univariados.html#eq:MA1Eq">(4.37)</a>, su solución la podemos expresar como:
 <span class="math display">\[\begin{eqnarray}
     U_ t &amp; = &amp; - \frac{\mu}{1 - b_1} + \frac{1}{1 - b_1 L} X_t \nonumber \\
     &amp; = &amp; - \frac{\mu}{1 - b_1} + X_t + b_1 X_{t-1} + b_1^2 X_{t-2} + \ldots \nonumber
@@ -888,9 +900,21 @@ Continuando con el ejemplo, en la Figura (<span class="math inline">\(\ref{Pax_N
 </div>
 </div>
 
+
+
+
+
+
+
+
+
+
+
+
+
   <div class="chapter-nav">
 <div class="prev"><a href="modelos-de-series-de-tiempo-estacionarias.html"><span class="header-section-number">3</span> Modelos de Series de Tiempo Estacionarias</a></div>
-<div class="next"><a href="footnotes-and-citations.html"><span class="header-section-number">5</span> Footnotes and citations</a></div>
+<div class="empty"></div>
 </div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
     <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
       <ul class="nav navbar-nav">
@@ -934,7 +958,7 @@ Continuando con el ejemplo, en la Figura (<span class="math inline">\(\ref{Pax_N
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Notas de Clase: Series de Tiempo</strong>" was written by Benjamín Oliva, Omar Alfaro-Rivera y Emiliano Pérez Caullieres. It was last built on 2022-07-13.</p>
+    <p>"<strong>Notas de Clase: Series de Tiempo</strong>" was written by Benjamín Oliva, Omar Alfaro-Rivera y Emiliano Pérez Caullieres. It was last built on 2022-07-14.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

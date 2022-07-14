@@ -114,7 +114,7 @@ Como segundo ejemplo, en la Figura \@ref(fig:fig2) se ilustra la evolución reci
 Destacamos que el ICC mide las expectativas de los consumidores en
 razón de la información pasada y de la esperada, segun dichos consumidores.
 
-```{r fig3,fig.cap = "índice de Precios y Cotizaciones de la Bolsa Mexicana de Valores (Panel Derecho) y Tipo de Cambio para Solventar Obligaciones en Moneda Extranjera, pesos por dólar (Panel izquierdo), Ene.2002-May.2021 ",  echo=FALSE, fig.align='center'}
+```{r fig3,fig.cap = "Índice de Precios y Cotizaciones de la Bolsa Mexicana de Valores (Panel Derecho) y Tipo de Cambio para Solventar Obligaciones en Moneda Extranjera, pesos por dólar (Panel izquierdo), Ene.2002-May.2021 ",  echo=FALSE, fig.align='center'}
 par(mfrow=c(1,2))
 
 # Indice de Precios y Cotizaciones de la Bolsa Mexicana de Valores

@@ -406,44 +406,49 @@ Para ambos casos entre parentésis indicamos los errores estándar y reportamos 
 Veremos ahora una generalización de los procesos autoregresivos (AR). Esta generalización es conocida como un proceso $AR(p)$ y que puede ser descrito por la siguiente ecuación en diferencia estocástica:
 \begin{equation}
     X_t = a_0 + a_1 X_{t-1} + a_2 X_{t-2} + a_3 X_{t-3} + \ldots + a_p X_{t-p} + U_t
-    \label{ARp_Eq}
+    (\#eq:ARpEq)
 \end{equation}
 
-Donde $a_p \neq 0$, y $U_t$ es un proceso puramente aleatorio con media cero (0), varianza constante ($\sigma^2$) y covarianza cero (0). Usando el operador rezago, $L^k$, para $k = 0, 1, 2, \ldots, p$, obtenemos la siguiente expresión de la ecuación (\ref{ARp_Eq}):
+Donde $a_p \neq 0$, y $U_t$ es un proceso puramente aleatorio con media cero (0), varianza constante ($\sigma^2$) y covarianza cero (0). Usando el operador rezago, $L^k$, para $k = 0, 1, 2, \ldots, p$, obtenemos la siguiente expresión de la ecuación \@ref(eq:ARpEq):
 \begin{equation}
     (1 - a_1 L - a_2 L^2 - a_3 L^3 - \ldots - a_p L^p) X_t = a_0 + U_t
+    (\#eq:ARpEq1)
 \end{equation}
 
 Definamos el polinomio $\alpha(L)$ como:
 \begin{equation}
     \alpha(L) = 1 - a_1 L - a_2 L^2 - a_3 L^3 - \ldots - a_p L^p
-    \label{Pol_A}
+    (\#eq:PolA)
 \end{equation}
 
 De forma similar que en los procesos $AR(1)$ y $AR(2)$, las condiciones de estabilidad del proceso $AR(p)$ estarán dadas por la solución de la ecuación característica:
 \begin{equation}
     \lambda^p - a_1 \lambda^{p-1} - a_2 \lambda^{p-2} - a_3 \lambda^{p-3} - \ldots - a_p = 0
+        (\#eq:PolA1)
 \end{equation}
 
-Así, solo si el polinomio anterior tiene raíces cuyo valor absoluto sea menor a uno ($\lvert\lambda_i\lvert < 1$) y si $1 - a_1 L  - a_2 L^2 - a_3 L^3  - \ldots - a_p L^p < 1$ podremos decir que el proceso es convergente y estable. Lo anterior significa que la ecuación (\ref{Pol_A}) puede expresarse en términos de la descomposición de Wold o como la suma infinita de términos como:
+Así, solo si el polinomio anterior tiene raíces cuyo valor absoluto sea menor a uno ($\lvert\lambda_i\lvert < 1$) y si $1 - a_1 L  - a_2 L^2 - a_3 L^3  - \ldots - a_p L^p < 1$ podremos decir que el proceso es convergente y estable. Lo anterior significa que la ecuación \@ref(eq:PolA) puede expresarse en términos de la descomposición de Wold o como la suma infinita de términos como:
 \begin{equation}
     \frac{1}{1 - a_1 L  - a_2 L^2 - a_3 L^3  - \ldots - a_p L^p} = \psi_0 + \psi_1 L + \psi_2 L^2 + \psi_3 L^3 + \ldots
+(\#eq:PolA2)
 \end{equation}
 
 Donde, por construcción de $\alpha(L) \alpha^{-1}(L) = 1$ implica que $\psi_0 = 1$. De forma similar a los proceso AR(1) y AR(2), es posible determinar el valor de los coefieentes $\psi_j$ en términos de los coefientes $a_i$. Así, la solución del proceso $AR(p)$ estará dada por:
 \begin{equation}
     X_t = \frac{a_0}{1 - a_1  - a_2 - a_3  - \ldots - a_p} + \sum^{\infty}_{j = 0} \psi_j U_{t-j}
-    \label{ARp_Eq_Sol}
+    (\#eq:ARpEqSol)
 \end{equation}
 
-Considerando la solución de la ecuación (\ref{ARp_Eq}) expresada en la ecuación (\ref{ARp_Eq_Sol}) podemos determinar los momentos del proceso y que estarán dados por una media como:
+Considerando la solución de la ecuación \@ref(eq:ARpEq) expresada en la ecuación \@ref(eq:ARpEqSol) podemos determinar los momentos del proceso y que estarán dados por una media como:
 \begin{equation}
     \mathbb{E}[X_t] = \mu = \frac{a_o}{1 - a_1  - a_2 - a_3  - \ldots - a_p}
+        (\#eq:ARpEqSol1)
 \end{equation}
 
 Lo anterior, considerado que $\mathbb{E}[U_t] = 0$, para todo $t$. Para determinar la varianza del proceso, sin pérdida de generalidad, podemos definir una ecuación: $\gamma(\tau) = \mathbb{E}[X_{t - \tau} X_t]$, la cual (omitiendo la constante, ya que la correlación de una constante con cuaquier variable aleatoria que depende del tiempo es cero (0)) puede ser escrita como:
 \begin{equation}
     \gamma(\tau) = \mathbb{E}[(X_{t - \tau}) \cdot (a_1 X_{t-1} + a_2 X_{t-2} + a_3 X_{t-3} + \ldots + + a_p X_{t-p} + U_t)]
+        (\#eq:ARpEqSol2)
 \end{equation}
 
 Donde $\tau = 0, 1, 2, \ldots, p$ y $a_0 = 0$, lo que implica que $\mu = 0$. De lo anterior obtenemos el siguiente conjunto de ecuaciones mediante sustituciones de los valores de $\tau$:
@@ -457,12 +462,13 @@ Donde $\tau = 0, 1, 2, \ldots, p$ y $a_0 = 0$, lo que implica que $\mu = 0$. De 
 De esta forma, es fácil observar que la ecuación general para $p > 0$ estará dada por:
 \begin{equation}
     \gamma(p) - a_1 \gamma(\tau - 1) - a_2 \gamma(\tau - 2) - \ldots - a_p \gamma(\tau - p) = 0
-    \label{Gamma_p}
+    (\#eq:Gammap)
 \end{equation}
 
-Dividiendo la ecuación (\ref{Gamma_p}) por $\gamma(0)$, se obtiene la siguiente ecuación: 
+Dividiendo la ecuación \@ref(eq:Gammap) por $\gamma(0)$, se obtiene la siguiente ecuación: 
 \begin{equation}
     \rho(p) - a_1 \rho(\tau - 1) + a_2 \rho(\tau - 2) + \ldots + a_p \rho(\tau - p) = 0
+        (\#eq:Gammap1)
 \end{equation}
 
 Así, podemos escribir el siguiente sistema de ecuaciones:
@@ -502,56 +508,54 @@ Lo anterior se puede expresar como un conjunto de vectores y matrices de la sigu
         a_p \\
     \end{array} 
     \right]
+(\#eq:Gammap2)
 \end{equation}
 
 De lo anterior podemos escribir la siguiente ecuación que es una forma alternativa para expresar los valores de los coefientes $a_i$ de la la solución del proceso $AR(p)$:
 \begin{equation}
     \mathbf{\rho} = \mathbf{R} \mathbf{a}
+  (\#eq:Gammap3)
 \end{equation}
 
 Es decir, podemos obtener la siguiente expresión:
 \begin{equation}
     \mathbf{a} = \mathbf{R}^{-1} \mathbf{\rho}
+    (\#eq:Gammap4)
 \end{equation}
 
 Ahora veámos un ejemplo. Utilizaremos la serie de Pasajeros en vuelos internacionales de salida para estimar un $AR(p)$ mediante el método de máxima verosimilitud (ML). Antes de realizar el proceso de estimación consideremos una transformación de la serie en logaritmos y una más en diferencias logaritmicas; lo anterior con el objeto de obtener un conjunto de series de tiempo suavizada y expresada en tasas de crecimiento, con un comportamiento parecido a un proceso estacionario.
 
-Primero, para decidir si se realizará un $AR(p)$ para la serie en niveles o en diferencias análizaremos su gráfica. La serie de e Pasajeros en vuelos internacionales de salidas se muestra en la Figura \ref{G_Pax_Int}. En está se muestra la gráfica de la serie en niveles (sin transformación logaritmica y con transformación logaritmica) y en diferencias logaritmicas mensuales (es decir, con diferencia respecto del mes inmediato anterior).
-\begin{figure}
-  \centering
-    \includegraphics[width = 1.0 \textwidth]{G_Pax_Int}
-  \caption{Pasajeros en vuelos internacionales de salida en niveles y en diferencias logaritmicas.}
-  \label{G_Pax_Int}
-\end{figure}
+Primero, para decidir si se realizará un $AR(p)$ para la serie en niveles o en diferencias análizaremos su gráfica. La serie de e Pasajeros en vuelos internacionales de salidas se muestra en la Figura \@ref(fig:GPaxInt). En está se muestra la gráfica de la serie en niveles (sin transformación logaritmica y con transformación logaritmica) y en diferencias logaritmicas mensuales (es decir, con diferencia respecto del mes inmediato anterior).
 
-De la gráfica en la Figura \ref{G_Pax_Int} observamos que quizá le mejor forma de estimar un AR(p) es mediante la serie en diferencias, ya que ésta es la que parece ser una serie estacionaria. A continuación, estimaremos una AR(4) para la serie en diferencias logarimitcas ($DLPaxInt_t$):
-\begin{center}
-\begin{tabular}{ c c c c c c } 
-    $DLPaxInt_t$ & $=$ & $0.0050$ & $-$ & $0.2701$  & $DLPaxInt_{t-1}$ \\ 
-    &  & $(0.0052)$ &  & $(0.0655)$ & \\
-    &  &  & $-$ & $0.4326$ & $DLPaxNal_{t-2}$ \\
-    &  &  &  & $(0.0664)$ & \\
-    &  &  & $-$ & $0.1956$ & $DLPaxNal_{t-3}$ \\
-    &  &  &  & $(0.0664)$ & \\
-    &  &  & $-$ & $0.0316$ & $DLPaxNal_{t-4}$ \\
-    &  &  &  & $(0.0653)$ & 
-\end{tabular}
-\end{center}
+De la gráfica en la Figura \@ref(fig:GPaxInt) observamos que quizá le mejor forma de estimar un AR(p) es mediante la serie en diferencias, ya que ésta es la que parece ser una serie estacionaria. A continuación, estimaremos una AR(4) para la serie en diferencias logarimitcas ($DLPaxInt_t$):
 
-\begin{center}
-\begin{tabular}{ c c c c c c c } 
-    $\hat{\sigma}^2$ & $=$ & $0.02371$ & y & $AIC$ & $=$ & $-198.16$ 
-\end{tabular}
-\end{center}
+\begin{eqnarray}
+    DLPaxInt_t & = & 0.0050 & - & 0.2701  & DLPaxInt_{t-1} \\ 
+    &  & (0.0052) &  & (0.0655) & \\
+    &  &  & - & 0.4326 & DLPaxNal_{t-2} \\
+    &  &  &  & (0.0664) & \\
+    &  &  & - & 0.1956 & DLPaxNal_{t-3} \\
+    &  &  &  & (0.0664) & \\
+    &  &  & - & 0.0316 & DLPaxNal_{t-4} \\
+    &  &  &  & (0.0653) & 
+\end{eqnarray}
+\begin{eqnarray}
+ \hat{\sigma}^2 & = & 0.02371 & y & AIC & = & -198.16
+\end{eqnarray}
 
-Entre parentésis indicamos los errores estándar y reportamos el estadístico de Akaike, AIC. Finalmente, podemos determinar si las soluciones serán convergentes, para ello en la Figura \ref{G_Roots_ARp} mostramos las raíces asociadas a cada uno de los polinomios. De la inspección visual podemos concluir que el AR(4) representan una solución convergente y estable.
-\begin{figure}
-  \centering
-    \includegraphics[width = 0.7 \textwidth]{G_Roots_ARp}
-  \caption{Inveso de las Raíces del polinomio característico.}
-  \label{G_Roots_ARp}
-\end{figure}
 
+Entre parentésis indicamos los errores estándar y reportamos el estadístico de Akaike, AIC. Finalmente, podemos determinar si las soluciones serán convergentes, para ello en la Figura \@ref(fig:GRootsARp) mostramos las raíces asociadas a cada uno de los polinomios. De la inspección visual podemos concluir que el AR(4) representan una solución convergente y estable.
+
+```{r GPaxInt, fig.cap="Pasajeros en vuelos internacionales de salida en niveles y en diferencias logaritmicas.", fig.align='center', echo=FALSE, out.width="100%"}
+
+knitr::include_graphics("imagenes/G_Pax_Int.png")
+
+```
+```{r GRootsARp, fig.cap="Inverso de las Raíces del polinomio característico.", fig.align='center', echo=FALSE, out.width="100%"}
+
+knitr::include_graphics("imagenes/G_Roots_ARp.png")
+
+```
 ## Procesos de Medias Móviles (MA)
 
 ### MA(1)
@@ -559,12 +563,13 @@ Entre parentésis indicamos los errores estándar y reportamos el estadístico d
 Una vez planteado el proceso generalizado de $AR(p)$, iniciamos el planteamiento de los proceso de medias móviles, denotados como $MA(q)$. Iniciemos con el planteamiento del proceso $MA(1)$, que se puede escribir como una ecuación como la siguiente:
 \begin{equation}
     X_t = \mu + U_t - b_1 U_{t-1}
-    \label{MA1_Eq}
+    (\#eq:MA1Eq)
 \end{equation}
 
 O como:
 \begin{equation}
     X_t - \mu = (1 - b_1 L) U_{t}
+    (\#eq:MA1Eq1)
 \end{equation}
 
 Donde $U_t$ es un proceso puramente aleatorio, es decir, con $\mathbb{E}[U_t] = 0$, $Var[U_t] = \sigma^2$, y $Cov[U_t, U_s] = 0$. Así, un proceso $MA(1)$ puede verse como un proceso AR con una descomposición de Wold en la que $\psi_0 = 1$, $\psi_1 = - b_1$ y $\psi_j = 0$ para todo $j > 1$.
@@ -573,6 +578,7 @@ Al igual que los procesos autoregresivos, determinaremos los momentos de un proc
 \begin{eqnarray}
     \mathbb{E}[X_t] & = & \mu + \mathbb{E}[U_t] - b_1 \mathbb{E}[U_{t - 1}] \nonumber \\
     & = & \mu
+    (\#eq:MA1Eq2)
 \end{eqnarray}
 
 Por su parte la varianza estará dada por:
@@ -583,6 +589,7 @@ Por su parte la varianza estará dada por:
     & = &\mathbb{E}[U_t^2] - 2 b_1 \mathbb{E}[U_t U_{t-1}] + b_1^2 \mathbb{E}[U_{t - 1}^2]] \nonumber \\
     & = & \sigma^2 + b_1^2 \sigma^2 \nonumber \\
     & = & (1 + b_1^2) \sigma^2 = \gamma(0)
+    (\#eq:MA1Eq3)
 \end{eqnarray}
 
 De esta forma, la varianza del proceso es constante en cualquier periodo $t$. Para determinar la covarianza utilizaremos la siguiente ecuación:
@@ -592,15 +599,16 @@ De esta forma, la varianza del proceso es constante en cualquier periodo $t$. Pa
     &   & + b_1^2 U_{t - 1} U_{t + \tau - 1}] \nonumber \\
     & = & \mathbb{E}[U_t U_{t + \tau}] - b_1 \mathbb{E}[U_t U_{t + \tau - 1}] \nonumber \\
     &   & - b_1 \mathbb{E}[U_{t - 1} U_{t + \tau}] + b_1^2 \mathbb{E}[U_{t - 1} U_{t + \tau - 1}]
-    \label{MA1_Cov}
+    (\#eq:MA1Cov)
 \end{eqnarray}
 
-Si hacemos sustituciones de diferentes valores de $\tau$ en la ecuación (\ref{MA1_Cov}) notaremos que la covarianza será distinta de cero únicamente para el caso de $\tau = 1, -1$. En ambos casos tendremos como resultado:
+Si hacemos sustituciones de diferentes valores de $\tau$ en la ecuación \@ref(eq:MA1Cov) notaremos que la covarianza será distinta de cero únicamente para el caso de $\tau = 1, -1$. En ambos casos tendremos como resultado:
 \begin{eqnarray}
     \mathbb{E}[(x_t - \mu)(x_{t + 1} - \mu)] & = & \mathbb{E}[(x_t - \mu)(x_{t - 1} - \mu)] \nonumber \\
     & = & - b_1 \mathbb{E}[U_t U_{t}] \nonumber \\
     & = & - b_1 \mathbb{E}[U_{t - 1} U_{t - 1}] \nonumber \\ 
     & = & - b_1^2 \sigma^2 = \gamma(1)
+        (\#eq:MA1Cov1)
 \end{eqnarray}
 
 De esta forma tendremos que las funciones de autocorrelación estarán dadas por los siguientes casos:
@@ -610,7 +618,7 @@ De esta forma tendremos que las funciones de autocorrelación estarán dadas por
     \rho(\tau) & = & 0 \text{ para todo } \tau > 1 \nonumber 
 \end{eqnarray}
 
-Ahora regresando a la ecuación (\ref{MA1_Eq}), su solución la podemos expresar como:
+Ahora regresando a la ecuación \@ref(eq:MA1Eq), su solución la podemos expresar como:
 \begin{eqnarray}
     U_ t & = & - \frac{\mu}{1 - b_1} + \frac{1}{1 - b_1 L} X_t \nonumber \\
     & = & - \frac{\mu}{1 - b_1} + X_t + b_1 X_{t-1} + b_1^2 X_{t-2} + \ldots \nonumber
