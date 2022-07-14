@@ -185,7 +185,7 @@ knitr::include_graphics("imagenes/G_AR_1_Comb.png")
 ```
 > Figura \@ref(fig:GAR1FACr): AR(1) considerando en conjunto $X_t = 5 + 0.9 X_{t-1} + U_t$; $X_0 = 50$ y $X_t = \frac{5}{1 - 0.9} + \sum_{j = 0}^{t-1} 0.9^j U_{t-j}$, y que $U_t \sim \mathcal{N}(0, 4)$
 
-A la serie se le aplicará una metodología de estimación dada por el método de Máxima Verosimilitud (ML, por sus siglás en inglés). Antes de realizar el proceso de estimación consideremos una transformación de diferencias logaritmicas, con el objeto de obtener una serie de tiempo expresada en tasas de crecimiento\footnote{Estas no son porcentuales, para hacerlas porcentuales faltaría multiplicar por 100 a la serie.} y con un comportamiento parecido a un proceso estacionario. 
+A la serie se le aplicará una metodología de estimación dada por el método de Máxima Verosimilitud (ML, por sus siglás en inglés). Antes de realizar el proceso de estimación consideremos una transformación de diferencias logaritmicas, con el objeto de obtener una serie de tiempo expresada en tasas de crecimiento y con un comportamiento parecido a un proceso estacionario.^[Las tasas de crecimiento no son porcentuales, para hacerlas porcentuales faltaría multiplicar por 100 a la serie.] 
 
 Así, para cada una de las series que analicemos en diferencias logaritmicas las expresaremos bajo la siguiente transformación: \begin{equation*}
     DLX_t = log(X_t) - log(X_{t-k})
@@ -195,41 +195,27 @@ Donde $k = 1, 2, 3, \ldots$ y $log(.)$ es la función logaritmo natural. Esta ex
 
 Primero, al realizar el análisis de una serie de tiempo deberemos decidir si éste se realizará para la serie en niveles o en diferencias. Por convención, decimos que la series esta en niveles si ésta se analiza sin heacerle ninguna transformación o si se analiza aplicando logarimos. Cuando la serie se analiza en diferencias significa que la diferencia se hace sin aplicar logaritmos o aplicando logaritmos. Sin embargo, lo común es hacer un análisis en logaritmos.
 
-Para decidir cómo analizar la serie de pasajeros en el metro de la CDMX en la Figura \ref{G_Pax_Metro} se muestra la gráfica de la serie en niveles (sin transformación logaritmica y con transformación logarítmica) y en diferencias logarítmicas mensuales (es decir, con $k = 1$).
-\begin{figure}
-  \centering
-    \includegraphics[width = 1.0 \textwidth]{G_Pax_Metro}
-  \caption{Pasajeros transportados (Millones) en el metro de la CDM en niveles y en diferencias logaritmicas.}
-  \label{G_Pax_Metro}
-\end{figure}
+Para decidir cómo analizar la serie de pasajeros en el metro de la CDMX en la Figura \@ref(fig:GPaxMetro) se muestra la gráfica de la serie en niveles (sin transformación logaritmica y con transformación logarítmica) y en diferencias logarítmicas mensuales (es decir, con $k = 1$).
 
 A continuación, estimaremos una $AR(1)$ para la serie en niveles bajo la transformación logaritmica ($PaxLMetro_t$) y en diferencias logarítmitcas ($PaxDLMetro_t$). Para el primer caso obtenemos el siguiente resultado:
-\begin{center}
-\begin{tabular}{ c c c c c c } 
-    $PaxLMetro_t$ & $=$ & $4.8190$ & $+$ & $0.5916$  & $PaxLMetro_{t-1}$ \\ 
-    &  & $(0.0105)$ &  & $(0.0526)$ & 
-\end{tabular}
-\end{center}
 
-\begin{center}
-\begin{tabular}{ c c c c c c c } 
-    $\hat{\sigma}^2$ & $=$ & $0.004335$ & y & $AIC$ & $=$ & $-602.73$ 
-\end{tabular}
-\end{center}
+\begin{eqnarray}
+PaxLMetro_t  =  4.8190 & + & 0.5916 PaxLMetro_{t-1} \\
+    (0.0105) & + & (0.0526) \\
+\end{eqnarray}
+\begin{eqnarray}
+\hat{\sigma}^2 & = & 0.004335  y  AIC  =  -602.73
+\end{eqnarray}
 
 Para el segundo caso obtenemos el siguiente resultado:
-\begin{center}
-\begin{tabular}{ c c c c c c } 
-    $PaxDLMetro_t$ & $=$ & $0.0007$ & $-$ & $0.6194$  & $PaxDLMetro_{t-1}$ \\ 
-    &  & $(0.0023)$ &  & $(0.0511)$ & 
-\end{tabular}
-\end{center}
 
-\begin{center}
-\begin{tabular}{ c c c c c c c } 
-    $\hat{\sigma}^2$ & $=$ & $0.003344$ & y & AIC & $=$ & $-660.53$ 
-\end{tabular}
-\end{center}
+\begin{eqnarray}
+PaxDLMetro_t  =  0.0007 & - & 0.6194 PaxDLMetro_{t-1} \\
+    (0.0023) & + & (0.0511) \\
+\end{eqnarray}
+\begin{eqnarray}
+\hat{\sigma}^2 & = & 0.003344 & y & AIC & = & -660.53
+\end{eqnarray}
 
 En ambos casos observamos que el parámetro asociado al componente AR es significativo y cumple con la restricción de ser en valor absoluto menor a 1, por lo que la solución asociada al procesp será convergente. También en ambos casos se reporta la estadística o Criterio de Información de Akaike (AIC, por sus siglas en inglés), misma que más adelante discutiremos su importancia y aplicación.
 
@@ -238,72 +224,79 @@ En ambos casos observamos que el parámetro asociado al componente AR es signifi
 Una vez analizado el caso de $AR(1)$ analizaremos el caso del $AR(2)$. La ecuación generalizada del proceso autoregresivo de orden 2 (denotado como $AR(2)$) puede ser escrito como:
 \begin{equation}
     X_t = a_0 + a_1 X_{t-1} + a_2 X_{t-2} + U_t
-    \label{AR2_Eq}
+    (\#eq:AR2Eq)
 \end{equation}
 
-Donde $U_t$ denota un proceso puramente aleatorio con media cero ($0$), varianza constante ($\sigma^2$) y autocovarianza cero ($Cov(U_t, U_s) = 0$, con $t \neq s$), y un parametro $a_2 \neq 0$. Así, utilizando el operador rezago podemos reescribir la ecuación (\ref{AR2_Eq}) como:
+```{r GPaxMetro, fig.cap="Pasajeros transportados (Millones) en el metro de la CDM en niveles y en diferencias logaritmicas.", fig.align='center', echo=FALSE, out.width="100%"}
+
+knitr::include_graphics("imagenes/G_Pax_Metro.png")
+
+```
+Donde $U_t$ denota un proceso puramente aleatorio con media cero ($0$), varianza constante ($\sigma^2$) y autocovarianza cero ($Cov(U_t, U_s) = 0$, con $t \neq s$), y un parametro $a_2 \neq 0$. Así, utilizando el operador rezago podemos reescribir la ecuación \@ref(eq:AR2Eq) como:
 \begin{eqnarray*}
     X_t - a_1 X_{t-1} - a_2 X_{t-2} & = & a_0 + U_t \\
     (1 - a_1 L^1 - a_2 L^2) X_t & = & a_0 + U_t
 \end{eqnarray*}
 
-Donde, vamos a denotar a $\alpha (L) = (1 - a_1 L^1 - a_2 L^2)$, y lo llamaremos como un polinomio que depende del operador rezago y que es distinto de cero. De esta forma podemos reescribir a la ecuación (\ref{AR2_Eq}) como:
+Donde, vamos a denotar a $\alpha (L) = (1 - a_1 L^1 - a_2 L^2)$, y lo llamaremos como un polinomio que depende del operador rezago y que es distinto de cero. De esta forma podemos reescribir a la ecuación \@ref(eq:AR2Eq)  como:
 \begin{equation}
     \alpha(L) X_t = a_0 + U_t
+    (\#eq:AR2Eq1)
 \end{equation}
 
 Ahora, supongamos que existe el inverso multiplicativo del polinomio $\alpha(L)$, el cual será denotado como: $\alpha^{-1}(L)$ y cumple con que:
 \begin{equation}
-    \alpha^{-1}(L) \alpha(L) = 1    
+    \alpha^{-1}(L) \alpha(L) = 1   
+      (\#eq:AR2Eq2)
 \end{equation}
 
-Así, podemos escribir la solución a la ecuación (\ref{AR2_Eq}) como:
-\begin{equation*}
+Así, podemos escribir la solución a la ecuación \@ref(eq:AR2Eq) como:
+\begin{equation}
     X_t = \alpha^{-1}(L) \delta + \alpha^{-1}(L) U_t
-\end{equation*}
+\end{equation}
 
 Si utilizamos el hecho que $\alpha^{-1}(L)$ se puede descomponer a través del procedimiento de Wold en un polinomio de forma similar el caso de $AR(1)$, tenemos que:
 \begin{equation}
     \alpha^{-1}(L) = \psi_0 + \psi_1 L + \psi_2 L^2 + \ldots
+      (\#eq:AR2Eq3)
 \end{equation}
 
 Por lo tanto, el inverso multiplicativo $\alpha^{-1}(L)$ se puede ver como:
 \begin{equation}
     1 = (1 - a_1 L^1 - a_2 L^2) (\psi_0 + \psi_1 L + \psi_2 L^2 + \ldots)
-    \label{InvAlpha}
+      (\#eq:InvAlpha)
 \end{equation}
 
-Desarrollando la ecuación (\ref{InvAlpha}) tenemos la sigueinte expresión:
-\begin{center}
-\begin{tabular}{ c c c c c c c c c c c } 
-    $1$ & $=$ & $\psi_0$ & $+$ & $\psi_1 L$ & $+$ & $\psi_2 L^2$ & $+$ & $\psi_3 L^3$ & $+$ & $\ldots$ \\
-    $ $ & $ $ & $ $ & $-$ & $a_1 \psi_0 L$ & $-$ & $a_1 \psi_1 L^2$ & $-$ & $a_1 \psi_2 L^3$ & $-$ & $\ldots$ \\
-    $ $ & $ $ & $ $ & $ $ & $ $ & $-$ & $a_2 \psi_0 L^2 $ & $-$ & $a_2 \psi_1 L^3$ & $-$ & $\ldots$
-\end{tabular}
-\end{center}
+Desarrollando la ecuación \@ref(eq:InvAlpha) tenemos la sigueinte expresión:
 
-Ahora, podemos agrupar todos los términos en función del exponente asociado al operador rezago $L$. La siguiente es una solución partícular y es una de las múltiples que podrían existir que cumpla con la ecuación (\ref{InvAlpha}). Sin embargo, para efectos del análisis sólo necesitamos una de esas soluciones. Utilizaremos las siguientes condiciones que deben cumplirse en una de las posibles soluciones:
-\begin{center}
-\begin{tabular}{ c c c c } 
-    $L^0 :$ & $ $ & $\Rightarrow$ & $\psi_0 = 1$ \\
-    $L :$ & $\psi_1 - a_1 \psi_0 = 0$ & $\Rightarrow$ & $\psi_1 = a_1$ \\
-    $L^2 :$ & $\psi_2 - a_1 \psi_1 - a_2 \psi_0 = 0$ & $\Rightarrow$ & $\psi_2 = a^2_1 + a_2$ \\
-    $L^3 :$ & $\psi_3 - a_1 \psi_2 - a_2 \psi_1 = 0$ & $\Rightarrow$ & $\psi_3 = a^3_1 + 2 a_1 a_2$ \\
-    $\vdots$ & $\vdots$ & $\vdots$ & $\vdots$
-\end{tabular}
-\end{center}
+\begin{eqnarray}
+    1 & = & \psi_0 & + & \psi_1 L & + & \psi_2 L^2 & + & \psi_3 L^3 & + & \ldots \\
+     &  &  & - & a_1 \psi_0 L & - & a_1 \psi_1 L^2 & - & a_1 \psi_2 L^3 & - & \ldots \\
+    & &  &  &  & - & a_2 \psi_0 L^2  & - & a_2 \psi_1 L^3 & - & \ldots
+\end{eqnarray}
+
+Ahora, podemos agrupar todos los términos en función del exponente asociado al operador rezago $L$. La siguiente es una solución partícular y es una de las múltiples que podrían existir que cumpla con la ecuación \@ref(eq:InvAlpha). Sin embargo, para efectos del análisis sólo necesitamos una de esas soluciones. Utilizaremos las siguientes condiciones que deben cumplirse en una de las posibles soluciones:
+
+\begin{eqnarray}
+    L^0 : &   & \Rightarrow & \psi_0 = 1 \\
+    L : & \psi_1 - a_1 \psi_0 = 0 & \Rightarrow & \psi_1 = a_1$ \\
+    L^2 : & \psi_2 - a_1 \psi_1 - a_2 \psi_0 = 0 & \Rightarrow & \psi_2 = a^2_1 + a_2 \\
+    L^3 : & \psi_3 - a_1 \psi_2 - a_2 \psi_1 = 0 & \Rightarrow & \psi_3 = a^3_1 + 2 a_1 a_2$ \\
+    \vdots & \vdots & \vdots & \vdots
+\end{eqnarray}
 
 De esta forma podemos observar que en el límite siempre obtendremos una ecuación del tipo $\psi_j - a_1 \psi_{j-1} - a_2 \psi_{j-2} = 0$ asociada a cada uno de los casos en que exista un $L^j$, donde $j \neq 0, 1$, y la cual siempre podremos resolver conociendo que las condiciones iniciales son: $\psi_0 = 1$ y $\psi_1 = a_1$.
 
-Así, de las relaciones antes mencionadas y considerando que $\alpha^{-1} (L)$ aplicada a una constante como $a_0$, tendrá como resultado otra constante. De esta forma podemos escribir que la solución del proceso AR(2) en la ecuación (\ref{AR2_Eq}) será dada por una expresión como sigue:
+Así, de las relaciones antes mencionadas y considerando que $\alpha^{-1} (L)$ aplicada a una constante como $a_0$, tendrá como resultado otra constante. De esta forma podemos escribir que la solución del proceso AR(2) en la ecuación \@ref(eq:AR2Eq) será dada por una expresión como sigue:
 \begin{equation}
     X_t = \frac{\delta}{1 - a_1 - a_2} + \sum^{\infty}_{j = 0} \psi_{t - j} U_{t - j}
-    \label{AR2_Eq_Sol}
+    (\#eq:AR2EqSol)
 \end{equation}
 
-Donde todos los parametros $\psi_i$ está determinado por los parámtros $a_0$, $a_1$ y $a_2$. En particular, $\psi_0 = 1$ y $\psi_1 = a_1$ como describimos anteriormente. Al igual que en el caso del $AR(1)$, en la ecuación (\ref{AR2_Eq_Sol}) las condiciones de estabilidad estarán dadas por las soluciones del siguiente polinomio característico:\footnote{Note que raíces son equivalentes al inversio de las del polinomio dado por $\lambda^2 a_2 - \lambda a_1 - 1 = 0$.}
+Donde todos los parametros $\psi_i$ está determinado por los parámtros $a_0$, $a_1$ y $a_2$. En particular, $\psi_0 = 1$ y $\psi_1 = a_1$ como describimos anteriormente. Al igual que en el caso del $AR(1)$, en la ecuación \@ref(eq:AR2EqSol) las condiciones de estabilidad estarán dadas por las soluciones del siguiente polinomio característico:^[Note que raíces son equivalentes al inversio de las del polinomio dado por $\lambda^2 a_2 - \lambda a_1 - 1 = 0$.]
 \begin{equation}
     \lambda^2 - \lambda a_1 - a_2 = 0
+    (\#eq:AR2EqSol1)
 \end{equation}
 
 Así, la condición de estabilidad de la trayectoria es que $\lvert\lambda_i\lvert < 1$, para $i = 1, 2$. Es decir, es necesario que cada una de las raíces sea, en valor absoluto, siempre menor que la unidad. Estas son las condiciones de estabilidad para el proceso $AR(2)$. 
@@ -311,23 +304,25 @@ Así, la condición de estabilidad de la trayectoria es que $\lvert\lambda_i\lve
 Finalmente, al igual que en un $AR(1)$, a continuación determinamos los momentos de una serie que sigue un proceso $AR(2)$. Iniciamos con la determinación de la media de la serie:
 \begin{equation}
     \mathbb{E}[X_t] = \mu = \frac{a_0}{1 - a_1 - a_2}
+    (\#eq:AR2EqSol2)
 \end{equation}
 
 Lo anterior es cierto puesto que $\mathbb{E}[U_{t - i}] = 0$, para todo $i = 0, 1, 2, \ldots$. Para determinar la varianza utilizaremos las siguientes relaciones basadas en el uso del valor esperado, varianza y covarianza de la serie. Adicionalmente, para simplificar el trabajo asumamos que $a_0 = 0$, lo cual implica que $\mu = 0$. Dicho lo anterior, partamos de:
-\begin{eqnarray*}
+\begin{eqnarray}
     \mathbb{E}[X_t X_{t - \tau}] & = & \mathbb{E}[(a_1 X_{t-1} + a_2 X_{t-2} + U_t) X_{t - \tau}]\\
     & = & a_1 \mathbb{E}[X_{t - 1} X_{t - \tau}] + a_2 \mathbb{E}[X_{t - 2} X_{t - \tau}] + \mathbb{E}[U_{t} X_{t - \tau}]
-\end{eqnarray*}
+    (\#eq:AR2EqSol3)
+\end{eqnarray}
 
-Donde $\tau = 0, 1, 2, 3, \ldots$ y que $\mathbb{E}[U_{t} X_{t - \tau}] = 0$ para todo $\tau \neq 0$.\footnote{ Es fácil demostrar está afirmación, sólo requiere de desarrollar la expresión y utilizar el hecho de que $U_t$ es un proceso pueramente aleatorio, por lo que la covarianza es cero (0).} Dicho esto, podemos derivar el valor del valor esperado para diferentes valores de $\tau$:
-\begin{center}
-\begin{tabular}{ c c c c } 
-    $\tau = 0:$ & $\gamma(0)$ & $=$ & $\alpha_1 \gamma(1) + \alpha_2 \gamma(2) + \sigma^2$ \\
-    $\tau = 1:$ & $\gamma(1)$ & $=$ & $\alpha_1 \gamma(0) + \alpha_2 \gamma(1)$ \\
-    $\tau = 2:$ & $\gamma(2)$ & $=$ & $\alpha_1 \gamma(1) + \alpha_2 \gamma(0)$ \\
+Donde $\tau = 0, 1, 2, 3, \ldots$ y que $\mathbb{E}[U_{t} X_{t - \tau}] = 0$ para todo $\tau \neq 0$.^[Es fácil demostrar está afirmación, sólo requiere de desarrollar la expresión y utilizar el hecho de que $U_t$ es un proceso pueramente aleatorio, por lo que la covarianza es cero (0).] Dicho esto, podemos derivar el valor del valor esperado para diferentes valores de $\tau$:
+
+
+\begin{eqnarray}
+    \tau = 0: & \gamma(0) & = & \alpha_1 \gamma(1) + \alpha_2 \gamma(2) + \sigma^2 \\
+    \tau = 1: & \gamma(1) & = & \alpha_1 \gamma(0) + \alpha_2 \gamma(1) \\
+    \tau = 2: & \gamma(2) & = & \alpha_1 \gamma(1) + \alpha_2 \gamma(0) \\
     \vdots & \vdots & \vdots & \vdots
-\end{tabular}
-\end{center}
+\end{eqnarray}
 
 Donde debe ser claro que $\mathbb{E}[(X_{t} - \mu)(X_{t - \tau} - \mu)] = \mathbb{E}[X_{t} X_{t - \tau}] = \gamma(\tau)$. Así, en general cuando $\tau \neq 0$:
 \begin{equation}
@@ -337,19 +332,23 @@ Donde debe ser claro que $\mathbb{E}[(X_{t} - \mu)(X_{t - \tau} - \mu)] = \mathb
 Realizando la sustitución recursiva y solucionando el sistema respectivo obtenemos que las varianza y covarianzas estaran determinadas por:
 \begin{equation}
     Var[X_t] = \gamma(0) = \frac{1 - a_2}{(1 + a_2)[(1 - a_2)^2 - a^2_1]} \sigma^2
+    (\#eq:AR2EqSol5)
 \end{equation}
 
 \begin{equation}
     \gamma(1) = \frac{a_1}{(1 + a_2)[(1 - a_2)^2 - a^2_1]} \sigma^2
+    (\#eq:AR2EqSol6)
 \end{equation}
 
 \begin{equation}
     \gamma(2) = \frac{a^2_1 + a_2 - a^2_2}{(1 + a_2)[(1 - a_2)^2 - a^2_1]} \sigma^2
+    (\#eq:AR2EqSol7)
 \end{equation}
 
 Recordemos que las funciones de autocorrelación se obtienen de la división de cada unas de las funciones de covarianza ($\gamma(\tau)$) por la varianza ($\gamma(0)$). Así, podemos construir la siguiente expresión:
 \begin{equation}
     \rho(\tau) - a_1 \rho(\tau - 1) - a_2 \rho(\tau - 2) = 0
+    (\#eq:AR2EqSol8)
 \end{equation}
 
 Ahora veámos un ejemplo. Utilizaremos la serie de Pasajeros en vuelos nacionales (en vuelos de salidas) para estimar un $AR(2)$ mediante el método de máxima verosimilitud (ML, por sus siglas en inglés). Antes de realizar el proceso de estimación consideremos una transformación de la serie en logaritmos y una más en diferencias logarítmicas; lo anterior con el objeto de obtener un conjunto de series de tiempo suavizada y expresada en tasas de crecimiento, con un comportamiento parecido a un proceso estacionario.
@@ -361,53 +360,46 @@ Así, para cada una de las series que analicemos en diferencias logarítmicas la
 
 Donde $k = 1, 2, 3, \ldots$ y $log(.)$ es la función logaritmo natural. Por convención, decimos que la serie está en niveles si ésta se analiza sin heacerle ninguna transformación o se analiza en logarimos. Cuando la serie se analiza en diferencias significa que la diferencia se hace sin aplicar logaritmos. Y cuando la serie analizada está en diferenncias logarítmicas también diremos que esta en diferencias. Sin embargo, lo común es hacer un análisis en logaritmos y en difereencias logarítmicas.
 
-Primero, para decidir si se realizará un AR(2) para la serie en niveles o en diferencias analizaremos su gráfica. La serie en niveles, en niveles bajo una transformación logarítmica y en diferencias logarítmicas mensuales de los pasajeros en vuelos nacionales se muestra en la Figura \ref{G_Pax_Nal}.
-\begin{figure}
-  \centering
-    \includegraphics[width = 1.0 \textwidth]{G_Pax_Nal}
-  \caption{Pasajeros en vuelos de salidas nacionales en niveles y en diferencias logaritmicas.}
-  \label{G_Pax_Nal}
-\end{figure}
+Primero, para decidir si se realizará un AR(2) para la serie en niveles o en diferencias analizaremos su gráfica. La serie en niveles, en niveles bajo una transformación logarítmica y en diferencias logarítmicas mensuales de los pasajeros en vuelos nacionales se muestra en la Figura \@ref(fig:GPaxNal).
+
 
 A continuación, estimaremos un $AR(2)$ para la serie en niveles bajo una transformación logarítmica ($LPaxNal_t$) y en diferencias logarítmitcas ($DLPax_Nal_t$). Para el primer caso obtenemos el siguiente resultado:
-\begin{center}
-\begin{tabular}{ c c c c c c } 
-    $LPaxNal_t$ & $=$ & $14.6267$ & $+$ & $0.7637$  & $LPaxNal_{t-1}$ \\ 
-    &  & $(0.1816)$ &  & $(0.0637)$ & \\
-    &  &  & $+$ & $0.2025$ & $LPaxNal_{t-2}$ \\
-    &  &  &  & $(0.0646)$ &
-\end{tabular}
-\end{center}
 
-\begin{center}
-\begin{tabular}{ c c c c c c c } 
-    $\hat{\sigma}^2$ & $=$ & $0.01138$ & y & $AIC$ & $=$ & $-372.64$ 
-\end{tabular}
-\end{center}
+\begin{eqnarray}
+    LPaxNal_t & = & 14.6267 & + & 0.7637  & LPaxNal_{t-1} \\ 
+    &  & (0.1816) &  & (0.0637) & \\
+    &  &  & + & 0.2025 & LPaxNal_{t-2} \\
+    &  &  &  & (0.0646) &
+\end{eqnarray}
+\begin{eqnarray}
+\hat{\sigma}^2 & = & 0.01138 & y & AIC & = & -372.64 
+\end{eqnarray}
+
 
 Para el segundo caso obtenemos el siguiente resultado:
-\begin{center}
-\begin{tabular}{ c c c c c c } 
-    $DLPaxNal_t$ & $=$ & $0.0050$ & $-$ & $0.3205$  & $DLPaxNal_{t-1}$ \\ 
-    &  & $(0.0036)$ &  & $(0.0592)$ & \\
-    &  &  & $-$ & $0.4242$ & $DLPaxNal_{t-2}$ \\
-    &  &  &  & $(0.0591)$ &
-\end{tabular}
-\end{center}
+\begin{eqnarray}
+    DLPaxNal_t & = & 0.0050 & - & 0.3205  & DLPaxNal_{t-1} \\ 
+    &  & (0.0036) &  & (0.0592) & \\
+    &  &  & - & 0.4242 & DLPaxNal_{t-2} \\
+    &  &  &  & (0.0591) &
+\end{eqnarray}
+\begin{eqnarray}
+\hat{\sigma}^2 & = & 0.009378 & y & AIC & = & -418.3 
+\end{eqnarray}
 
-\begin{center}
-\begin{tabular}{ c c c c c c c } 
-    $\hat{\sigma}^2$ & $=$ & $0.009378$ & y & $AIC$ & $=$ & $-418.3$ 
-\end{tabular}
-\end{center}
+```{r GPaxNal, fig.cap="Pasajeros transportados (Millones) en el metro de la CDM en niveles y en diferencias logaritmicas.", fig.align='center', echo=FALSE, out.width="100%"}
 
-Para ambos casos entre parentésis indicamos los errores estándar y reportamos el estadístico de Akaike, AIC. Finalmente, podemos determinar si las soluciones serán convergentes, para ello en la Figura \ref{G_Roots_AR2} mostramos las raíces asociadas a cada uno de los polinomios. De la inspección visual podemos concluir que ambas propuesta de AR(2) representan una solución convergente y estable.
-\begin{figure}
-  \centering
-    \includegraphics[width = 1.0 \textwidth]{G_Roots_AR2}
-  \caption{Inveso de las Raíces del polinomio característico.}
-  \label{G_Roots_AR2}
-\end{figure}
+knitr::include_graphics("imagenes/G_Pax_Nal.png")
+
+```
+
+```{r GRootsAR2, fig.cap="Inverso de las Raíces del polinomio característico.", fig.align='center', echo=FALSE, out.width="100%"}
+
+knitr::include_graphics("imagenes/G_Roots_AR2.png")
+
+```
+Para ambos casos entre parentésis indicamos los errores estándar y reportamos el estadístico de Akaike, AIC. Finalmente, podemos determinar si las soluciones serán convergentes, para ello en la Figura \@ref(fig:GRootsAR2) mostramos las raíces asociadas a cada uno de los polinomios. De la inspección visual podemos concluir que ambas propuesta de AR(2) representan una solución convergente y estable.
+
 
 ### AR(p)
 

@@ -259,15 +259,29 @@ Figure 4.5: .
 <blockquote>
 <p>Figura <a href="procesos-estacionarios-univariados.html#fig:GAR1FACr">4.3</a>: AR(1) considerando en conjunto <span class="math inline">\(X_t = 5 + 0.9 X_{t-1} + U_t\)</span>; <span class="math inline">\(X_0 = 50\)</span> y <span class="math inline">\(X_t = \frac{5}{1 - 0.9} + \sum_{j = 0}^{t-1} 0.9^j U_{t-j}\)</span>, y que <span class="math inline">\(U_t \sim \mathcal{N}(0, 4)\)</span></p>
 </blockquote>
-<p>A la serie se le aplicará una metodología de estimación dada por el método de Máxima Verosimilitud (ML, por sus siglás en inglés). Antes de realizar el proceso de estimación consideremos una transformación de diferencias logaritmicas, con el objeto de obtener una serie de tiempo expresada en tasas de crecimiento y con un comportamiento parecido a un proceso estacionario.</p>
+<p>A la serie se le aplicará una metodología de estimación dada por el método de Máxima Verosimilitud (ML, por sus siglás en inglés). Antes de realizar el proceso de estimación consideremos una transformación de diferencias logaritmicas, con el objeto de obtener una serie de tiempo expresada en tasas de crecimiento y con un comportamiento parecido a un proceso estacionario.<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content="&lt;p&gt;Las tasas de crecimiento no son porcentuales, para hacerlas porcentuales faltaría multiplicar por 100 a la serie.&lt;/p&gt;"><sup>5</sup></a></p>
 <p>Así, para cada una de las series que analicemos en diferencias logaritmicas las expresaremos bajo la siguiente transformación: <span class="math display">\[\begin{equation*}
     DLX_t = log(X_t) - log(X_{t-k})
 \end{equation*}\]</span></p>
 <p>Donde <span class="math inline">\(k = 1, 2, 3, \ldots\)</span> y <span class="math inline">\(log(.)\)</span> es la función logaritmo natural. Esta expresión se pude interpretar como una tasa de crecimiento puesto que asumimos variaciones pequeñas para las cuales se cumple que: <span class="math inline">\(log(X_t) - log(X_{t-k}) \approx \frac{X_t - X_{t-k}}{X_t}\)</span>.</p>
 <p>Primero, al realizar el análisis de una serie de tiempo deberemos decidir si éste se realizará para la serie en niveles o en diferencias. Por convención, decimos que la series esta en niveles si ésta se analiza sin heacerle ninguna transformación o si se analiza aplicando logarimos. Cuando la serie se analiza en diferencias significa que la diferencia se hace sin aplicar logaritmos o aplicando logaritmos. Sin embargo, lo común es hacer un análisis en logaritmos.</p>
-Para decidir cómo analizar la serie de pasajeros en el metro de la CDMX en la Figura <span class="math inline">\(\ref{G_Pax_Metro}\)</span> se muestra la gráfica de la serie en niveles (sin transformación logaritmica y con transformación logarítmica) y en diferencias logarítmicas mensuales (es decir, con <span class="math inline">\(k = 1\)</span>).
-A continuación, estimaremos una <span class="math inline">\(AR(1)\)</span> para la serie en niveles bajo la transformación logaritmica (<span class="math inline">\(PaxLMetro_t\)</span>) y en diferencias logarítmitcas (<span class="math inline">\(PaxDLMetro_t\)</span>). Para el primer caso obtenemos el siguiente resultado:
-Para el segundo caso obtenemos el siguiente resultado:
+<p>Para decidir cómo analizar la serie de pasajeros en el metro de la CDMX en la Figura <a href="procesos-estacionarios-univariados.html#fig:GPaxMetro">4.6</a> se muestra la gráfica de la serie en niveles (sin transformación logaritmica y con transformación logarítmica) y en diferencias logarítmicas mensuales (es decir, con <span class="math inline">\(k = 1\)</span>).</p>
+<p>A continuación, estimaremos una <span class="math inline">\(AR(1)\)</span> para la serie en niveles bajo la transformación logaritmica (<span class="math inline">\(PaxLMetro_t\)</span>) y en diferencias logarítmitcas (<span class="math inline">\(PaxDLMetro_t\)</span>). Para el primer caso obtenemos el siguiente resultado:</p>
+<p><span class="math display">\[\begin{eqnarray}
+PaxLMetro_t  =  4.8190 &amp; + &amp; 0.5916 PaxLMetro_{t-1} \\
+    (0.0105) &amp; + &amp; (0.0526) \\
+\end{eqnarray}\]</span>
+<span class="math display">\[\begin{eqnarray}
+\hat{\sigma}^2 &amp; = &amp; 0.004335  y  AIC  =  -602.73
+\end{eqnarray}\]</span></p>
+<p>Para el segundo caso obtenemos el siguiente resultado:</p>
+<p><span class="math display">\[\begin{eqnarray}
+PaxDLMetro_t  =  0.0007 &amp; - &amp; 0.6194 PaxDLMetro_{t-1} \\
+    (0.0023) &amp; + &amp; (0.0511) \\
+\end{eqnarray}\]</span>
+<span class="math display">\[\begin{eqnarray}
+\hat{\sigma}^2 &amp; = &amp; 0.003344 &amp; y &amp; AIC &amp; = &amp; -660.53
+\end{eqnarray}\]</span></p>
 <p>En ambos casos observamos que el parámetro asociado al componente AR es significativo y cumple con la restricción de ser en valor absoluto menor a 1, por lo que la solución asociada al procesp será convergente. También en ambos casos se reporta la estadística o Criterio de Información de Akaike (AIC, por sus siglas en inglés), misma que más adelante discutiremos su importancia y aplicación.</p>
 </div>
 <div id="ar2" class="section level3" number="4.1.2">
@@ -275,76 +289,110 @@ Para el segundo caso obtenemos el siguiente resultado:
 <span class="header-section-number">4.1.2</span> AR(2)<a class="anchor" aria-label="anchor" href="#ar2"><i class="fas fa-link"></i></a>
 </h3>
 <p>Una vez analizado el caso de <span class="math inline">\(AR(1)\)</span> analizaremos el caso del <span class="math inline">\(AR(2)\)</span>. La ecuación generalizada del proceso autoregresivo de orden 2 (denotado como <span class="math inline">\(AR(2)\)</span>) puede ser escrito como:
-<span class="math display">\[\begin{equation}
+<span class="math display" id="eq:AR2Eq">\[\begin{equation}
     X_t = a_0 + a_1 X_{t-1} + a_2 X_{t-2} + U_t
-    \label{AR2_Eq}
+    \tag{4.11}
 \end{equation}\]</span></p>
-<p>Donde <span class="math inline">\(U_t\)</span> denota un proceso puramente aleatorio con media cero (<span class="math inline">\(0\)</span>), varianza constante (<span class="math inline">\(\sigma^2\)</span>) y autocovarianza cero (<span class="math inline">\(Cov(U_t, U_s) = 0\)</span>, con <span class="math inline">\(t \neq s\)</span>), y un parametro <span class="math inline">\(a_2 \neq 0\)</span>. Así, utilizando el operador rezago podemos reescribir la ecuación (<span class="math inline">\(\ref{AR2_Eq}\)</span>) como:
+<div class="figure" style="text-align: center">
+<span style="display:block;" id="fig:GPaxMetro"></span>
+<img src="imagenes/G_Pax_Metro.png" alt="Pasajeros transportados (Millones) en el metro de la CDM en niveles y en diferencias logaritmicas." width="100%"><p class="caption">
+Figure 4.6: Pasajeros transportados (Millones) en el metro de la CDM en niveles y en diferencias logaritmicas.
+</p>
+</div>
+<p>Donde <span class="math inline">\(U_t\)</span> denota un proceso puramente aleatorio con media cero (<span class="math inline">\(0\)</span>), varianza constante (<span class="math inline">\(\sigma^2\)</span>) y autocovarianza cero (<span class="math inline">\(Cov(U_t, U_s) = 0\)</span>, con <span class="math inline">\(t \neq s\)</span>), y un parametro <span class="math inline">\(a_2 \neq 0\)</span>. Así, utilizando el operador rezago podemos reescribir la ecuación <a href="procesos-estacionarios-univariados.html#eq:AR2Eq">(4.11)</a> como:
 <span class="math display">\[\begin{eqnarray*}
     X_t - a_1 X_{t-1} - a_2 X_{t-2} &amp; = &amp; a_0 + U_t \\
     (1 - a_1 L^1 - a_2 L^2) X_t &amp; = &amp; a_0 + U_t
 \end{eqnarray*}\]</span></p>
-<p>Donde, vamos a denotar a <span class="math inline">\(\alpha (L) = (1 - a_1 L^1 - a_2 L^2)\)</span>, y lo llamaremos como un polinomio que depende del operador rezago y que es distinto de cero. De esta forma podemos reescribir a la ecuación (<span class="math inline">\(\ref{AR2_Eq}\)</span>) como:
-<span class="math display">\[\begin{equation}
+<p>Donde, vamos a denotar a <span class="math inline">\(\alpha (L) = (1 - a_1 L^1 - a_2 L^2)\)</span>, y lo llamaremos como un polinomio que depende del operador rezago y que es distinto de cero. De esta forma podemos reescribir a la ecuación <a href="procesos-estacionarios-univariados.html#eq:AR2Eq">(4.11)</a> como:
+<span class="math display" id="eq:AR2Eq1">\[\begin{equation}
     \alpha(L) X_t = a_0 + U_t
+    \tag{4.12}
 \end{equation}\]</span></p>
 <p>Ahora, supongamos que existe el inverso multiplicativo del polinomio <span class="math inline">\(\alpha(L)\)</span>, el cual será denotado como: <span class="math inline">\(\alpha^{-1}(L)\)</span> y cumple con que:
-<span class="math display">\[\begin{equation}
-    \alpha^{-1}(L) \alpha(L) = 1    
+<span class="math display" id="eq:AR2Eq2">\[\begin{equation}
+    \alpha^{-1}(L) \alpha(L) = 1   
+      \tag{4.13}
 \end{equation}\]</span></p>
-<p>Así, podemos escribir la solución a la ecuación (<span class="math inline">\(\ref{AR2_Eq}\)</span>) como:
-<span class="math display">\[\begin{equation*}
-    X_t = \alpha^{-1}(L) \delta + \alpha^{-1}(L) U_t
-\end{equation*}\]</span></p>
-<p>Si utilizamos el hecho que <span class="math inline">\(\alpha^{-1}(L)\)</span> se puede descomponer a través del procedimiento de Wold en un polinomio de forma similar el caso de <span class="math inline">\(AR(1)\)</span>, tenemos que:
+<p>Así, podemos escribir la solución a la ecuación <a href="procesos-estacionarios-univariados.html#eq:AR2Eq">(4.11)</a> como:
 <span class="math display">\[\begin{equation}
+    X_t = \alpha^{-1}(L) \delta + \alpha^{-1}(L) U_t
+\end{equation}\]</span></p>
+<p>Si utilizamos el hecho que <span class="math inline">\(\alpha^{-1}(L)\)</span> se puede descomponer a través del procedimiento de Wold en un polinomio de forma similar el caso de <span class="math inline">\(AR(1)\)</span>, tenemos que:
+<span class="math display" id="eq:AR2Eq3">\[\begin{equation}
     \alpha^{-1}(L) = \psi_0 + \psi_1 L + \psi_2 L^2 + \ldots
+      \tag{4.14}
 \end{equation}\]</span></p>
 <p>Por lo tanto, el inverso multiplicativo <span class="math inline">\(\alpha^{-1}(L)\)</span> se puede ver como:
-<span class="math display">\[\begin{equation}
+<span class="math display" id="eq:InvAlpha">\[\begin{equation}
     1 = (1 - a_1 L^1 - a_2 L^2) (\psi_0 + \psi_1 L + \psi_2 L^2 + \ldots)
-    \label{InvAlpha}
+      \tag{4.15}
 \end{equation}\]</span></p>
-Desarrollando la ecuación (<span class="math inline">\(\ref{InvAlpha}\)</span>) tenemos la sigueinte expresión:
-Ahora, podemos agrupar todos los términos en función del exponente asociado al operador rezago <span class="math inline">\(L\)</span>. La siguiente es una solución partícular y es una de las múltiples que podrían existir que cumpla con la ecuación (<span class="math inline">\(\ref{InvAlpha}\)</span>). Sin embargo, para efectos del análisis sólo necesitamos una de esas soluciones. Utilizaremos las siguientes condiciones que deben cumplirse en una de las posibles soluciones:
+<p>Desarrollando la ecuación <a href="procesos-estacionarios-univariados.html#eq:InvAlpha">(4.15)</a> tenemos la sigueinte expresión:</p>
+<p><span class="math display">\[\begin{eqnarray}
+    1 &amp; = &amp; \psi_0 &amp; + &amp; \psi_1 L &amp; + &amp; \psi_2 L^2 &amp; + &amp; \psi_3 L^3 &amp; + &amp; \ldots \\
+     &amp;  &amp;  &amp; - &amp; a_1 \psi_0 L &amp; - &amp; a_1 \psi_1 L^2 &amp; - &amp; a_1 \psi_2 L^3 &amp; - &amp; \ldots \\
+    &amp; &amp;  &amp;  &amp;  &amp; - &amp; a_2 \psi_0 L^2  &amp; - &amp; a_2 \psi_1 L^3 &amp; - &amp; \ldots
+\end{eqnarray}\]</span></p>
+<p>Ahora, podemos agrupar todos los términos en función del exponente asociado al operador rezago <span class="math inline">\(L\)</span>. La siguiente es una solución partícular y es una de las múltiples que podrían existir que cumpla con la ecuación <a href="procesos-estacionarios-univariados.html#eq:InvAlpha">(4.15)</a>. Sin embargo, para efectos del análisis sólo necesitamos una de esas soluciones. Utilizaremos las siguientes condiciones que deben cumplirse en una de las posibles soluciones:</p>
+<p><span class="math display">\[\begin{eqnarray}
+    L^0 : &amp;   &amp; \Rightarrow &amp; \psi_0 = 1 \\
+    L : &amp; \psi_1 - a_1 \psi_0 = 0 &amp; \Rightarrow &amp; \psi_1 = a_1$ \\
+    L^2 : &amp; \psi_2 - a_1 \psi_1 - a_2 \psi_0 = 0 &amp; \Rightarrow &amp; \psi_2 = a^2_1 + a_2 \\
+    L^3 : &amp; \psi_3 - a_1 \psi_2 - a_2 \psi_1 = 0 &amp; \Rightarrow &amp; \psi_3 = a^3_1 + 2 a_1 a_2$ \\
+    \vdots &amp; \vdots &amp; \vdots &amp; \vdots
+\end{eqnarray}\]</span></p>
 <p>De esta forma podemos observar que en el límite siempre obtendremos una ecuación del tipo <span class="math inline">\(\psi_j - a_1 \psi_{j-1} - a_2 \psi_{j-2} = 0\)</span> asociada a cada uno de los casos en que exista un <span class="math inline">\(L^j\)</span>, donde <span class="math inline">\(j \neq 0, 1\)</span>, y la cual siempre podremos resolver conociendo que las condiciones iniciales son: <span class="math inline">\(\psi_0 = 1\)</span> y <span class="math inline">\(\psi_1 = a_1\)</span>.</p>
-<p>Así, de las relaciones antes mencionadas y considerando que <span class="math inline">\(\alpha^{-1} (L)\)</span> aplicada a una constante como <span class="math inline">\(a_0\)</span>, tendrá como resultado otra constante. De esta forma podemos escribir que la solución del proceso AR(2) en la ecuación (<span class="math inline">\(\ref{AR2_Eq}\)</span>) será dada por una expresión como sigue:
-<span class="math display">\[\begin{equation}
+<p>Así, de las relaciones antes mencionadas y considerando que <span class="math inline">\(\alpha^{-1} (L)\)</span> aplicada a una constante como <span class="math inline">\(a_0\)</span>, tendrá como resultado otra constante. De esta forma podemos escribir que la solución del proceso AR(2) en la ecuación <a href="procesos-estacionarios-univariados.html#eq:AR2Eq">(4.11)</a> será dada por una expresión como sigue:
+<span class="math display" id="eq:AR2EqSol">\[\begin{equation}
     X_t = \frac{\delta}{1 - a_1 - a_2} + \sum^{\infty}_{j = 0} \psi_{t - j} U_{t - j}
-    \label{AR2_Eq_Sol}
+    \tag{4.16}
 \end{equation}\]</span></p>
-<p>Donde todos los parametros <span class="math inline">\(\psi_i\)</span> está determinado por los parámtros <span class="math inline">\(a_0\)</span>, <span class="math inline">\(a_1\)</span> y <span class="math inline">\(a_2\)</span>. En particular, <span class="math inline">\(\psi_0 = 1\)</span> y <span class="math inline">\(\psi_1 = a_1\)</span> como describimos anteriormente. Al igual que en el caso del <span class="math inline">\(AR(1)\)</span>, en la ecuación (<span class="math inline">\(\ref{AR2_Eq_Sol}\)</span>) las condiciones de estabilidad estarán dadas por las soluciones del siguiente polinomio característico:
-<span class="math display">\[\begin{equation}
+<p>Donde todos los parametros <span class="math inline">\(\psi_i\)</span> está determinado por los parámtros <span class="math inline">\(a_0\)</span>, <span class="math inline">\(a_1\)</span> y <span class="math inline">\(a_2\)</span>. En particular, <span class="math inline">\(\psi_0 = 1\)</span> y <span class="math inline">\(\psi_1 = a_1\)</span> como describimos anteriormente. Al igual que en el caso del <span class="math inline">\(AR(1)\)</span>, en la ecuación <a href="procesos-estacionarios-univariados.html#eq:AR2EqSol">(4.16)</a> las condiciones de estabilidad estarán dadas por las soluciones del siguiente polinomio característico:<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;Note que raíces son equivalentes al inversio de las del polinomio dado por &lt;span class="math inline"&gt;\(\lambda^2 a_2 - \lambda a_1 - 1 = 0\)&lt;/span&gt;.&lt;/p&gt;'><sup>6</sup></a>
+<span class="math display" id="eq:AR2EqSol1">\[\begin{equation}
     \lambda^2 - \lambda a_1 - a_2 = 0
+    \tag{4.17}
 \end{equation}\]</span></p>
 <p>Así, la condición de estabilidad de la trayectoria es que <span class="math inline">\(\lvert\lambda_i\lvert &lt; 1\)</span>, para <span class="math inline">\(i = 1, 2\)</span>. Es decir, es necesario que cada una de las raíces sea, en valor absoluto, siempre menor que la unidad. Estas son las condiciones de estabilidad para el proceso <span class="math inline">\(AR(2)\)</span>.</p>
 <p>Finalmente, al igual que en un <span class="math inline">\(AR(1)\)</span>, a continuación determinamos los momentos de una serie que sigue un proceso <span class="math inline">\(AR(2)\)</span>. Iniciamos con la determinación de la media de la serie:
-<span class="math display">\[\begin{equation}
+<span class="math display" id="eq:AR2EqSol2">\[\begin{equation}
     \mathbb{E}[X_t] = \mu = \frac{a_0}{1 - a_1 - a_2}
+    \tag{4.18}
 \end{equation}\]</span></p>
 <p>Lo anterior es cierto puesto que <span class="math inline">\(\mathbb{E}[U_{t - i}] = 0\)</span>, para todo <span class="math inline">\(i = 0, 1, 2, \ldots\)</span>. Para determinar la varianza utilizaremos las siguientes relaciones basadas en el uso del valor esperado, varianza y covarianza de la serie. Adicionalmente, para simplificar el trabajo asumamos que <span class="math inline">\(a_0 = 0\)</span>, lo cual implica que <span class="math inline">\(\mu = 0\)</span>. Dicho lo anterior, partamos de:
-<span class="math display">\[\begin{eqnarray*}
+<span class="math display" id="eq:AR2EqSol3">\[\begin{eqnarray}
     \mathbb{E}[X_t X_{t - \tau}] &amp; = &amp; \mathbb{E}[(a_1 X_{t-1} + a_2 X_{t-2} + U_t) X_{t - \tau}]\\
     &amp; = &amp; a_1 \mathbb{E}[X_{t - 1} X_{t - \tau}] + a_2 \mathbb{E}[X_{t - 2} X_{t - \tau}] + \mathbb{E}[U_{t} X_{t - \tau}]
-\end{eqnarray*}\]</span></p>
-Donde <span class="math inline">\(\tau = 0, 1, 2, 3, \ldots\)</span> y que <span class="math inline">\(\mathbb{E}[U_{t} X_{t - \tau}] = 0\)</span> para todo <span class="math inline">\(\tau \neq 0\)</span>. Dicho esto, podemos derivar el valor del valor esperado para diferentes valores de <span class="math inline">\(\tau\)</span>:
+    \tag{4.19}
+\end{eqnarray}\]</span></p>
+<p>Donde <span class="math inline">\(\tau = 0, 1, 2, 3, \ldots\)</span> y que <span class="math inline">\(\mathbb{E}[U_{t} X_{t - \tau}] = 0\)</span> para todo <span class="math inline">\(\tau \neq 0\)</span>.<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content='&lt;p&gt;Es fácil demostrar está afirmación, sólo requiere de desarrollar la expresión y utilizar el hecho de que &lt;span class="math inline"&gt;\(U_t\)&lt;/span&gt; es un proceso pueramente aleatorio, por lo que la covarianza es cero (0).&lt;/p&gt;'><sup>7</sup></a> Dicho esto, podemos derivar el valor del valor esperado para diferentes valores de <span class="math inline">\(\tau\)</span>:</p>
+<p><span class="math display">\[\begin{eqnarray}
+    \tau = 0: &amp; \gamma(0) &amp; = &amp; \alpha_1 \gamma(1) + \alpha_2 \gamma(2) + \sigma^2 \\
+    \tau = 1: &amp; \gamma(1) &amp; = &amp; \alpha_1 \gamma(0) + \alpha_2 \gamma(1) \\
+    \tau = 2: &amp; \gamma(2) &amp; = &amp; \alpha_1 \gamma(1) + \alpha_2 \gamma(0) \\
+    \vdots &amp; \vdots &amp; \vdots &amp; \vdots
+\end{eqnarray}\]</span></p>
 <p>Donde debe ser claro que <span class="math inline">\(\mathbb{E}[(X_{t} - \mu)(X_{t - \tau} - \mu)] = \mathbb{E}[X_{t} X_{t - \tau}] = \gamma(\tau)\)</span>. Así, en general cuando <span class="math inline">\(\tau \neq 0\)</span>:
 <span class="math display">\[\begin{equation}
     \gamma(\tau) = a_1 \gamma(\tau - 1) + a_2 \gamma(\tau - 2)
 \end{equation}\]</span></p>
 <p>Realizando la sustitución recursiva y solucionando el sistema respectivo obtenemos que las varianza y covarianzas estaran determinadas por:
-<span class="math display">\[\begin{equation}
+<span class="math display" id="eq:AR2EqSol5">\[\begin{equation}
     Var[X_t] = \gamma(0) = \frac{1 - a_2}{(1 + a_2)[(1 - a_2)^2 - a^2_1]} \sigma^2
+    \tag{4.20}
 \end{equation}\]</span></p>
-<p><span class="math display">\[\begin{equation}
+<p><span class="math display" id="eq:AR2EqSol6">\[\begin{equation}
     \gamma(1) = \frac{a_1}{(1 + a_2)[(1 - a_2)^2 - a^2_1]} \sigma^2
+    \tag{4.21}
 \end{equation}\]</span></p>
-<p><span class="math display">\[\begin{equation}
+<p><span class="math display" id="eq:AR2EqSol7">\[\begin{equation}
     \gamma(2) = \frac{a^2_1 + a_2 - a^2_2}{(1 + a_2)[(1 - a_2)^2 - a^2_1]} \sigma^2
+    \tag{4.22}
 \end{equation}\]</span></p>
 <p>Recordemos que las funciones de autocorrelación se obtienen de la división de cada unas de las funciones de covarianza (<span class="math inline">\(\gamma(\tau)\)</span>) por la varianza (<span class="math inline">\(\gamma(0)\)</span>). Así, podemos construir la siguiente expresión:
-<span class="math display">\[\begin{equation}
+<span class="math display" id="eq:AR2EqSol8">\[\begin{equation}
     \rho(\tau) - a_1 \rho(\tau - 1) - a_2 \rho(\tau - 2) = 0
+    \tag{4.23}
 \end{equation}\]</span></p>
 <p>Ahora veámos un ejemplo. Utilizaremos la serie de Pasajeros en vuelos nacionales (en vuelos de salidas) para estimar un <span class="math inline">\(AR(2)\)</span> mediante el método de máxima verosimilitud (ML, por sus siglas en inglés). Antes de realizar el proceso de estimación consideremos una transformación de la serie en logaritmos y una más en diferencias logarítmicas; lo anterior con el objeto de obtener un conjunto de series de tiempo suavizada y expresada en tasas de crecimiento, con un comportamiento parecido a un proceso estacionario.</p>
 <p>Así, para cada una de las series que analicemos en diferencias logarítmicas las expresaremos bajo la siguiente transformación:
@@ -352,10 +400,40 @@ Donde <span class="math inline">\(\tau = 0, 1, 2, 3, \ldots\)</span> y que <span
     DLX_t = log(X_t) - log(X_{t-k})
 \end{equation*}\]</span></p>
 <p>Donde <span class="math inline">\(k = 1, 2, 3, \ldots\)</span> y <span class="math inline">\(log(.)\)</span> es la función logaritmo natural. Por convención, decimos que la serie está en niveles si ésta se analiza sin heacerle ninguna transformación o se analiza en logarimos. Cuando la serie se analiza en diferencias significa que la diferencia se hace sin aplicar logaritmos. Y cuando la serie analizada está en diferenncias logarítmicas también diremos que esta en diferencias. Sin embargo, lo común es hacer un análisis en logaritmos y en difereencias logarítmicas.</p>
-Primero, para decidir si se realizará un AR(2) para la serie en niveles o en diferencias analizaremos su gráfica. La serie en niveles, en niveles bajo una transformación logarítmica y en diferencias logarítmicas mensuales de los pasajeros en vuelos nacionales se muestra en la Figura <span class="math inline">\(\ref{G_Pax_Nal}\)</span>.
-A continuación, estimaremos un <span class="math inline">\(AR(2)\)</span> para la serie en niveles bajo una transformación logarítmica (<span class="math inline">\(LPaxNal_t\)</span>) y en diferencias logarítmitcas (<span class="math inline">\(DLPax_Nal_t\)</span>). Para el primer caso obtenemos el siguiente resultado:
-Para el segundo caso obtenemos el siguiente resultado:
-Para ambos casos entre parentésis indicamos los errores estándar y reportamos el estadístico de Akaike, AIC. Finalmente, podemos determinar si las soluciones serán convergentes, para ello en la Figura <span class="math inline">\(\ref{G_Roots_AR2}\)</span> mostramos las raíces asociadas a cada uno de los polinomios. De la inspección visual podemos concluir que ambas propuesta de AR(2) representan una solución convergente y estable.
+<p>Primero, para decidir si se realizará un AR(2) para la serie en niveles o en diferencias analizaremos su gráfica. La serie en niveles, en niveles bajo una transformación logarítmica y en diferencias logarítmicas mensuales de los pasajeros en vuelos nacionales se muestra en la Figura <a href="procesos-estacionarios-univariados.html#fig:GPaxNal">4.7</a>.</p>
+<p>A continuación, estimaremos un <span class="math inline">\(AR(2)\)</span> para la serie en niveles bajo una transformación logarítmica (<span class="math inline">\(LPaxNal_t\)</span>) y en diferencias logarítmitcas (<span class="math inline">\(DLPax_Nal_t\)</span>). Para el primer caso obtenemos el siguiente resultado:</p>
+<p><span class="math display">\[\begin{eqnarray}
+    LPaxNal_t &amp; = &amp; 14.6267 &amp; + &amp; 0.7637  &amp; LPaxNal_{t-1} \\
+    &amp;  &amp; (0.1816) &amp;  &amp; (0.0637) &amp; \\
+    &amp;  &amp;  &amp; + &amp; 0.2025 &amp; LPaxNal_{t-2} \\
+    &amp;  &amp;  &amp;  &amp; (0.0646) &amp;
+\end{eqnarray}\]</span>
+<span class="math display">\[\begin{eqnarray}
+\hat{\sigma}^2 &amp; = &amp; 0.01138 &amp; y &amp; AIC &amp; = &amp; -372.64
+\end{eqnarray}\]</span></p>
+<p>Para el segundo caso obtenemos el siguiente resultado:
+<span class="math display">\[\begin{eqnarray}
+    DLPaxNal_t &amp; = &amp; 0.0050 &amp; - &amp; 0.3205  &amp; DLPaxNal_{t-1} \\
+    &amp;  &amp; (0.0036) &amp;  &amp; (0.0592) &amp; \\
+    &amp;  &amp;  &amp; - &amp; 0.4242 &amp; DLPaxNal_{t-2} \\
+    &amp;  &amp;  &amp;  &amp; (0.0591) &amp;
+\end{eqnarray}\]</span>
+<span class="math display">\[\begin{eqnarray}
+\hat{\sigma}^2 &amp; = &amp; 0.009378 &amp; y &amp; AIC &amp; = &amp; -418.3
+\end{eqnarray}\]</span></p>
+<div class="figure" style="text-align: center">
+<span style="display:block;" id="fig:GPaxNal"></span>
+<img src="imagenes/G_Pax_Nal.png" alt="Pasajeros transportados (Millones) en el metro de la CDM en niveles y en diferencias logaritmicas." width="100%"><p class="caption">
+Figure 4.7: Pasajeros transportados (Millones) en el metro de la CDM en niveles y en diferencias logaritmicas.
+</p>
+</div>
+<div class="figure" style="text-align: center">
+<span style="display:block;" id="fig:GRootsAR2"></span>
+<img src="imagenes/G_Roots_AR2.png" alt="Inverso de las Raíces del polinomio característico." width="100%"><p class="caption">
+Figure 4.8: Inverso de las Raíces del polinomio característico.
+</p>
+</div>
+<p>Para ambos casos entre parentésis indicamos los errores estándar y reportamos el estadístico de Akaike, AIC. Finalmente, podemos determinar si las soluciones serán convergentes, para ello en la Figura <a href="procesos-estacionarios-univariados.html#fig:GRootsAR2">4.8</a> mostramos las raíces asociadas a cada uno de los polinomios. De la inspección visual podemos concluir que ambas propuesta de AR(2) representan una solución convergente y estable.</p>
 </div>
 <div id="arp" class="section level3" number="4.1.3">
 <h3>
