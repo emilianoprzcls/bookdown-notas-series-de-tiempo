@@ -609,7 +609,7 @@ De esta forma tendremos que las funciones de autocorrelación estarán dadas por
     \rho(\tau) & = & 0 \text{ para todo } \tau > 1 \nonumber 
 \end{eqnarray}
 
-Ahora regresando a la ecuación \@ref(eq:MA1Eq), su solución la podemos expresar como:
+Ahora regresando a la ecuación \@ref(eq:MA1Eq),e su solución la podemos expresar como:
 \begin{eqnarray}
     U_ t & = & - \frac{\mu}{1 - b_1} + \frac{1}{1 - b_1 L} X_t \nonumber \\
     & = & - \frac{\mu}{1 - b_1} + X_t + b_1 X_{t-1} + b_1^2 X_{t-2} + \ldots \nonumber
@@ -624,23 +624,24 @@ En esta sección no desarrollaremos un ejemplo, primero explicaremos en qué con
 En general, el proceso de medias móviles de orden $q$, $MA(q)$, puede ser escrito como:
 \begin{equation}
     X_t = \mu + U_t - b_1 U_{t-1} - b_2 U_{t-2} - \ldots - b_q U_{t-q}
-    \label{MAq_EQ}
+    (\#eq:MAqEQ)
 \end{equation}
 
-Podemos reescribir la ecuación (\ref{MAq_EQ}) utilizando el operador rezago, así tendrémos el proceso de $MA(q)$ como:
+Podemos reescribir la ecuación \@ref(eq:MAqEQ) utilizando el operador rezago, así tendrémos el proceso de $MA(q)$ como:
 \begin{eqnarray}
     X_t - \mu & = & (1 - b_1 L - b_2 L^2 - \ldots - b_q L^q) U_{t} \nonumber \\
     X_t - \mu & = & \beta(L) U_t
-    \label{MAq_Red}
+    (\#eq:MAqRed)
 \end{eqnarray}
 
-Donde $U_t$ es un proceso puramente aleatorio con $\mathbb{E}[U_t] = 0$, $Var[U_t] = \mathbb{E}[U_t^2] = 0$ y $Cov[U_t, U_s] = \mathbb{E}[U_t, U_s] = 0$, y $\beta(L) = 1 - b_1 L - b_2 L^2 - \ldots - b_q L^q$ es un polinomio del operador rezago $L$. la ecuación (\ref{MAq_Red}) puede ser interpretada como un proceso $AR(q)$ sobre la serie $U_t$.
+Donde $U_t$ es un proceso puramente aleatorio con $\mathbb{E}[U_t] = 0$, $Var[U_t] = \mathbb{E}[U_t^2] = 0$ y $Cov[U_t, U_s] = \mathbb{E}[U_t, U_s] = 0$, y $\beta(L) = 1 - b_1 L - b_2 L^2 - \ldots - b_q L^q$ es un polinomio del operador rezago $L$. la ecuación \@ref(eq:MAqRed) puede ser interpretada como un proceso $AR(q)$ sobre la serie $U_t$.
 
 Ahora determinemos los momentos de un proceso $MA(q)$:
 \begin{eqnarray}
     \mathbb{E}[X_t] & = & \mathbb{E}[\mu + U_t - b_1 U_{t-1} - b_2 U_{t-2} - \ldots - b_q U_{t-q}] \nonumber \\
     & = & \mu + \mathbb{E}[U_t] - b_1 \mathbb{E}[U_{t-1}] - b_2 \mathbb{E}[U_{t-2}] - \ldots - b_q \mathbb{E}[U_{t-q}] \nonumber \\
     & = & \mu
+    (\#eq:MAqRed1)
 \end{eqnarray}
 
 En el caso de la varianza tenemos que se puede expresar como:
@@ -653,6 +654,7 @@ En el caso de la varianza tenemos que se puede expresar como:
     &   & - 2 b_1 \mathbb{E}[U_t U_{t - 1}] - \ldots - 2 b_{q - 1} b_q \mathbb{E}[U_{t - q + 1} U_{t - q}] \nonumber \\
     & = & \sigma^2 + b^2_1 \sigma^2 + b^2_2 \sigma^2 + \ldots + b^2_q \sigma^2 \nonumber \\
     & = & (1 + b^2_1 + b^2_2 + \ldots + b^2_q) \sigma^2
+    (\#eq:MAqRed2)
 \end{eqnarray}
 
 En el caso de las covarianzas podemos utilizar una idea similar al caso del $AR(p)$, construir una expresión general para cualquier rezago $\tau$:
@@ -672,60 +674,56 @@ La expresión anterior se puede desarrollar para múltiples casos de $\tau = 1, 
 
 Donde $\gamma(\tau) = 0$ para todo $\tau > q$. Es decir, todas las autocovarianzas y autocorrelaciones con ordenes superiores a $q$ son cero (0). De esta forma, esta caracterítica teórica permite identificar el orden de $MA(q)$ visualizando la función de autocorrelación y verificando a partir de cual valor de rezago la autocorrelación es no significaiva.
 
-Regresando al problema original que es el de determinar una solución para la eucación (\ref{MAq_EQ}), tenemos que dicha solución estará dada por un $AR(\infty)$ en términos de $U_t$:
+Regresando al problema original que es el de determinar una solución para la eucación \@ref(eq:MAq_EQ), tenemos que dicha solución estará dada por un $AR(\infty)$ en términos de $U_t$:
 \begin{eqnarray}
     U_t & = & - \frac{\mu}{1 - b_1 - b_2 - \ldots - b_q} + \beta(L)^{-1} X_t \nonumber \\
     &   & - \frac{\mu}{1 - b_1 - b_2 - \ldots - b_q} + \sum_{j = 0}^{\infty} c_j X_{t-j} 
-    \label{MAq_Eq_Sol}
+    (\#eq:MAqEqSol)
 \end{eqnarray}
 
-Donde se cumple que: $1 = (1 - b_1 L^1 - b_2 L^2 - \ldots - b_q L^q)(1 - c_1 L - c_2 L^2 - \ldots)$ y los coeficientes $c_j$ se pueden determinar por un método de coeficientes indeterminados y en términos de los valores $b_i$. De igual forma que en el caso de la ecuación (\ref{ARp_Eq}), en la ecuación (\ref{MAq_Eq_Sol}) se deben cumplir condiciones de estabilidad asociadas con las raíces del polinomio carácterististico dado por:
+Donde se cumple que: $1 = (1 - b_1 L^1 - b_2 L^2 - \ldots - b_q L^q)(1 - c_1 L - c_2 L^2 - \ldots)$ y los coeficientes $c_j$ se pueden determinar por un método de coeficientes indeterminados y en términos de los valores $b_i$. De igual forma que en el caso de la ecuación \@ref(eq:ARpEq), en la ecuación \@ref(eq:MAqEqSol) se deben cumplir condiciones de estabilidad asociadas con las raíces del polinomio carácterististico dado por:
 \begin{equation}
     1 - b_1 x - b_2 x^2 - \ldots b_q x^q = 0
+    (\#eq:MAqEqSol2)
 \end{equation}
 
 El cual debe cumplir que $\lvert x_i \lvert < 1$  y que $1 - b_1 - b_2 - \ldots b_q < 1$.
 
 Ahora veamos un ejemplo del proceso $MA(q)$, para lo cual retomaremos la serie de Pasajeros transportados en el metro de la CDMX ($PaxMetro$). Estimaremos el $MA(q)$ mediante el método de máxima verosimilitud (ML). Antes de realizar el proceso de estimación consideremos una transformación de la serie en logaritmos y una más en diferencias logaritmicas; lo anterior con el objeto de obtener un conjunto de series de tiempo suavizada y expresada en tasas de crecimiento, con un comportamiento parecido a un proceso estacionario.
 
-La serie de Pasajeros transportados en el metro de la CDMX se muestra en la Figura \ref{G_Pax_Metro} se muestra la gráfica de la serie en niveles (sin transformación logarítmica y con transformación logarítmica) y en diferencias logarítmicas mensuales (es decir, con una diferencia respecto del mes inmediato anterior). Utilizaremos la serie en diferencias, ya que es la que parece ser estacionaria. Esta serie tiene la peculiaridad de que tiene un salto a la baja y uno al alza entre septiembre de 2017 y octubre de 2017. Para controlar ese efecto, en nuestro modelo $MA(q)$ incluiremos dos variables dummies para dichos meses.
+La serie de Pasajeros transportados en el metro de la CDMX se muestra en la Figura \@ref(fig:GPaxMetro) se muestra la gráfica de la serie en niveles (sin transformación logarítmica y con transformación logarítmica) y en diferencias logarítmicas mensuales (es decir, con una diferencia respecto del mes inmediato anterior). Utilizaremos la serie en diferencias, ya que es la que parece ser estacionaria. Esta serie tiene la peculiaridad de que tiene un salto a la baja y uno al alza entre septiembre de 2017 y octubre de 2017. Para controlar ese efecto, en nuestro modelo $MA(q)$ incluiremos dos variables dummies para dichos meses.
 
 A continuación, estimaremos una $MA(4)$ para la serie en diferencias:
-\begin{center}
-\begin{tabular}{ c c c c c c } 
-    $DLPaxMetro_t$ & $=$ & $0.0000$ & $-$ & $0.7804$  & $U_{t-1}$ \\ 
-    &  & $(0.0000)$ &  & $(0.0661)$ & \\
-    &  &  & $+$ & $0.3591$ & $U_{t-2}$ \\
-    &  &  &  & $(0.0826)$ & \\
-    &  &  & $-$ & $0.2775$ & $U_{t-3}$ \\
-    &  &  &  & $(0.0908)$ & \\
-    &  &  & $-$ & $0.1120$ & $U_{t-4}$ \\
-    &  &  &  & $(0.0769)$ & \\
-    &  &  & $-$ & $0.3789$ & $DSep2017$ \\
-    &  &  &  & $(0.0436)$ & \\
-    &  &  & $+$ & $0.3695$ & $DOct2017$ \\
-    &  &  &  & $(0.0434)$ & 
-\end{tabular}
-\end{center}
 
-\begin{center}
-\begin{tabular}{ c c c c c c c } 
-    $\hat{\sigma}^2$ & $=$ & $0.002176$ & y & $AIC$ & $=$ & $-749.94$ 
-\end{tabular}
-\end{center}
+\begin{eqnarray} 
+    DLPaxMetro_t & = & 0.0000 & - & 0.7804  & U_{t-1} \\ 
+    &  & (0.0000) &  & (0.0661) & \\
+    &  &  & + & 0.3591 & U_{t-2} \\
+    &  &  &  & (0.0826) & \\
+    &  &  & - & 0.2775 & U_{t-3} \\
+    &  &  &  & (0.0908) & \\
+    &  &  & - & 0.1120 & U_{t-4} \\
+    &  &  &  & (0.0769) & \\
+    &  &  & - & 0.3789 & DSep2017 \\
+    &  &  &  & (0.0436) & \\
+    &  &  & + & 0.3695 & DOct2017 \\
+    &  &  &  & (0.0434) & 
+\end{eqnarray}
+\begin{eqnarray} 
+    \hat{\sigma}^2 & = & 0.002176 & y & AIC & = & -749.94 
+\end{eqnarray}
 
-Entre parentésis indicamos los errores estándar y al final reportamos el estadístico de Akaike, AIC. Finalmente, podemos determinar si la solución serán convergente, para ello en la Figura \ref{G_Roots_MAq} mostramos las raíces asociadas a cada uno de los polinomios. De la inspección visual podemos concluir que ambas propuesta de AR(2) representan una solución convergente y estable.
-\begin{figure}
-  \centering
-    \includegraphics[width = 1.0 \textwidth]{G_Roots_MAq}
-  \caption{Inveso de las Raíces del polinomio característico.}
-  \label{G_Roots_MAq}
-\end{figure}
+
+Entre parentésis indicamos los errores estándar y al final reportamos el estadístico de Akaike, AIC. Finalmente, podemos determinar si la solución serán convergente, para ello en la Figura \@ref(fig:GRootsMAq) mostramos las raíces asociadas a cada uno de los polinomios. De la inspección visual podemos concluir que ambas propuesta de AR(2) representan una solución convergente y estable.
 
 ## Procesos ARMA(p, q) y ARIMA(p, d, q)
 
 Hemos establecido algunas relaciones las de los porcesos AR y los procesos MA, es decir, cómo un $MA(q)$ de la serie $X_t$ puede ser reexpresada como un $AR(\infty)$ de la serie $U_t$, y viceversa un $AR(p)$ de la serie $X_t$ puede ser reeexpresada como un $MA(\infty)$.
 
+<div class="figure" style="text-align: center">
+<img src="imagenes/G_Roots_MAq.png" alt="Inverso de las Raíces del polinomio característico." width="100%" />
+<p class="caption">(\#fig:GRootsMAq)Inverso de las Raíces del polinomio característico.</p>
+</div>
 En este sentido, para cerrar esta sección veámos el caso de la especificación que conjunta ambos modelos en un modelo general conocido como $ARMA(p, q)$ o $ARIMA(p, d, q)$. La diferencia entre el primero y el segundo es las veces que su tuvo que diferenciar la serie analizada, registro que se lleva en el índice $d$ de los paramétros dentro del concepto $ARIMA(p, d, q)$. No obstante, en general nos referiremos al modelo como $ARMA(p, q)$ y dependerá del analista si modela la serie en niveles (por ejemplo, en logaritmos) o en diferencias logarítmicas (o diferencias sin logaritmos).
 
 ### ARMA(1, 1)
@@ -733,12 +731,13 @@ En este sentido, para cerrar esta sección veámos el caso de la especificación
 Dicho lo anterior vamos a empezar con el análisis de un $ARMA(1, 1)$. Un proceso $ARMA(1, 1)$ puede verse como:
 \begin{equation}
     X_t = \delta + a_1 X_{t - 1} + U_t - b_1 U_{t - 1}
-    \label{ARMA11_Eq}
+    (\#eq:ARMA11Eq)
 \end{equation}
 
-Aplicando el operado rezago podemos rescribir la ecuación (\ref{ARMA11_Eq}) como:
+Aplicando el operado rezago podemos rescribir la ecuación \@ref(eq:ARMA11Eq) como:
 \begin{equation}
     (1 - a_1 L) X_t = \delta + (1 - b_1 L) U_t
+     (\#eq:ARMA11Eq1)
 \end{equation}
 
 Donde $U_t$ es un proceso pueramente aleatorio como en los casos de $AR(p)$ y $MA(q)$, y $X_t$ puede ser una serie en niveles o en diferencias (ambas, en términos logarítmicos). 
@@ -746,13 +745,13 @@ Donde $U_t$ es un proceso pueramente aleatorio como en los casos de $AR(p)$ y $M
 Así, el modelo $ARIMA (p, q)$ también tiene una representación de Wold que estará dada por las siguientes expresiones:
 \begin{equation}
     X_t = \frac{\delta}{1 - a_1} + \frac{1 - b_1 L}{1 - a_1 L} U_t
-    \label{ARMA11_Prev}
+    (\#eq:ARMA11Prev)
 \end{equation}
 
-Donde $a_1 \neq b_1$, puesto que en caso contrario $X_t$ sería un proceso puramente aleatorio con una media $\mu = \frac{\delta}{1 - a_1}$. Así, podemos reescribir la descomposición de Wold a partir del componente de la ecuación (\ref{ARMA11_Prev}):
+Donde $a_1 \neq b_1$, puesto que en caso contrario $X_t$ sería un proceso puramente aleatorio con una media $\mu = \frac{\delta}{1 - a_1}$. Así, podemos reescribir la descomposición de Wold a partir del componente de la ecuación \@ref(eq:ARMA11Prev)
 \begin{equation}
     \frac{1 - b_1 L}{1 - a_1 L} = \psi_0 + \psi_1 L + \psi_2 L^2 + \psi_3 L^3 + \ldots 
-    \label{ARMA11_EQ_Wold}
+    (\#eq:ARMA11EQWold)
 \end{equation}
 
 Está ecuación es equivalente a la expresión:
@@ -763,24 +762,23 @@ Está ecuación es equivalente a la expresión:
 \end{eqnarray}
 
 De esta forma podemos establecer el siguiente sistema de coeficientes indeterminados:
-\begin{center}
-\begin{tabular}{ c c c c } 
-    $L^0 :$ & $ $ & $\Rightarrow$ & $\psi_0 = 1$ \\
-    $L^1 :$ & $\psi_1 - a_1 \psi_0 = - b_1$ & $\Rightarrow$ & $\psi_1 = a_1 - b_1$ \\
-    $L^2 :$ & $\psi_2 - a_1 \psi_1 = 0$ & $\Rightarrow$ & $\psi_2 = a_1(a_1 - b_1)$ \\
-    $L^3 :$ & $\psi_3 - a_1 \psi_2 = 0$ & $\Rightarrow$ & $\psi_3 = a^2_1(a_1 - b_1)$ \\
-    $\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ \\
-    $L^j :$ & $\psi_j - a_1 \psi_{j - 1} = 0$ & $\Rightarrow$ & $\psi_j = a^{j - 1}_1(a_1 - b_1)$
-\end{tabular}
-\end{center}
+\begin{eqnarray}
+    L^0 : &   & \Rightarrow  &  \psi_0 = 1  \\
+     L^1 :  &  \psi_1 - a_1 \psi_0 = - b_1  &  \Rightarrow  &  \psi_1 = a_1 - b_1  \\
+     L^2 :  &  \psi_2 - a_1 \psi_1 = 0  &  \Rightarrow  &  \psi_2 = a_1(a_1 - b_1)  \\
+     L^3 :  &  \psi_3 - a_1 \psi_2 = 0  &  \Rightarrow  &  \psi_3 = a^2_1(a_1 - b_1)  \\
+     \vdots  &  \vdots  &  \vdots  &  \vdots  \\
+     L^j :  &  \psi_j - a_1 \psi_{j - 1} = 0  &  \Rightarrow  &  \psi_j = a^{j - 1}_1(a_1 - b_1) 
+\end{eqnarray}
 
-Así, la solución a la ecuación (\ref{ARMA11_Eq}) estará dada por la siguiente generalización:
+
+Así, la solución a la ecuación \@ref(eq:ARMA11Eq) estará dada por la siguiente generalización:
 \begin{equation}
     X_t = \frac{\delta}{1 - a_1} + U_t + (a_1 - b_1) U_{t - 1} + a_1(a_1 - b_1) U_{t - 2} + a_1^2(a_1 - b_1) U_{t - 3} + \ldots
-    \label{ARMA11_Sol}
+(\#eq:ARMA11Sol)
 \end{equation}
 
-En la ecuación (\ref{ARMA11_Sol}) las condiciones de estabilidad y de invertibilidad del sistema (de un MA a un AR, y viceversa) estarán dadas por: $\lvert a_1 \lvert < 1$ y $\lvert b_1 \lvert< 1$. Adicionalmente, la ecuación (\ref{ARMA11_Sol}) expresa cómo una serie que tiene un comportamiento $ARMA(1, 1)$ es equivalente a una serie modelada bajo un $MA(\infty)$.
+En la ecuación \@ref(eq:ARMA11Sol) las condiciones de estabilidad y de invertibilidad del sistema (de un MA a un AR, y viceversa) estarán dadas por: $\lvert a_1 \lvert < 1$ y $\lvert b_1 \lvert< 1$. Adicionalmente, la ecuación \@ref(eq:ARMA11Sol) expresa cómo una serie que tiene un comportamiento $ARMA(1, 1)$ es equivalente a una serie modelada bajo un $MA(\infty)$.
 
 Al igual que en los demás modelos, ahora determinaremos los momentos del proceso $ARMA(1, 1)$. La media estará dada por:
 \begin{eqnarray}
@@ -788,6 +786,7 @@ Al igual que en los demás modelos, ahora determinaremos los momentos del proces
     & = & \delta + a_1 \mathbb{E}[X_{t-1}] \nonumber \\
     & = & \frac{\delta}{1 - a_1} \nonumber \\
     & = & \mu
+    (\#eq:ARMA11Sol1)
 \end{eqnarray}
 
 Donde hemos utilizado que $\mathbb{E}[X_t] = \mathbb{E}[X_{t-1}] = \mu$. Es decir, la media de un $ARMA(1, 1)$ es idéntica a la de un $AR(1)$.
@@ -796,16 +795,17 @@ Para determinar la varianza tomaremos una estrategía similar a los casos de $AR
 \begin{eqnarray}
     \mathbb{E}[X_{t-\tau} X_t] & = & \mathbb{E}[(X_{t-\tau}) \cdot (a_1 X_{t-1} + U_t - b_1 U_{t-1})] \nonumber \\
     & = & a_1 \mathbb{E}[X_{t-\tau} X_{t-1}] + \mathbb{E}[X_{t-\tau} U_t] - b_1 \mathbb{E}[X_{t-\tau} U_{t-1}]
-    \label{ARMA11_Cov}
+    (\#eq:ARMA11Cov)
 \end{eqnarray}
 
-De la ecuación (\ref{ARMA11_Cov}) podemos determinar una expresión para el caso de $\tau = 0$:
+De la ecuación \@ref(eq:ARMA11Cov) podemos determinar una expresión para el caso de $\tau = 0$:
 \begin{eqnarray}
     \mathbb{E}[X_{t} X_t] & = & \gamma(0) \nonumber \\
     & = & a_1 \gamma(1) + \mathbb{E}[U_t X_t] - b_1 \mathbb{E}[X_t U_{t-1}] \nonumber \\
     & = & a_1 \gamma(1) + \sigma^2 + b_1 \mathbb{E}[U_{t-1} (a_1 X_{t-1} + U_t - b_1 U_{t-1})] \nonumber \\
     & = & a_1 \gamma(1) + \sigma^2 - b_1 a_1 \sigma^2 + b_1 \sigma^2 \nonumber \\
     & = & a_1 \gamma(1) + (1 - b_1 (a_1 - b_1)) \sigma^2
+        (\#eq:ARMA11Cov1)
 \end{eqnarray}
 
 Para el caso en que $\tau = 1$:
@@ -813,23 +813,35 @@ Para el caso en que $\tau = 1$:
     \mathbb{E}[X_{t-1} X_t] & = & \gamma(1) \nonumber \\
     & = & a_1 \gamma(0) + \mathbb{E}[X_{t-1} U_t] - b_1 \mathbb{E}[X_{t-1} U_{t-1}] \nonumber \\
     & = & a_1 \gamma(0) - b_1 \sigma^2
+        (\#eq:ARMA11Cov2)
 \end{eqnarray}
 
 Estas últimas expresiones podemos resolverlas como sistema para determinar los siguientes valores:
 \begin{eqnarray}
-    \gamma(0) & = & \frac{1 + b_1^2 - 2 a_1 b_1}{1 - a_1^2} \sigma^2 \\
+    \gamma(0) & = & \frac{1 + b_1^2 - 2 a_1 b_1}{1 - a_1^2} \sigma^2 
+    (\#eq:ARMA11Cov3)
+\end{eqnarray}
+
+\begin{eqnarray}
     \gamma(1) & = & \frac{(a_1 - b_1)(1 - a_1 b_1)}{1 - a_1^2} \sigma^2
+    (\#eq:ARMA11Cov4)
 \end{eqnarray}
 
 En general para cualquier valor $\tau \geq 2$ tenemos que la autocovarianza y la función de autocorrelación serán:
 \begin{eqnarray}
     \gamma(\tau) = a_1 \gamma(\tau - 1) \\
+    (\#eq:ARMA11Cov5)
+    \end{eqnarray}
+    
+\begin{eqnarray}    
     \rho(\tau) = a_1 \rho(\tau - 1)
+    (\#eq:ARMA11Cov6)
 \end{eqnarray}
 
 Por ejemplo, para el caso de $\tau = 1$ tendríamos:
 \begin{equation}
     \rho(1) = \frac{(a_1 - b_1)(1 - a_1 b_1)}{1 + b_1^2 - 2 a_1 b_1}
+    (\#eq:ARMA11Cov7)
 \end{equation}
 
 De esta forma, la función de autocorrelación oscilará en razón de los valores que tome $a_1$ y $b_1$.
@@ -840,20 +852,21 @@ La especificación general de un $ARMA(p, q)$ (donde $p, q \in \mathbb{N}$) pued
 \begin{eqnarray}
     X_t & = & \delta + a_1 X_{t - 1} + a_2 X_{t - 2} + \ldots + a_p X_{t - p} \nonumber \\
     &   & + U_t - b_1 U_{t - 1} - b_2  U_{t - 2} - \ldots - b_q  U_{t - q}
-    \label{ARMApq_Eq}
+    (\#eq:ARMApqEq)
 \end{eqnarray}
 
 Donde $U_t$ es un proceso puramente aleatorio, y $X_t$ puede ser modelada en niveles o en diferencias (ya sea en logaritmos o sin transformación logarítmica). 
 
-Mediante el uso del operador rezago se puede escribir la ecuación (\ref{ARMApq_Eq}) como:
+Mediante el uso del operador rezago se puede escribir la ecuación \@ref(eq:ARMApqEq) como:
 \begin{equation}
     (1 - a_1 L - a_2 L^2 - \ldots - a_p L^p) X_t = \delta + (1 - b_1 L - b_2 L^2 - \ldots - b_q L^q) U_t 
-    \label{ARMApq_EQLag}
+    (\#eq:ARMApqEQLag)
 \end{equation}
 
-En la ecuación (\ref{ARMApq_EQLag}) definamos dos polinomios: $\alpha(L) = (1 - a_1 L - a_2 L^2 - \ldots - a_p L^p)$ y $\beta(L) = (1 - b_1 L - b_2 L^2 - \ldots - b_q L^q)$. Así, podemos reescribir la ecuación (\ref{ARMApq_EQLag}) como:
+En la ecuación \@ref(eq:ARMApqEQLag) definamos dos polinomios: $\alpha(L) = (1 - a_1 L - a_2 L^2 - \ldots - a_p L^p)$ y $\beta(L) = (1 - b_1 L - b_2 L^2 - \ldots - b_q L^q)$. Así, podemos reescribir la ecuación \@ref(eq:ARMApqEQLag) como:
 \begin{equation}
     \alpha(L) X_t = \delta + \beta(L) U_t 
+    (\#eq:ARMApqEQLag1)
 \end{equation}
 
 Asumiendo que existe el polinomio inverso tal que: $\alpha(L)^{-1}\alpha(L) = 1$.La solución entonces puede ser escrita como:
@@ -861,21 +874,23 @@ Asumiendo que existe el polinomio inverso tal que: $\alpha(L)^{-1}\alpha(L) = 1$
     X_t & = & \alpha(L)^{-1} \delta + \alpha(L)^{-1} \beta(L) U_t \nonumber \\
     & = & \frac{\delta}{1 - a_1 - a_2 - \ldots - a_p} + \frac{\beta(L)}{\alpha(L)} U_t \nonumber \\
     & = & \frac{\delta}{1 - a_1 - a_2 - \ldots - a_p} + U_t + \psi_1 L U_t + \psi_2 L^2 U_t + \ldots
-    \label{ARMApq_Wold}
+    (\#eq:ARMApqWold)
 \end{eqnarray}
 
-Donde la ecuación (\ref{ARMApq_Wold}) nos permite interpretar que un ARMA(p, q) se puede reexpresar e interpreetar como un $MA(\infty)$ y donde las condiciones para la estabilidad de la solución y la invertibilidad es que las ráices de los polinomios característicos $\alpha(L)$ y $\beta(L)$ son en valor absoluto menores a 1.
+Donde la ecuación \@ref(eq:ARMApqWold) nos permite interpretar que un ARMA(p, q) se puede reexpresar e interpreetar como un $MA(\infty)$ y donde las condiciones para la estabilidad de la solución y la invertibilidad es que las ráices de los polinomios característicos $\alpha(L)$ y $\beta(L)$ son en valor absoluto menores a 1.
 
-Adicionalmente, la fracción en la ecuación (\ref{ARMApq_Wold}) se puede descomponer como en la forma de Wold:
+Adicionalmente, la fracción en la ecuación \@ref(eq:ARMApqWold) se puede descomponer como en la forma de Wold:
 \begin{equation}
     \frac{\beta(L)}{\alpha(L)} = 1 + \psi_1 L + \psi_2 L^2 + \ldots
+    (\#eq:ARMApqWold1)
 \end{equation}
 
-Bajo los supuestos de estacionariedad del componente $U_t$, los valores de la media y varianza de un proceso $ARMA(p, q)$ serán como describimos ahora. Para el caso de la media podemos partir de la ecuación (\ref{ARMApq_Wold}) para generar:
+Bajo los supuestos de estacionariedad del componente $U_t$, los valores de la media y varianza de un proceso $ARMA(p, q)$ serán como describimos ahora. Para el caso de la media podemos partir de la ecuación \@ref(eq:ARMApqWold) para generar:
 \begin{eqnarray}
     \mathbb{E}[X_t] & = & \mathbb{E}\left[ \frac{\delta}{1 - a_1 - a_2 - \ldots - a_p} + U_t + \psi_1 U_{t-1} + \psi_2 U_{t-2} + \ldots \right] \nonumber \\
     & = & \frac{\delta}{1 - a_1 - a_2 - \ldots - a_p} \nonumber \\
     & = & \mu
+    (\#eq:ARMApqWold2)
 \end{eqnarray}
 
 Esta expresión indica que en general un proceso $ARMA(p, q)$ converge a una media idéntica a la de un porceso $AR(p)$. Para determinar la varianza utilizaremos la misma estratégia que hemos utilizado para otros modelos $AR(p)$ y $MA(q)$.
@@ -887,50 +902,44 @@ Sin pérdida de generalidad podemos asumir que $\delta = 0$, lo que implica que 
     &   & + U_t - b_1 U_{t - 1} - b_2  U_{t - 2} - \ldots - b_q  U_{t - q})] \nonumber \\
     & = & a_1 \gamma(\tau - 1) + a_2 \gamma(\tau - 2) + \ldots + a_p \gamma(\tau - p) \nonumber \\
     &   & + \mathbb{E}[X_{t-\tau} U_{t}] - b_1  \mathbb{E}[X_{t-\tau} U_{t-1}] - \ldots  - b_q  \mathbb{E}[X_{t-\tau} U_{t-q}] 
+    (\#eq:ARMApqWold3)
 \end{eqnarray}
 
-Ahora veámos un ejemplo. Utilizaremos la serie de Pasajeros en vuelos nacionales de salida para estimar un $ARMA(p, q)$ mediante el método de máxima verosimilitud (ML). Antes de realizar el proceso de estimación consideremos una transformación de la serie en diferencias logaritmicas, ya que según la gráfica en la Figura (\ref{G_Pax_Nal}) esa es la que puede ser estacionaria.
+Ahora veámos un ejemplo. Utilizaremos la serie de Pasajeros en vuelos nacionales de salida para estimar un $ARMA(p, q)$ mediante el método de máxima verosimilitud (ML). Antes de realizar el proceso de estimación consideremos una transformación de la serie en diferencias logaritmicas, ya que según la gráfica en la Figura \@ref(fig:GPaxNal) esa es la que puede ser estacionaria.
 
 A continuación, estimaremos una $ARMA(1, 1)$ para la serie en diferencias logarimitcas ($DLPaxNal_t$). También incorporaremos al análisis variables exogénas tales como dummies de estacionalidad. En particular, utilizaremos los meses de enero, febrero, julio y diciembre. No debe pasar desapercibido que un análisis de estacionalidad más formal debeería considerar todos los meses para separar del término de error la parte que puedee ser explicada por los ciclos estacionales.
 
 Así obtenemos el siguiente resultado:
-\begin{center}
-\begin{tabular}{ c c c c c c } 
-    $DLPaxNal_t$ & $=$ & $-0.0025$ & $+$ & $0.6018$  & $DLPaxNal_{t-1}$ \\ 
-    &  & $(0.0045)$ &  & $(0.0964)$ & \\
-    &  &  & $-$ & $0.9064$ & $U_{t-1}$ \\
-    &  &  &  & $(0.0397)$ & \\
-    &  &  & $-$ & $0.0867$ & $DEne_t$ \\
-    &  &  &  & $(0.0230)$ & \\
-    &  &  & $-$ & $0.0409$ & $DFeb_t$ \\
-    &  &  &  & $(0.0263)$ & \\
-    &  &  & $+$ & $0.1529$ & $DJul_t$ \\
-    &  &  &  & $(0.0245)$ & \\
-    &  &  & $+$ & $0.0628$ & $DDic_t$ \\
-    &  &  &  & $(0.0223)$ &
-\end{tabular}
-\end{center}
 
-\begin{center}
-\begin{tabular}{ c c c c c c c } 
-    $\hat{\sigma}^2$ & $=$ & $0.007096$ & y & $AIC$ & $=$ & $-475.12$ 
-\end{tabular}
-\end{center}
+\begin{eqnarray}
+     DLPaxNal_t  &  =  &  -0.0025  &  +  &  0.6018   &  DLPaxNal_{t-1}  \\ 
+    &  &  (0.0045)  &  &  (0.0964)  & \\
+    &  &  &  -  &  0.9064  &  U_{t-1}  \\
+    &  &  &  &  (0.0397)  & \\
+    &  &  &  -  &  0.0867  &  DEne_t  \\
+    &  &  &  &  (0.0230)  & \\
+    &  &  &  -  &  0.0409  &  DFeb_t  \\
+    &  &  &  &  (0.0263)  & \\
+    &  &  &  +  &  0.1529  &  DJul_t  \\
+    &  &  &  &  (0.0245)  & \\
+    &  &  &  +  &  0.0628  &  DDic_t  \\
+    &  &  &  &  (0.0223)  &
+\end{eqnarray}
 
-Donde entre parentésis indicamos los errores estándar. Adicionalmente, reportamos el estadístico de Akaike (AIC). Finalmente, podemos determinar si las soluciones serán convergentes, para ello en la Figura \ref{G_Roots_ARMA11} mostramos las raíces asociadas a cada uno de los polinomios. De la inspección visual podemos concluir que tenemos una solución convergente y estable. Por su parte la Figura (\ref{G_Residuals_ARMA11}) muestra los residuales de la estimación del $ARMA(1, 1)$. 
-\begin{figure}
-  \centering
-    \includegraphics[width = 1.0 \textwidth]{G_Roots_ARMA11}
-  \caption{Inveso de las Raíces del polinomio característico de un ARMA(1,1)}
-  \label{G_Roots_ARMA11}
-\end{figure}
 
-\begin{figure}
-\centering
-    \includegraphics[width = 1.0 \textwidth]{G_Residuals_ARMA11}
-    \caption{Residuales de un $ARMA(1, 1)$ de la serie $DLPaxNal_t$}
-    \label{G_Residuals_ARMA11}
-\end{figure}
+
+\begin{eqnarray}
+    \hat{\sigma}^2 & = & 0.007096 & y & AIC & = & -475.12 
+\end{eqnarray}
+
+
+Donde entre parentésis indicamos los errores estándar. Adicionalmente, reportamos el estadístico de Akaike (AIC). Finalmente, podemos determinar si las soluciones serán convergentes, para ello en la Figura \@ref(fig:GRootsARMA11) mostramos las raíces asociadas a cada uno de los polinomios. De la inspección visual podemos concluir que tenemos una solución convergente y estable. Por su parte la Figura \@ref(fig:GResidualsARMA11) muestra los residuales de la estimación del $ARMA(1, 1)$. 
+
+<div class="figure" style="text-align: center">
+<img src="imagenes/G_Roots_ARMA11.png" alt="Inverso de las Raíces del polinomio característico de un ARMA(1,1)" width="100%" />
+<p class="caption">(\#fig:GRootsARMA11)Inverso de las Raíces del polinomio característico de un ARMA(1,1)</p>
+</div>
+
 
 En lo que resta de este capítulo, utilizaremos la serie en diferencias logarítmicas de los pasajeros en vuelos nacionales de salida, $DLPaxNal_t$, para discutir los ejemplos que ilustran cada uno de los puntos teóricos que a continuación exponemos.
 
@@ -938,15 +947,28 @@ En lo que resta de este capítulo, utilizaremos la serie en diferencias logarít
 
 Ahora introduciremos el concepto de Función de Autocorrelación Parcial (PACF, por sus siglas en inglés). Primero, dadas las condiciones de estabilidad y de convergencia, si suponemos que un proceso AR, MA, ARMA o ARIMA tienen toda la información de los rezagos de la serie en conjunto y toda la información de los promedio móviles del término de error, resulta importante construir una métrica para distinguir el efecto de $X_{t - \tau}$ o el efecto de $U_{t - \tau}$ (para cualquier $\tau$) sobre $X_t$ de forma individual.
 
+<div class="figure" style="text-align: center">
+<img src="imagenes/G_Residuals_ARMA11.png" alt="Inverso de las Raíces del polinomio característico de un ARMA(1,1)" width="100%" />
+<p class="caption">(\#fig:GResidualsARMA11)Inverso de las Raíces del polinomio característico de un ARMA(1,1)</p>
+</div>
+
 La idea es construir una métrica de la correlación que existe entre las diferentes varibles aleatorias, si para tal efecto se ha controlado el efecto del resto de la información. Así, podemos definir la ecuación que puede responder a este planteamiento como:
 \begin{equation}
     X_t = \phi_{k1} X_{t-1} + \phi_{k2} X_{t-2} + \ldots + \phi_{kk} X_{t-k} + U_t
-    \label{PACF_Eq}
+    (\#eq:PACFEq)
 \end{equation}
 
 Donde $\phi_{ki}$ es el coeficiente de la variable dada con el rezago $i$ si el proceso tiene un órden $k$. Así, los coeficientes $\phi_{kk}$ son los coeficientes de la autocorrelación parcial (considerando un proceso AR(k)). Observemos que la autocorrelaicón parcial mide la correlación entre $X_t$ y $X_{t-k}$ que se mantiene cuando el efecto de las variables $X_{t-1}$, $X_{t-2}$, $\ldots$ y $X_{t-k-1}$ en $X_{t}$ y $X_{t-k}$ ha sido eliminado.
 
-Dada la expresión considerada en la ecuación (\ref{PACF_Eq}), podemos resolver el problema de establecer el valor de cada $\phi_{ki}$ mediante la solución del sistema que se representa en lo siguiente:
+Dada la expresión considerada en la ecuación \@ref(eq:PACFEq), podemos resolver el problema de establecer el valor de cada $\phi_{ki}$ mediante la solución del sistema que se representa en lo siguiente:
+
+Table: (\#tab:foo1) Relación entre la Función de autocorrelación y la Función de autocorrelación parcial de una serie $X_t$.
+
+|Modelo si:|Función de autocorrelación|Función de autocorrelación parcial|
+|:---:|:---:|:---:|
+| $MA(q)$ | Rompimientos en la función | No hay rompimientos |
+| $AR(q)$ | No hay rompimientos | Rompimientos en la función |
+
 \begin{equation}
     \left[ 
     \begin{array}{c}
@@ -975,35 +997,22 @@ Dada la expresión considerada en la ecuación (\ref{PACF_Eq}), podemos resolver
         \phi_{kk} \\
     \end{array} 
     \right]
+    (\#eq:PACFEq1)    
 \end{equation}
 
 Del cual se puede derivar una solución, resoviendo por el método de cramer, o cualquier otro método que consideremos y que permita calcular la solución de sistemas de ecuaciones.
 
 Posterior al análisis analítico platearemos un enfoque para interpretar las funciones de autocorrelación y autocorrelación parcial. Este enfoque pretende aportar al principio de parcimonia, en el cual podemos identificar el número de parámetros que posiblemente puede describir mejor a la serie en un modelo ARMA(p, q).
 
-En el Cuadro \ref{ACF_PACF} se muestra un resumen de las caranterísticas que debemos observar para determinar el número de parámetros de cada uno de los componentes AR y MA. Lo anterior por observación de las funciones de autocorrelación y autocorrelación parcial. Este enfoque no es el más formal, más adelante implemtaremos uno más formal y que puede ser más claro de cómo determinar el númeto de parámetros.
-\begin{table}
-\centering
-\begin{tabular}{| c | c | c |}
-    \hline
-    Modelo  & Función de Autocorrelación & Función de Autocorrelación \\
-     si: &   & Parcial \\
-    \hline
-    MA(q) & Rompimienttos en la función & No hay rompimientos \\
-    AR(p) & No hay rompimientos & Rompimienttos en la función \\
-    \hline
-    \end{tabular}
-\caption{Relación entre la Función de Autocorrelación y la Función de Autocorrelación Parcial de una serie $X_t$.}
-\label{ACF_PACF}
-\end{table}
+En el Cuadro \@ref(tab:foo1) se muestra un resumen de las caranterísticas que debemos observar para determinar el número de parámetros de cada uno de los componentes AR y MA. Lo anterior por observación de las funciones de autocorrelación y autocorrelación parcial. Este enfoque no es el más formal, más adelante implemtaremos uno más formal y que puede ser más claro de cómo determinar el númeto de parámetros.
 
-Continuando con el ejemplo en la Figura (\ref{G_ACF_PACF}) mostramos tanto la Función de Autocorrelación como la Función de Autocorrelación Parcial. En esta identificamos que ambas gráficas muestran que el modelo que explica a la variable $DLPaxNal_t$ tiene tanto componentes AR como MA. Sin embargo, dado lo errático del comportamiento de ambas funciones, resulta complicado determinar cuál sería un buen número de parametros $p$ y $q$ a considerar en el $ARMA(p,q)$. Por esta razón a continuación platearemos algunas pruebas más formales para determinar dichos parámetros.
-\begin{figure}
-  \centering
-    \includegraphics[width = 1.0 \textwidth]{G_ACF_PACF}
-  \caption{Función de Autocorrelación y la Función de Autocorrelación Parcial de una serie $DLPaxNal_t$.}
-  \label{G_ACF_PACF}
-\end{figure}
+
+Continuando con el ejemplo en la Figura \@ref(fig:GACFPACF) mostramos tanto la Función de Autocorrelación como la Función de Autocorrelación Parcial. En esta identificamos que ambas gráficas muestran que el modelo que explica a la variable $DLPaxNal_t$ tiene tanto componentes AR como MA. Sin embargo, dado lo errático del comportamiento de ambas funciones, resulta complicado determinar cuál sería un buen número de parametros $p$ y $q$ a considerar en el $ARMA(p,q)$. Por esta razón a continuación platearemos algunas pruebas más formales para determinar dichos parámetros.
+
+<div class="figure" style="text-align: center">
+<img src="imagenes/G_ACF_PACF.png" alt="Función de Autocorrelación y la Función de Autocorrelación Parcial de una serie $DLPaxNal_t$." width="100%" />
+<p class="caption">(\#fig:GACFPACF)Función de Autocorrelación y la Función de Autocorrelación Parcial de una serie $DLPaxNal_t$.</p>
+</div>
 
 ## Selección de las constantes p, q, d en un AR(p), un MA(q), un ARMA(p, q) o un ARIMA(p, d, q)
 
@@ -1012,28 +1021,35 @@ Respecto de cómo estimar un proceso ARMA(p, q) --en general utilizaremos este m
 Otra duda que debe quedar hasta el momento es ¿cómo determinar el orden $p$ y $q$ del proceso ARMA(p, q)? La manera más convencional y formal que existe para tal efecto es utilizar los criterios de información. Así, el orden se elije de acuerdo a aquel críterio de información que resulta ser el mínimo. En el caso de $d$ se selecciona revisando la gráfica que parezca más estacionaria--más adelante mostraremos un proceso más formal para su selección.
 
 Los criterios de información más comunes son los siguientes:
-\begin{enumerate}
-\item FPE (Final Prediction Error):
+
+1. FPE (Final Prediction Error):
 \begin{equation}
     FPE = \frac{T+m}{T-m}\frac{1}{T}\sum_{t=1}^{T} \left( \hat{U}_t^{(p)} \right) ^2
+    (\#eq:ls1)
 \end{equation}
-\item Akaike:
+
+2. Akaike:
 \begin{equation}
     AIC = ln \left[ \frac{1}{T} \sum_{t=1}^{T} \left( \hat{U}_t^{(p)} \right) ^2 \right] + m \frac{2}{T}
+        (\#eq:ls2)
 \end{equation}
-\item Schwarz:
+
+3. Schwarz:
 \begin{equation}
     SC = ln \left[ \frac{1}{T} \sum_{t=1}^{T} \left( \hat{U}_t^{(p)} \right) ^2 \right] + m \frac{ln(T)}{T}
+      (\#eq:ls3)
 \end{equation}
-\item Hannan - Quinn:
+
+4. Hannan - Quinn:
 \begin{equation}
     HQ = ln \left[ \frac{1}{T} \sum_{t=1}^{T} \left( \hat{U}_t^{(p)} \right) ^2 \right] + m \frac{2 ln(ln(T))}{T}
+      (\#eq:ls4)
 \end{equation}
-\end{enumerate}
 
 Donde $\hat{U}_t^{(p)}$ son los residuales estimados mediante un proceso ARIMA y $m$ es el número de parametros estimados: $m = p + q + 0 + 1$ (ya que asumimos que $d = 0$). Una propiedad que no se debe perder de vista es que los criterios de información cumplen la siguiente relación:
 \begin{equation}
     orden(SC) \leq orden(HQ) \leq orden(AIC)
+    (\#eq:ls5)
 \end{equation}
 
 Por esta razón, durante el curso solo utilizaremos el criterio se Akaike para determinar el orden óptimo del proceso ARMA, ya que ello garantiza el orden más grande posible.
@@ -1042,97 +1058,84 @@ Ahora veamos un ejemplo de estimación del número de rezagos optimo de un $ARMA
 
 Como mencionamos, las gráficas de las funciones de autocorrelación permiten observar el valor de la correlación existente entre la variable en el momento $t$ con cada uno de los rezagos. Incluso la Función de Autocorrelación Parcial puede ayudar a determinar el número máximo de rezagos que se debe incluir en el proceso $AR(p)$. No obstante, una métrica más formal es el uso de los criterios de información. En nuestro caso, dado lo discutido, sólo utilizareemos el criterio de Akaike.
 
-Al respecto, en el Cuadro (\ref{Selec_ARMApq}) reportamos el criterio de Akaike que resultan de aplicar dicho criterio a los residuales resultantes de cada combinación de procesos $ARMA(p, q)$. La forma de escoger será aquel modelo que reporta el criterio de Akaike menor. En la cuarta columna de la tabla se señala el valor del criterio de información que resulta ser el mínimo de todos los posibles.
-\begin{table}
-\centering
-\begin{tabular}{|c | c | c | c | c |}
-\hline
-    Modelo & AR(p) & MA(p) & Akaike (AIC) & Óptimo \\
-\hline
-    1 & 1 & 1 & -475.1190 &  \\
-    2 & 1 & 2 & -473.4397 &  \\
-    3 & 1 & 3 & -483.1239 &  \\
-    4 & 1 & 4 & -482.4932 &  \\
-    5 & 1 & 5 & -506.9880 &  \\
-    6 & 1 & 6 & -533.9411 &  \\
-    7 & 2 & 1 & -473.4758 &  \\
-    $\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ \\
-    24 & 4 & 6 & -752.8996 & * \\
-    $\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ \\
-    36 & 6 & 6 & -752.2632 &  \\
-\hline
-\end{tabular}
-\caption{Criterio de Akike para diferentes modelos $ARMA(p, q)$ de la serie $DLPaxNal_t$.}
-\label{Selec_ARMApq}
-\end{table}
+Table: (\#tab:SelecARMApq) Criterio de Akike para diferentes modelos $ARMA(p, q)$ de la serie $DLPaxNal_t$.
 
-El Cuadro (\ref{Selec_ARMApq}) reporta los resultados para 36 diferentes modelos, todos incluyen variables exogenas. Como resultado del análisis concluimos que el modelo más adecuado es el 24, el cual considera un $ARMA(4, 6)$, con variables dummies para controlar la estacionalidad de los meses de enero, febrero, julio y diciembre. En el Cuadro (\ref{Result_ARMApq}) mostramos los resutados del modelo.
+| Modelo | AR(p) | MA(p) | Akaike (AIC) | Óptimo |
+|:---:|:---:|:---:|:---:|:---:|
+| 1 | 1 | 1 | -475.1190 |  |
+| 2 | 1 | 2 | -473.4397 |  |
+| 3 | 1 | 3 | -483.1239 |  |
+| 4 | 1 | 4 | -482.4932 |  |
+| 5 | 1 | 5 | -506.9880 |  |
+| 6 | 1 | 6 | -533.9411 |  |
+| 7 | 2 | 1 | -473.4758 |  |
+| $\vdots$ | $\vdots$ | $\vdots$ | $\vdots$ | $\vdots$ |
+| 24 | 4 | 6 | -752.8996 | * |
+| $\vdots$ | $\vdots$ | $\vdots$ | $\vdots$ | $\vdots$ |
+| 36 | 6 | 6 | -752.2632 |  |
 
-No obstante, una inspección de los residuales del modelo nos permite sospechar que requiere de incluir un par de dummies más. Ambas, asociadas con la caída del transporte aéreo en 2009, principalmente asociado con la crisis mundial de ese año. La Figura (\ref{G_Residuals_ARMA46}) muestra los residuales mencionados.
-\begin{figure}
-  \centering
-    \includegraphics[width = 1.0 \textwidth]{G_Residuals_ARMA46}
-  \caption{Residuales del ARMA(4, 6) de una serie $DLPaxNal_t$.}
-  \label{G_Residuals_ARMA46}
-\end{figure}
 
-Una vez incluidas dos dummies más para mayo y junio de 2009, analizamos un total de 36 modelos ARMA y determinamos que el orden que minimizza el criterio de Akaike es un $ARMA(4, 6)$. El Cuadro (\ref{Result_ARMApq}) muestra los resultados para este nuevo modelo. No lo motramos en esta sección, pero ambos modelos reportados tienen raices de sus respectivos polinomios característicos menores a 1 en valor absoluto. En la Figura \ref{G_Residuals_ARMA46_D} mostramos los residuales ahora ajustados por las dummies de mayo y junio de 2009.
-\begin{table}
-\centering
-\begin{tabular}{|c | c | c | c | c |}
-\hline
-     & \multicolumn{2}{| c |}{Modelo 1} & \multicolumn{2}{| c |}{Modelo 2} \\
-\hline
-    Variable & Coeficiente & Error Est. & Coeficiente & Error Est. \\
-\hline
-    Constante & 0.0134 & 0.0033 & 0.0145 & 0.0029 \\
-    $DLPaxNal_{t-1}$ & 0.0004 & 0.0011 & 0.0014 & 0.0016 \\
-    $DLPaxNal_{t-2}$ & 0.9997 & 0.0019 & 0.9988 & 0.0024 \\
-    $DLPaxNal_{t-3}$ & 0.0001 & 0.0012 & 0.0002 & 0.0014 \\
-    $DLPaxNal_{t-4}$ & -0.9997 & 0.0004 & -0.9993 & 0.0009 \\
-    $\hat{U}_{t-1}$ & -0.2877 & 0.0670 & -0.1472 & 0.0633 \\
-    $\hat{U}_{t-2}$ & -1.2028 & 0.0608 & -1.3323 & 0.0625 \\
-    $\hat{U}_{t-3}$ & 0.2302 & 0.0765 & 0.1201 & 0.0756 \\
-    $\hat{U}_{t-4}$ & 1.2085 & 0.0645 & 1.3142 & 0.0642 \\
-    $\hat{U}_{t-5}$ & -0.2634 & 0.0708 & -0.1034 & 0.0717 \\
-    $\hat{U}_{t-6}$ & -0.2171 & 0.0606 & -0.3864 & 0.0657 \\
-    $DEne_{t}$ & -0.2904 & 0.0172 & -0.2865 & 0.0156 \\
-    $DFeb_{t}$ & -0.1312 & 0.0170 & -0.1273 & 0.0140 \\
-    $DJul_{t}$ & 0.3303 & 0.0173 & 0.3164 & 0.0156 \\
-    $Dic_{t}$ & -0.0118 & 0.0169 & -0.0138 & 0.0137 \\
-    $DMay2009_{t}$ &   &   & -0.3378 & 0.0360 \\
-    $DJun2009_{t}$ &   &   & 0.2371 & 0.0359 \\
-\hline
-    $\hat{\sigma}^2$ & 0.001841 &   & 0.001283 &  \\
-    AIC & -752.9 &   & -835.73 &  \\
-\hline
-    \multicolumn{5}{ l }{Nota: El método de estimación fue máxima verosimilitud.} \\
-\end{tabular}
-\caption{Criterio de Akike para diferentes modelos ARMA(p, q) de la serie $DLPaxNal_t$.}
-\label{Result_ARMApq}
-\end{table}
+Al respecto, en el Cuadro \@ref(tab:SelecARMApq) reportamos el criterio de Akaike que resultan de aplicar dicho criterio a los residuales resultantes de cada combinación de procesos $ARMA(p, q)$. La forma de escoger será aquel modelo que reporta el criterio de Akaike menor. En la cuarta columna de la tabla se señala el valor del criterio de información que resulta ser el mínimo de todos los posibles.
 
-\begin{figure}
-  \centering
-    \includegraphics[width = 1.0 \textwidth]{G_Residuals_ARMA46_D}
-  \caption{Residuales del ARMA(4, 6) de una serie $DLPaxNal_t$.}
-  \label{G_Residuals_ARMA46_D}
-\end{figure}
+
+El Cuadro \@ref(tab:SelecARMApq) reporta los resultados para 36 diferentes modelos, todos incluyen variables exogenas. Como resultado del análisis concluimos que el modelo más adecuado es el 24, el cual considera un $ARMA(4, 6)$, con variables dummies para controlar la estacionalidad de los meses de enero, febrero, julio y diciembre. En el Cuadro \@ref(tab:ResultARMApq) mostramos los resutados del modelo.
+
+No obstante, una inspección de los residuales del modelo nos permite sospechar que requiere de incluir un par de dummies más. Ambas, asociadas con la caída del transporte aéreo en 2009, principalmente asociado con la crisis mundial de ese año. La Figura \@ref(fig:GResidualsARMA46) muestra los residuales mencionados.
+
+<div class="figure" style="text-align: center">
+<img src="imagenes/G_Residuals_ARMA46.png" alt="Residuales del ARMA(4, 6) de una serie $DLPaxNal_t$." width="100%" />
+<p class="caption">(\#fig:GResidualsARMA46)Residuales del ARMA(4, 6) de una serie $DLPaxNal_t$.</p>
+</div>
+
+
+Una vez incluidas dos dummies más para mayo y junio de 2009, analizamos un total de 36 modelos ARMA y determinamos que el orden que minimizza el criterio de Akaike es un $ARMA(4, 6)$. El Cuadro \@ref(tab:ResultARMApq) muestra los resultados para este nuevo modelo. No lo motramos en esta sección, pero ambos modelos reportados tienen raices de sus respectivos polinomios característicos menores a 1 en valor absoluto. En la Figura \@ref(fig:GResidualsARMA46D} mostramos los residuales ahora ajustados por las dummies de mayo y junio de 2009.
 
 ## Pronósticos
 
 Para pronósticar el valor de la serie es necesario determinar cuál es el valor esperado de la serie en un momento $t + \tau$ condicional en que ésta se comporta como un $AR(p)$, un $MA(q)$ o un $ARMA(p, q)$ y a que los valores antes de $t$ están dados. Por lo que el pronóstico de la serie estará dado por una expresión:
+
 \begin{eqnarray}
     \mathbb{E}_t[X_{t+\tau}] = \delta + a_1 \mathbb{E}_t[X_{t+\tau-1}] + a_2 \mathbb{E}_t[X_{t+\tau-2}] + \ldots + + a_p \mathbb{E}_t[X_{t+\tau-p}]
-    \label{ARMApq_For}
+    (\#eq:ARMApqFor)
 \end{eqnarray}
 
-Lo anterior para todo $\tau = 0, 1, 2, \ldots$ y considerando que los componentes MA(q) en la eucación (\ref{ARMApq_For}) son cero dado que para todo valor $t + \tau$ es cierto que $\mathbb{E}_t[U_{t+\tau}]$.
+<div class="figure" style="text-align: center">
+<img src="imagenes/G_Residuals_ARMA46_D.png" alt="Residuales del ARMA(4, 6) de una serie $DLPaxNal_t$." width="100%" />
+<p class="caption">(\#fig:GResidualsARMA46D)Residuales del ARMA(4, 6) de una serie $DLPaxNal_t$.</p>
+</div>
 
-Continuando con el ejemplo, en la Figura (\ref{Pax_Nal_f}) mostramos el resultado del pronóstico de la serie a partir del modelo ARMA(4, 6) que hemos discutido anteriormente.
-\begin{figure}
-  \centering
-    \includegraphics[width = 1.0 \textwidth]{Pax_Nal_f}
-  \caption{Pronóstico de la serie $PaxNAl_t$ a partir de una ARMA(4,6) en diferencias logaritmicas.}
-  \label{Pax_Nal_f}
-\end{figure}
+Lo anterior para todo $\tau = 0, 1, 2, \ldots$ y considerando que los componentes MA(q) en la eucación \@ref(eq:ARMApqFor) son cero dado que para todo valor $t + \tau$ es cierto que $\mathbb{E}_t[U_{t+\tau}]$.
+
+Table: (\#tab:ResultARMApq) Criterio de Akike para diferentes modelos ARMA(p, q) de la serie $DLPaxNal_t$. _Nota: El método de estimación fue máxima verosimilitud._
+
+| | Modelo 1 | | Modelo 2 | |
+|:---:|:---:|:---:|:---:|:---:|
+| Variable | Coeficiente | Error Est. | Coeficiente | Error Est. |
+| Constante | 0.0134 | 0.0033 | 0.0145 | 0.0029 |
+| $DLPaxNal_{t-1}$ | 0.0004 | 0.0011 | 0.0014 | 0.0016 |
+| $DLPaxNal_{t-2}$ | 0.9997 | 0.0019 | 0.9988 | 0.0024| 
+| $DLPaxNal_{t-3}$ | 0.0001 | 0.0012 | 0.0002 | 0.0014 |
+| $DLPaxNal_{t-4}$ | -0.9997 | 0.0004 | -0.9993 | 0.0009 |
+| $\hat{U}_{t-1}$ | -0.2877 | 0.0670 | -0.1472 | 0.0633 |
+| $\hat{U}_{t-2}$ | -1.2028 | 0.0608 | -1.3323 | 0.0625 |
+| $\hat{U}_{t-3}$ | 0.2302 | 0.0765 | 0.1201 | 0.0756 |
+| $\hat{U}_{t-4}$ | 1.2085 | 0.0645 | 1.3142 | 0.0642 |
+| $\hat{U}_{t-5}$ | -0.2634 | 0.0708 | -0.1034 | 0.0717 |
+| $\hat{U}_{t-6}$ | -0.2171 | 0.0606 | -0.3864 | 0.0657 |
+| $DEne_{t}$ | -0.2904 | 0.0172 | -0.2865 | 0.0156 |
+| $DFeb_{t}$ | -0.1312 | 0.0170 | -0.1273 | 0.0140 |
+| $DJul_{t}$ | 0.3303 | 0.0173 | 0.3164 | 0.0156 |
+| $Dic_{t}$ | -0.0118 | 0.0169 | -0.0138 | 0.0137 |
+| $DMay2009_{t}$ |   |   | -0.3378 | 0.0360 |
+| $DJun2009_{t}$ |   |   | 0.2371 | 0.0359 |
+|$\hat{\sigma}^2$ | 0.001841 |   | 0.001283 |  |
+|AIC | -752.9 |   | -835.73 |  |
+
+
+Continuando con el ejemplo, en la Figura \@ref(fig:PaxNalf) mostramos el resultado del pronóstico de la serie a partir del modelo ARMA(4, 6) que hemos discutido anteriormente.
+
+
+<div class="figure" style="text-align: center">
+<img src="imagenes/Pax_Nal_f.png" alt="Pronóstico de la serie $PaxNAl_t$ a partir de una ARMA(4,6) en diferencias logaritmicas." width="100%" />
+<p class="caption">(\#fig:PaxNalf)Pronóstico de la serie $PaxNAl_t$ a partir de una ARMA(4,6) en diferencias logaritmicas.</p>
+</div>
