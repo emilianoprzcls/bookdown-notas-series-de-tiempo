@@ -1,0 +1,751 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>Capítulo 6 Procesos Basados en Vectores Autoregresivos | Notas de Clase: Series de Tiempo</title>
+<meta name="author" content="Benjamín Oliva, Omar Alfaro-Rivera y Emiliano Pérez Caullieres">
+<meta name="description" content="PBVA En este capítulo romperemos el supuesto de que el análisis es univariado, ya que introduciremos la posibilidad de que los procesos generadores de datos compartan información entre dos o más...">
+<meta name="generator" content="bookdown 0.27 with bs4_book()">
+<meta property="og:title" content="Capítulo 6 Procesos Basados en Vectores Autoregresivos | Notas de Clase: Series de Tiempo">
+<meta property="og:type" content="book">
+<meta property="og:description" content="PBVA En este capítulo romperemos el supuesto de que el análisis es univariado, ya que introduciremos la posibilidad de que los procesos generadores de datos compartan información entre dos o más...">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Capítulo 6 Procesos Basados en Vectores Autoregresivos | Notas de Clase: Series de Tiempo">
+<meta name="twitter:description" content="PBVA En este capítulo romperemos el supuesto de que el análisis es univariado, ya que introduciremos la posibilidad de que los procesos generadores de datos compartan información entre dos o más...">
+<!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
+<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.3.0/transition.js"></script><script src="libs/bs3compat-0.3.0/tabs.js"></script><script src="libs/bs3compat-0.3.0/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
+<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS --><style type="text/css">
+    
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  </style>
+<link rel="stylesheet" href="style.css">
+</head>
+<body data-spy="scroll" data-target="#toc">
+
+<div class="container-fluid">
+<div class="row">
+  <header class="col-sm-12 col-lg-3 sidebar sidebar-book"><a class="sr-only sr-only-focusable" href="#content">Skip to main content</a>
+
+    <div class="d-flex align-items-start justify-content-between">
+      <h1>
+        <a href="index.html" title="">Notas de Clase: Series de Tiempo</a>
+      </h1>
+      <button class="btn btn-outline-primary d-lg-none ml-2 mt-1" type="button" data-toggle="collapse" data-target="#main-nav" aria-expanded="true" aria-controls="main-nav"><i class="fas fa-bars"></i><span class="sr-only">Show table of contents</span></button>
+    </div>
+
+    <div id="main-nav" class="collapse-lg">
+      <form role="search">
+        <input id="search" class="form-control" type="search" placeholder="Search" aria-label="Search">
+</form>
+
+      <nav aria-label="Table of contents"><h2>Table of contents</h2>
+        <ul class="book-toc list-unstyled">
+<li><a class="" href="index.html"><span class="header-section-number">1</span> Introducción</a></li>
+<li><a class="" href="elementos-de-ecuaciones-en-diferencia.html"><span class="header-section-number">2</span> Elementos de Ecuaciones en Diferencia</a></li>
+<li><a class="" href="modelos-de-series-de-tiempo-estacionarias.html"><span class="header-section-number">3</span> Modelos de Series de Tiempo Estacionarias</a></li>
+<li><a class="" href="procesos-estacionarios-univariados.html"><span class="header-section-number">4</span> Procesos estacionarios univariados</a></li>
+<li><a class="" href="desestacionalizaci%C3%B3n-y-filtrado-de-series.html"><span class="header-section-number">5</span> Desestacionalización y filtrado de Series</a></li>
+<li><a class="active" href="procesos-basados-en-vectores-autoregresivos.html"><span class="header-section-number">6</span> Procesos Basados en Vectores Autoregresivos</a></li>
+</ul>
+
+        <div class="book-extra">
+          <p><a id="book-repo" href="git@github.com:emilianoprzcls/bookdown-notas-series-de-tiempo.git">View book source <i class="fab fa-github"></i></a></p>
+        </div>
+      </nav>
+</div>
+  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="procesos-basados-en-vectores-autoregresivos" class="section level1" number="6">
+<h1>
+<span class="header-section-number">Capítulo 6</span> Procesos Basados en Vectores Autoregresivos<a class="anchor" aria-label="anchor" href="#procesos-basados-en-vectores-autoregresivos"><i class="fas fa-link"></i></a>
+</h1>
+<p>PBVA</p>
+<p>En este capítulo romperemos el supuesto de que el análisis es univariado, ya que introduciremos la posibilidad de que los procesos generadores de datos compartan información entre dos o más series. Como primer aproximación desarrollaremos el concepto de Causalidad de Granger. Mediante esta metodología discutiremos cuando dos series se causan estadísticamente. Posteriormente, introduciremos una técnica más sofisticada conocida como la metodología de Vectores Autoregresivos (VAR), la cual es una generalización de los procesos AR que analizamos al principio del curso.</p>
+<div id="causalidad-de-granger" class="section level2" number="6.1">
+<h2>
+<span class="header-section-number">6.1</span> Causalidad de Granger<a class="anchor" aria-label="anchor" href="#causalidad-de-granger"><i class="fas fa-link"></i></a>
+</h2>
+<p>Hasta ahora hemos supuesto que una serie puede ser explicada únicamente con la información contenida en ella misma. No obstante, en adelante trataremos de analizar el caso en el que buscamos determinar relaciones entre variables y cómo el comportamiento de una serie influye en las demás. Algunas relaciones más importantes son las llamadas causalidad. En este caso analizaremos el procedimiento de Granger (1969), conocido como causalidad de Granger. En adelante asumiremos que las series involucradas son debílmente estacionarias.</p>
+<p>Sean <span class="math inline">\(X\)</span> y <span class="math inline">\(Y\)</span> dos series debílmente estacionarias. Definamos a <span class="math inline">\(I_t\)</span> un conjunto de toda la información disponible hasta el momento <span class="math inline">\(t\)</span>. Asimismo, digamos que <span class="math inline">\(\overline{X}_t\)</span> y <span class="math inline">\(\overline{Y}_t\)</span> son los conjuntos de toda la información disponible (actual y pasada) de <span class="math inline">\(X\)</span> y <span class="math inline">\(Y\)</span>, respectivamente. Es decir:</p>
+<p><span class="math display" id="eq:PBVA">\[\begin{eqnarray}
+    \overline{X}_t &amp; := &amp; \{ X_t, X_{t-1}, X_{t-2}, \ldots \}
+    \tag{6.1}
+\end{eqnarray}\]</span></p>
+<p><span class="math display" id="eq:PBVA1">\[\begin{eqnarray}
+    \overline{Y}_t &amp; := &amp; \{ Y_t, Y_{t-1}, Y_{t-2}, \ldots \} \\
+        \tag{6.2}
+\end{eqnarray}\]</span></p>
+<p><span class="math display" id="eq:PBVA2">\[\begin{eqnarray}
+    I_t &amp; := &amp; \overline{X}_t + \overline{Y}_t
+        \tag{6.3}
+\end{eqnarray}\]</span></p>
+<p>Adicionalmnete, definamos <span class="math inline">\(\sigma^2(.)\)</span> como la varianza del término de error estimado de una regresión dada. Dicho lo anterior, decimos que:</p>
+<ol style="list-style-type: decimal">
+<li>Existe Causalidad de Granger o <span class="math inline">\(X\)</span> causa a <span class="math inline">\(Y\)</span> si y solo si, una regresión lineal da como resultado que:</li>
+</ol>
+<p><span class="math display" id="eq:PBVA3">\[\begin{equation}
+\sigma^2 (Y_{t+1} | I_t) &lt; \sigma^2 (Y_{t+1} | I_t - X_t)        \tag{6.4}
+\end{equation}\]</span></p>
+<p>Es decir, que la variabilidad del término de error de una regresión lineal de <span class="math inline">\(Y\)</span> sobre el conjunto de toda la información aplicada a un pronóstico de <span class="math inline">\(Y_{t+1}\)</span> es MENOR que la variabilidad del término de error de una regresión lineal de <span class="math inline">\(Y\)</span> sobre el conjunto de la información de <span class="math inline">\(Y\)</span> aplicada a un pronóstico de <span class="math inline">\(Y_{t+1}\)</span>.</p>
+<ol start="2" style="list-style-type: decimal">
+<li>Existe Causalidad de Granger Instantanéa <span class="math inline">\(X\)</span> causa de forma instantanéa a <span class="math inline">\(Y\)</span> si y solo si, una regresión lineal da como resultado:
+<span class="math display" id="eq:PBVA4">\[\begin{equation}
+    \sigma^2 (Y_{t+1} | \{ I_t, X_{t+1} \}) &lt; \sigma^2 (Y_{t+1} | I_t)
+        \tag{6.5}
+\end{equation}\]</span>
+</li>
+</ol>
+<p>La definción anterior aplica de igual forma si se reemplaza a <span class="math inline">\(X\)</span> por <span class="math inline">\(Y\)</span> y a <span class="math inline">\(Y\)</span> por <span class="math inline">\(X\)</span>, respectivamente. De acuerdo a la definición anterior, existen 5 diferentes posibilidades de relaciones causales entre las dos series:</p>
+<ol style="list-style-type: decimal">
+<li>
+<span class="math inline">\(X\)</span> y <span class="math inline">\(Y\)</span> son independientes: <span class="math inline">\((X, Y)\)</span>;</li>
+<li>Existe solo causalidad instantanéa: <span class="math inline">\((X - Y)\)</span>;</li>
+<li>
+<span class="math inline">\(X\)</span> causa a <span class="math inline">\(Y\)</span>: <span class="math inline">\((X \longrightarrow Y)\)</span>;</li>
+<li>
+<span class="math inline">\(Y\)</span> causa a <span class="math inline">\(X\)</span>: <span class="math inline">\((X \longleftarrow Y)\)</span>, y</li>
+<li>Ambas series se causan: <span class="math inline">\((X \longleftrightarrow Y)\)</span>.</li>
+</ol>
+<p>Por lo anterior, representaremos mediante una <span class="math inline">\(AR(p)\)</span> con variables exógenas lo siguiente:
+<span class="math display" id="eq:GrangerEq">\[\begin{equation}
+    A(L)
+    \begin{bmatrix}
+    Y_t \\ X_t
+    \end{bmatrix}
+    =
+    \begin{bmatrix}
+    a_{11}(L) &amp; a_{12}(L) \\ a_{21}(L) &amp; a_{22}(L)
+    \end{bmatrix}
+    \begin{bmatrix}
+    Y_t \\ X_t
+    \end{bmatrix}
+    =
+    \begin{bmatrix}
+    V_t \\ U_t
+    \end{bmatrix}
+    \tag{6.6}
+\end{equation}\]</span></p>
+<p>O en su versión <span class="math inline">\(MA(q)\)</span> con variables exógenas:</p>
+<p><span class="math display" id="eq:GrangerEq2">\[\begin{equation}
+    \begin{bmatrix}
+    Y_t \\ X_t
+    \end{bmatrix}
+    =
+    B(L)
+    \begin{bmatrix}
+    V_t \\ U_t
+    \end{bmatrix}
+    =
+    \begin{bmatrix}
+    b_{11}(L) &amp; b_{12}(L) \\ b_{21}(L) &amp; b_{22}(L)
+    \end{bmatrix}
+    \begin{bmatrix}
+    V_t \\ U_t
+    \end{bmatrix}
+        \tag{6.7}
+\end{equation}\]</span></p>
+<p>Para determinar el test de causalidad utilizaremos una especificación similar a la de la ecuación <a href="procesos-basados-en-vectores-autoregresivos.html#eq:GrangerEq">(6.6)</a>. Para probar si <span class="math inline">\(X\)</span> causa a <span class="math inline">\(Y\)</span> consideraremos la siguiente regresión:
+<span class="math display" id="eq:GrangerEq3">\[\begin{equation}
+    Y_t = \alpha_0 + \sum^{k_1}_{k = 1} a^k_{11} Y_{t-k} + \sum^{k_2}_{k = k_0} a^k_{12} X_{t-k} + U_{1,t}
+            \tag{6.8}
+\end{equation}\]</span></p>
+<p>Donde <span class="math inline">\(k_0 = 1\)</span> y, en general, se asume que <span class="math inline">\(k_1 = k_2\)</span>. Asimismo, el valor de estas constantes se puede determinar con el cirterio de Akaike (o cualquier otro criterio de información). No obstante, algunos autores sugieren que una buena práctica es considerar valores de <span class="math inline">\(k_1\)</span> y <span class="math inline">\(k_2\)</span> 4, 8, 12 y 16.</p>
+<p>Dicho lo anterior, el test de causalidad de Granger se establece con una prueba F (similar a la definiada en el Apéndice de estas notas), en la cual se prueba la siguiente hipótesis nula:
+<span class="math display" id="eq:GrangerEq4">\[\begin{equation}
+    H_0: a^1_{12} = a^2_{12} = \ldots = a^{k2}_{12} = 0
+            \tag{6.9}
+\end{equation}\]</span></p>
+<p>Ahora veámos un ejemplo. Consideremos como variables analizadas al Índice Nacional de Precios al Consumidor (<span class="math inline">\(INPC_t\)</span>), al Tipo de Cambio (<span class="math inline">\(TDC_t\)</span>) y al rendimiento anual de los Cetes a 28 días (<span class="math inline">\(CETE28_t\)</span>), todas desestacionalizadas para el periodo de enero de 2000 a julio de 2019. Dado que la metodología de Granger supone que las series son estacionarias, utilizaremos las diferencias logaritmicas de cada una de las tres series (es decir, utilizaremos una transformación del tipo <span class="math inline">\(ln(X_t) - ln(X_{t-1})\)</span>). La Figura <a href="procesos-basados-en-vectores-autoregresivos.html#fig:DLGranger">6.1</a> muestra las series en su transformación de diferencias logarítmicas.</p>
+<div class="figure" style="text-align: center">
+<span style="display:block;" id="fig:DLGranger"></span>
+<img src="imagenes/DLGranger.png" alt="Series en diferencias logarítmicas dadas por las siguientes expresiones: $DLINPC_t = ln(DLINPC_t) - ln(DLINPC_{t-1})$, $DLTC_t = ln(TC_t) - ln(TC_{t-1})$ y $DLCETE28_t = ln(CETE28_t) - ln(CETE28_{t-1})$." width="100%"><p class="caption">
+Figure 6.1: Series en diferencias logarítmicas dadas por las siguientes expresiones: <span class="math inline">\(DLINPC_t = ln(DLINPC_t) - ln(DLINPC_{t-1})\)</span>, <span class="math inline">\(DLTC_t = ln(TC_t) - ln(TC_{t-1})\)</span> y <span class="math inline">\(DLCETE28_t = ln(CETE28_t) - ln(CETE28_{t-1})\)</span>.
+</p>
+</div>
+<p>Por simplicidad, en el Cuadro <a href="procesos-basados-en-vectores-autoregresivos.html#tab:Granger01">6.1</a> se muestra el resultado de aplicar el test de Granger a diferentes especificaciones, con rezagos 4, 8, 12 y 16, sólo para la serie de Tipo de Cambio en diferencias logarítmicas. En cada una de las pruebas se compara el modelo considerado como regresor a la variable que es candidata de causar, respecto del modelo si considerar a dicha variable.</p>
+<div class="inline-table"><table class="table table-sm">
+<caption>
+<span id="tab:Granger01">Table 6.1: </span> Prueba de si <span class="math inline">\(DLINPC_t\)</span> Granger causa a <span class="math inline">\(DLTC_t\)</span>. <em>Notas: *** significancia al 0.001%, ** significancia al 0.01% y* significancia 0.05%</em>
+</caption>
+<thead><tr class="header">
+<th align="center">Rezagos</th>
+<th align="center">Estadiística F</th>
+<th align="center">Probabilidad (<span class="math inline">\(&gt;\)</span>F)</th>
+<th align="center">Significancia</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="center">4</td>
+<td align="center">3.2621</td>
+<td align="center">0.01265</td>
+<td align="center">*</td>
+</tr>
+<tr class="even">
+<td align="center">8</td>
+<td align="center">1.9079</td>
+<td align="center">0.06030</td>
+<td align="center"></td>
+</tr>
+<tr class="odd">
+<td align="center">12</td>
+<td align="center">2.2577</td>
+<td align="center">0.01067</td>
+<td align="center">*</td>
+</tr>
+<tr class="even">
+<td align="center">16</td>
+<td align="center">1.6735</td>
+<td align="center">0.05495</td>
+<td align="center">*</td>
+</tr>
+</tbody>
+</table></div>
+<p>De acuerdo con el Cuadro <a href="procesos-basados-en-vectores-autoregresivos.html#tab:Granger01">6.1</a>, podemos concluir que existe información estadísticamente significativa para concluir que la inflación causa a la tasa de depreciación cambiaria, ambas medidas como las diferencias logaritmicas. El resto de los resultados para las otras combinaciones de causalidad se encuentran en el Scrip llamado Clase 13 ubicado en el repositorio de GitHub.</p>
+</div>
+<div id="definición-y-representación-del-sistema-o-modelo-varp" class="section level2" number="6.2">
+<h2>
+<span class="header-section-number">6.2</span> Definición y representación del Sistema o Modelo VAR(p)<a class="anchor" aria-label="anchor" href="#definici%C3%B3n-y-representaci%C3%B3n-del-sistema-o-modelo-varp"><i class="fas fa-link"></i></a>
+</h2>
+<p>En esta sección ampliaremos la discusión planteada en el apartado anterior. En el sentido de que en la sección pasada nuestra discusión se limito al análisis de causalidad entre dos variables a la vez, que si bien es posible extenderlo a más variables es un procedimiento limitado a casos particulares por las siguientes razones.</p>
+<p>El procediento de causalidad de Granger supone que es posible identificar un sistema de ecuaciones que debe conformarse una vez que se ha identificado el sentido de la causalidad. Así, el proceso anterior necesita del conocimiento previo de las relaciones que existen entre las varibles.</p>
+<p>Adicionalmente, no resuleve el problema más general qué esta relacionado con cómo identificar la causalidad cuando se tienen múltiples variables con múltiples sentidos de causalidad. En esta sección analizaremos una mejor aproximación al probelma de cómo identificar la causalidad múltiple. Por lo tanto, como mécanismo para solucionar el problema planteado, analizaremos el caso de un Sistema o Modelo de Vectores Autoregresivos conocido como VAR.</p>
+<p>El primer supuesto del que partiremos es que existe algún grado de endogenidad entre las variables considerdas en el análisis. Adicionalmente, el segundo supuesto que estableceremos es que requerimos que las variables que tengamos consideradas sean estacionarias.</p>
+<p>Por lo anterior diremos que un VAR es un procedimiento que sigue fundado en el supuesto de que las variables consideredas son estacionarias, sin que hasta el momento hallamos podido establecer un mécanismo de detección de dicha estacionariedad. Así, hasta este momento del curso hemos pasado de modelo univariados a modelo múltivariados, pero no hemos podido dejar de asumir que las series son estacionarias.</p>
+<p>Ahora bien, iniciaremos con el establecimiento de la representación del proceso. Digamos que tenemos un proceso estocástico <span class="math inline">\(\mathbf{X}\)</span> estacionario de dimensión <span class="math inline">\(k\)</span>. De esta forma la expresión reducida del modelo o el proceso <span class="math inline">\(VAR(p)\)</span> estará dado por:</p>
+<p><span class="math display" id="eq:VARp">\[\begin{equation}
+    \mathbf{X}_t = \mathbf{\delta} + A_1 \mathbf{X}_{t-1} + A_2 \mathbf{X}_{t-2} + \ldots + A_p \mathbf{X}_{t-p} + \mathbf{U}_{t}
+    \tag{6.10}
+\end{equation}\]</span></p>
+<p>Donde cada uno de las <span class="math inline">\(A_i\)</span>, <span class="math inline">\(i = 1, 2, \ldots, p\)</span>, son matrices cuadradas de dimensión <span class="math inline">\(k\)</span> y <span class="math inline">\(\mathbf{U}_t\)</span> representa un vector de dimensión <span class="math inline">\(k \times 1\)</span> con los residuales en el momento del tiempo <span class="math inline">\(t\)</span> que son un proceso pueramente aleatorio. También se incorpora un vector de términos constantes denominado como <span class="math inline">\(\mathbf{\delta}\)</span>, el cual es de dimensión <span class="math inline">\(k \times 1\)</span>.</p>
+<p>Así, la ecuación <a href="procesos-basados-en-vectores-autoregresivos.html#eq:VARp">(6.10)</a> supone la siguiente estructura de vectores:
+<span class="math display">\[\begin{equation*}
+    \mathbf{X}_t =
+    \begin{bmatrix}
+    X_{1t} \\ X_{2t} \\ \vdots \\ X_{kt}
+    \end{bmatrix}
+\end{equation*}\]</span></p>
+<p>Para cualquier <span class="math inline">\(i = 1, 2, \ldots, p\)</span>:
+<span class="math display">\[\begin{equation*}
+    \mathbf{X}_{t-i} =
+    \begin{bmatrix}
+    X_{1t-i} \\ X_{2t-i} \\ \vdots \\ X_{kt-i}
+    \end{bmatrix}
+\end{equation*}\]</span></p>
+<p><span class="math display">\[\begin{equation*}
+    \mathbf{\delta} =
+    \begin{bmatrix}
+    \delta_{1} \\ \delta_{2} \\ \vdots \\ \delta_{k}
+    \end{bmatrix}
+\end{equation*}\]</span></p>
+<p>También, la ecuación <a href="procesos-basados-en-vectores-autoregresivos.html#eq:VARp">(6.10)</a> supone que cada matriz <span class="math inline">\(A_i\)</span>, <span class="math inline">\(i = 1, 2, \ldots, p\)</span>, esta definida de la siguiente forma:
+<span class="math display">\[\begin{equation*}
+    \mathbf{A}_i =
+    \begin{bmatrix}
+    a^{(i)}_{11} &amp; a^{(i)}_{12} &amp; \ldots &amp; a^{(i)}_{1k} \\ a^{(i)}_{21} &amp; a^{(i)}_{22} &amp; \ldots &amp; a^{(i)}_{2k} \\ \vdots &amp; \vdots &amp; \ddots &amp; \vdots \\ a^{(i)}_{k1} &amp; a^{(i)}_{k2} &amp; \ldots &amp; a^{(i)}_{kk}
+    \end{bmatrix}
+\end{equation*}\]</span></p>
+<p>Retomando la ecuación <a href="procesos-basados-en-vectores-autoregresivos.html#eq:VARp">(6.10)</a> y considerando que podemos ocupar el operador rezago <span class="math inline">\(L^j\)</span> de forma analóga al caso del modelo <span class="math inline">\(AR(p)\)</span>, pero aplicado a un vector, tenemos las siguientes ecuaciones:</p>
+<p><span class="math display" id="eq:ARCorto">\[\begin{eqnarray}
+    \mathbf{X}_t - A_1 \mathbf{X}_{t-1} - A_2 \mathbf{X}_{t-2} - \ldots - A_p \mathbf{X}_{t-p} &amp; = &amp; \mathbf{\delta} + \mathbf{U}_{t} \nonumber \\
+    \mathbf{X}_t - A_1 L \mathbf{X}_{t} - A_2 L^2 \mathbf{X}_{t} - \ldots - A_p L^p \mathbf{X}_{t-p} &amp; = &amp; \mathbf{\delta} + \mathbf{U}_{t} \nonumber \\
+    (I_k - A_1 L - A_2 L^2 - \ldots - A_p L^p) \mathbf{X}_t &amp; = &amp; \mathbf{\delta} + \mathbf{U}_{t} \nonumber \\
+    \mathbf{A}(L) \mathbf{X}_t &amp; = &amp; \mathbf{\delta} + \mathbf{U}_{t}
+    \tag{6.11}
+\end{eqnarray}\]</span></p>
+<p>Adicionalmente, requeriremos que dado que <span class="math inline">\(\mathbf{U}_t\)</span> es un proceso pueramente aleatorio, este debe cumplir con las siguientes condiciones:
+1. El valor esperado del término de erros es cero:
+<span class="math display" id="eq:ARCorto1">\[\begin{equation}
+        \mathbb{E}[\mathbf{U}_t] = 0
+            \tag{6.12}
+    \end{equation}\]</span></p>
+<ol start="2" style="list-style-type: decimal">
+<li><p>Existe una matriz de varianzas y covarianzas entre los términos de error contemporáneos dada por:
+<span class="math display" id="eq:SigmaVAR">\[\begin{eqnarray}
+     \mathbb{E}[\mathbf{U}_t \mathbf{U}_t']
+     &amp; = &amp;
+     \mathbb{E} \left[
+     \begin{bmatrix}
+     U^{(t)}_{1} \\ U^{(t)}_{2} \\ \vdots \\ U^{(t)}_{k}
+     \end{bmatrix}
+     \begin{bmatrix}
+     U^{(t)}_{1} &amp; U^{(t)}_{2} &amp; \ldots &amp; U^{(t)}_{k}
+     \end{bmatrix}
+     \right] \nonumber \\
+     &amp; = &amp; \mathbb{E}
+     \begin{bmatrix}
+     U^{(t)}_{1} U^{(t)}_{1} &amp; U^{(t)}_{1} U^{(t)}_{2} &amp; \ldots &amp; U^{(t)}_{1} U^{(t)}_{k} \\
+     U^{(t)}_{2} U^{(t)}_{1} &amp; U^{(t)}_{2} U^{(t)}_{2} &amp; \ldots &amp; U^{(t)}_{2} U^{(t)}_{k} \\
+     \vdots &amp; \vdots &amp; \ldots &amp; \vdots \\
+     U^{(t)}_{k} U^{(t)}_{1} &amp; U^{(t)}_{k} U^{(t)}_{2} &amp; \ldots &amp; U^{(t)}_{k} U^{(t)}_{k}
+     \end{bmatrix} \nonumber \\
+     &amp; = &amp; \begin{bmatrix}
+     \sigma^2_1 &amp; \rho_{12} &amp; \ldots &amp; \rho_{1k} \\
+     \rho_{21} &amp; \sigma^2_2 &amp; \ldots &amp; \rho_{2k} \\
+     \vdots &amp; \vdots &amp; \ldots &amp; \vdots \\
+     \rho_{k1} &amp; \rho_{k2} &amp; \ldots &amp; \sigma^2_k
+     \end{bmatrix} \nonumber \\
+     &amp; = &amp; \mathbf{\Sigma}_{UU}
+     \tag{6.13}
+\end{eqnarray}\]</span></p></li>
+<li><p>La matriz de varianzas y covarianzas no comtemporáneas es nula. Es decir, que para todo <span class="math inline">\(t \neq s\)</span>:
+<span class="math display" id="eq:RhoVAR">\[\begin{eqnarray}
+     \mathbb{E} [\mathbf{U}_t \mathbf{U}_s']
+     &amp; = &amp;
+     \mathbb{E} \left[
+     \begin{bmatrix}
+     U^{(t)}_{1} \\ U^{(t)}_{2} \\ \vdots \\ U^{(t)}_{k}
+     \end{bmatrix}
+     \begin{bmatrix}
+     U^{(s)}_{1} &amp; U^{(s)}_{2} &amp; \ldots &amp; U^{(s)}_{k}
+     \end{bmatrix}
+     \right] \nonumber \\
+     &amp; =  &amp; \mathbb{E}
+     \begin{bmatrix}
+     U^{(t)}_{1} U^{(s)}_{1} &amp; U^{(t)}_{1} U^{(s)}_{2} &amp; \ldots &amp; U^{(t)}_{1} U^{(s)}_{k} \\
+     U^{(t)}_{2} U^{(s)}_{1} &amp; U^{(t)}_{2} U^{(s)}_{2} &amp; \ldots &amp; U^{(t)}_{2} U^{(s)}_{k} \\
+     \vdots &amp; \vdots &amp; \ldots &amp; \vdots \\
+     U^{(t)}_{k} U^{(s)}_{1} &amp; U^{(t)}_{k} U^{(s)}_{2} &amp; \ldots &amp; U^{(t)}_{k} U^{(s)}_{k}
+     \end{bmatrix} \nonumber \\
+     &amp; = &amp; \mathbf{0}
+     \tag{6.14}
+\end{eqnarray}\]</span></p></li>
+</ol>
+<p>Las ecuaciones <a href="procesos-basados-en-vectores-autoregresivos.html#eq:SigmaVAR">(6.13)</a> y <a href="procesos-basados-en-vectores-autoregresivos.html#eq:RhoVAR">(6.14)</a> significan que los residuales <span class="math inline">\(\mathbf{U}_t\)</span> pueden estar correlacionados entre ellos solo en el caso de que la información sea contemporánea, pero no tienen información en común entre residuales de otros periodos.</p>
+<p>Al igual que en el caso del modelo o especificación <span class="math inline">\(AR(p)\)</span> en la especificación del modelo <span class="math inline">\(VAR(p)\)</span> existen condiciones de estabilidad. Dichas condiciones están dadas por lo siguiente, definamos el siguiente polinomio que resulta de tomar la matriz <span class="math inline">\(\mathbf{A}(L)\)</span> en la ecuación <a href="procesos-basados-en-vectores-autoregresivos.html#eq:ARCorto1">(6.12)</a>:</p>
+<p><span class="math display" id="eq:RhoVAR1">\[\begin{equation}
+    Det[I_t - A_1 z - A_2 z^2 - \ldots - A_p z^p] \neq 0
+            \tag{6.15}
+\end{equation}\]</span></p>
+<p>Donde las raíces del polinomio cumplen que <span class="math inline">\(|z| \leq 1\)</span>, es decir, se ubican dentro del circulo unitario.</p>
+<p>La ecuación <a href="procesos-basados-en-vectores-autoregresivos.html#eq:ARCorto1">(6.12)</a> puede ser rexpresada en una forma similar al un proceso de MA. Al respecto, de forma similar a la siguiente ecuación podemos construir un modelo <span class="math inline">\(VARMA(p,q)\)</span>, el cual no estudiamos es este curso.</p>
+<p>Reromando el primer planteamiento, podemos escribir:
+<span class="math display" id="eq:VARMAq">\[\begin{eqnarray}
+    \mathbf{X}_t &amp; = &amp; \mathbf{A}^{-1}(L) \delta + \mathbf{A}^{-1}(L) \mathbf{U}_t \nonumber \\
+    &amp; = &amp; \mu + \beta(L) \mathbf{U}_t
+    \tag{6.16}
+\end{eqnarray}\]</span></p>
+<p>Por el lado de las matrices que representan la autocovarianza, estás resultan de resolver lo siguiente:
+<span class="math display" id="eq:VARMAq1">\[\begin{equation}
+    \Gamma_X(\tau) = E[(\mathbf{X}_t - \mu)(\mathbf{X}_{t-\tau} - \mu)']
+        \tag{6.17}
+\end{equation}\]</span></p>
+<p>Ahora, sin pérdida de generalidad digamos que la especificación VAR(p) en la ecuación <a href="procesos-basados-en-vectores-autoregresivos.html#eq:VARp">(6.10)</a> no tiene constante, por lo que <span class="math inline">\(\delta = 0\)</span>, lo que implica que <span class="math inline">\(\mu = 0\)</span>. De esta forma las matrices de autocovarianza resultan de:
+<span class="math display">\[\begin{eqnarray*}
+    \Gamma_X(\tau) &amp; = &amp; E[(\mathbf{X}_t)(\mathbf{X}_{t-\tau})'] \\
+    &amp; = &amp; A_1 E[(\mathbf{X}_{t-1})(\mathbf{X}_{t-\tau})'] + A_2 E[(\mathbf{X}_{t-2})(\mathbf{X}_{t-\tau})'] \\
+    &amp;   &amp; + \ldots + A_p E[(\mathbf{X}_{t-p})(\mathbf{X}_{t-\tau})'] + E[(\mathbf{U}_t(\mathbf{X}_{t-\tau})']
+\end{eqnarray*}\]</span></p>
+<p>Finalmente, al igual que en el caso <span class="math inline">\(AR(p)\)</span> requerimos de una métrica que nos permita determinar el número de rezagos óptimo <span class="math inline">\(p\)</span> en el <span class="math inline">\(VAR(p)\)</span>. Así, establecemos criterios de información similares a los del <span class="math inline">\(AR(p)\)</span> dados por:</p>
+<p>1.Final Prediction Error (FPE):
+<span class="math display" id="eq:lst1">\[\begin{equation}
+        FPE(p) = \left[ \frac{T + kp + 1}{T - kp - 1} \right]^k |\mathbf{\Sigma}_{\hat{U}\hat{U}}(p)|
+\tag{6.18}
+\end{equation}\]</span></p>
+<ol start="2" style="list-style-type: decimal">
+<li><p>Akaike Criterion (AIC):
+<span class="math display" id="eq:lst2">\[\begin{equation}
+     AIC(p) = ln|\mathbf{\Sigma}_{\hat{U}\hat{U}}(p)| + (k + p k^2) \frac{2}{T}
+\tag{6.19}
+\end{equation}\]</span></p></li>
+<li><p>Hannan - Quinn Criterion (HQ):
+<span class="math display" id="eq:lst3">\[\begin{equation}
+     HQ(p) = ln|\mathbf{\Sigma}_{\hat{U}\hat{U}}(p)| + (k + p k^2) \frac{2ln(ln(2))}{T}
+\tag{6.20}
+     \end{equation}\]</span></p></li>
+<li><p>Schwartz Criterion (SC):
+<span class="math display" id="eq:lst4">\[\begin{equation}
+     SC(p) = ln|\mathbf{\Sigma}_{\hat{U}\hat{U}}(p)| + (k + p k^2) \frac{ln(T)}{T}
+\tag{6.21}
+     \end{equation}\]</span></p></li>
+</ol>
+<p>Donde la matriz de varianzas y covarianzas contemporáneas estará dada por:
+<span class="math display">\[\begin{equation*}
+            \mathbf{\Sigma}_{\hat{U}\hat{U}}(p) = \mathbb{E} \left[
+            \begin{bmatrix}
+            U^{(t)}_{1} \\ U^{(t)}_{2} \\ \vdots \\ U^{(t)}_{k}
+            \end{bmatrix}
+            \begin{bmatrix}
+            U^{(t)}_{1} &amp; U^{(t)}_{2} &amp; \ldots &amp; U^{(t)}_{k}
+            \end{bmatrix}
+            \right]
+        \end{equation*}\]</span></p>
+<p>Ahora veámos un ejemplo de estimación de <span class="math inline">\(VAR(p)\)</span>. Para el ejemplo utilizaremos las series de INPC, Tipo de CAmbio, rendimiento de los Cetes a 28 días, el IGAE y el Índice de Producción Industrial de los Estados Unidos, todas desestacionalizadas y para el período de enero de 2000 a julio de 2019. Dado que el supuesto estacionariedad sigue presente en nuestro análisis, emplearemos cada una de las series en su versión de diferencias logaritmicas. La Figura <a href="procesos-basados-en-vectores-autoregresivos.html#fig:VARDLSeries">6.2</a> muestra las series referidas.</p>
+<div class="figure" style="text-align: center">
+<span style="display:block;" id="fig:VARDLSeries"></span>
+<img src="imagenes/VAR_DLSeries.png" alt="Series en diferencias logarítmicas, enero de 2000 a julio de 201p" width="100%"><p class="caption">
+Figure 6.2: Series en diferencias logarítmicas, enero de 2000 a julio de 201p
+</p>
+</div>
+<p>Dicho lo anterior, a continuación mostraremos la tabla que resume el valor de los distintos criterios de información una especificación de un <span class="math inline">\(VAR(p)\)</span> con constante. Notése que es posible especificar un <span class="math inline">\(VAR(p)\)</span> con tendencia, caso que no aplica hasta este momento, ya que nuestro análisis de estacionariedad es claro respecto a la media constante (más adelante relajaremos este supuesto), lo cual elimina la poisiblidad de incluir una tendencia.</p>
+<p>En el Cuadro <a href="procesos-basados-en-vectores-autoregresivos.html#tab:SelectVAR">6.2</a> reportamos los resultados de aplicar una prueba de criterios de información para diferentes valores de reagos. Del cual se concluye que el número óptimo de residuales es 2 (según el crietrio AIC y el FPE) y 1 (según el criterio HQ y el SC). Recordemos que es común que el criterio AIC siempre reporte el mayor valor de rezagos, por lo que es una buena práctica utilizarlo como referente principal.</p>
+<div class="inline-table"><table class="table table-sm">
+<caption>
+<span id="tab:SelectVAR">Table 6.2: </span> Criterios de información para diferentes especificaciones de modelos VAR(p) con término constante de la series <span class="math inline">\(DLINPC_t\)</span>, <span class="math inline">\(DLTC_t\)</span>, <span class="math inline">\(DLCETE28_t\)</span>, <span class="math inline">\(DLIGAE_t\)</span> y <span class="math inline">\(DLIPI_t\)</span>. <em>Nota: Se reporta el valor de los criterios de información.</em>
+</caption>
+<thead><tr class="header">
+<th align="center">Rezagos</th>
+<th align="center">AIC</th>
+<th align="center">HQ</th>
+<th align="center">SC</th>
+<th align="center">FPE</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="center">1</td>
+<td align="center">-4.636412e+01</td>
+<td align="center">-4.617847e+01</td>
+<td align="center">-4.590430e+01</td>
+<td align="center">7.317262e-21</td>
+</tr>
+<tr class="even">
+<td align="center">2</td>
+<td align="center">-4.639541e+01</td>
+<td align="center">-4.605506e+01</td>
+<td align="center">-4.555241e+01</td>
+<td align="center">7.094216e-21</td>
+</tr>
+<tr class="odd">
+<td align="center">3</td>
+<td align="center">-4.635305e+01</td>
+<td align="center">-4.585799e+01</td>
+<td align="center">-4.512686e+01</td>
+<td align="center">7.407479e-21</td>
+</tr>
+<tr class="even">
+<td align="center"><span class="math inline">\(\vdots\)</span></td>
+<td align="center"><span class="math inline">\(\vdots\)</span></td>
+<td align="center"><span class="math inline">\(\vdots\)</span></td>
+<td align="center"><span class="math inline">\(\vdots\)</span></td>
+<td align="center"><span class="math inline">\(\vdots\)</span></td>
+</tr>
+</tbody>
+</table></div>
+<p>De esta forma, justificamos la estimación de un <span class="math inline">\(VAR(2)\)</span>. Los resultados del mismo se repotartan en los siguientes cuadros, en los que se reporta el resultado de una de las ecuaciones. Los resultados restantes se encuentran en el Scrip Clase 14 que se encuentra en repositorio de GitHub. Primero mostraremos los resutlados de las raíces del polinomio caracteristico en el Cuadro <a href="procesos-basados-en-vectores-autoregresivos.html#tab:RootsVAR">6.3</a>, seguido de un cuadro para la ecuación del IGAE en el Cuadro <a href="procesos-basados-en-vectores-autoregresivos.html#tab:IGAEVAR">6.4</a>(por simplicidad se omiten las otras cuatro ecuaciones del VAR(2)), y del Cuadro <a href="procesos-basados-en-vectores-autoregresivos.html#tab:SigmaVARp">6.5</a> con la matriz <span class="math inline">\(\mathbf{\Sigma}_{\hat{U}\hat{U}}\)</span> estimada del VAR.</p>
+<div class="inline-table"><table class="table table-sm">
+<caption>
+<span id="tab:RootsVAR">Table 6.3: </span> Raíces del polinomio característico de un VAR(2).</caption>
+<tbody>
+<tr class="odd">
+<td align="center">0.7452</td>
+<td align="center">0.4403</td>
+<td align="center">0.4403</td>
+<td align="center">0.3503</td>
+<td align="center">0.3503</td>
+</tr>
+<tr class="even">
+<td align="center">0.3342</td>
+<td align="center">0.3342</td>
+<td align="center">0.3339</td>
+<td align="center">0.3339</td>
+<td align="center">0.06951</td>
+</tr>
+</tbody>
+</table></div>
+<div class="inline-table"><table class="table table-sm">
+<caption>
+<span id="tab:IGAEVAR">Table 6.4: </span> Criterios de información para diferentes especificaciones de modelos VAR(p) con término constante de la series <span class="math inline">\(DLINPC_t\)</span>, <span class="math inline">\(DLTC_t\)</span>, <span class="math inline">\(DLCETE28_t\)</span>, <span class="math inline">\(DLIGAE_t\)</span> y <span class="math inline">\(DLIPI_t\)</span>. <em>Nota: *** significancia al 0.001%, ** significancia al 0.01%, significancia 0.05%</em>
+</caption>
+<thead><tr class="header">
+<th align="center">Variable</th>
+<th align="center">Coeficiente</th>
+<th align="center">Error Est.</th>
+<th align="center">Estad. t</th>
+<th align="center">Prob.(<span class="math inline">\(&gt;\)</span> t)</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="center"><span class="math inline">\(DLTC_{t-1}\)</span></td>
+<td align="center">0.0022016</td>
+<td align="center">0.0152876</td>
+<td align="center">0.144</td>
+<td align="center">0.885620</td>
+</tr>
+<tr class="even">
+<td align="center"><span class="math inline">\(DLINPC_{t-1}\)</span></td>
+<td align="center">-0.2584978</td>
+<td align="center">0.1658396</td>
+<td align="center">-1.559</td>
+<td align="center">0.120493</td>
+</tr>
+<tr class="odd">
+<td align="center"><span class="math inline">\(DLCETE28_{t-1}\)</span></td>
+<td align="center">0.0009547</td>
+<td align="center">0.0049115</td>
+<td align="center">0.194</td>
+<td align="center">0.846054</td>
+</tr>
+<tr class="even">
+<td align="center"><span class="math inline">\(DLIGAE_{t-1}\)</span></td>
+<td align="center">-0.2351453</td>
+<td align="center">0.0699797</td>
+<td align="center">-3.360</td>
+<td align="center">0.000917 ***</td>
+</tr>
+<tr class="odd">
+<td align="center"><span class="math inline">\(DLIPI_{t-1}\)</span></td>
+<td align="center">0.2442406</td>
+<td align="center">0.0600502</td>
+<td align="center">4.067</td>
+<td align="center">6.62e-05 ***</td>
+</tr>
+<tr class="even">
+<td align="center"><span class="math inline">\(DLINPC_{t-2}\)</span></td>
+<td align="center">-0.0775039</td>
+<td align="center">0.1694809</td>
+<td align="center">-0.457</td>
+<td align="center">0.647904</td>
+</tr>
+<tr class="odd">
+<td align="center"><span class="math inline">\(DLTC_{t-2}\)</span></td>
+<td align="center">-0.0413316</td>
+<td align="center">0.0144650</td>
+<td align="center">-2.857</td>
+<td align="center">0.004680 **</td>
+</tr>
+<tr class="even">
+<td align="center"><span class="math inline">\(DLCETE28_{t-2}\)</span></td>
+<td align="center">0.0005341</td>
+<td align="center">0.0048058</td>
+<td align="center">0.111</td>
+<td align="center">0.911612</td>
+</tr>
+<tr class="odd">
+<td align="center"><span class="math inline">\(DLIGAE_{t-2}\)</span></td>
+<td align="center">-0.0646890</td>
+<td align="center">0.0693711</td>
+<td align="center">-0.933</td>
+<td align="center">0.352092</td>
+</tr>
+<tr class="even">
+<td align="center"><span class="math inline">\(DLIPI_{t-2}\)</span></td>
+<td align="center">0.1796286</td>
+<td align="center">0.0620861</td>
+<td align="center">2.893</td>
+<td align="center">0.004195 **</td>
+</tr>
+<tr class="odd">
+<td align="center"><span class="math inline">\(\delta_4\)</span></td>
+<td align="center">0.0030377</td>
+<td align="center">0.0008077</td>
+<td align="center">3.761</td>
+<td align="center">0.000217 ***</td>
+</tr>
+</tbody>
+</table></div>
+<div class="inline-table"><table class="table table-sm">
+<caption>
+<span id="tab:SigmaVARp">Table 6.5: </span> Matriz <span class="math inline">\(\mathbf{\Sigma}_{\hat{U}\hat{U}}\)</span> estimada del VAR(2).</caption>
+<thead><tr class="header">
+<th align="center"><span class="math inline">\(DLINPC_t\)</span></th>
+<th align="center"><span class="math inline">\(DLTC_t\)</span></th>
+<th align="center"><span class="math inline">\(DLCE28_t\)</span></th>
+<th align="center"><span class="math inline">\(DLIGAE_t\)</span></th>
+<th align="center"><span class="math inline">\(DLIGAE_t\)</span></th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="center"><span class="math inline">\(DLINPC_t\)</span></td>
+<td align="center">3.95e-06</td>
+<td align="center">3.19e-06</td>
+<td align="center">-1.83e-06</td>
+<td align="center">-5.29-07</td>
+</tr>
+<tr class="even">
+<td align="center"><span class="math inline">\(DLTC_t\)</span></td>
+<td align="center">3.19e-06</td>
+<td align="center">5.04e-04</td>
+<td align="center">4.27e-04</td>
+<td align="center">9.81e-06</td>
+</tr>
+<tr class="odd">
+<td align="center"><span class="math inline">\(DLCE28_t\)</span></td>
+<td align="center">-1.83e-06</td>
+<td align="center">4.27e-04</td>
+<td align="center">4.63e-03</td>
+<td align="center">1.26e-05</td>
+</tr>
+<tr class="even">
+<td align="center"><span class="math inline">\(DLIGAE_t\)</span></td>
+<td align="center">-5.29e-07</td>
+<td align="center">9.81e-06</td>
+<td align="center">1.26e-05</td>
+<td align="center">2.43e-05</td>
+</tr>
+<tr class="odd">
+<td align="center"><span class="math inline">\(DLIGAE_t\)</span></td>
+<td align="center">1.34e-06</td>
+<td align="center">1.61e-05</td>
+<td align="center">2.76e-05</td>
+<td align="center">8.75e-06</td>
+</tr>
+</tbody>
+</table></div>
+<p>Finalmente, en el Cuadro <a href="procesos-basados-en-vectores-autoregresivos.html#tab:DiagnosVAR">6.6</a> reportamos las pruebas de diagnóstico del VAR(2). Incluímos las pruebas de normalidad, autocorrelación parcial y de heterocedásticidad.</p>
+<div class="inline-table"><table class="table table-sm">
+<caption>
+<span id="tab:DiagnosVAR">Table 6.6: </span> Pruebas de diagnóstico sobre los residuales del VAR(2).</caption>
+<colgroup>
+<col width="25%">
+<col width="25%">
+<col width="25%">
+<col width="25%">
+</colgroup>
+<thead><tr class="header">
+<th align="center">Estadística (rezagos)</th>
+<th align="center">Coeficiente</th>
+<th align="center">p-value</th>
+<th align="center">Conclusión</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="center">Correlación Serial (<span class="math inline">\(\chi^2 (2)\)</span>)</td>
+<td align="center">59.436</td>
+<td align="center">0.1696</td>
+<td align="center">Existe auto-correlación serial</td>
+</tr>
+<tr class="even">
+<td align="center">Correlación Serial (<span class="math inline">\(\chi^2 (4)\)</span>)</td>
+<td align="center">127.17</td>
+<td align="center">0.03461</td>
+<td align="center">No existe auto-correlación serial</td>
+</tr>
+<tr class="odd">
+<td align="center">Correlación Serial (<span class="math inline">\(\chi^2 (6)\)</span>)</td>
+<td align="center">183.14</td>
+<td align="center">0.03393</td>
+<td align="center">No existe auto-correlación serial</td>
+</tr>
+<tr class="even">
+<td align="center">Normalidad - JB (<span class="math inline">\(\chi^2\)</span>)</td>
+<td align="center">2335</td>
+<td align="center">0.0000</td>
+<td align="center">Los residuales no son normales</td>
+</tr>
+<tr class="odd">
+<td align="center">ARCH (<span class="math inline">\(\chi^2 (2)\)</span>)</td>
+<td align="center">691.58</td>
+<td align="center">0.0000</td>
+<td align="center">Los residuales no son homocedásticos</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<div id="análisis-de-impulso-respuesta" class="section level2" number="6.3">
+<h2>
+<span class="header-section-number">6.3</span> Análisis de Impulso-Respuesta<a class="anchor" aria-label="anchor" href="#an%C3%A1lisis-de-impulso-respuesta"><i class="fas fa-link"></i></a>
+</h2>
+<p>Una de las grandes ventajas que aporta el análisis de los modelos VAR es el análisis de Impulso-Respuesta. Dicho análisis busca cuantificar el efecto que tiene en <span class="math inline">\(\mathbf{X}_t\)</span> una innovación o cambio en los residuales de cualquiera de las variables en un momento definido. Partamos dela ecuación <a href="procesos-basados-en-vectores-autoregresivos.html#eq:VARMAq">(6.16)</a> de forma que tenemos:</p>
+<p><span class="math display" id="eq:lst66">\[\begin{eqnarray}
+    \mathbf{X}_t &amp; = &amp; \mathbf{A}^{-1}(L) \delta + \mathbf{A}^{-1}(L) \mathbf{U}_t \nonumber \\
+    &amp; = &amp; \mu + \mathbf{B}(L) \mathbf{U}_t \nonumber \\
+    &amp; = &amp; \mu + \Psi_0 \mathbf{U}_t + \Psi_1 \mathbf{U}_{t-1} + \Psi_2 \mathbf{U}_{t-2} + \Psi_3 \mathbf{U}_{t-3} + \ldots
+\tag{6.22}
+\end{eqnarray}\]</span></p>
+<p>Donde <span class="math inline">\(\Psi_0 = I\)</span> y cada una de las <span class="math inline">\(\Psi_i = - \mathbf{B}_i\)</span>, <span class="math inline">\(i = 1, 2, \ldots\)</span>. De esta forma se verifica el efecto que tiene en <span class="math inline">\(\mathbf{X}_t\)</span> cada las innovaciones pasadas. Por lo que el análisis de Impulso-Respuesta cuantifica el efecto de cada una de esas matrices en las que hemos descompuesto a <span class="math inline">\(\mathbf{B}(L)\)</span>.</p>
+<p>Retomando el modelo <span class="math inline">\(VAR(2)\)</span> anteriormente estimado, en el Cuadro <a href="procesos-basados-en-vectores-autoregresivos.html#tab:IRVARTC">6.7</a> reportamos las gráficas de Impulso-respuesta de la serie <span class="math inline">\(DLTC_t\)</span> ante cambios en los residuales del resto de las series y de la propia serie.</p>
+<div class="inline-table"><table class="table table-sm">
+<caption>
+<span id="tab:IRVARTC">Table 6.7: </span> Gráficas de Impulso-respuesta de la serie <span class="math inline">\(DLTC_t\)</span> ante cambios en los residuales del resto de las series y de la propia serie.</caption>
+<colgroup>
+<col width="50%">
+<col width="50%">
+</colgroup>
+<tbody>
+<tr class="odd">
+<td align="center"><img src="imagenes/IR_DLTC_1.png" width="350"></td>
+<td align="center"><img src="imagenes/IR_DLTC_2.png" width="350"></td>
+</tr>
+<tr class="even">
+<td align="center"><img src="imagenes/IR_DLTC_3.png" width="350"></td>
+<td align="center"><img src="imagenes/IR_DLTC_4.png" width="350"></td>
+</tr>
+<tr class="odd">
+<td align="center"><img src="imagenes/IR_DLTC_5.png" width="350"></td>
+<td align="center"></td>
+</tr>
+</tbody>
+</table></div>
+<p>Los resultados muestran que la respuesta de <span class="math inline">\(DLTC_t\)</span> ante impulsos en los términos de error fue estadísticamente significativo sólo para alguunos de los casos y en periodos cortos de tiempo. El resto de los resultados de Impulso-Respuesta se encuentra en el Scrip llamado Clase 15 que se ubica en el repositorio de GitHub.</p>
+
+</div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <div class="chapter-nav">
+<div class="prev"><a href="desestacionalizaci%C3%B3n-y-filtrado-de-series.html"><span class="header-section-number">5</span> Desestacionalización y filtrado de Series</a></div>
+<div class="empty"></div>
+</div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
+    <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
+      <ul class="nav navbar-nav">
+<li><a class="nav-link" href="#procesos-basados-en-vectores-autoregresivos"><span class="header-section-number">6</span> Procesos Basados en Vectores Autoregresivos</a></li>
+<li><a class="nav-link" href="#causalidad-de-granger"><span class="header-section-number">6.1</span> Causalidad de Granger</a></li>
+<li><a class="nav-link" href="#definici%C3%B3n-y-representaci%C3%B3n-del-sistema-o-modelo-varp"><span class="header-section-number">6.2</span> Definición y representación del Sistema o Modelo VAR(p)</a></li>
+<li><a class="nav-link" href="#an%C3%A1lisis-de-impulso-respuesta"><span class="header-section-number">6.3</span> Análisis de Impulso-Respuesta</a></li>
+</ul>
+
+      <div class="book-extra">
+        <ul class="list-unstyled">
+<li><a id="book-source" href="git@github.com:emilianoprzcls/bookdown-notas-series-de-tiempo.git/blob/master/05-VAR.Rmd">View source <i class="fab fa-github"></i></a></li>
+          <li><a id="book-edit" href="git@github.com:emilianoprzcls/bookdown-notas-series-de-tiempo.git/edit/master/05-VAR.Rmd">Edit this page <i class="fab fa-github"></i></a></li>
+        </ul>
+</div>
+    </nav>
+</div>
+
+</div>
+</div> <!-- .container -->
+
+<footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>"<strong>Notas de Clase: Series de Tiempo</strong>" was written by Benjamín Oliva, Omar Alfaro-Rivera y Emiliano Pérez Caullieres. It was last built on 2022-07-15.</p>
+  </div>
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>This book was built by the <a class="text-light" href="https://bookdown.org">bookdown</a> R package.</p>
+  </div>
+
+</div></div>
+</footer><!-- dynamically load mathjax for compatibility with self-contained --><script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script><script type="text/x-mathjax-config">const popovers = document.querySelectorAll('a.footnote-ref[data-toggle="popover"]');
+for (let popover of popovers) {
+  const div = document.createElement('div');
+  div.setAttribute('style', 'position: absolute; top: 0, left:0; width:0, height:0, overflow: hidden; visibility: hidden;');
+  div.innerHTML = popover.getAttribute('data-content');
+
+  var has_math = div.querySelector("span.math");
+  if (has_math) {
+    document.body.appendChild(div);
+    MathJax.Hub.Queue(["Typeset", MathJax.Hub, div]);
+    MathJax.Hub.Queue(function() {
+      popover.setAttribute('data-content', div.innerHTML);
+      document.body.removeChild(div);
+    })
+  }
+}
+</script>
+</body>
+</html>
