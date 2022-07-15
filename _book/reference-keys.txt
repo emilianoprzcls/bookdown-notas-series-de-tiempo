@@ -214,6 +214,12 @@ eq:ARMApqFor
 fig:GResidualsARMA46D
 tab:ResultARMApq
 fig:PaxNalf
+eq:ARIMAseas
+fig:INPCAdj
+eq:HPEq
+eq:HPEq1
+fig:INPCHP
+fig:TCHP
 introducción
 la-naturaleza-de-los-datos-de-series-de-tiempo
 ejemplos-y-aplicaciones-de-las-series-de-tiempo
@@ -239,3 +245,6 @@ armap-q
 función-de-autocorrelación-parcial
 selección-de-las-constantes-p-q-d-en-un-arp-un-maq-un-armap-q-o-un-arimap-d-q
 pronósticos
+desestacionalización-y-filtrado-de-series
+motivación
+filtro-hodrick-prescott
