@@ -232,7 +232,7 @@ S_{t} &amp; = &amp; a_1 \sum^{t-1}_{i = 0}{a^i_1} \nonumber \\
     Z_t = 2 \left( \frac{1 - (-0.5)^{t}}{1 + 0.5} \right) + (-0.5)^t Z_0
 \tag{2.23}
 \end{equation}\]</span></p>
-<p>Donde asumiremos que el valor inicial es <span class="math inline">\(Z_0 = 10\)</span> y que la ecuación converge al valor de <span class="math inline">\(1.3333333 \ldots\)</span>, cuando <span class="math inline">\(t\)</span> es muy grande o tiende a infinito. Ahora simulemos el comportamiento de ambos procesos y estableceremos los resultados del Cuadro <a href="elementos-de-ecuaciones-en-diferencia.html#tab:table1">2.2</a>. Notemos que el segundo proceso converge de una forma más rapida que el primero. El Cuadro <a href="elementos-de-ecuaciones-en-diferencia.html#tab:table1">2.2</a> se ilustra en las siguientes dos Figura <a href="elementos-de-ecuaciones-en-diferencia.html#fig:fig21">2.1</a> y Figura <a href="elementos-de-ecuaciones-en-diferencia.html#fig:fig22">2.2</a>.</p>
+<p>Donde asumiremos que el valor inicial es <span class="math inline">\(Z_0 = 10\)</span> y que la ecuación converge al valor de <span class="math inline">\(1.3333333 \ldots\)</span>, cuando <span class="math inline">\(t\)</span> es muy grande o tiende a infinito. Ahora simulemos el comportamiento de ambos procesos y estableceremos los resultados del Cuadro <a href="elementos-de-ecuaciones-en-diferencia.html#tab:table1">2.1</a>. Notemos que el segundo proceso converge de una forma más rapida que el primero. El Cuadro <a href="elementos-de-ecuaciones-en-diferencia.html#tab:table1">2.1</a> se ilustra en las siguientes dos Figura <a href="elementos-de-ecuaciones-en-diferencia.html#fig:fig21">2.1</a> y Figura <a href="elementos-de-ecuaciones-en-diferencia.html#fig:fig22">2.2</a>.</p>
 </div>
 <div id="ecuaciones-en-diferencia-lineales-de-segundo-orden-y-de-orden-superior" class="section level3" number="2.1.2">
 <h3>
@@ -243,10 +243,9 @@ S_{t} &amp; = &amp; a_1 \sum^{t-1}_{i = 0}{a^i_1} \nonumber \\
     Z_t = a_0 + a_1 Z_{t-1} + a_2 Z_{t-2}
     \tag{2.24}
 \end{equation}\]</span></p>
-<p>Table: (#tab:foo) Dos ejemplos de procesos de Ecuaciones Lineales de Primer Orden convengentes</p>
 <div class="inline-table"><table class="table table-sm">
 <caption>
-<span id="tab:table1">Table 2.2: </span>Dos ejemplos de Procesos de Ecuaciones Lineales de Primer Orden Convergentes</caption>
+<span id="tab:table1">Table 2.1: </span>Dos ejemplos de Procesos de Ecuaciones Lineales de Primer Orden Convergentes</caption>
 <thead><tr class="header">
 <th align="right">Tiempo</th>
 <th align="right"><span class="math inline">\(Z_t =2+0.9Z_{t-1}\)</span></th>
@@ -528,7 +527,7 @@ Donde: <span class="math inline">\(r = \sqrt{u^2 + v^2}\)</span>, a esta expresi
     Z_t = 10 - 450(0.4)^t + 440(0.5)^t
 \tag{2.45}
 \end{equation}\]</span></p>
-<p>La ecuación <a href="elementos-de-ecuaciones-en-diferencia.html#eq:Ejem01">(2.45)</a> anterior convergerá al valor de 10 cuando <span class="math inline">\(t \rightarrow \infty\)</span>. Para ilustrar la trayectoria de esta ecuación tomemos un cuadro similar al de los ejemplos anteriores. En el Cuadro <a href="elementos-de-ecuaciones-en-diferencia.html#tab:table2">2.3</a> y la Figura <a href="elementos-de-ecuaciones-en-diferencia.html#fig:fig23">2.3</a> mostramos los resultados de la trayectorua para 100 periodos.</p>
+<p>La ecuación <a href="elementos-de-ecuaciones-en-diferencia.html#eq:Ejem01">(2.45)</a> anterior convergerá al valor de 10 cuando <span class="math inline">\(t \rightarrow \infty\)</span>. Para ilustrar la trayectoria de esta ecuación tomemos un cuadro similar al de los ejemplos anteriores. En el Cuadro <a href="elementos-de-ecuaciones-en-diferencia.html#tab:table2">2.2</a> y la Figura <a href="elementos-de-ecuaciones-en-diferencia.html#fig:fig23">2.3</a> mostramos los resultados de la trayectorua para 100 periodos.</p>
 <p>Finalmente, discutiremos la solución para las Ecuaciones Lineales en Diferencia de Orden <span class="math inline">\(p\)</span>, donde <span class="math inline">\(p \geq 2\)</span>. En general una ecuación de este tipo se puede escribir como:
 <span class="math display" id="eq:EDOP">\[\begin{equation}
     Z_t = a_0 + a_1 Z_{t-1} + a_2 Z_{t-2} + \ldots + a_p Z_{t-p}
@@ -543,7 +542,7 @@ Donde: <span class="math inline">\(r = \sqrt{u^2 + v^2}\)</span>, a esta expresi
 \end{eqnarray}\]</span></p>
 <div class="inline-table"><table class="table table-sm">
 <caption>
-<span id="tab:table2">Table 2.3: </span>Un ejemplo de proceso de Ecuación de Segundo Orden convengente</caption>
+<span id="tab:table2">Table 2.2: </span>Un ejemplo de proceso de Ecuación de Segundo Orden convengente</caption>
 <thead><tr class="header">
 <th align="right">Tiempo</th>
 <th align="right"><span class="math inline">\(Z_t =10-450(0.4)^t+440(0.5)^t\)</span></th>
@@ -834,7 +833,7 @@ Figure 2.4: Circulo unitario en el que se cumple que <span class="math inline">\
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Notas de Clase: Series de Tiempo</strong>" was written by Benjamín Oliva, Omar Alfaro-Rivera y Emiliano Pérez Caullieres. It was last built on 2022-07-15.</p>
+    <p>"<strong>Notas de Clase: Series de Tiempo</strong>" was written by Benjamín Oliva, Omar Alfaro-Rivera y Emiliano Pérez Caullieres. It was last built on 2022-07-21.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

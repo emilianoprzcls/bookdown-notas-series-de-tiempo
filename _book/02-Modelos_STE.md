@@ -113,6 +113,7 @@ A menudo, esas covarianzas son denominadas como autocovarianzas puesto que ellas
 Ahora introduciremos el concepto de ergodicidad, el cual indica que los momentos muestrales, los cuales son calculados en la base de una serie de tiempo con un número finito de observaciones, en la medida que $T \rightarrow \infty$ sus correspondientes momentos muestrales, tienden a los verdaderos valores poblacionales, los cuales definiremos como $\mu$, para la media, y $\sigma^2_X$ para la varianza.
 
 Este concepto sólo es cierto si asumimos que, por ejemplo, el valor esperado y la varianza son como se dice a continuación para todo $t = 1, 2, \ldots, T$:
+
 \begin{eqnarray}
     \mathbb{E}[X_t] = \mu_t = \mu \\
     \label{MEDIA}
@@ -124,6 +125,7 @@ Este concepto sólo es cierto si asumimos que, por ejemplo, el valor esperado y 
 \end{eqnarray} 
 
 Mas formalmente, se dice que el PGD o el proceso estocástico es ergódico en la media si:
+
 \begin{equation}
     \displaystyle\lim_{T \to \infty}{\mathbb{E} \left[ \left( \frac{1}{T} \sum^{T}_{t = 1} (X_t - \mu) \right) ^2 \right]} = 0
     (\#eq:LIM1)
@@ -184,6 +186,7 @@ Este planteamiento cumple con las propiedas enunciadas ya que:
 
 
 Retomando a nuestro proceso $X_t$, diremos que el caso de $X_0 = 0$, para $t = 0$. Si verificamos cúales son sus primeros y segundos momentos de $\{X_t\}$ tenemos:
+
 \begin{equation}
     \mathbb{E}[X_t] = \mathbb{E}\left[ \sum^t_{j=1} U_j \right] = \sum^t_{j=1} \mathbb{E}[U_j] = 0
     (\#eq:em3)
@@ -208,10 +211,12 @@ Lo anterior, dado que hemos supuesto que en la caminata aleatoria todas la varia
     & = & 1 + 1 + 1 + 1 \\
     & = & min(t,s)
 \end{eqnarray*}
+
 <div class="figure" style="text-align: center">
 <img src="02-Modelos_STE_files/figure-html/fig31-1.png" alt="Ejemplo de 10 trayectorias de la caminata aleatoria, cuando sólo es posible cambios de +1 y -1$" width="672" />
 <p class="caption">(\#fig:fig31)Ejemplo de 10 trayectorias de la caminata aleatoria, cuando sólo es posible cambios de +1 y -1$</p>
 </div>
+
 Así, el proceso estocástico dado por la caminata alaeatoria sin un término de ajuste es estacionario en media, pero no en varianza o en covarianza, y consecuentemente, en general no estacionario, condición que contraria al caso del proceso simple descrito en $U_t$.
 
 Es facil ver que muchas de las posibilidades de realización de este proceso estocástico (series de tiempo) pueden tomar cualquiera de las rutas consideradas en el Figura \@ref(fig:fig31).
@@ -303,6 +308,7 @@ Una alternativa para esta prueba es una del tipo Multiplicadores de Lagrange (o 
 
 
 La prueba consiste en realizar una regresión auxiliar en la cual los residuales se estiman en función de las variables explicativas del modelo original y en los residuales mismos pero rezagados hasta el término $m$ (regresión auxiliar). La prueba resulta en una estadìstica con una distribución $\chi^2$ con $m$ grados de libertad la cual está dada por la expresión:
+
 \begin{equation}
     LM = T \times R^2
     (\#eq:eqautocorr4)
@@ -320,11 +326,13 @@ En comparación con una prueba Durbin - Watson que es comúnmente usada en la ec
 El hecho de los residuales no estén autocorrelacionados no implica que estos sean independientes y normalmente distribuidos. La ausencia de autocorrelación no implica una independencia estocástica si las variables son normalmente distribuidas.
 
 A menudo se asume que estos residuales están distribuidos normalmente, ya que la mayoría de las pruebas estadísticas tienen este supuesto detrás. No obstante, ello también depende de los otros momentos de la distribución, específicamente del tercer y cuarto momento. Los cuales expresan como:
+
 \begin{equation*}
     \mathbb{E}[(X_t - \mathbb{E}[X_t])^i] \mbox{, } i = 3, 4
 \end{equation*}
 
 El tercer momento es necesario para determinar el sesgo, el cual esta dado como:
+
 \begin{equation}
     \hat{S} = \frac{1}{T} \frac{\sum_{t = 1}^{T} (X_t - \hat{\mu})^3}{\sqrt{\hat{\gamma}(0)^3}}
     (\#eq:eqautocorr6)
@@ -350,10 +358,13 @@ La cual tiene una distribución $\chi^2$ con $2$ grados de libertad y donde $T$ 
 
 Veamos un ejemplo para ilustrar el uso de la función de autocorrelación. Tomemos como variable al número de pasajeros transportados por el sistema de transporte del metro de la CDMX.^[Los datos y algoritmo está disponible en el repositorio de GitHub y corresponde a la Clase 3.] Los datos empleados fueron tomados del INEGI y son una serie de tiempo en el periodo que va de enero de 2000 a junio de 2019, es decir, 234 observaciones. Como se puede apreciar en la Figura \@ref(fig:fig32), el número de pasajeros por mes ha oscilado significativamente a lo largo de tiempo. Incluso podemos observar un cambio estructural de la serie entre 2011 y 2012. Asimismo, podemos ubicar una caida atípica que ocurrió en septiembre de 2017.
 
+
+
 <div class="figure" style="text-align: center">
-<img src="imagenes/Pax_Metro.png" alt="Evolución del número de pasajeros en el Metro de la CDMX, enero 2000 a junio de 2019" width="90%" />
+<img src="02-Modelos_STE_files/figure-html/fig32-1.png" alt="Evolución del número de pasajeros en el Metro de la CDMX, enero 2000 a junio de 2019" width="90%" />
 <p class="caption">(\#fig:fig32)Evolución del número de pasajeros en el Metro de la CDMX, enero 2000 a junio de 2019</p>
 </div>
+
 
 A esta serie de tiempo le calculamos los pincipales estadísticos hasta ahora estudiados y obtenemos el Cuadro \@ref(tab:foo). En dicho cuadro se destaca que se muestra la función de autocirrelación para los tres primeros rezagos. Para mayor detalle, en la Figura \@ref(fig:fig33) se muestra la función de autocorrelación, en donde las bandas descritas por las líneas azules son el intervalo de confianza desntro de las cuales no se puede rechazar la hipotésis nula de que $H_0: \hat{\rho}(p) = 0$, para todo $\tau = 1, 2, \ldots, T-1$.
 
@@ -373,6 +384,6 @@ Table: (\#tab:foo) Estadísticas descriptivas del número de pasajeros en el Met
 | $Q^* = T \sum_{j = 1}^{2} \hat{\rho} (j)^2$ | 290.9279 |
 
 <div class="figure" style="text-align: center">
-<img src="imagenes/autocorrelacion_metro.png" alt="Función de Autocorrelación: 150 rezagos del número de pasajeros en el Metro de la CCDMX, enero 2000 a junio de 2019" width="90%" />
+<img src="02-Modelos_STE_files/figure-html/fig33-1.png" alt="Función de Autocorrelación: 150 rezagos del número de pasajeros en el Metro de la CCDMX, enero 2000 a junio de 2019" width="90%" />
 <p class="caption">(\#fig:fig33)Función de Autocorrelación: 150 rezagos del número de pasajeros en el Metro de la CCDMX, enero 2000 a junio de 2019</p>
 </div>

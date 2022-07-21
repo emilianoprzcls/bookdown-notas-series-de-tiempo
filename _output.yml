@@ -1,7 +1,7 @@
 bookdown::bs4_book:
   css: style.css
   theme:
-    primary: "#063970"
+    primary: "#185732"
   repo: git@github.com:emilianoprzcls/bookdown-notas-series-de-tiempo.git
 bookdown::pdf_book:
   includes:

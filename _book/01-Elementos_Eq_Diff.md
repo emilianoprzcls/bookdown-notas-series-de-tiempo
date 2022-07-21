@@ -230,8 +230,6 @@ Como un segundo caso a estudiar se ubica el caso de las Ecuaciones en Diferencia
     (\#eq:EDSO)
 \end{equation}
 
-Table: (\#tab:foo) Dos ejemplos de procesos de Ecuaciones Lineales de Primer Orden convengentes
-
 
 
 Table: (\#tab:table1)Dos ejemplos de Procesos de Ecuaciones Lineales de Primer Orden Convergentes 

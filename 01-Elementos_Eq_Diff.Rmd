@@ -230,8 +230,6 @@ Como un segundo caso a estudiar se ubica el caso de las Ecuaciones en Diferencia
     (\#eq:EDSO)
 \end{equation}
 
-Table: (\#tab:foo) Dos ejemplos de procesos de Ecuaciones Lineales de Primer Orden convengentes
-
 
 ```{r table1, echo=FALSE, message=FALSE, warning=FALSE, results='asis'}
 library(knitr)

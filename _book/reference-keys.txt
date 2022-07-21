@@ -30,7 +30,6 @@ eq:ex2
 eq:ex3
 eq:ex4
 eq:EDSO
-tab:foo
 tab:table1
 fig:fig21
 fig:fig22
@@ -116,6 +115,7 @@ eq:eqautocorr6
 eq:eqautocorr7
 eq:eqautocorr8
 fig:fig32
+tab:foo
 fig:fig33
 eq:EDOEst
 eq:EDOSSol
