@@ -29,7 +29,7 @@ otros. En algunos casos se incorpora información adicional para efectos de dar 
 El objetivo de este documento es proporcionar un conjunto de apuntes que sirva de apoyo para la clase, por ello no deben considerarse como notas exhaustivas o como un sustituto de la clase y los laboratorios. Asimismo, es deseable que los alumnos puedan aportar sus observaciones y correcciones
 a estas notas, las observaciones a estas notas son esperadas y siempre serán bienvenidas y agradecidas.
 
-Este es un trabajo siempre en proceso de mejora, para cualquier comentario o aclaración, contactar al correo benjov@ciencias.unam.mx o omarxalpha@gmail.com.
+Este es un trabajo siempre en proceso de mejora, para cualquier comentario o aclaración, contactar al correo benjov@ciencias.unam.mx, omarxalpha@gmail.com o emilianoprzcls@gmail.com
 
 En estas notas se estudian los temas que típicamente son incluidos como parte de un curso estándar de análisis de series de tiempo y agrega otros tantos, los cuales son:
 
