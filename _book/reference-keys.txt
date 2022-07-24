@@ -272,6 +272,16 @@ eq:ARR4
 eq:URPP
 eq:ARR5
 tab:ResultUR
+eq:VARCI
+eq:VARVEC
+eq:PiMatrix
+eq:PiMatrix1
+eq:PiMatrix2
+fig:GCointegracion
+tab:SelectVARVEC
+tab:TrazaTest
+eq:PiMatrix29
+fig:GUCointegration
 introducción
 la-naturaleza-de-los-datos-de-series-de-tiempo
 ejemplos-y-aplicaciones-de-las-series-de-tiempo
@@ -312,3 +322,7 @@ dickey---fuller-aumentada-adf
 phillips---perron-pp
 kwiatkowsky---phillips---schmidt---shin-kpss
 ejemplo-con-aplicación-de-todas-las-pruebas-de-raíces-unitarias
+cointegración
+definición-y-propiedades-del-proceso-de-cointegración
+cointegración-para-modelos-de-más-de-una-ecuación-o-para-modelos-basados-en-vectores-autoregresivos
+ejemplo-de-cointegración
