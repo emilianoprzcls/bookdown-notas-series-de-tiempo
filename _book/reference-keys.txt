@@ -393,3 +393,4 @@ métricas-de-bondad-de-ajuste
 pruebas-de-hipótesis
 prueba-f
 prueba-t
+referencias

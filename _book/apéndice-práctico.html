@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>Capítulo 13 Apéndice Práctico | Notas de Clase: Series de Tiempo</title>
+<meta name="author" content="Benjamín Oliva, Omar Alfaro-Rivera y Emiliano Pérez Caullieres">
+<meta name="description" content="13.1 Referencias Cowpertwait, P. y Metcalfe, A. (2009). Introductory Time Series with R. Spinger. Guerrero Guzmán, Victor (2014). Análisis Estadístico y Pronóstico de Series de Tiempo Económicas....">
+<meta name="generator" content="bookdown 0.27 with bs4_book()">
+<meta property="og:title" content="Capítulo 13 Apéndice Práctico | Notas de Clase: Series de Tiempo">
+<meta property="og:type" content="book">
+<meta property="og:description" content="13.1 Referencias Cowpertwait, P. y Metcalfe, A. (2009). Introductory Time Series with R. Spinger. Guerrero Guzmán, Victor (2014). Análisis Estadístico y Pronóstico de Series de Tiempo Económicas....">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Capítulo 13 Apéndice Práctico | Notas de Clase: Series de Tiempo">
+<meta name="twitter:description" content="13.1 Referencias Cowpertwait, P. y Metcalfe, A. (2009). Introductory Time Series with R. Spinger. Guerrero Guzmán, Victor (2014). Análisis Estadístico y Pronóstico de Series de Tiempo Económicas....">
+<!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
+<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.3.0/transition.js"></script><script src="libs/bs3compat-0.3.0/tabs.js"></script><script src="libs/bs3compat-0.3.0/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
+<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS --><style type="text/css">
+    
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  </style>
+<link rel="stylesheet" href="style.css">
+</head>
+<body data-spy="scroll" data-target="#toc">
+
+<div class="container-fluid">
+<div class="row">
+  <header class="col-sm-12 col-lg-3 sidebar sidebar-book"><a class="sr-only sr-only-focusable" href="#content">Skip to main content</a>
+
+    <div class="d-flex align-items-start justify-content-between">
+      <h1>
+        <a href="index.html" title="">Notas de Clase: Series de Tiempo</a>
+      </h1>
+      <button class="btn btn-outline-primary d-lg-none ml-2 mt-1" type="button" data-toggle="collapse" data-target="#main-nav" aria-expanded="true" aria-controls="main-nav"><i class="fas fa-bars"></i><span class="sr-only">Show table of contents</span></button>
+    </div>
+
+    <div id="main-nav" class="collapse-lg">
+      <form role="search">
+        <input id="search" class="form-control" type="search" placeholder="Search" aria-label="Search">
+</form>
+
+      <nav aria-label="Table of contents"><h2>Table of contents</h2>
+        <ul class="book-toc list-unstyled"><li><a class="" href="index.html"><span class="header-section-number">Capítulo 13</span> Apéndice Práctico</a></li></ul>
+
+        <div class="book-extra">
+          <p><a id="book-repo" href="git@github.com:emilianoprzcls/bookdown-notas-series-de-tiempo.git">View book source <i class="fab fa-github"></i></a></p>
+        </div>
+      </nav>
+</div>
+  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="apéndice-práctico" class="section level1" number="13">
+<h1>
+<span class="header-section-number">Capítulo 13</span> Apéndice Práctico<a class="anchor" aria-label="anchor" href="#ap%C3%A9ndice-pr%C3%A1ctico"><i class="fas fa-link"></i></a>
+</h1>
+<div id="referencias" class="section level2" number="13.1">
+<h2>
+<span class="header-section-number">13.1</span> Referencias<a class="anchor" aria-label="anchor" href="#referencias"><i class="fas fa-link"></i></a>
+</h2>
+<ul>
+<li>Cowpertwait, P. y Metcalfe, A. (2009). <em>Introductory Time Series with R</em>. Spinger.</li>
+<li>Guerrero Guzmán, Victor (2014). <em>Análisis Estadístico y Pronóstico de Series de Tiempo Económicas</em>. Jit Press. 3ra Edición. (Las ediciones 1 y 2 del libro fueron publicadas con el título: <em>Análisis Estadístico de Series de Tiempo Económicas</em>).</li>
+<li>Enders, Walter (2015). <em>Applied Econometric Time Series</em>. 4ta Edición. Wiley.</li>
+<li>Franses, Philip H. y Dick van Dijk (2003). <em>Nonlinear Time Series Models in Empirical Finance</em>. Cambridge University Press.</li>
+<li>Hodrick, R. y Prescott, E. (1997). Postwar U.s. Business Cycles: An Empirical Investigation. <em>Journal of Money, Credit and Banking</em>. Vol. 29, No. 1, pp. 1-16.</li>
+<li>Kirchgassner, G., Wolters, J., y Hassler, U. (2012). <em>Introduction to Modern Time Series Analysis</em>. 2nd Edition. Spinger.</li>
+<li>Kleiber, Christian y Claudio Lupi (2011). <em>Panel Unit Root Testing with R</em>. CRAN task views are visible at .</li>
+<li>Lutkepohl, Helmut (2005). <em>New Introduction to Multiple Time Series Analysis</em>. Spinger.</li>
+<li>Shrestha, Min B. y Guna R. Bhatta (2018). <em>Selecting appropriate methodological framework for time series data analysis</em>. The Journal of Finance and Data Science (4) 71-89.</li>
+<li>Sigmund, Michael y Robert Ferstl (nd). Panel Vector Autoregression in R with the Package panelvar. Electronic copy available at: </li>
+<li>Tsay, Ruey (2014). <em>Multivariate Time Series Analysis with R and Financial Applications</em>. Wiley.</li>
+<li>Wei, William (2019). <em>Multivariate Time Series Analysis and Applications</em>. Wiley Series in Probability ans Statistics.</li>
+</ul>
+</div>
+</div>
+  <div class="chapter-nav">
+<div class="empty"></div>
+<div class="empty"></div>
+</div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
+    <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
+      <div id="book-on-this-page"></div>
+
+      <div class="book-extra">
+        <ul class="list-unstyled">
+          
+        </ul>
+</div>
+    </nav>
+</div>
+
+</div>
+</div> <!-- .container -->
+
+<footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>"<strong>Notas de Clase: Series de Tiempo</strong>" was written by Benjamín Oliva, Omar Alfaro-Rivera y Emiliano Pérez Caullieres. It was last built on 2022-07-24.</p>
+  </div>
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>This book was built by the <a class="text-light" href="https://bookdown.org">bookdown</a> R package.</p>
+  </div>
+
+</div></div>
+</footer>
+</body>
+</html>
