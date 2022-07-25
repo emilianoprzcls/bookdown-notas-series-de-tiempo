@@ -1,4 +1,4 @@
-# Apendice I {-}
+# Apendice I
 
 ## Estimador de Mínimos Cuadrados Ordinarios y el análisis clásico de regresión 
 

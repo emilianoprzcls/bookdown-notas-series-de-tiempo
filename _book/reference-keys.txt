@@ -387,10 +387,12 @@ otros-modelos-de-series-de-tiempo-no-lineales
 modelos-de-cambio-de-régimen
 regímenes-determinados-por-información-observable
 regímenes-determinados-por-variables-no-observables
+apendice-i
 estimador-de-mínimos-cuadrados-ordinarios-y-el-análisis-clásico-de-regresión
 estimación-por-el-método-de-máxima-verosimilitud-mv
 métricas-de-bondad-de-ajuste
 pruebas-de-hipótesis
 prueba-f
 prueba-t
+apéndice-ii
 referencias
