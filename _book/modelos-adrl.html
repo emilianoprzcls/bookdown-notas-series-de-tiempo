@@ -4,16 +4,16 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>Page not found | Notas de Clase: Series de Tiempo</title>
+<title>Capítulo 10 Modelos ADRL | Notas de Clase: Series de Tiempo</title>
 <meta name="author" content="Benjamín Oliva, Omar Alfaro-Rivera y Emiliano Pérez Caullieres">
-<meta name="description" content="The page you requested cannot be found (perhaps it was moved or renamed). You may want to try searching to find the page's new location, or use the table of contents to find the page you are...">
+<meta name="description" content="10.1 Teoría Una vez que hemos analizado diversas técnicas de series de tiempo, el problema consiste en seleccionar el modelo correcto. La Figura 10.1 muestra un esquema o diagrama de cómo...">
 <meta name="generator" content="bookdown 0.27 with bs4_book()">
-<meta property="og:title" content="Page not found | Notas de Clase: Series de Tiempo">
+<meta property="og:title" content="Capítulo 10 Modelos ADRL | Notas de Clase: Series de Tiempo">
 <meta property="og:type" content="book">
-<meta property="og:description" content="The page you requested cannot be found (perhaps it was moved or renamed). You may want to try searching to find the page's new location, or use the table of contents to find the page you are...">
+<meta property="og:description" content="10.1 Teoría Una vez que hemos analizado diversas técnicas de series de tiempo, el problema consiste en seleccionar el modelo correcto. La Figura 10.1 muestra un esquema o diagrama de cómo...">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Page not found | Notas de Clase: Series de Tiempo">
-<meta name="twitter:description" content="The page you requested cannot be found (perhaps it was moved or renamed). You may want to try searching to find the page's new location, or use the table of contents to find the page you are...">
+<meta name="twitter:title" content="Capítulo 10 Modelos ADRL | Notas de Clase: Series de Tiempo">
+<meta name="twitter:description" content="10.1 Teoría Una vez que hemos analizado diversas técnicas de series de tiempo, el problema consiste en seleccionar el modelo correcto. La Figura 10.1 muestra un esquema o diagrama de cómo...">
 <!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
 <script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.3.0/transition.js"></script><script src="libs/bs3compat-0.3.0/tabs.js"></script><script src="libs/bs3compat-0.3.0/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
@@ -52,7 +52,7 @@
 <li><a class="" href="procesos-no-estacionarios.html"><span class="header-section-number">7</span> Procesos No Estacionarios</a></li>
 <li><a class="" href="cointegraci%C3%B3n.html"><span class="header-section-number">8</span> Cointegración</a></li>
 <li><a class="" href="modelos-univariados-y-multivariados-de-volatilidad.html"><span class="header-section-number">9</span> Modelos Univariados y Multivariados de Volatilidad</a></li>
-<li><a class="" href="modelos-adrl.html"><span class="header-section-number">10</span> Modelos ADRL</a></li>
+<li><a class="active" href="modelos-adrl.html"><span class="header-section-number">10</span> Modelos ADRL</a></li>
 <li><a class="" href="modelos-de-datos-panel.html"><span class="header-section-number">11</span> Modelos de Datos Panel</a></li>
 <li><a class="" href="otros-modelos-de-series-de-tiempo-no-lineales.html"><span class="header-section-number">12</span> Otros Modelos de Series de Tiempo No lineales</a></li>
 <li><a class="" href="apendice-i.html">Apendice I</a></li>
@@ -63,18 +63,68 @@
         </div>
       </nav>
 </div>
-  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="page-not-found" class="section level1">
-<h1>Page not found<a class="anchor" aria-label="anchor" href="#page-not-found"><i class="fas fa-link"></i></a>
+  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="modelos-adrl" class="section level1" number="10">
+<h1>
+<span class="header-section-number">Capítulo 10</span> Modelos ADRL<a class="anchor" aria-label="anchor" href="#modelos-adrl"><i class="fas fa-link"></i></a>
 </h1>
-<p>The page you requested cannot be found (perhaps it was moved or renamed).</p>
-<p>You may want to try searching to find the page's new location, or use
-the table of contents to find the page you are looking for.</p>
+<div id="teoría" class="section level2" number="10.1">
+<h2>
+<span class="header-section-number">10.1</span> Teoría<a class="anchor" aria-label="anchor" href="#teor%C3%ADa"><i class="fas fa-link"></i></a>
+</h2>
+<p>Una vez que hemos analizado diversas técnicas de series de tiempo, el problema consiste en seleccionar el modelo correcto. La Figura <a href="modelos-adrl.html#fig:TimeSeriesModels">10.1</a> muestra un esquema o diagrama de cómo podríamos proceder para seleccionar el modelo correcto.</p>
+<div class="figure" style="text-align: center">
+<span style="display:block;" id="fig:TimeSeriesModels"></span>
+<img src="imagenes/TimeSeries_Models.png" alt="Method selection for time series data. OLS: Ordinary least squares; VAR: Vector autoregressive; ARDL: Autoregressive distributed lags; ECM: Error correction models, retomado de: Shrestha y Bhatta (2018)" width="100%"><p class="caption">
+Figure 10.1: Method selection for time series data. OLS: Ordinary least squares; VAR: Vector autoregressive; ARDL: Autoregressive distributed lags; ECM: Error correction models, retomado de: Shrestha y Bhatta (2018)
+</p>
+</div>
+<p>En este caso incorporaremos a los modelos autogregressive distributed lag models (ARDL, por sus siglas en inglés). En estos casos el procedimiento de Johansen no podría aplicarse directamennte cuando las variables incluidas son de un orden mixto o cuando simplemente todas no son estacionarias. Un modelo ARDL está basado en procedimientos de MCO.</p>
+<p>Este tipo de modelos toma suficientes rezagos para capturar el mecanismo generador de datos. También es posible llegar a una especificación del mecanismo corrector de errores a partir de una trasformación lineal del ARDL.</p>
+<p>Consideremos la siguiente ecuación:
+<span class="math display" id="eq:EqARDL">\[\begin{equation}
+    Y_t = \alpha + \delta X_t + \gamma Z_t + U_t
+    \tag{10.1}
+\end{equation}\]</span></p>
+<p>Dada la ecuación <a href="modelos-adrl.html#eq:EqARDL">(10.1)</a> podemos establecer su forma de mecanismo corrector de errores en forma ARDL dada por:
+<span class="math display">\[\begin{eqnarray*}
+    \Delta Y_t &amp; = &amp; \alpha + \sum_{i = 1}^p \beta_i \Delta Y_{t-i} + \sum_{i = 1}^p \delta_i \Delta X_{t-i} + \sum_{i = 1}^p \gamma_i \Delta Z_{t-i} \\
+    &amp;  &amp; + \lambda_1 Y_{t-1} + \lambda_2 X_{t-1} + \lambda_3 Z_{t-1} + U_t
+\end{eqnarray*}\]</span></p>
+<p>Donde los coeficientes <span class="math inline">\(\beta_i\)</span>, <span class="math inline">\(\delta_i\)</span>, <span class="math inline">\(\gamma_i\)</span> representan la dinámica de corto plazo y las <span class="math inline">\(\lambda\)</span>’s la dinámica de largo plazo.</p>
+<p>La hipótesis nula (<span class="math inline">\(H_0\)</span>) es que las <span class="math inline">\(\lambda_1 + \lambda_2 + \lambda_3 = 0\)</span>, es decir, que no existe relación de largo plazo.</p>
+<p>En la práctica estimamos una especificación con rezafos distribuidos:
+<span class="math display" id="eq:em1">\[\begin{equation}
+    Y_t = \alpha + \sum_{i = 1}^p \beta_i Y_{t-i} + \sum_{i = 1}^p \delta_i X_{t-i} + \sum_{i = 1}^p \gamma_i Z_{t-i} + U_t
+    \tag{3.11}
+\end{equation}\]</span></p>
+<p>Además de verificar si las series involucradas son estacionarias y decidir el número de reagos <span class="math inline">\(p\)</span> mediante criterios de información.</p>
+</div>
+<div id="ejemplo" class="section level2" number="10.2">
+<h2>
+<span class="header-section-number">10.2</span> Ejemplo<a class="anchor" aria-label="anchor" href="#ejemplo"><i class="fas fa-link"></i></a>
+</h2>
+
+</div>
 </div>
   <div class="chapter-nav">
-<div class="empty"></div>
-<div class="empty"></div>
+<div class="prev"><a href="modelos-univariados-y-multivariados-de-volatilidad.html"><span class="header-section-number">9</span> Modelos Univariados y Multivariados de Volatilidad</a></div>
+<div class="next"><a href="modelos-de-datos-panel.html"><span class="header-section-number">11</span> Modelos de Datos Panel</a></div>
 </div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
-    </div>
+    <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
+      <ul class="nav navbar-nav">
+<li><a class="nav-link" href="#modelos-adrl"><span class="header-section-number">10</span> Modelos ADRL</a></li>
+<li><a class="nav-link" href="#teor%C3%ADa"><span class="header-section-number">10.1</span> Teoría</a></li>
+<li><a class="nav-link" href="#ejemplo"><span class="header-section-number">10.2</span> Ejemplo</a></li>
+</ul>
+
+      <div class="book-extra">
+        <ul class="list-unstyled">
+<li><a id="book-source" href="git@github.com:emilianoprzcls/bookdown-notas-series-de-tiempo.git/blob/master/09-ADRL.Rmd">View source <i class="fab fa-github"></i></a></li>
+          <li><a id="book-edit" href="git@github.com:emilianoprzcls/bookdown-notas-series-de-tiempo.git/edit/master/09-ADRL.Rmd">Edit this page <i class="fab fa-github"></i></a></li>
+        </ul>
+</div>
+    </nav>
+</div>
 
 </div>
 </div> <!-- .container -->

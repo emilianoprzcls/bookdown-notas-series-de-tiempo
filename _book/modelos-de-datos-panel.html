@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>Capítulo 11 Modelos de Datos Panel | Notas de Clase: Series de Tiempo</title>
+<meta name="author" content="Benjamín Oliva, Omar Alfaro-Rivera y Emiliano Pérez Caullieres">
+<meta name="description" content="11.1 Motivación Denotemos con \(Y_{it}\) el componente o individuo \(i\), \(i = 1, 2, \ldots, N\) en el tiempo \(t\), \(t = 1, 2, \ldots, T\). Típicamente las series de tiempo en forma de panel se...">
+<meta name="generator" content="bookdown 0.27 with bs4_book()">
+<meta property="og:title" content="Capítulo 11 Modelos de Datos Panel | Notas de Clase: Series de Tiempo">
+<meta property="og:type" content="book">
+<meta property="og:description" content="11.1 Motivación Denotemos con \(Y_{it}\) el componente o individuo \(i\), \(i = 1, 2, \ldots, N\) en el tiempo \(t\), \(t = 1, 2, \ldots, T\). Típicamente las series de tiempo en forma de panel se...">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Capítulo 11 Modelos de Datos Panel | Notas de Clase: Series de Tiempo">
+<meta name="twitter:description" content="11.1 Motivación Denotemos con \(Y_{it}\) el componente o individuo \(i\), \(i = 1, 2, \ldots, N\) en el tiempo \(t\), \(t = 1, 2, \ldots, T\). Típicamente las series de tiempo en forma de panel se...">
+<!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
+<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.3.0/transition.js"></script><script src="libs/bs3compat-0.3.0/tabs.js"></script><script src="libs/bs3compat-0.3.0/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
+<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS --><style type="text/css">
+    
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  </style>
+<link rel="stylesheet" href="style.css">
+</head>
+<body data-spy="scroll" data-target="#toc">
+
+<div class="container-fluid">
+<div class="row">
+  <header class="col-sm-12 col-lg-3 sidebar sidebar-book"><a class="sr-only sr-only-focusable" href="#content">Skip to main content</a>
+
+    <div class="d-flex align-items-start justify-content-between">
+      <h1>
+        <a href="index.html" title="">Notas de Clase: Series de Tiempo</a>
+      </h1>
+      <button class="btn btn-outline-primary d-lg-none ml-2 mt-1" type="button" data-toggle="collapse" data-target="#main-nav" aria-expanded="true" aria-controls="main-nav"><i class="fas fa-bars"></i><span class="sr-only">Show table of contents</span></button>
+    </div>
+
+    <div id="main-nav" class="collapse-lg">
+      <form role="search">
+        <input id="search" class="form-control" type="search" placeholder="Search" aria-label="Search">
+</form>
+
+      <nav aria-label="Table of contents"><h2>Table of contents</h2>
+        <ul class="book-toc list-unstyled">
+<li><a class="" href="index.html"><span class="header-section-number">1</span> Introducción</a></li>
+<li><a class="" href="elementos-de-ecuaciones-en-diferencia.html"><span class="header-section-number">2</span> Elementos de Ecuaciones en Diferencia</a></li>
+<li><a class="" href="modelos-de-series-de-tiempo-estacionarias.html"><span class="header-section-number">3</span> Modelos de Series de Tiempo Estacionarias</a></li>
+<li><a class="" href="procesos-estacionarios-univariados.html"><span class="header-section-number">4</span> Procesos estacionarios univariados</a></li>
+<li><a class="" href="desestacionalizaci%C3%B3n-y-filtrado-de-series.html"><span class="header-section-number">5</span> Desestacionalización y filtrado de Series</a></li>
+<li><a class="" href="procesos-basados-en-vectores-autoregresivos.html"><span class="header-section-number">6</span> Procesos Basados en Vectores Autoregresivos</a></li>
+<li><a class="" href="procesos-no-estacionarios.html"><span class="header-section-number">7</span> Procesos No Estacionarios</a></li>
+<li><a class="" href="cointegraci%C3%B3n.html"><span class="header-section-number">8</span> Cointegración</a></li>
+<li><a class="" href="modelos-univariados-y-multivariados-de-volatilidad.html"><span class="header-section-number">9</span> Modelos Univariados y Multivariados de Volatilidad</a></li>
+<li><a class="" href="modelos-adrl.html"><span class="header-section-number">10</span> Modelos ADRL</a></li>
+<li><a class="active" href="modelos-de-datos-panel.html"><span class="header-section-number">11</span> Modelos de Datos Panel</a></li>
+<li><a class="" href="otros-modelos-de-series-de-tiempo-no-lineales.html"><span class="header-section-number">12</span> Otros Modelos de Series de Tiempo No lineales</a></li>
+<li><a class="" href="apendice-i.html">Apendice I</a></li>
+</ul>
+
+        <div class="book-extra">
+          <p><a id="book-repo" href="git@github.com:emilianoprzcls/bookdown-notas-series-de-tiempo.git">View book source <i class="fab fa-github"></i></a></p>
+        </div>
+      </nav>
+</div>
+  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="modelos-de-datos-panel" class="section level1" number="11">
+<h1>
+<span class="header-section-number">Capítulo 11</span> Modelos de Datos Panel<a class="anchor" aria-label="anchor" href="#modelos-de-datos-panel"><i class="fas fa-link"></i></a>
+</h1>
+<div id="motivación-1" class="section level2" number="11.1">
+<h2>
+<span class="header-section-number">11.1</span> Motivación<a class="anchor" aria-label="anchor" href="#motivaci%C3%B3n-1"><i class="fas fa-link"></i></a>
+</h2>
+<p>Denotemos con <span class="math inline">\(Y_{it}\)</span> el componente o individuo <span class="math inline">\(i\)</span>, <span class="math inline">\(i = 1, 2, \ldots, N\)</span> en el tiempo <span class="math inline">\(t\)</span>, <span class="math inline">\(t = 1, 2, \ldots, T\)</span>. Típicamente las series de tiempo en forma de panel se caracterizan por ser de dimensión de individuos corta y de dimensión temporar larga.</p>
+<p>En general, escribiremos:
+<span class="math display" id="eq:emq1">\[\begin{equation}
+    Y_{it} = \alpha_i + \beta_i X_{it} + U_{it}
+    \tag{11.1}
+\end{equation}\]</span></p>
+<p>Donde <span class="math inline">\(\alpha_i\)</span> es un efecto fijo especificado como:
+<span class="math display" id="eq:emq2">\[\begin{equation}
+    \alpha_i = \beta_0 + \gamma_i Z_i
+        \tag{11.2}
+\end{equation}\]</span></p>
+</div>
+<div id="pruebas-de-raíces-unitarias-en-panel" class="section level2" number="11.2">
+<h2>
+<span class="header-section-number">11.2</span> Pruebas de Raíces Unitarias en Panel<a class="anchor" aria-label="anchor" href="#pruebas-de-ra%C3%ADces-unitarias-en-panel"><i class="fas fa-link"></i></a>
+</h2>
+<p>Las pruebas de raíces unitarias para panel suelen ser usadas principalmente en casos macroeconómicos. De forma similar al caso de series univariadas, asumiremos una forma de AR(1) para una serie en panel:
+<span class="math display" id="eq:eqARPanel">\[\begin{equation}
+    \Delta Y_{it} = \mu_i + \rho_i Y_{i t-1} + \sum_{i = 1}^{k_i} \varphi_{ij} \Delta Y_{i t-j} + \varepsilon_{it}
+        \tag{11.3}
+\end{equation}\]</span></p>
+<p>Donde <span class="math inline">\(i = 1, \ldots, N\)</span>, <span class="math inline">\(t = 1, \ldots, T\)</span> y <span class="math inline">\(\varepsilon_{it}\)</span> es una v.a. iid que cumple con:
+<span class="math display">\[\begin{eqnarray*}
+    \mathbb{E}[\varepsilon_{it}] &amp; = &amp; 0 \\
+    \mathbb{E}[\varepsilon_{it}^2] &amp; = &amp; \sigma^2_i &lt; \infty \\
+    \mathbb{E}[\varepsilon_{it}^4] &amp; &lt; &amp; \infty
+\end{eqnarray*}\]</span></p>
+<p>Al igual que en el caso univariado, en este tipo de pruebas buscamos identificar cuando las series son I(1) y cuando I(0). Pasra tal efecto, la prueba de raíz unitaria que utilizaremos está basada en una prueba Dickey-Fuller Aumentada en la cual la hipótesis nula (<span class="math inline">\(H_0\)</span>) es que todas las series en el panel son no estacionarias, es decir, son I(1). Es decir,
+<span class="math display" id="eq:emq3">\[\begin{equation}
+    H_0 : \rho_i = 0
+            \tag{11.4}
+\end{equation}\]</span></p>
+<p>Por su parte, en el caso de la hipótesis nula tenndremos dos:</p>
+<ol style="list-style-type: decimal">
+<li><p><span class="math inline">\(H_1^A :\)</span> Todas las series son I(0) – caso homogéneo, o</p></li>
+<li><p><span class="math inline">\(H_1^B :\)</span> Al menos una de las series es I(0) – caso heterogéneo</p></li>
+</ol>
+</div>
+<div id="panel-var" class="section level2" number="11.3">
+<h2>
+<span class="header-section-number">11.3</span> Panel VAR<a class="anchor" aria-label="anchor" href="#panel-var"><i class="fas fa-link"></i></a>
+</h2>
+<p>En esta sección extenderemos el caso del modelo VAR(p) a uno en forma panel. En este caso asumimos que las viables exogenas son los <span class="math inline">\(p\)</span> rezagos de las <span class="math inline">\(k\)</span> variables endogenas. Consideremos el siguiente caso de un modelo panel VAR con efectos fijos –ciertamente es posible hacer estimaciones con efectos aleatorios, no obstante requiere de supuestos adicionales que no contemplamos en estas notas –, el cual es la forma más común de estimación:
+<span class="math display" id="eq:eqPVAR">\[\begin{equation}
+    \mathbf{Y}_{it} = \mu_i + \sum_{l = 1}^p \mathbf{A}_l \mathbf{Y}_{i t - l} + \mathbf{B} \mathbf{X}_{it} + \varepsilon_{it}
+    \tag{11.5}
+\end{equation}\]</span></p>
+<p>Donde <span class="math inline">\(\mathbf{Y}_{it}\)</span> es un vector de variables endogenas estacionarias para la unidad de corte transversal <span class="math inline">\(i\)</span> en el tiempo <span class="math inline">\(t\)</span>, <span class="math inline">\(\mathbf{X}_{it}\)</span> es una matriz que contiene varaibles exógenas, y <span class="math inline">\(\varepsilon_{it}\)</span> es un término de error que cumple con:
+<span class="math display">\[\begin{eqnarray*}
+    \mathbb{E}[\varepsilon_{it}] &amp; = &amp; 0 \\
+    Var[\varepsilon_{it}] &amp; = &amp; \Sigma_\varepsilon
+\end{eqnarray*}\]</span></p>
+<p>Donde <span class="math inline">\(\Sigma_\varepsilon\)</span> es una matriz definida positiva.</p>
+<p>Para el porceso de estimación la ecuación <a href="modelos-de-datos-panel.html#eq:eqPVAR">(11.5)</a> se modifica en su versión en diferencias para quedar como:
+<span class="math display" id="eq:eqDinamicPVAR">\[\begin{equation}
+    \Delta \mathbf{Y}_{it} = \sum_{l = 1}^p \mathbf{A}_l \Delta \mathbf{Y}_{i t - l} + \mathbf{B} \Delta \mathbf{X}_{it} + \Delta \varepsilon_{it}
+    \tag{11.6}
+\end{equation}\]</span></p>
+<p>La ecuación <a href="modelos-de-datos-panel.html#eq:eqDinamicPVAR">(11.6)</a> se estima por un GMM.</p>
+</div>
+<div id="cointegración-1" class="section level2" number="11.4">
+<h2>
+<span class="header-section-number">11.4</span> Cointegración<a class="anchor" aria-label="anchor" href="#cointegraci%C3%B3n-1"><i class="fas fa-link"></i></a>
+</h2>
+
+</div>
+</div>
+  <div class="chapter-nav">
+<div class="prev"><a href="modelos-adrl.html"><span class="header-section-number">10</span> Modelos ADRL</a></div>
+<div class="next"><a href="otros-modelos-de-series-de-tiempo-no-lineales.html"><span class="header-section-number">12</span> Otros Modelos de Series de Tiempo No lineales</a></div>
+</div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
+    <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
+      <ul class="nav navbar-nav">
+<li><a class="nav-link" href="#modelos-de-datos-panel"><span class="header-section-number">11</span> Modelos de Datos Panel</a></li>
+<li><a class="nav-link" href="#motivaci%C3%B3n-1"><span class="header-section-number">11.1</span> Motivación</a></li>
+<li><a class="nav-link" href="#pruebas-de-ra%C3%ADces-unitarias-en-panel"><span class="header-section-number">11.2</span> Pruebas de Raíces Unitarias en Panel</a></li>
+<li><a class="nav-link" href="#panel-var"><span class="header-section-number">11.3</span> Panel VAR</a></li>
+<li><a class="nav-link" href="#cointegraci%C3%B3n-1"><span class="header-section-number">11.4</span> Cointegración</a></li>
+</ul>
+
+      <div class="book-extra">
+        <ul class="list-unstyled">
+<li><a id="book-source" href="git@github.com:emilianoprzcls/bookdown-notas-series-de-tiempo.git/blob/master/10-Datos_Panel.Rmd">View source <i class="fab fa-github"></i></a></li>
+          <li><a id="book-edit" href="git@github.com:emilianoprzcls/bookdown-notas-series-de-tiempo.git/edit/master/10-Datos_Panel.Rmd">Edit this page <i class="fab fa-github"></i></a></li>
+        </ul>
+</div>
+    </nav>
+</div>
+
+</div>
+</div> <!-- .container -->
+
+<footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>"<strong>Notas de Clase: Series de Tiempo</strong>" was written by Benjamín Oliva, Omar Alfaro-Rivera y Emiliano Pérez Caullieres. It was last built on 2022-07-24.</p>
+  </div>
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>This book was built by the <a class="text-light" href="https://bookdown.org">bookdown</a> R package.</p>
+  </div>
+
+</div></div>
+</footer><!-- dynamically load mathjax for compatibility with self-contained --><script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script><script type="text/x-mathjax-config">const popovers = document.querySelectorAll('a.footnote-ref[data-toggle="popover"]');
+for (let popover of popovers) {
+  const div = document.createElement('div');
+  div.setAttribute('style', 'position: absolute; top: 0, left:0; width:0, height:0, overflow: hidden; visibility: hidden;');
+  div.innerHTML = popover.getAttribute('data-content');
+
+  var has_math = div.querySelector("span.math");
+  if (has_math) {
+    document.body.appendChild(div);
+    MathJax.Hub.Queue(["Typeset", MathJax.Hub, div]);
+    MathJax.Hub.Queue(function() {
+      popover.setAttribute('data-content', div.innerHTML);
+      document.body.removeChild(div);
+    })
+  }
+}
+</script>
+</body>
+</html>

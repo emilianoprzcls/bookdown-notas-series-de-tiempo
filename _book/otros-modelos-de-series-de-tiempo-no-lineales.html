@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>Capítulo 12 Otros Modelos de Series de Tiempo No lineales | Notas de Clase: Series de Tiempo</title>
+<meta name="author" content="Benjamín Oliva, Omar Alfaro-Rivera y Emiliano Pérez Caullieres">
+<meta name="description" content="12.1 Modelos de cambio de régimen En años recientes, los modelos de serie de tiempo han sido incorporados en análisis de la existencia de diferentes estados que son generados por procesos...">
+<meta name="generator" content="bookdown 0.27 with bs4_book()">
+<meta property="og:title" content="Capítulo 12 Otros Modelos de Series de Tiempo No lineales | Notas de Clase: Series de Tiempo">
+<meta property="og:type" content="book">
+<meta property="og:description" content="12.1 Modelos de cambio de régimen En años recientes, los modelos de serie de tiempo han sido incorporados en análisis de la existencia de diferentes estados que son generados por procesos...">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Capítulo 12 Otros Modelos de Series de Tiempo No lineales | Notas de Clase: Series de Tiempo">
+<meta name="twitter:description" content="12.1 Modelos de cambio de régimen En años recientes, los modelos de serie de tiempo han sido incorporados en análisis de la existencia de diferentes estados que son generados por procesos...">
+<!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
+<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.3.0/transition.js"></script><script src="libs/bs3compat-0.3.0/tabs.js"></script><script src="libs/bs3compat-0.3.0/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
+<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS --><style type="text/css">
+    
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  </style>
+<link rel="stylesheet" href="style.css">
+</head>
+<body data-spy="scroll" data-target="#toc">
+
+<div class="container-fluid">
+<div class="row">
+  <header class="col-sm-12 col-lg-3 sidebar sidebar-book"><a class="sr-only sr-only-focusable" href="#content">Skip to main content</a>
+
+    <div class="d-flex align-items-start justify-content-between">
+      <h1>
+        <a href="index.html" title="">Notas de Clase: Series de Tiempo</a>
+      </h1>
+      <button class="btn btn-outline-primary d-lg-none ml-2 mt-1" type="button" data-toggle="collapse" data-target="#main-nav" aria-expanded="true" aria-controls="main-nav"><i class="fas fa-bars"></i><span class="sr-only">Show table of contents</span></button>
+    </div>
+
+    <div id="main-nav" class="collapse-lg">
+      <form role="search">
+        <input id="search" class="form-control" type="search" placeholder="Search" aria-label="Search">
+</form>
+
+      <nav aria-label="Table of contents"><h2>Table of contents</h2>
+        <ul class="book-toc list-unstyled">
+<li><a class="" href="index.html"><span class="header-section-number">1</span> Introducción</a></li>
+<li><a class="" href="elementos-de-ecuaciones-en-diferencia.html"><span class="header-section-number">2</span> Elementos de Ecuaciones en Diferencia</a></li>
+<li><a class="" href="modelos-de-series-de-tiempo-estacionarias.html"><span class="header-section-number">3</span> Modelos de Series de Tiempo Estacionarias</a></li>
+<li><a class="" href="procesos-estacionarios-univariados.html"><span class="header-section-number">4</span> Procesos estacionarios univariados</a></li>
+<li><a class="" href="desestacionalizaci%C3%B3n-y-filtrado-de-series.html"><span class="header-section-number">5</span> Desestacionalización y filtrado de Series</a></li>
+<li><a class="" href="procesos-basados-en-vectores-autoregresivos.html"><span class="header-section-number">6</span> Procesos Basados en Vectores Autoregresivos</a></li>
+<li><a class="" href="procesos-no-estacionarios.html"><span class="header-section-number">7</span> Procesos No Estacionarios</a></li>
+<li><a class="" href="cointegraci%C3%B3n.html"><span class="header-section-number">8</span> Cointegración</a></li>
+<li><a class="" href="modelos-univariados-y-multivariados-de-volatilidad.html"><span class="header-section-number">9</span> Modelos Univariados y Multivariados de Volatilidad</a></li>
+<li><a class="" href="modelos-adrl.html"><span class="header-section-number">10</span> Modelos ADRL</a></li>
+<li><a class="" href="modelos-de-datos-panel.html"><span class="header-section-number">11</span> Modelos de Datos Panel</a></li>
+<li><a class="active" href="otros-modelos-de-series-de-tiempo-no-lineales.html"><span class="header-section-number">12</span> Otros Modelos de Series de Tiempo No lineales</a></li>
+<li><a class="" href="apendice-i.html">Apendice I</a></li>
+</ul>
+
+        <div class="book-extra">
+          <p><a id="book-repo" href="git@github.com:emilianoprzcls/bookdown-notas-series-de-tiempo.git">View book source <i class="fab fa-github"></i></a></p>
+        </div>
+      </nav>
+</div>
+  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="otros-modelos-de-series-de-tiempo-no-lineales" class="section level1" number="12">
+<h1>
+<span class="header-section-number">Capítulo 12</span> Otros Modelos de Series de Tiempo No lineales<a class="anchor" aria-label="anchor" href="#otros-modelos-de-series-de-tiempo-no-lineales"><i class="fas fa-link"></i></a>
+</h1>
+<div id="modelos-de-cambio-de-régimen" class="section level2" number="12.1">
+<h2>
+<span class="header-section-number">12.1</span> Modelos de cambio de régimen<a class="anchor" aria-label="anchor" href="#modelos-de-cambio-de-r%C3%A9gimen"><i class="fas fa-link"></i></a>
+</h2>
+<p>En años recientes, los modelos de serie de tiempo han sido incorporados en análisis de la existencia de diferentes estados que son generados por procesos estocásticos subyacentes. En esta sección del curso revisaremos algunos modelos de cambio de regimen. Restringimos nuestra revisión a modelos que asuman que la dinámica de las series puede ser descrito por modelos del tipo AR y dejamos fuera procesos del tipo MA.</p>
+<p>En general distinguimos que existen dos tipos de modelos:</p>
+<ol style="list-style-type: decimal">
+<li><p>Modelos caracterizados por una variable observable, por lo que tenemos certeza de los régimanes en cada uno de los momentos.</p></li>
+<li><p>Modelos en los que el régimen no puede ser observado por una variable, pero si conocemos el proceso estocástico subyacente.</p></li>
+</ol>
+<div id="regímenes-determinados-por-información-observable" class="section level3" number="12.1.1">
+<h3>
+<span class="header-section-number">12.1.1</span> Regímenes determinados por información observable<a class="anchor" aria-label="anchor" href="#reg%C3%ADmenes-determinados-por-informaci%C3%B3n-observable"><i class="fas fa-link"></i></a>
+</h3>
+<p>En estos casos asumimos que el régimen ocurren en un momento <span class="math inline">\(t\)</span> y puede ser determinado por una variable observable. Este modelo es conocido como el modelo autoregresivo con umbral (TAR, Threshold Autoregressive model). En este caso también diremos que cuando el régimen está determinado por la información de la misma serie será llamdao Self-Exciting TAR (SETAR).</p>
+<p>Veámos un ejemplo. Supongamos que existe un umbral, <span class="math inline">\(c\)</span>, para el régimen que esta determinado por <span class="math inline">\(q_t = y_{t-1}\)</span> y que el estado de la naturaleza nos permite establecer dos estados o regímenes:
+<span class="math display" id="eq:emq1">\[\begin{equation}
+    y_t =
+    \begin{cases}
+        \phi_{01} + \phi_{11} y_{t-1} + \varepsilon_t \text{ si } y_{t-1} \leq c \\
+        \phi_{02} + \phi_{12} y_{t-1} + \varepsilon_t \text{ si } y_{t-1} &gt; c
+    \end{cases}
+    \tag{11.1}
+\end{equation}\]</span></p>
+<p>Donde asumiremos que <span class="math inline">\(\varepsilon_t\)</span> es i.i.d y que cumple con:
+<span class="math display">\[\begin{equation*}
+    \mathbb{E}[\varepsilon_t | \Omega_{t-1}] = 0
+\end{equation*}\]</span></p>
+<p>Donde <span class="math inline">\(\Omega_{t-1} = \{ y_{t-1}, y_{t-2}, \ldots \}\)</span>. Existe una variante de este modelo que suaviza la transición entre regímenes conocido como Smooth Transition AR (STAR) y puede ser especificado en su modalidad de dos regémenes como:
+<span class="math display" id="eq:emq2">\[\begin{equation}
+    y_t = (\phi_{01} + \phi_{11} y_{t-1}) (1 - G(y_{t-1}; \gamma, c)) + (\phi_{02} + \phi_{12} y_{t-1}) G(y_{t-1}; \gamma, c) + \varepsilon_t
+        \tag{11.2}
+\end{equation}\]</span></p>
+<p>Donde <span class="math inline">\(G(y_{t-1}; \gamma, c)\)</span> es una función de distribución de probabilidad que suviza la transición entre regímenes. La práctica común es suponer que está tiene una forma logística:
+<span class="math display" id="eq:emq3">\[\begin{equation}
+    G(y_{t-1}; \gamma, c) = \frac{1}{1 + e^{-\gamma (y_{t-1} - c)}}
+        \tag{11.4}
+\end{equation}\]</span></p>
+<p>Es posible hacer estensiones de lo anterior a modelos de orden superior dando como resultado:
+<span class="math display" id="eq:emq4">\[\begin{equation}
+    y_t =
+    \begin{cases}
+        \phi_{01} + \phi_{11} y_{t-1} + \phi_{21} y_{t-2} + \ldots + \phi_{p_1 1} y_{t-p_1} + \varepsilon_t \text{ si } y_{t-1} \leq c \\
+        \phi_{02} + \phi_{12} y_{t-1} + \phi_{22} y_{t-2} + \ldots + \phi_{p_2 2} y_{t-p_2} + \varepsilon_t \text{ si } y_{t-1} &gt; c
+    \end{cases}
+            \tag{12.1}
+\end{equation}\]</span></p>
+<p>En el segundo caso:
+<span class="math display">\[\begin{eqnarray*}
+    y_t &amp; = &amp; (\phi_{01} + \phi_{11} y_{t-1} + \phi_{21} y_{t-2} + \ldots + \phi_{p_1 1} y_{t-p_1}) (1 - G(y_{t-1}; \gamma, c)) \\
+    &amp;  &amp; + (\phi_{02} + \phi_{12} y_{t-1} + \phi_{22} y_{t-2} + \ldots + \phi_{p_2 2} y_{t-p_2}) G(y_{t-1}; \gamma, c) \\
+    &amp;  &amp; + \varepsilon_t
+\end{eqnarray*}\]</span></p>
+<p>De igual forma que en el caso de los modelos ARIMA y VAR, el número de rrezagos utilizados es determinado mediennte el uso de criterios de información como el de Akaike:
+<span class="math display" id="eq:emq5">\[\begin{equation}
+    AIC(p_1, p_2) = n_1 ln(\hat{\sigma}^2_1) + n_2 ln(\hat{\sigma}^2_2) + 2(p_1 + 1) + 2(p_2 + 1)
+            \tag{12.2}
+\end{equation}\]</span></p>
+<p>Los modelos SETAR y STAR generan procesos estacionarios siempre que cumplan ciertas condiciones. En estas notas nos enfocaremos únicamente en el modelo SETAR el cual genera en un proceso estacionario cuando:</p>
+<ol style="list-style-type: decimal">
+<li>
+<span class="math inline">\(\phi_{11} &lt; 1\)</span>, <span class="math inline">\(\phi_{12} &lt; 1\)</span>, <span class="math inline">\(\phi_{11} \cdot \phi_{12} &lt; 1\)</span>
+</li>
+</ol>
+<p>2, <span class="math inline">\(\phi_{11} = 1\)</span>, <span class="math inline">\(\phi_{12} &lt; 1\)</span>, <span class="math inline">\(\phi_{01} &gt; 0\)</span></p>
+<ol start="3" style="list-style-type: decimal">
+<li><p><span class="math inline">\(\phi_{11} &lt; 1\)</span>, <span class="math inline">\(\phi_{12} = 1\)</span>, <span class="math inline">\(\phi_{02} &lt; 0\)</span></p></li>
+<li><p><span class="math inline">\(\phi_{11} = 1\)</span>, <span class="math inline">\(\phi_{12} = 1\)</span>, <span class="math inline">\(\phi_{02} &lt; 0 &lt; \phi_{01}\)</span></p></li>
+</ol>
+<p>5.<span class="math inline">\(\phi_{11} \cdot \phi_{12} = 1\)</span>, <span class="math inline">\(\phi_{11} &lt; 0\)</span>, <span class="math inline">\(\phi_{02} + \phi_{12} \cdot \phi_{01} &gt; 0\)</span></p>
+<p>Finalmente, en ocasiones podemos estar interesados en modelos donde los regímenes sean más de 2, es decir, digamos <span class="math inline">\(m\)</span> umbrales bajo un modelo SETAR o STAR. Por ejemplo, en el caso de un modelo SETAR podemos verificar que <span class="math inline">\(m\)</span> regímnes implican <span class="math inline">\(m + 1\)</span> umbrales: <span class="math inline">\(c_0, c_1, \ldots, c_m\)</span>. En cuyo caso:
+<span class="math display">\[\begin{equation*}
+    -\infty = c_0 &lt; c_1 &lt; \ldots &lt; c_{m-1} &lt; c_m = \infty
+\end{equation*}\]</span></p>
+<p>Así, tendríamos ecuaciones:
+<span class="math display" id="eq:emq6">\[\begin{equation}
+    y_t = \phi_{0j} + \phi_{ij} y_{t-1} + \varepsilon_t \text{ si } c_{j-1} &lt; y_{t-1} &lt; c_j
+            \tag{12.3}
+\end{equation}\]</span></p>
+<p>Para <span class="math inline">\(j = 1, 2, \ldots, m\)</span>. De forma similar podemos recomponer el modelo STAR.</p>
+</div>
+<div id="regímenes-determinados-por-variables-no-observables" class="section level3" number="12.1.2">
+<h3>
+<span class="header-section-number">12.1.2</span> Regímenes determinados por variables no observables<a class="anchor" aria-label="anchor" href="#reg%C3%ADmenes-determinados-por-variables-no-observables"><i class="fas fa-link"></i></a>
+</h3>
+<p>Este tipo de modelosmasume que el regímen ocurre en el momento <span class="math inline">\(t\)</span> y que no puede ser observado, ya que este es determinado por un proceso no observable, el cual denotamos como <span class="math inline">\(s_t\)</span>. En el caso de dos regímenes, <span class="math inline">\(s_t\)</span> puede ser asumido como que toma 2 valores: 1 y 2, por ejemplo. Supongamos que el proceso subyacente tiene una forma del tipo AR(1) dado por:
+<span class="math display" id="eq:eqswchingobs">\[\begin{equation}
+    y_t =
+    \begin{cases}
+        \phi_{01} + \phi_{11} y_{t-1} + \varepsilon_t \text{ si } s_t = 1 \\
+        \phi_{02} + \phi_{12} y_{t-1} + \varepsilon_t \text{ si } s_t = 2
+    \end{cases}
+    \tag{12.4}
+\end{equation}\]</span></p>
+<p>O en un formato más corto de notación:
+<span class="math display" id="eq:eqswchingobs1">\[\begin{equation}
+    y_t = \phi_{0 s_t} + \phi_{1 s_t} y_{t-1} + \varepsilon_t
+        \tag{12.5}
+\end{equation}\]</span></p>
+<p>Para complementar el modelo, las propiedades del proceso <span class="math inline">\(s_t\)</span> necesitan ser especificadas. El modelo más popular dentro de esta familia es el propuesto por James Hamilton en 1989 el cual es conocido como Markov Switching Model (MSM), en el cual el proceso <span class="math inline">\(s_t\)</span> se asume como un proceso de Markov de primer orden. Esto implica que el regímen actula <span class="math inline">\(s_t\)</span> sólo dependen del período <span class="math inline">\(s_{t-1}\)</span>.</p>
+<p>Así, el modelo es completado mediante la definición de las probabilidades de transición para moverse del un estado a otro:
+<span class="math display">\[\begin{eqnarray*}
+    \mathbb{P}(s_t = 1 | s_{t-1} = 1) &amp; = &amp; p_{11} \\
+    \mathbb{P}(s_t = 2 | s_{t-1} = 1) &amp; = &amp; p_{12} \\
+    \mathbb{P}(s_t = 1 | s_{t-1} = 2) &amp; = &amp; p_{21} \\
+    \mathbb{P}(s_t = 2 | s_{t-1} = 2) &amp; = &amp; p_{22}
+\end{eqnarray*}\]</span></p>
+<p>Así, <span class="math inline">\(p_{ij}\)</span> es igual a la probabilidad de que la cadena de Markov pase del estado <span class="math inline">\(i\)</span> en el momento <span class="math inline">\(t-1\)</span> al estdo <span class="math inline">\(j\)</span> en el tiempo <span class="math inline">\(t\)</span>. En todo caso asumiremos que <span class="math inline">\(p_{ij} &gt; 0\)</span> y que:
+<span class="math display">\[\begin{eqnarray*}
+    p_{11} + p_{12} = 1 \\
+    p_{21} + p_{22} = 1
+\end{eqnarray*}\]</span></p>
+<p>Otro tipo de probabilidades a analizar son las probabilidades incondicionales de <span class="math inline">\(\mathbb{P}(s_t = i)\)</span>, <span class="math inline">\(i = 1, 2\)</span>. Usando la teoría ergódica de la cadenas de Markov, estas probabilidades están dadas por:
+<span class="math display">\[\begin{eqnarray*}
+    \mathbb{P}(s_t = 1) &amp; = &amp; \frac{1 - p_{22}}{2 - p_{11} - p_{22}} \\
+    \mathbb{P}(s_t = 2) &amp; = &amp; \frac{1 - p_{11}}{2 - p_{11} - p_{22}}
+\end{eqnarray*}\]</span></p>
+<p>Un caso más general es el de múltiples regímenes en el cual <span class="math inline">\(s_t\)</span> puede tomar cualquier valor <span class="math inline">\(m &gt; 2\)</span>, <span class="math inline">\(m \in \mathbb{N}\)</span>. Este modelo se puede escribir como:
+<span class="math display" id="eq:eqswchingobs2">\[\begin{equation}
+    y_t = \phi_{0j} + \phi_{1j} y_{t-1} + \varepsilon_t \text{ si } s_t = j \text{, para } j = 1, 2, \ldots, m
+        \tag{12.6}
+\end{equation}\]</span></p>
+<p>Donde las probabilidades de transición estarán dadas por:
+<span class="math display" id="eq:eqswchingobs3">\[\begin{equation}
+    p_{ij} = \mathbb{P}(s_t = j | s_{t-1} = i) \text{ para } i , j = 1, 2, \ldots, m
+         \tag{12.7}
+\end{equation}\]</span></p>
+<p>Donde la ecuación anterior satisface que <span class="math inline">\(p_{ij} &gt; 0\)</span>, <span class="math inline">\(\forall i, j = = 1, 2, \ldots, m\)</span> y que:
+<span class="math display">\[\begin{equation*}
+    \sum_{j=1}^m p_{ij} = 1 \text{ para } i = 1, 2, \ldots, m
+\end{equation*}\]</span></p>
+<p>Finalmente, plantearemos el procedimiento empiríco seguido para la estimación de este tipo de modelos:</p>
+<ol style="list-style-type: decimal">
+<li><p>Estimar un proceso AR(p)</p></li>
+<li><p>Probar una hipótesis nula de no linealidad de acurdo con alguno de los modelos SERAR, STAR o MSM</p></li>
+<li><p>Estimar lo parámetros</p></li>
+<li><p>Evluar los resultados del modelo</p></li>
+<li><p>Ajustar, en su caso, la estimación o modelo</p></li>
+<li><p>Pronósticar o realizar análisis impluso-respuesta</p></li>
+</ol>
+</div>
+</div>
+</div>
+  <div class="chapter-nav">
+<div class="prev"><a href="modelos-de-datos-panel.html"><span class="header-section-number">11</span> Modelos de Datos Panel</a></div>
+<div class="next"><a href="apendice-i.html">Apendice I</a></div>
+</div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
+    <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
+      <ul class="nav navbar-nav">
+<li><a class="nav-link" href="#otros-modelos-de-series-de-tiempo-no-lineales"><span class="header-section-number">12</span> Otros Modelos de Series de Tiempo No lineales</a></li>
+<li>
+<a class="nav-link" href="#modelos-de-cambio-de-r%C3%A9gimen"><span class="header-section-number">12.1</span> Modelos de cambio de régimen</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#reg%C3%ADmenes-determinados-por-informaci%C3%B3n-observable"><span class="header-section-number">12.1.1</span> Regímenes determinados por información observable</a></li>
+<li><a class="nav-link" href="#reg%C3%ADmenes-determinados-por-variables-no-observables"><span class="header-section-number">12.1.2</span> Regímenes determinados por variables no observables</a></li>
+</ul>
+</li>
+</ul>
+
+      <div class="book-extra">
+        <ul class="list-unstyled">
+<li><a id="book-source" href="git@github.com:emilianoprzcls/bookdown-notas-series-de-tiempo.git/blob/master/11-Otros_Modelos.Rmd">View source <i class="fab fa-github"></i></a></li>
+          <li><a id="book-edit" href="git@github.com:emilianoprzcls/bookdown-notas-series-de-tiempo.git/edit/master/11-Otros_Modelos.Rmd">Edit this page <i class="fab fa-github"></i></a></li>
+        </ul>
+</div>
+    </nav>
+</div>
+
+</div>
+</div> <!-- .container -->
+
+<footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>"<strong>Notas de Clase: Series de Tiempo</strong>" was written by Benjamín Oliva, Omar Alfaro-Rivera y Emiliano Pérez Caullieres. It was last built on 2022-07-24.</p>
+  </div>
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>This book was built by the <a class="text-light" href="https://bookdown.org">bookdown</a> R package.</p>
+  </div>
+
+</div></div>
+</footer><!-- dynamically load mathjax for compatibility with self-contained --><script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script><script type="text/x-mathjax-config">const popovers = document.querySelectorAll('a.footnote-ref[data-toggle="popover"]');
+for (let popover of popovers) {
+  const div = document.createElement('div');
+  div.setAttribute('style', 'position: absolute; top: 0, left:0; width:0, height:0, overflow: hidden; visibility: hidden;');
+  div.innerHTML = popover.getAttribute('data-content');
+
+  var has_math = div.querySelector("span.math");
+  if (has_math) {
+    document.body.appendChild(div);
+    MathJax.Hub.Queue(["Typeset", MathJax.Hub, div]);
+    MathJax.Hub.Queue(function() {
+      popover.setAttribute('data-content', div.innerHTML);
+      document.body.removeChild(div);
+    })
+  }
+}
+</script>
+</body>
+</html>
