@@ -149,36 +149,35 @@ Recordemos que una trayectoria de equilibrio o solución de un $AR(1)$ es como s
 
 Para el segundo ejemplo consideremos una aplicación a una serie de tiempo en especifico: Pasajeros transportados mensualmente en el Sistema de Transporte Colectivo Metro (pasajeros medidos en millones).^[Fuente: INEGI, \url{https://www.inegi.org.mx/app/indicadores/?tm=0&t=1090}.]
 
-<div class="figure" style="text-align: center">
-<img src="imagenes/G_AR_1_Real.png" alt="." width="100%" />
-<p class="caption">(\#fig:GAR1Real).</p>
-</div>
-> Figura \@ref(fig:GAR1Com): AR(1) considerando $X_t=5+0.9X_{t-1}+U_t$ ; $X_0=50$ y que $U_t$~$N(0, 4)$ y que $U_t \sim \mathcal{N}(0, 4)$
 
 
 <div class="figure" style="text-align: center">
-<img src="imagenes/G_AR_1_Teo.png" alt="." width="100%" />
-<p class="caption">(\#fig:GAR1Teo).</p>
+<img src="03-PE_Univariados_files/figure-html/GAR1Real-1.png" alt="AR(1) considerando $X_t=5+0.9X_{t-1}+U_t$ ; $X_0=50$ y que $U_t$~$N(0, 4)$ y que $U_t \sim \mathcal{N}(0, 4)$" width="100%" />
+<p class="caption">(\#fig:GAR1Real)AR(1) considerando $X_t=5+0.9X_{t-1}+U_t$ ; $X_0=50$ y que $U_t$~$N(0, 4)$ y que $U_t \sim \mathcal{N}(0, 4)$</p>
 </div>
-> Figura \@ref(fig:GAR1Teo): $X_t = \frac{5}{1 - 0.9} + \sum_{j = 0}^{t-1} 0.9^j U_{t-j}$, y que $U_t \sim \mathcal{N}(0, 4)$}
+
 
 <div class="figure" style="text-align: center">
-<img src="imagenes/G_AR_1_FACr.png" alt="." width="100%" />
-<p class="caption">(\#fig:GAR1FACr).</p>
+<img src="03-PE_Univariados_files/figure-html/GAR1Teo-1.png" alt="$X_t = \frac{5}{1 - 0.9} + \sum_{j = 0}^{t-1} 0.9^j U_{t-j}$, y que $U_t \sim \mathcal{N}(0, 4)$}" width="100%" />
+<p class="caption">(\#fig:GAR1Teo)$X_t = \frac{5}{1 - 0.9} + \sum_{j = 0}^{t-1} 0.9^j U_{t-j}$, y que $U_t \sim \mathcal{N}(0, 4)$}</p>
 </div>
-> Figura \@ref(fig:GAR1FACr): Función de autocorrelación de un AR(1): $\rho(\tau)=\frac{\gamma(\tau)}{\gamma(0)}$
 
 <div class="figure" style="text-align: center">
-<img src="imagenes/G_AR_1_FACt.png" alt="." width="100%" />
-<p class="caption">(\#fig:GAR1FACt).</p>
+<img src="03-PE_Univariados_files/figure-html/GAR1FACr-1.png" alt="Función de autocorrelación de un AR(1): $\rho(\tau)=\frac{\gamma(	au)}{\gamma(0)}$" width="100%" />
+<p class="caption">(\#fig:GAR1FACr)Función de autocorrelación de un AR(1): $\rho(\tau)=\frac{\gamma(	au)}{\gamma(0)}$</p>
 </div>
-> Figura \@ref(fig:GAR1FACr): Función de autocorrelación de un AR(1): $\rho(\tau)= a_1^\tau$
+
 
 <div class="figure" style="text-align: center">
-<img src="imagenes/G_AR_1_Comb.png" alt="." width="100%" />
-<p class="caption">(\#fig:GAR1Com).</p>
+<img src="03-PE_Univariados_files/figure-html/GAR1FACt-1.png" alt="Función de autocorrelación de un AR(1): $\rho(\tau)= a_1^\tau$" width="100%" />
+<p class="caption">(\#fig:GAR1FACt)Función de autocorrelación de un AR(1): $\rho(\tau)= a_1^\tau$</p>
 </div>
-> Figura \@ref(fig:GAR1FACr): AR(1) considerando en conjunto $X_t = 5 + 0.9 X_{t-1} + U_t$; $X_0 = 50$ y $X_t = \frac{5}{1 - 0.9} + \sum_{j = 0}^{t-1} 0.9^j U_{t-j}$, y que $U_t \sim \mathcal{N}(0, 4)$
+
+
+<div class="figure" style="text-align: center">
+<img src="03-PE_Univariados_files/figure-html/GAR1Com-1.png" alt="AR(1) considerando en conjunto $X_t = 5 + 0.9 X_{t-1} + U_t$; $X_0 = 50$ y $X_t = \frac{5}{1 - 0.9} + \sum_{j = 0}^{t-1} 0.9^j U_{t-j}$, y que $U_t \sim \mathcal{N}(0, 4)$" width="100%" />
+<p class="caption">(\#fig:GAR1Com)AR(1) considerando en conjunto $X_t = 5 + 0.9 X_{t-1} + U_t$; $X_0 = 50$ y $X_t = \frac{5}{1 - 0.9} + \sum_{j = 0}^{t-1} 0.9^j U_{t-j}$, y que $U_t \sim \mathcal{N}(0, 4)$</p>
+</div>
 
 A la serie se le aplicará una metodología de estimación dada por el método de Máxima Verosimilitud (ML, por sus siglás en inglés). Antes de realizar el proceso de estimación consideremos una transformación de diferencias logaritmicas, con el objeto de obtener una serie de tiempo expresada en tasas de crecimiento y con un comportamiento parecido a un proceso estacionario.^[Las tasas de crecimiento no son porcentuales, para hacerlas porcentuales faltaría multiplicar por 100 a la serie.] 
 
@@ -222,8 +221,10 @@ Una vez analizado el caso de $AR(1)$ analizaremos el caso del $AR(2)$. La ecuaci
     (\#eq:AR2Eq)
 \end{equation}
 
+
+
 <div class="figure" style="text-align: center">
-<img src="imagenes/G_Pax_Metro.png" alt="Pasajeros transportados (Millones) en el metro de la CDM en niveles y en diferencias logaritmicas." width="100%" />
+<img src="03-PE_Univariados_files/figure-html/GPaxMetro-1.png" alt="Pasajeros transportados (Millones) en el metro de la CDM en niveles y en diferencias logaritmicas." width="100%" />
 <p class="caption">(\#fig:GPaxMetro)Pasajeros transportados (Millones) en el metro de la CDM en niveles y en diferencias logaritmicas.</p>
 </div>
 Donde $U_t$ denota un proceso puramente aleatorio con media cero ($0$), varianza constante ($\sigma^2$) y autocovarianza cero ($Cov(U_t, U_s) = 0$, con $t \neq s$), y un parametro $a_2 \neq 0$. Así, utilizando el operador rezago podemos reescribir la ecuación \@ref(eq:AR2Eq) como:
@@ -381,10 +382,32 @@ Para el segundo caso obtenemos el siguiente resultado:
 \hat{\sigma}^2 & = & 0.009378 & y & AIC & = & -418.3 
 \end{eqnarray}
 
+
+```r
+
+Datos1 <- read_excel("BD/Clase_06/Base_Transporte.xlsx", sheet = "Datos", col_names = TRUE)
+Pax_Nal1 <- ts(Datos1$Pax_Nal, 
+              start = c(2000, 1),
+              end = c(2021, 7), 
+              freq = 12)
+
+# Logaritmos:
+LPax_Nal1 <- ts(log(Datos1$Pax_Nal), 
+               start = c(2000, 1), 
+               end = c(2021, 7), 
+               freq = 12)
+
+# Diferencias mensuales:
+DLPax_Nal1 <- ts(log(Datos1$Pax_Nal) - lag(log(Datos1$Pax_Nal), k = 1),
+                start = c(2000, 1), freq = 12)
+```
+
 <div class="figure" style="text-align: center">
-<img src="imagenes/G_Pax_Nal.png" alt="Pasajeros transportados (Millones) en el metro de la CDM en niveles y en diferencias logaritmicas." width="100%" />
+<img src="03-PE_Univariados_files/figure-html/GPaxNal-1.png" alt="Pasajeros transportados (Millones) en el metro de la CDM en niveles y en diferencias logaritmicas." width="100%" />
 <p class="caption">(\#fig:GPaxNal)Pasajeros transportados (Millones) en el metro de la CDM en niveles y en diferencias logaritmicas.</p>
 </div>
+
+
 
 <div class="figure" style="text-align: center">
 <img src="imagenes/G_Roots_AR2.png" alt="Inverso de las Raíces del polinomio característico." width="100%" />

@@ -26,6 +26,9 @@ El mismo procesamiento puede ser seguido para todas las series que busquemos ana
 - Indicador global de la actividad económica (base 2013 = 100), $IGAE_t$
 - Industrial Production Index o Índice de Producción Industrial de los Estados Unidos (base 2012 = 100), $IPI_t$
 
+
+
+
 <div class="figure" style="text-align: center">
 <img src="imagenes/INPC_Adj.png" alt="Índice Nacional de Precios al Consumidor ($INPC_t$) y su serie desestacionalizada utilizando un proceso X13-ARIMA-SEATS." width="100%" />
 <p class="caption">(\#fig:INPCAdj)Índice Nacional de Precios al Consumidor ($INPC_t$) y su serie desestacionalizada utilizando un proceso X13-ARIMA-SEATS.</p>

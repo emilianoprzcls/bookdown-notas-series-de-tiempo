@@ -200,49 +200,34 @@ Cov(X_t, X_{t-\tau}) &amp; = &amp; \mathbb{E}[(X_t - \mu)(X_{t-\tau} - \mu)] \no
 <p>Para el segundo ejemplo consideremos una aplicación a una serie de tiempo en especifico: Pasajeros transportados mensualmente en el Sistema de Transporte Colectivo Metro (pasajeros medidos en millones).<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content="&lt;p&gt;Fuente: INEGI, .&lt;/p&gt;"><sup>4</sup></a></p>
 <div class="figure" style="text-align: center">
 <span style="display:block;" id="fig:GAR1Real"></span>
-<img src="imagenes/G_AR_1_Real.png" alt="." width="100%"><p class="caption">
-Figure 4.1: .
+<img src="03-PE_Univariados_files/figure-html/GAR1Real-1.png" alt="AR(1) considerando $X_t=5+0.9X_{t-1}+U_t$ ; $X_0=50$ y que $U_t$~$N(0, 4)$ y que $U_t \sim \mathcal{N}(0, 4)$" width="100%"><p class="caption">
+Figure 4.1: AR(1) considerando <span class="math inline">\(X_t=5+0.9X_{t-1}+U_t\)</span> ; <span class="math inline">\(X_0=50\)</span> y que <span class="math inline">\(U_t\)</span>~<span class="math inline">\(N(0, 4)\)</span> y que <span class="math inline">\(U_t \sim \mathcal{N}(0, 4)\)</span>
 </p>
 </div>
-<blockquote>
-<p>Figura <a href="procesos-estacionarios-univariados.html#fig:GAR1Com">4.5</a>: AR(1) considerando <span class="math inline">\(X_t=5+0.9X_{t-1}+U_t\)</span> ; <span class="math inline">\(X_0=50\)</span> y que <span class="math inline">\(U_t\)</span>~<span class="math inline">\(N(0, 4)\)</span> y que <span class="math inline">\(U_t \sim \mathcal{N}(0, 4)\)</span></p>
-</blockquote>
 <div class="figure" style="text-align: center">
 <span style="display:block;" id="fig:GAR1Teo"></span>
-<img src="imagenes/G_AR_1_Teo.png" alt="." width="100%"><p class="caption">
-Figure 4.2: .
+<img src="03-PE_Univariados_files/figure-html/GAR1Teo-1.png" alt="$X_t = \frac{5}{1 - 0.9} + \sum_{j = 0}^{t-1} 0.9^j U_{t-j}$, y que $U_t \sim \mathcal{N}(0, 4)$}" width="100%"><p class="caption">
+Figure 4.2: <span class="math inline">\(X_t = \frac{5}{1 - 0.9} + \sum_{j = 0}^{t-1} 0.9^j U_{t-j}\)</span>, y que <span class="math inline">\(U_t \sim \mathcal{N}(0, 4)\)</span>}
 </p>
 </div>
-<blockquote>
-<p>Figura <a href="procesos-estacionarios-univariados.html#fig:GAR1Teo">4.2</a>: <span class="math inline">\(X_t = \frac{5}{1 - 0.9} + \sum_{j = 0}^{t-1} 0.9^j U_{t-j}\)</span>, y que <span class="math inline">\(U_t \sim \mathcal{N}(0, 4)\)</span>}</p>
-</blockquote>
 <div class="figure" style="text-align: center">
 <span style="display:block;" id="fig:GAR1FACr"></span>
-<img src="imagenes/G_AR_1_FACr.png" alt="." width="100%"><p class="caption">
-Figure 4.3: .
+<img src="03-PE_Univariados_files/figure-html/GAR1FACr-1.png" alt="Función de autocorrelación de un AR(1): $\rho(\tau)=\frac{\gamma(    au)}{\gamma(0)}$" width="100%"><p class="caption">
+Figure 4.3: Función de autocorrelación de un AR(1): <span class="math inline">\(\rho(\tau)=\frac{\gamma( au)}{\gamma(0)}\)</span>
 </p>
 </div>
-<blockquote>
-<p>Figura <a href="procesos-estacionarios-univariados.html#fig:GAR1FACr">4.3</a>: Función de autocorrelación de un AR(1): <span class="math inline">\(\rho(\tau)=\frac{\gamma(\tau)}{\gamma(0)}\)</span></p>
-</blockquote>
 <div class="figure" style="text-align: center">
 <span style="display:block;" id="fig:GAR1FACt"></span>
-<img src="imagenes/G_AR_1_FACt.png" alt="." width="100%"><p class="caption">
-Figure 4.4: .
+<img src="03-PE_Univariados_files/figure-html/GAR1FACt-1.png" alt="Función de autocorrelación de un AR(1): $\rho(\tau)= a_1^\tau$" width="100%"><p class="caption">
+Figure 4.4: Función de autocorrelación de un AR(1): <span class="math inline">\(\rho(\tau)= a_1^\tau\)</span>
 </p>
 </div>
-<blockquote>
-<p>Figura <a href="procesos-estacionarios-univariados.html#fig:GAR1FACr">4.3</a>: Función de autocorrelación de un AR(1): <span class="math inline">\(\rho(\tau)= a_1^\tau\)</span></p>
-</blockquote>
 <div class="figure" style="text-align: center">
 <span style="display:block;" id="fig:GAR1Com"></span>
-<img src="imagenes/G_AR_1_Comb.png" alt="." width="100%"><p class="caption">
-Figure 4.5: .
+<img src="03-PE_Univariados_files/figure-html/GAR1Com-1.png" alt="AR(1) considerando en conjunto $X_t = 5 + 0.9 X_{t-1} + U_t$; $X_0 = 50$ y $X_t = \frac{5}{1 - 0.9} + \sum_{j = 0}^{t-1} 0.9^j U_{t-j}$, y que $U_t \sim \mathcal{N}(0, 4)$" width="100%"><p class="caption">
+Figure 4.5: AR(1) considerando en conjunto <span class="math inline">\(X_t = 5 + 0.9 X_{t-1} + U_t\)</span>; <span class="math inline">\(X_0 = 50\)</span> y <span class="math inline">\(X_t = \frac{5}{1 - 0.9} + \sum_{j = 0}^{t-1} 0.9^j U_{t-j}\)</span>, y que <span class="math inline">\(U_t \sim \mathcal{N}(0, 4)\)</span>
 </p>
 </div>
-<blockquote>
-<p>Figura <a href="procesos-estacionarios-univariados.html#fig:GAR1FACr">4.3</a>: AR(1) considerando en conjunto <span class="math inline">\(X_t = 5 + 0.9 X_{t-1} + U_t\)</span>; <span class="math inline">\(X_0 = 50\)</span> y <span class="math inline">\(X_t = \frac{5}{1 - 0.9} + \sum_{j = 0}^{t-1} 0.9^j U_{t-j}\)</span>, y que <span class="math inline">\(U_t \sim \mathcal{N}(0, 4)\)</span></p>
-</blockquote>
 <p>A la serie se le aplicará una metodología de estimación dada por el método de Máxima Verosimilitud (ML, por sus siglás en inglés). Antes de realizar el proceso de estimación consideremos una transformación de diferencias logaritmicas, con el objeto de obtener una serie de tiempo expresada en tasas de crecimiento y con un comportamiento parecido a un proceso estacionario.<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content="&lt;p&gt;Las tasas de crecimiento no son porcentuales, para hacerlas porcentuales faltaría multiplicar por 100 a la serie.&lt;/p&gt;"><sup>5</sup></a></p>
 <p>Así, para cada una de las series que analicemos en diferencias logaritmicas las expresaremos bajo la siguiente transformación: <span class="math display">\[\begin{equation*}
     DLX_t = log(X_t) - log(X_{t-k})
@@ -279,7 +264,7 @@ PaxDLMetro_t  =  0.0007 &amp; - &amp; 0.6194 PaxDLMetro_{t-1} \\
 \end{equation}\]</span></p>
 <div class="figure" style="text-align: center">
 <span style="display:block;" id="fig:GPaxMetro"></span>
-<img src="imagenes/G_Pax_Metro.png" alt="Pasajeros transportados (Millones) en el metro de la CDM en niveles y en diferencias logaritmicas." width="100%"><p class="caption">
+<img src="03-PE_Univariados_files/figure-html/GPaxMetro-1.png" alt="Pasajeros transportados (Millones) en el metro de la CDM en niveles y en diferencias logaritmicas." width="100%"><p class="caption">
 Figure 4.6: Pasajeros transportados (Millones) en el metro de la CDM en niveles y en diferencias logaritmicas.
 </p>
 </div>
@@ -405,9 +390,26 @@ Figure 4.6: Pasajeros transportados (Millones) en el metro de la CDM en niveles 
 <span class="math display">\[\begin{eqnarray}
 \hat{\sigma}^2 &amp; = &amp; 0.009378 &amp; y &amp; AIC &amp; = &amp; -418.3
 \end{eqnarray}\]</span></p>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span></span>
+<span><span class="va">Datos1</span> <span class="op">&lt;-</span> <span class="fu">read_excel</span><span class="op">(</span><span class="st">"BD/Clase_06/Base_Transporte.xlsx"</span>, sheet <span class="op">=</span> <span class="st">"Datos"</span>, col_names <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="va">Pax_Nal1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/ts.html">ts</a></span><span class="op">(</span><span class="va">Datos1</span><span class="op">$</span><span class="va">Pax_Nal</span>, </span>
+<span>              start <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2000</span>, <span class="fl">1</span><span class="op">)</span>,</span>
+<span>              end <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2021</span>, <span class="fl">7</span><span class="op">)</span>, </span>
+<span>              freq <span class="op">=</span> <span class="fl">12</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Logaritmos:</span></span>
+<span><span class="va">LPax_Nal1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/ts.html">ts</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span><span class="op">(</span><span class="va">Datos1</span><span class="op">$</span><span class="va">Pax_Nal</span><span class="op">)</span>, </span>
+<span>               start <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2000</span>, <span class="fl">1</span><span class="op">)</span>, </span>
+<span>               end <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2021</span>, <span class="fl">7</span><span class="op">)</span>, </span>
+<span>               freq <span class="op">=</span> <span class="fl">12</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Diferencias mensuales:</span></span>
+<span><span class="va">DLPax_Nal1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/ts.html">ts</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span><span class="op">(</span><span class="va">Datos1</span><span class="op">$</span><span class="va">Pax_Nal</span><span class="op">)</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lag.html">lag</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span><span class="op">(</span><span class="va">Datos1</span><span class="op">$</span><span class="va">Pax_Nal</span><span class="op">)</span>, k <span class="op">=</span> <span class="fl">1</span><span class="op">)</span>,</span>
+<span>                start <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2000</span>, <span class="fl">1</span><span class="op">)</span>, freq <span class="op">=</span> <span class="fl">12</span><span class="op">)</span></span></code></pre></div>
 <div class="figure" style="text-align: center">
 <span style="display:block;" id="fig:GPaxNal"></span>
-<img src="imagenes/G_Pax_Nal.png" alt="Pasajeros transportados (Millones) en el metro de la CDM en niveles y en diferencias logaritmicas." width="100%"><p class="caption">
+<img src="03-PE_Univariados_files/figure-html/GPaxNal-1.png" alt="Pasajeros transportados (Millones) en el metro de la CDM en niveles y en diferencias logaritmicas." width="100%"><p class="caption">
 Figure 4.7: Pasajeros transportados (Millones) en el metro de la CDM en niveles y en diferencias logaritmicas.
 </p>
 </div>
@@ -1354,7 +1356,7 @@ Figure 4.17: Pronóstico de la serie <span class="math inline">\(PaxNAl_t\)</spa
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Notas de Clase: Series de Tiempo</strong>" was written by Benjamín Oliva, Omar Alfaro-Rivera y Emiliano Pérez Caullieres. It was last built on 2022-07-24.</p>
+    <p>"<strong>Notas de Clase: Series de Tiempo</strong>" was written by Benjamín Oliva, Omar Alfaro-Rivera y Emiliano Pérez Caullieres. It was last built on 2022-07-25.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">
