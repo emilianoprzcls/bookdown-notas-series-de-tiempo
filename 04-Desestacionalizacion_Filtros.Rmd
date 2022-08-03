@@ -28,12 +28,65 @@ El mismo procesamiento puede ser seguido para todas las series que busquemos ana
 
 
 ```{r}
+knitr::opts_chunk$set(echo = TRUE)
+
+#install.packages("ggplot2")
+#install.packages("dplyr")
+#install.packages("readxl")
+#install.packages(stats)
+#install.packages("seasonal")
+#install.packages("seasonalview")
+#install.packages("shiny")
+#install.packages("TClass")
+#install.packages("remotes")
+# 
+library(ggplot2)
+library(dplyr)
+library(readxl)
+library(stats)
+library(seasonal)
+library(seasonalview)
+library(shiny)
+
+# Importamos Datos:
+#Los datos importados son:
+
+# INPC: Indice Nacional de Precios al Consumidor (2QJul2018 = 100)
+# TC: Tipo de Cambio FIX 
+# CETE28: Tasa de rendimiento promedio mensual de los Cetes 28, en por ciento anual*# IGAE: Indicador global de la actividad económica (2013 = 100)
+# IPI: Industrial Production Index (2012 = 100)
+Datos_deses <- read_excel("BD/Clase_11/Base_VAR.xlsx", sheet = "Datos", col_names = TRUE)
+
+# Primer ejemplo:
+INPC <- ts(Datos_deses$INPC, 
+           start = c(2000, 1), 
+           freq = 12)
+
+# Desestacionalizacion (forma complicada):
+Seas_INPC <- seas(INPC)
+
+names(Seas_INPC)
+
+summary(Seas_INPC)
+
+#
+final(Seas_INPC)
+
+INPC_Ad <- final(Seas_INPC)
+
+#
+original(Seas_INPC)
+
+
+
+# Forma Facil:
+#runApp(view(Seas_INPC))
 
 ```
 
 ```{r INPCAdj, fig.cap = "Índice Nacional de Precios al Consumidor ($INPC_t$) y su serie desestacionalizada utilizando un proceso X13-ARIMA-SEATS.", fig.align='center', echo=FALSE, out.width="100%"}
 
-knitr::include_graphics("imagenes/INPC_Adj.png")
+plot(Seas_INPC)
 
 ```
 
@@ -101,9 +154,65 @@ $$K' =
 0 & 0 & 0 & 0 & \ldots & 1 \\
 \end{pmatrix}
 $$
+```{r}
+#install.packages("ggplot2")
+#install.packages("dplyr")
+#install.packages("readxl")
+#install.packages(stats)
+#install.packages("mFilter")
+# 
+library(ggplot2)
+library(dplyr)
+library(readxl)
+library(stats)
+library(mFilter)
+
+# Importamos Datos desde un archivo de R:
+
+#Los datos "cargados" son los originales y los ajustados por estacionalidad. Los cuales son:
+
+#* INPC: Indice Nacional de Precios al Consumidor (2QJul2018 = 100)
+
+#* TC: Tipo de Cambio FIX 
+
+#* CETE28: Tasa de rendimiento promedio mensual de los Cetes 28, en por ciento anual
+
+#* IGAE: Indicador global de la actividad económica (2013 = 100)
+
+#* IPI: Industrial Production Index (2012 = 100)
+
+load("BD/Clase_11/Datos_Ad.RData")
+
+INPC_HP <- ts(Datos_Ad$INPC_Ad, start = c(2000, 1), freq = 12)
+
+TC <- ts(Datos_Ad$TC_Ad, start = c(2000, 1), freq = 12)
+
+## Filtro Hodrick-Prescott:
+
+### INPC:
+#?hpfilter
+
+INPC_hpf <- hpfilter(INPC, freq = 14400)
+
+names(INPC_hpf)
+
+#
+INPC_hpf$cycle
+
+INPC_hpf$trend
+
+INPC_hpf$lambda
+
+INPC_hpf$x
+```
+
 ```{r INPCHP, fig.cap = "Descomposición del Índice Nacional de Precios al Consumidor ($INPC_t$) en su tendencia o trayectoria de largo plazo y su ciclo de corto plazo utilizando un filtro Hodrick y Prescott (1997).", fig.align='center', echo=FALSE, out.width="100%"}
 
-knitr::include_graphics("imagenes/INPC_HP.png")
+plot(INPC_hpf)
+
+INPC_Cycle <- INPC_hpf$cycle
+
+INPC_Trend <- INPC_hpf$trend
 
 ```
 
@@ -111,8 +220,21 @@ En resumen, podemos decir que el filtro de Hodrick y Prescott (1997) es un algor
 
 A contiuación, ilustraremos el filtro de Hodrick y Prescott (1997) para dos series desestacionalizadas: $INPC_t$ y $TC_t$. Las Figura \@ref(fig:INPCHP) y Figura \@ref(fig:TCHP) muestran los resultados de la implementación del filtro.
 
+
+```{r}
+TC_hpf <- hpfilter(TC, freq = 14400)
+#plot(TC_hpf)
+```
+
 ```{r TCHP, fig.cap = "Descomposición del Tipo de Cambio FIX ($TC_t$) en su tendencia o trayectoria de largo plazo y su ciclo de corto plazo utilizando un filtro Hodrick y Prescott (1997).", fig.align='center', echo=FALSE, out.width="100%"}
 
-knitr::include_graphics("imagenes/TC_HP.png")
+TC_hpf <- hpfilter(TC, freq = 14400)
+
+plot(TC_hpf)
+
+TC_Cycle <- TC_hpf$cycle
+
+TC_Trend <- TC_hpf$trend
+
 
 ```
