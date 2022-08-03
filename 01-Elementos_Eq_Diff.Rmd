@@ -231,7 +231,7 @@ Como un segundo caso a estudiar se ubica el caso de las Ecuaciones en Diferencia
 \end{equation}
 
 
-```{r table1, echo=FALSE, message=FALSE, warning=FALSE, results='asis'}
+```{r table1, echo=TRUE, message=FALSE, warning=FALSE, results='asis'}
 library(knitr)
 library(tidyverse)
 library(kableExtra)
@@ -260,7 +260,7 @@ kable(tabla1, caption = "Dos ejemplos de Procesos de Ecuaciones Lineales de Prim
 ```
 
 
-```{r fig21, echo=FALSE, message=FALSE, warning=FALSE, results='asis', fig.cap="Evolución del proceso dado por $Z_t =2+0.9Z_{t-1}$", fig.align='center', fig.height=3.5}
+```{r fig21, echo=TRUE, message=FALSE, warning=FALSE, results='asis', fig.cap="Evolución del proceso dado por $Z_t =2+0.9Z_{t-1}$", fig.align='center', fig.height=3.5}
 ggplot(,aes(x = Tiempo, y=Zt))+
   geom_line(col="blue4")+
   geom_point(col= "blue4")+
@@ -269,7 +269,7 @@ ggplot(,aes(x = Tiempo, y=Zt))+
 ```
 
 
-```{r fig22, echo=FALSE, message=FALSE, warning=FALSE, results='asis', fig.cap="Evolución del proceso dado por $Z_t =2-0.5Z_{t-1}$", fig.align='center', fig.height=3.5}
+```{r fig22, echo=TRUE, message=FALSE, warning=FALSE, results='asis', fig.cap="Evolución del proceso dado por $Z_t =2-0.5Z_{t-1}$", fig.align='center', fig.height=3.5}
 
 ggplot(,aes(x = Tiempo, y=Zt2))+
   geom_line(col="red4")+
@@ -482,7 +482,7 @@ Donde $t = \ldots, -2, -1, 0, 1, 2, \ldots$ y $a_p \neq 0$. La ecuación \@ref(e
     (1 - a_1 L - a_2 L^2 - \ldots - a_p L^p) Z_t & = & a_0
     (\#eq:EDOP2)
 \end{eqnarray}
-```{r table2, echo=FALSE, message=FALSE, warning=FALSE, results='asis'}
+```{r table2, echo=TRUE, message=FALSE, warning=FALSE, results='asis'}
 
 t = ts(c(0:100))
 
@@ -501,7 +501,7 @@ kable(tabla1, caption = "Un ejemplo de proceso de Ecuación de Segundo Orden con
 
 ```
 
-```{r fig23, echo=FALSE, message=FALSE, warning=FALSE, results='asis', fig.cap="Evolución del proceso dado por $Z_t =3+0.9Z_{t-1}-0.2Z_{t-2}$", fig.align='center', fig.height=3.5}
+```{r fig23, echo=TRUE, message=FALSE, warning=FALSE, results='asis', fig.cap="Evolución del proceso dado por $Z_t =3+0.9Z_{t-1}-0.2Z_{t-2}$", fig.align='center', fig.height=3.5}
 
 ggplot(,aes(x = t, y=Zt))+
   geom_line(col="green4")+
@@ -605,7 +605,7 @@ Para $\forall i = 1, 2, \ldots, p$. Cuando la raíces son imaginarias, las dos c
 
 Para $\forall i \neq j$ y $i, j = 1, 2, \ldots, p$. Cuando $g_1 = g_2 = \ldots = g_p = g$, la condición de la ecuación \@ref(eq:COND3) se resume a que $|g| < 1$. En resumen, las condiciones descritas en las ecuaciones \@ref(eq:COND3) y \@ref(eq:COND4) se puden ilustrar con un circulo unitario como el de la Figura \@ref(fig:fig24) en que sí las raíces se ubican dentro de éste, podemos decir que el proceso es convergente en el largo plazo.
 
-```{r fig24,fig.cap="Circulo unitario en el que se cumple que $|g_i|<1$ y $(g_i g_j)^{1/2} = (u^2 + v^2)^{1/2} < 1$", echo=FALSE, fig.height=4.5, fig.width=4, message=FALSE, warning=FALSE, fig.align='center'}
+```{r fig24,fig.cap="Circulo unitario en el que se cumple que $|g_i|<1$ y $(g_i g_j)^{1/2} = (u^2 + v^2)^{1/2} < 1$", echo=TRUE, fig.height=4.5, fig.width=4, message=FALSE, warning=FALSE, fig.align='center'}
 x = seq(-1,1,0.001)
 y = sqrt(1-x^2)
 par(new = T) 

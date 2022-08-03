@@ -150,6 +150,48 @@ Recordemos que una trayectoria de equilibrio o solución de un $AR(1)$ es como s
 Para el segundo ejemplo consideremos una aplicación a una serie de tiempo en especifico: Pasajeros transportados mensualmente en el Sistema de Transporte Colectivo Metro (pasajeros medidos en millones).^[Fuente: INEGI, \url{https://www.inegi.org.mx/app/indicadores/?tm=0&t=1090}.]
 
 
+```r
+library(ggplot2)
+library(dplyr)
+library(readxl)
+library(latex2exp)
+
+# Parametros:
+a0 <- 5; a1 <- 0.9; X_0 <- (a0/(1 - a1)); T <- 1000
+
+# Definimos un data frame para almacenar el proceso, agregamos una columna para el tiempo
+X_t <- data.frame(Tiempo = c(0:T))
+
+#  Parte estocastica de la serie de tiempo:
+set.seed(12345)
+
+# Agregamos un término estocástico al data frame
+X_t$U_t <- rnorm(T+1, mean = 0, sd = 4)
+
+# Agregamos columnas con NA's para un proceso teorico y uno real
+X_t$X_t <- NA
+X_t$XR_t <- NA
+
+# La serie teórica inicia en un valor inicial X_0
+X_t$X_t[1] <- X_0
+
+# La serie real inicia en un valor inicial X_0
+X_t$XR_t[1] <- X_0
+
+# Agregamos una columna para la función de Autocorrelación teórica:
+X_t$rho <-NA
+
+for (i in 2:(T + 1)) {
+  # Real:
+  X_t$XR_t[i] = a0 + a1*X_t$XR_t[i-1] + X_t$U_t[i-1]
+  
+  # Teórico:
+  X_t$X_t[i] = X_t$X_t[i-1] + (a1^(i-1))*X_t$U_t[i-1]
+  
+  # Autocorrelación:
+  X_t$rho[i-1] = a1^(i-1)
+}
+```
 
 <div class="figure" style="text-align: center">
 <img src="03-PE_Univariados_files/figure-html/GAR1Real-1.png" alt="AR(1) considerando $X_t=5+0.9X_{t-1}+U_t$ ; $X_0=50$ y que $U_t$~$N(0, 4)$ y que $U_t \sim \mathcal{N}(0, 4)$" width="100%" />
@@ -157,10 +199,38 @@ Para el segundo ejemplo consideremos una aplicación a una serie de tiempo en es
 </div>
 
 
+
+```r
+
+ggplot(data = X_t, aes(x = Tiempo, y = X_t)) + 
+  geom_line(size = 0.5, color = "darkblue") +
+  theme_bw() + 
+  xlab("Tiempo") + 
+  ylab(TeX("$X_t$")) + 
+  theme(plot.title = element_text(size = 11, face = "bold", hjust = 0)) + 
+  theme(plot.subtitle = element_text(size = 10, hjust = 0)) + 
+  theme(plot.caption = element_text(size = 10, hjust = 0)) +
+  theme(plot.margin = unit(c(1,1,1,1), "cm")) +
+  labs(
+    title = "Comportamiento del Proceso Teórico",
+    subtitle = "Con un error con Distribución Normal (media = 0, desviación estándar = 4)",
+    caption = "Fuente: Elaboración propia."
+  )
+```
+
 <div class="figure" style="text-align: center">
 <img src="03-PE_Univariados_files/figure-html/GAR1Teo-1.png" alt="$X_t = \frac{5}{1 - 0.9} + \sum_{j = 0}^{t-1} 0.9^j U_{t-j}$, y que $U_t \sim \mathcal{N}(0, 4)$}" width="100%" />
 <p class="caption">(\#fig:GAR1Teo)$X_t = \frac{5}{1 - 0.9} + \sum_{j = 0}^{t-1} 0.9^j U_{t-j}$, y que $U_t \sim \mathcal{N}(0, 4)$}</p>
 </div>
+
+
+```r
+
+acf(X_t$XR_t, lag.max = 30, col = "blue", 
+    ylab = "Autocorrelacion",
+    xlab="Rezagos", 
+    main="Funcion de Autocorrelacion Real")
+```
 
 <div class="figure" style="text-align: center">
 <img src="03-PE_Univariados_files/figure-html/GAR1FACr-1.png" alt="Función de autocorrelación de un AR(1): $\rho(\tau)=\frac{\gamma(	au)}{\gamma(0)}$" width="100%" />
@@ -168,11 +238,40 @@ Para el segundo ejemplo consideremos una aplicación a una serie de tiempo en es
 </div>
 
 
+
+```r
+
+barplot(X_t$rho[1:30], names.arg = c(1:30), col = "blue", border="blue", density = c(10,20), 
+        ylab = "Autocorrelacion", 
+        xlab="Rezagos", 
+        main="Funcion de Autocorrelacion Teórica")
+```
+
 <div class="figure" style="text-align: center">
 <img src="03-PE_Univariados_files/figure-html/GAR1FACt-1.png" alt="Función de autocorrelación de un AR(1): $\rho(\tau)= a_1^\tau$" width="100%" />
 <p class="caption">(\#fig:GAR1FACt)Función de autocorrelación de un AR(1): $\rho(\tau)= a_1^\tau$</p>
 </div>
 
+
+
+```r
+
+ggplot(data = X_t, aes(x = Tiempo)) +
+  geom_line(aes(y = XR_t), size = 0.5, color = "darkred") +
+  geom_line(aes(y = X_t), size = 0.5, color = "darkblue") +
+  theme_bw() + 
+  xlab("Tiempo") + 
+  ylab(TeX("$X_t$")) + 
+  theme(plot.title = element_text(size = 11, face = "bold", hjust = 0)) + 
+  theme(plot.subtitle = element_text(size = 10, hjust = 0)) + 
+  theme(plot.caption = element_text(size = 10, hjust = 0)) +
+  theme(plot.margin = unit(c(1,1,1,1), "cm")) +
+  labs(
+    title = "Comportamiento de los Procesos Real y Teórico",
+    subtitle = "Con un error con Distribución Normal (media = 0, desviación estándar = 4)",
+    caption = "Fuente: Elaboración propia."
+  )
+```
 
 <div class="figure" style="text-align: center">
 <img src="03-PE_Univariados_files/figure-html/GAR1Com-1.png" alt="AR(1) considerando en conjunto $X_t = 5 + 0.9 X_{t-1} + U_t$; $X_0 = 50$ y $X_t = \frac{5}{1 - 0.9} + \sum_{j = 0}^{t-1} 0.9^j U_{t-j}$, y que $U_t \sim \mathcal{N}(0, 4)$" width="100%" />
@@ -222,11 +321,81 @@ Una vez analizado el caso de $AR(1)$ analizaremos el caso del $AR(2)$. La ecuaci
 \end{equation}
 
 
+```r
+library(stats)
+library(readxl)
+Datos <- read_excel("BD/Base_Transporte.xlsx", sheet = "Datos", col_names = TRUE)
+
+# Conversion a series de tiempo:
+
+#Una serie - caso univariado:
+
+# En Niveles
+Dat_Aereo <- ts(Datos[c("Pax_Nal", "Pax_Int", "Vue_Nal", "Vue_Int")], 
+                start = c(2000, 1), 
+                end = c(2021, 7), 
+                freq = 12)
+
+Pax_Metro <- ts(Datos$Pax_Metro, start = c(2000, 1), 
+                end = c(2021, 7), 
+                freq = 12)
+
+# En Logaritmos:
+Dat_LAereo <- ts(log(Datos[c("Pax_Nal", "Pax_Int", "Vue_Nal", "Vue_Int")]), 
+                start = c(2000, 1), 
+                end = c(2021, 7), 
+                freq = 12)
+
+Pax_LMetro <- ts(log(Datos$Pax_Metro), start = c(2000, 1), 
+                end = c(2021, 7), 
+                freq = 12)
+
+# Diferencias mensuales:
+
+Pax_DLMetro <- ts( log(Datos$Pax_Metro) - lag(log(Datos$Pax_Metro), k = 1),
+                 start = c(2000, 1), freq = 12)
+
+#Graficas
+plot(Pax_Metro, xlab = "Tiempo", 
+     main = "Pasajeros transportados (Millones) en el SCM",
+     col = "darkgreen")
+
+plot(Pax_LMetro, xlab = "Tiempo", 
+     main = "LN Pasajeros transportados (Millones) en el SCM",
+     col = "darkblue")
+
+plot(Pax_DLMetro, xlab = "Tiempo", 
+     main = "Diff LN Pasajeros transportados (Millones) en el SCM", 
+     col = "darkred")
+```
+
+
+```r
+
+par(mfrow = c(3,1))
+
+plot(Pax_Metro, xlab = "Tiempo", 
+     main = "Pasajeros transportados (Millones) en el SCM",
+     col = "darkgreen")
+
+plot(Pax_LMetro, xlab = "Tiempo", 
+     main = "LN Pasajeros transportados (Millones) en el SCM",
+     col = "darkblue")
+
+plot(Pax_DLMetro, xlab = "Tiempo", 
+     main = "Diff LN Pasajeros transportados (Millones) en el SCM", 
+     col = "darkred")
+```
 
 <div class="figure" style="text-align: center">
 <img src="03-PE_Univariados_files/figure-html/GPaxMetro-1.png" alt="Pasajeros transportados (Millones) en el metro de la CDM en niveles y en diferencias logaritmicas." width="100%" />
 <p class="caption">(\#fig:GPaxMetro)Pasajeros transportados (Millones) en el metro de la CDM en niveles y en diferencias logaritmicas.</p>
 </div>
+
+```r
+
+par(mfrow=c(1,1))
+```
 Donde $U_t$ denota un proceso puramente aleatorio con media cero ($0$), varianza constante ($\sigma^2$) y autocovarianza cero ($Cov(U_t, U_s) = 0$, con $t \neq s$), y un parametro $a_2 \neq 0$. Así, utilizando el operador rezago podemos reescribir la ecuación \@ref(eq:AR2Eq) como:
 \begin{eqnarray*}
     X_t - a_1 X_{t-1} - a_2 X_{t-2} & = & a_0 + U_t \\
@@ -402,17 +571,99 @@ DLPax_Nal1 <- ts(log(Datos1$Pax_Nal) - lag(log(Datos1$Pax_Nal), k = 1),
                 start = c(2000, 1), freq = 12)
 ```
 
+
+```r
+
+par(mfrow=c(3,1))
+
+plot(Pax_Nal1, xlab = "Tiempo", ylab = "Pasajeros",
+     main = "Pasajeros en vuelos nacionales de salida",
+     col = "darkgreen")
+
+plot(LPax_Nal1, xlab = "Tiempo", ylab = "LN Pasajeros",
+     main = "LN Pasajeros en vuelos nacionales de salida",
+     col = "darkblue")
+
+plot(DLPax_Nal1, xlab = "Tiempo", ylab = "DLN Pasajeros",
+     main = "Diff LN Pasajeros en vuelos nacionales de salida", 
+     col = "darkred")
+```
+
 <div class="figure" style="text-align: center">
 <img src="03-PE_Univariados_files/figure-html/GPaxNal-1.png" alt="Pasajeros transportados (Millones) en el metro de la CDM en niveles y en diferencias logaritmicas." width="100%" />
 <p class="caption">(\#fig:GPaxNal)Pasajeros transportados (Millones) en el metro de la CDM en niveles y en diferencias logaritmicas.</p>
 </div>
 
+```r
 
+par(mfrow=c(1,1))
+
+#
+AR_LPax_Nal <- arima(LPax_Nal1, order = c(2, 0, 0), method = "ML")
+
+AR_LPax_Nal
+#> 
+#> Call:
+#> arima(x = LPax_Nal1, order = c(2, 0, 0), method = "ML")
+#> 
+#> Coefficients:
+#>          ar1      ar2  intercept
+#>       1.0290  -0.1521    14.6263
+#> s.e.  0.0613   0.0618     0.0857
+#> 
+#> sigma^2 estimated as 0.03009:  log likelihood = 85.37,  aic = -162.74
+
+#plot(AR_LPax_Nal$residuals, xlab = "Tiempo", ylab = "",main = "Residuales del AR (2) para LN de pasajeros en vuelos nacionales de salida",col = "darkgreen")
+
+# AR(2) en DIFERENCIAS:
+
+AR_DLPax_Nal <- arima(DLPax_Nal1, order = c(2, 0, 0), method = "ML")
+
+AR_DLPax_Nal
+#> 
+#> Call:
+#> arima(x = DLPax_Nal1, order = c(2, 0, 0), method = "ML")
+#> 
+#> Coefficients:
+#>          ar1      ar2  intercept
+#>       0.1132  -0.2794     0.0043
+#> s.e.  0.0598   0.0596     0.0092
+#> 
+#> sigma^2 estimated as 0.02963:  log likelihood = 87.79,  aic = -167.57
+
+#plot(AR_DLPax_Nal$residuals, xlab = "Tiempo", ylab = "",main = "Residuales del AR (2) para DLN \nde pasajeros en vuelos nacionales de salida",col = "darkred")
+```
+
+
+```r
+
+source("BD/Clase_06/arroots.R")
+
+source("BD/Clase_06/plot.armaroots.R")
+
+```
+
+
+```r
+
+par(mfrow=c(1,2))
+
+plot.armaroots(arroots(AR_LPax_Nal), 
+               main="Inverse AR roots of \nAR(2): LN Pax Nal")
+
+plot.armaroots(arroots(AR_DLPax_Nal), 
+               main="Inverse AR roots of \nAR(2): Diff LN Pax Nal")
+```
 
 <div class="figure" style="text-align: center">
-<img src="imagenes/G_Roots_AR2.png" alt="Inverso de las Raíces del polinomio característico." width="100%" />
+<img src="03-PE_Univariados_files/figure-html/GRootsAR2-1.png" alt="Inverso de las Raíces del polinomio característico." width="100%" />
 <p class="caption">(\#fig:GRootsAR2)Inverso de las Raíces del polinomio característico.</p>
 </div>
+
+```r
+
+par(mfrow=c(1,1))
+```
 Para ambos casos entre parentésis indicamos los errores estándar y reportamos el estadístico de Akaike, AIC. Finalmente, podemos determinar si las soluciones serán convergentes, para ello en la Figura \@ref(fig:GRootsAR2) mostramos las raíces asociadas a cada uno de los polinomios. De la inspección visual podemos concluir que ambas propuesta de AR(2) representan una solución convergente y estable.
 
 
@@ -561,12 +812,107 @@ De la gráfica en la Figura \@ref(fig:GPaxInt) observamos que quizá le mejor fo
 
 Entre parentésis indicamos los errores estándar y reportamos el estadístico de Akaike, AIC. Finalmente, podemos determinar si las soluciones serán convergentes, para ello en la Figura \@ref(fig:GRootsARp) mostramos las raíces asociadas a cada uno de los polinomios. De la inspección visual podemos concluir que el AR(4) representan una solución convergente y estable.
 
+
+```r
+
+Datos2 <- read_excel("BD/Clase_07/Base_Transporte.xlsx", sheet = "Datos", col_names = TRUE)
+source("BD/Clase_07/arroots.R")
+source("BD/Clase_07/plot.armaroots.R")
+
+# Conversion a series de tiempo:
+Pax_Int2 <- ts(Datos2$Pax_Int, 
+              start = c(2000, 1), 
+              freq = 12)
+
+# Logaritmos:
+LPax_Int2 <- ts(log(Datos2$Pax_Int), 
+               start = c(2000, 1), 
+               freq = 12)
+
+# Diferencias mensuales:
+DLPax_Int2 <- ts(log(Datos2$Pax_Int) - lag(log(Datos2$Pax_Int), k = 1),
+                start = c(2000, 1), 
+                freq = 12)
+```
+
+
+```r
+
+par(mfrow=c(3,1))
+
+plot(Pax_Int2, xlab = "Tiempo", ylab = "Pasajeros",
+     main = "Pasajeros en vuelos internacionales de salida",
+     col = "darkgreen")
+
+plot(LPax_Int2, xlab = "Tiempo", ylab = "LN Pasajeros",
+     main = "LN Pasajeros en vuelos internacionales de salida",
+     col = "darkblue")
+
+plot(DLPax_Int2, xlab = "Tiempo", ylab = "DLN Pasajeros",
+     main = "Diff LN Pasajeros en vuelos internacionales de salia", 
+     col = "darkred")
+```
+
 <div class="figure" style="text-align: center">
-<img src="imagenes/G_Pax_Int.png" alt="Pasajeros en vuelos internacionales de salida en niveles y en diferencias logaritmicas." width="100%" />
+<img src="03-PE_Univariados_files/figure-html/GPaxInt-1.png" alt="Pasajeros en vuelos internacionales de salida en niveles y en diferencias logaritmicas." width="100%" />
 <p class="caption">(\#fig:GPaxInt)Pasajeros en vuelos internacionales de salida en niveles y en diferencias logaritmicas.</p>
 </div>
+
+```r
+
+par(mfrow=c(1,1))
+```
+
+```r
+# AR(p) en NIVELES:
+
+AR_LPax_Int2 <- arima(LPax_Int2, order = c(4, 0, 0), method = "ML")
+
+AR_LPax_Int2
+#> 
+#> Call:
+#> arima(x = LPax_Int2, order = c(4, 0, 0), method = "ML")
+#> 
+#> Coefficients:
+#>          ar1      ar2     ar3     ar4  intercept
+#>       0.9861  -0.2941  0.0726  0.0825    13.9419
+#> s.e.  0.0618   0.0870  0.0869  0.0619     0.1031
+#> 
+#> sigma^2 estimated as 0.06747:  log likelihood = -19.04,  aic = 50.07
+
+#plot(AR_LPax_Int$residuals)
+
+#plot.armaroots(arroots(AR_LPax_Int), 
+               #main="Inverse AR roots of \nAR(p): LN PAx Int")
+
+# AR(p) en DIFERENCIAS:
+
+AR_DLPax_Int2 <- arima(DLPax_Int2, order = c(4, 0, 0), method = "ML")
+
+AR_DLPax_Int2
+#> 
+#> Call:
+#> arima(x = DLPax_Int2, order = c(4, 0, 0), method = "ML")
+#> 
+#> Coefficients:
+#>          ar1      ar2      ar3      ar4  intercept
+#>       0.0441  -0.2426  -0.1457  -0.0483      0.004
+#> s.e.  0.0622   0.0615   0.0614   0.0620      0.012
+#> 
+#> sigma^2 estimated as 0.07134:  log likelihood = -25.59,  aic = 63.17
+
+#plot(AR_DLPax_Int$residuals, xlab = "Tiempo", ylab = "DLN Pasajeros",
+     #main = "Residuales de un AR(4) para pasajeros en vuelos internacionales de salida",
+     #col = "darkblue")
+```
+
+
+```r
+plot.armaroots(arroots(AR_DLPax_Int2),main="Inverse AR roots of \nAR(p): Diff LN PAx Int")
+```
+
 <div class="figure" style="text-align: center">
-<img src="imagenes/G_Roots_ARp.png" alt="Inverso de las Raíces del polinomio característico." width="100%" />
+<img src="03-PE_Univariados_files/figure-html/GRootsARp-1.png" alt="Inverso de las Raíces del polinomio característico." width="100%" />
 <p class="caption">(\#fig:GRootsARp)Inverso de las Raíces del polinomio característico.</p>
 </div>
 ## Procesos de Medias Móviles (MA)
@@ -741,6 +1087,83 @@ Entre parentésis indicamos los errores estándar y al final reportamos el estad
 ## Procesos ARMA(p, q) y ARIMA(p, d, q)
 
 Hemos establecido algunas relaciones las de los porcesos AR y los procesos MA, es decir, cómo un $MA(q)$ de la serie $X_t$ puede ser reexpresada como un $AR(\infty)$ de la serie $U_t$, y viceversa un $AR(p)$ de la serie $X_t$ puede ser reeexpresada como un $MA(\infty)$.
+
+
+```r
+Datos3 <- read_excel("BD/Clase_09/Base_Transporte_ARIMA.xlsx", sheet = "Datos", col_names = TRUE)
+
+source("BD/Clase_09/maroots.R")
+source("BD/Clase_09/arroots.R")
+source("BD/Clase_09/plot.armaroots.R")
+
+# Conversion a series de tiempo:
+ax_Nal3 <- ts(Datos3$Pax_Nal, 
+              start = c(2000, 1), 
+              freq = 12)
+
+LPax_Nal3 <- ts(log(Datos3$Pax_Nal), 
+               start = c(2000, 1), 
+               freq = 12)
+
+DLPax_Nal3 <- ts(log(Datos3$Pax_Nal) - lag(log(Datos3$Pax_Nal), k = 1),
+                start = c(2000, 1), 
+                freq = 12)
+
+D_Feb2020	<- ts(Datos3$D_Feb2020,
+                start = c(2000, 1), 
+                freq = 12)
+
+
+D_Mar2020	<- ts(Datos3$D_Mar2020, 
+                start = c(2000, 1), 
+                freq = 12)
+
+D_Abr2020	<- ts(Datos3$D_Abr2020, 
+                start = c(2000, 1), 
+                freq = 12)
+
+D_May2020	<- ts(Datos3$D_May2020, 
+                start = c(2000, 1), 
+                freq = 12)
+
+D_Jun2020	<- ts(Datos3$D_Jun2020, 
+                start = c(2000, 1), 
+                freq = 12)
+
+D_Jul2020 <- ts(Datos3$D_Jul2020, 
+                start = c(2000, 1), 
+                freq = 12)
+
+D_Ene2021 <- ts(Datos3$D_Ene2021, 
+                start = c(2000, 1), 
+                freq = 12)
+
+D_Mar2021 <- ts(Datos3$D_Mar2021, 
+                start = c(2000, 1), 
+                freq = 12)
+
+D_Ene <- ts(Datos3$D_Ene, 
+            start = c(2000, 1), 
+            freq = 12)
+
+D_Feb <- ts(Datos3$D_Feb, 
+            start = c(2000, 1), 
+            freq = 12)
+
+D_Jul <- ts(Datos3$D_Jul, 
+            start = c(2000, 1), 
+            freq = 12)
+
+D_Dic <- ts(Datos3$D_Dic, 
+            start = c(2000, 1), 
+            freq = 12)
+```
+
+
+```r
+
+knitr::include_graphics("imagenes/G_Roots_MAq.png")
+```
 
 <div class="figure" style="text-align: center">
 <img src="imagenes/G_Roots_MAq.png" alt="Inverso de las Raíces del polinomio característico." width="100%" />
@@ -957,10 +1380,125 @@ Así obtenemos el siguiente resultado:
 
 Donde entre parentésis indicamos los errores estándar. Adicionalmente, reportamos el estadístico de Akaike (AIC). Finalmente, podemos determinar si las soluciones serán convergentes, para ello en la Figura \@ref(fig:GRootsARMA11) mostramos las raíces asociadas a cada uno de los polinomios. De la inspección visual podemos concluir que tenemos una solución convergente y estable. Por su parte la Figura \@ref(fig:GResidualsARMA11) muestra los residuales de la estimación del $ARMA(1, 1)$. 
 
+
+```r
+Datos4 <- read_excel("BD/Clase_10.5/Base_Transporte_ARIMA.xlsx", sheet = "Datos", col_names = TRUE)
+
+# Funciones que extrae y grafica las raices del polinomio caracteristico
+source("BD/Clase_09/arroots.R")
+source("BD/Clase_09/maroots.R")
+source("BD/Clase_09/plot.armaroots.R")
+
+# Conversion a series de tiempo:
+Pax_Nal4 <- ts(Datos4$Pax_Nal, 
+              start = c(2000, 1), 
+              freq = 12)
+
+LPax_Nal4 <- ts(log(Datos4$Pax_Nal), 
+               start = c(2000, 1), 
+               freq = 12)
+
+DLPax_Nal4 <- ts(log(Datos4$Pax_Nal) - lag(log(Datos4$Pax_Nal), k = 1),
+                start = c(2000, 1), 
+                freq = 12)
+
+DLPax_Nal_S4 <- diff(DLPax_Nal4, 12)
+
+D_Feb20204	<- ts(Datos4$D_Feb2020,
+                start = c(2000, 1), 
+                freq = 12)
+
+D_Mar20204	<- ts(Datos4$D_Mar2020, 
+                start = c(2000, 1), 
+                freq = 12)
+
+D_Abr20204	<- ts(Datos4$D_Abr2020, 
+                start = c(2000, 1), 
+                freq = 12)
+
+D_May20204	<- ts(Datos4$D_May2020, 
+                start = c(2000, 1), 
+                freq = 12)
+
+D_Jun20204	<- ts(Datos4$D_Jun2020, 
+                start = c(2000, 1), 
+                freq = 12)
+
+D_Jul20204 <- ts(Datos4$D_Jul2020, 
+                start = c(2000, 1), 
+                freq = 12)
+
+D_Ene20214 <- ts(Datos4$D_Ene2021, 
+                start = c(2000, 1), 
+                freq = 12)
+
+D_Mar20214 <- ts(Datos4$D_Mar2021, 
+                start = c(2000, 1), 
+                freq = 12)
+
+D_Ene4 <- ts(Datos4$D_Ene, 
+            start = c(2000, 1), 
+            freq = 12)
+
+D_Feb4 <- ts(Datos4$D_Feb, 
+            start = c(2000, 1), 
+            freq = 12)
+
+D_Jul4 <- ts(Datos4$D_Jul, 
+            start = c(2000, 1), 
+            freq = 12)
+
+D_Dic4 <- ts(Datos4$D_Dic, 
+            start = c(2000, 1), 
+            freq = 12)
+
+# Funciones que determinan el rezago optimo (que minimiza el criterio de Akaike)
+source("BD/Clase_10.5/Lag_Opt_ARIMA_Exog.R")
+source("BD/Clase_10.5/Lag_Opt_SARIMA_Exog.R")
+
+# Estimacion de ARIMA(1, 1, 1)
+ARMA_DLPax_Nal <- arima(DLPax_Nal4, order = c(1, 0, 1),
+                        xreg = cbind(D_Ene4, D_Feb4, D_Jul4, D_Dic4),
+                        method = "ML")
+
+ARMA_DLPax_Nal
+#> 
+#> Call:
+#> arima(x = DLPax_Nal4, order = c(1, 0, 1), xreg = cbind(D_Ene4, D_Feb4, D_Jul4, 
+#>     D_Dic4), method = "ML")
+#> 
+#> Coefficients:
+#>           ar1     ma1  intercept   D_Ene4   D_Feb4  D_Jul4
+#>       -0.5620  0.8029     0.0013  -0.0938  -0.1195  0.1855
+#> s.e.   0.1095  0.0725     0.0138   0.0383   0.0391  0.0343
+#>       D_Dic4
+#>       0.0643
+#> s.e.  0.0374
+#> 
+#> sigma^2 estimated as 0.02558:  log likelihood = 106.7,  aic = -197.41
+```
+
+
+```r
+
+par(mfrow=c(1,2))
+
+plot.armaroots(arroots(ARMA_DLPax_Nal), 
+               main="Inverse AR roots of \nAR(p): LN PAx Nal")
+
+plot.armaroots(maroots(ARMA_DLPax_Nal), 
+               main="Inverse MA roots of \nMA(q): LN PAx Nal")
+```
+
 <div class="figure" style="text-align: center">
-<img src="imagenes/G_Roots_ARMA11.png" alt="Inverso de las Raíces del polinomio característico de un ARMA(1,1)" width="100%" />
+<img src="03-PE_Univariados_files/figure-html/GRootsARMA11-1.png" alt="Inverso de las Raíces del polinomio característico de un ARMA(1,1)" width="100%" />
 <p class="caption">(\#fig:GRootsARMA11)Inverso de las Raíces del polinomio característico de un ARMA(1,1)</p>
 </div>
+
+```r
+
+par(mfrow=c(1,1))
+```
 
 
 En lo que resta de este capítulo, utilizaremos la serie en diferencias logarítmicas de los pasajeros en vuelos nacionales de salida, $DLPaxNal_t$, para discutir los ejemplos que ilustran cada uno de los puntos teóricos que a continuación exponemos.
@@ -969,8 +1507,17 @@ En lo que resta de este capítulo, utilizaremos la serie en diferencias logarít
 
 Ahora introduciremos el concepto de Función de Autocorrelación Parcial (PACF, por sus siglas en inglés). Primero, dadas las condiciones de estabilidad y de convergencia, si suponemos que un proceso AR, MA, ARMA o ARIMA tienen toda la información de los rezagos de la serie en conjunto y toda la información de los promedio móviles del término de error, resulta importante construir una métrica para distinguir el efecto de $X_{t - \tau}$ o el efecto de $U_{t - \tau}$ (para cualquier $\tau$) sobre $X_t$ de forma individual.
 
+
+```r
+
+plot(ARMA_DLPax_Nal$residuals,
+     main = "Residuales de un ARIMA LN Pasajeros en vuelos nacionales de salida",
+     col = "darkblue",
+     ylab = "Residuals ARMA(1, 1)")
+```
+
 <div class="figure" style="text-align: center">
-<img src="imagenes/G_Residuals_ARMA11.png" alt="Inverso de las Raíces del polinomio característico de un ARMA(1,1)" width="100%" />
+<img src="03-PE_Univariados_files/figure-html/GResidualsARMA11-1.png" alt="Inverso de las Raíces del polinomio característico de un ARMA(1,1)" width="100%" />
 <p class="caption">(\#fig:GResidualsARMA11)Inverso de las Raíces del polinomio característico de un ARMA(1,1)</p>
 </div>
 
@@ -1031,10 +1578,29 @@ En el Cuadro \@ref(tab:foo1) se muestra un resumen de las caranterísticas que d
 
 Continuando con el ejemplo en la Figura \@ref(fig:GACFPACF) mostramos tanto la Función de Autocorrelación como la Función de Autocorrelación Parcial. En esta identificamos que ambas gráficas muestran que el modelo que explica a la variable $DLPaxNal_t$ tiene tanto componentes AR como MA. Sin embargo, dado lo errático del comportamiento de ambas funciones, resulta complicado determinar cuál sería un buen número de parametros $p$ y $q$ a considerar en el $ARMA(p,q)$. Por esta razón a continuación platearemos algunas pruebas más formales para determinar dichos parámetros.
 
+
+```r
+
+par(mfrow=c(1,2))
+
+acf(DLPax_Nal4[2:234], lag.max = 24,
+    xlab = "Rezagos",
+    main = "Diff LN Pasajeros Nacionales")
+
+pacf(DLPax_Nal4[2:234], lag.max = 24, 
+     xlab = 'Rezagos',
+     main = "Diff LN Pasajeros Nacionales")
+```
+
 <div class="figure" style="text-align: center">
-<img src="imagenes/G_ACF_PACF.png" alt="Función de Autocorrelación y la Función de Autocorrelación Parcial de una serie $DLPaxNal_t$." width="100%" />
+<img src="03-PE_Univariados_files/figure-html/GACFPACF-1.png" alt="Función de Autocorrelación y la Función de Autocorrelación Parcial de una serie $DLPaxNal_t$." width="100%" />
 <p class="caption">(\#fig:GACFPACF)Función de Autocorrelación y la Función de Autocorrelación Parcial de una serie $DLPaxNal_t$.</p>
 </div>
+
+```r
+
+par(mfrow=c(1,1))
+```
 
 ## Selección de las constantes p, q, d en un AR(p), un MA(q), un ARMA(p, q) o un ARIMA(p, d, q)
 
@@ -1104,8 +1670,170 @@ El Cuadro \@ref(tab:SelecARMApq) reporta los resultados para 36 diferentes model
 
 No obstante, una inspección de los residuales del modelo nos permite sospechar que requiere de incluir un par de dummies más. Ambas, asociadas con la caída del transporte aéreo en 2009, principalmente asociado con la crisis mundial de ese año. La Figura \@ref(fig:GResidualsARMA46) muestra los residuales mencionados.
 
+
+```r
+# Funciones que determinan el rezago optimo (que minimiza el criterio de Akaike)
+#Esta es una prueba mas formar respecto de la meta inspeccion grafica
+source("BD/Clase_09/Lag_Opt_ARIMA_Exog.R")
+
+# Estimacion del proceso ARIMA(p, 1, q):
+#CON variables exogenas:
+Lag_Opt_ARIMA_Exog(p_max = 6, q_max = 6, 
+                   X_t = DLPax_Nal4, 
+                   Ex = 1,
+                   Z_t = cbind(D_Ene4, D_Feb4, D_Jul4, D_Dic4) )
+#> Warning in log(s2): NaNs produced
+#> Warning in arima(X_t, order = c(i, 0, (j - grupo)), xreg
+#> = Z_t, method = "ML"): possible convergence problem: optim
+#> gave code = 1
+
+#> Warning in arima(X_t, order = c(i, 0, (j - grupo)), xreg
+#> = Z_t, method = "ML"): possible convergence problem: optim
+#> gave code = 1
+#> Warning in log(s2): NaNs produced
+
+#> Warning in log(s2): NaNs produced
+#> Warning in arima(X_t, order = c(i, 0, (j - grupo)), xreg
+#> = Z_t, method = "ML"): possible convergence problem: optim
+#> gave code = 1
+
+#> Warning in arima(X_t, order = c(i, 0, (j - grupo)), xreg
+#> = Z_t, method = "ML"): possible convergence problem: optim
+#> gave code = 1
+#>       Rezago p Rezago q       AIC Optimo
+#>  [1,]        1        1 -197.4050      0
+#>  [2,]        1        2 -225.1386      0
+#>  [3,]        1        3 -223.5953      0
+#>  [4,]        1        4 -220.5549      0
+#>  [5,]        1        5 -218.6917      0
+#>  [6,]        1        6 -231.4310      0
+#>  [7,]        2        1 -220.2086      0
+#>  [8,]        2        2 -224.4070      0
+#>  [9,]        2        3 -224.5471      0
+#> [10,]        2        4 -223.3335      0
+#> [11,]        2        5 -225.1568      0
+#> [12,]        2        6 -229.4401      0
+#> [13,]        3        1 -222.6373      0
+#> [14,]        3        2 -224.7367      0
+#> [15,]        3        3 -220.9403      0
+#> [16,]        3        4 -276.7301      1
+#> [17,]        3        5 -275.5672      0
+#> [18,]        3        6 -227.4626      0
+#> [19,]        4        1 -221.3591      0
+#> [20,]        4        2 -222.9806      0
+#> [21,]        4        3 -243.7884      0
+#> [22,]        4        4 -243.9174      0
+#> [23,]        4        5 -244.1439      0
+#> [24,]        4        6 -271.5143      0
+#> [25,]        5        1 -220.0956      0
+#> [26,]        5        2 -221.8154      0
+#> [27,]        5        3 -272.1756      0
+#> [28,]        5        4 -245.4954      0
+#> [29,]        5        5 -243.5682      0
+#> [30,]        5        6 -269.1516      0
+#> [31,]        6        1 -227.5711      0
+#> [32,]        6        2 -226.2520      0
+#> [33,]        6        3 -273.6243      0
+#> [34,]        6        4 -270.1272      0
+#> [35,]        6        5 -270.0199      0
+#> [36,]        6        6 -269.4984      0
+
+#SIN variables exogenas:
+Lag_Opt_ARIMA_Exog(p_max = 6, q_max = 6, 
+                   X_t = DLPax_Nal4, 
+                   Ex = 0,
+                   Z_t = cbind(D_Ene4, D_Feb4, D_Jul4, D_Dic4))
+#> Warning in arima(X_t, order = c(i, 0, (j - grupo)), method =
+#> "ML"): possible convergence problem: optim gave code = 1
+#> Warning in arima(X_t, order = c(i, 0, (j - grupo)), method =
+#> "ML"): possible convergence problem: optim gave code = 1
+
+#> Warning in arima(X_t, order = c(i, 0, (j - grupo)), method =
+#> "ML"): possible convergence problem: optim gave code = 1
+
+#> Warning in arima(X_t, order = c(i, 0, (j - grupo)), method =
+#> "ML"): possible convergence problem: optim gave code = 1
+
+#> Warning in arima(X_t, order = c(i, 0, (j - grupo)), method =
+#> "ML"): possible convergence problem: optim gave code = 1
+
+#> Warning in arima(X_t, order = c(i, 0, (j - grupo)), method =
+#> "ML"): possible convergence problem: optim gave code = 1
+
+#> Warning in arima(X_t, order = c(i, 0, (j - grupo)), method =
+#> "ML"): possible convergence problem: optim gave code = 1
+#>       Rezago p Rezago q       AIC Optimo
+#>  [1,]        1        1 -158.4886      0
+#>  [2,]        1        2 -188.4346      0
+#>  [3,]        1        3 -187.4277      0
+#>  [4,]        1        4 -187.7574      0
+#>  [5,]        1        5 -186.0283      0
+#>  [6,]        1        6 -197.3958      0
+#>  [7,]        2        1 -184.0936      0
+#>  [8,]        2        2 -189.0901      0
+#>  [9,]        2        3 -188.0542      0
+#> [10,]        2        4 -186.0658      0
+#> [11,]        2        5 -190.3917      0
+#> [12,]        2        6 -195.4309      0
+#> [13,]        3        1 -188.0653      0
+#> [14,]        3        2 -187.8864      0
+#> [15,]        3        3 -205.6144      0
+#> [16,]        3        4 -241.7423      0
+#> [17,]        3        5 -241.5593      0
+#> [18,]        3        6 -247.4453      0
+#> [19,]        4        1 -164.8898      0
+#> [20,]        4        2 -186.7417      0
+#> [21,]        4        3 -214.8872      0
+#> [22,]        4        4 -211.3784      0
+#> [23,]        4        5 -208.6211      0
+#> [24,]        4        6 -216.6316      0
+#> [25,]        5        1 -184.9023      0
+#> [26,]        5        2 -186.8473      0
+#> [27,]        5        3 -245.1477      0
+#> [28,]        5        4 -213.9622      0
+#> [29,]        5        5 -212.4953      0
+#> [30,]        5        6 -241.4802      0
+#> [31,]        6        1 -200.6707      0
+#> [32,]        6        2 -198.6868      0
+#> [33,]        6        3 -248.2317      0
+#> [34,]        6        4 -246.1741      0
+#> [35,]        6        5 -264.2011      0
+#> [36,]        6        6 -270.5896      1
+
+#Estimacion:
+ARMA_Ex_DLPax_Nal <- arima(DLPax_Nal4, order = c(3, 0, 4),
+                           xreg = cbind(D_Ene4, D_Feb4, D_Jul4, D_Dic4),
+                           method = "ML")
+
+ARMA_Ex_DLPax_Nal
+#> 
+#> Call:
+#> arima(x = DLPax_Nal4, order = c(3, 0, 4), xreg = cbind(D_Ene4, D_Feb4, D_Jul4, 
+#>     D_Dic4), method = "ML")
+#> 
+#> Coefficients:
+#>           ar1     ar2     ar3     ma1      ma2      ma3
+#>       -1.0454  0.1932  0.6873  1.3011  -0.2973  -1.4188
+#> s.e.   0.0504  0.0872  0.0504  0.0563   0.0499   0.0476
+#>           ma4  intercept   D_Ene4   D_Feb4  D_Jul4  D_Dic4
+#>       -0.5849    -0.0142  -0.1312  -0.0061  0.2910  0.0612
+#> s.e.   0.0564     0.0099   0.0412   0.0434  0.0514  0.0431
+#> 
+#> sigma^2 estimated as 0.01722:  log likelihood = 151.37,  aic = -276.73
+```
+
+
+
+```r
+
+plot(ARMA_Ex_DLPax_Nal$residuals, 
+     ylab = "",
+     main = "Residuales ARMA Diff LN Pasajeros Nacionales",
+     col = "darkblue")
+```
+
 <div class="figure" style="text-align: center">
-<img src="imagenes/G_Residuals_ARMA46.png" alt="Residuales del ARMA(4, 6) de una serie $DLPaxNal_t$." width="100%" />
+<img src="03-PE_Univariados_files/figure-html/GResidualsARMA46-1.png" alt="Residuales del ARMA(4, 6) de una serie $DLPaxNal_t$." width="100%" />
 <p class="caption">(\#fig:GResidualsARMA46)Residuales del ARMA(4, 6) de una serie $DLPaxNal_t$.</p>
 </div>
 
@@ -1121,8 +1849,137 @@ Para pronósticar el valor de la serie es necesario determinar cuál es el valor
     (\#eq:ARMApqFor)
 \end{eqnarray}
 
+```r
+# Nueva Estimacion del proceso ARIMA(p, 1, q):
+#CON variables exogenas rezagos optimos:
+Lag_Opt_ARIMA_Exog(p_max = 6, q_max = 6, 
+                   X_t = DLPax_Nal4, 
+                   Ex = 1,
+                   Z_t = cbind(D_Ene4, D_Feb4, D_Jul4, D_Dic4, D_Mar20204, D_Abr20204, D_Jun20204, D_Jul20204, D_Mar20214))
+#> Warning in log(s2): NaNs produced
+
+#> Warning in log(s2): NaNs produced
+#> Warning in arima(X_t, order = c(i, 0, (j - grupo)), xreg
+#> = Z_t, method = "ML"): possible convergence problem: optim
+#> gave code = 1
+
+#> Warning in arima(X_t, order = c(i, 0, (j - grupo)), xreg
+#> = Z_t, method = "ML"): possible convergence problem: optim
+#> gave code = 1
+#> Warning in log(s2): NaNs produced
+#> Warning in arima(X_t, order = c(i, 0, (j - grupo)), xreg
+#> = Z_t, method = "ML"): possible convergence problem: optim
+#> gave code = 1
+
+#> Warning in arima(X_t, order = c(i, 0, (j - grupo)), xreg
+#> = Z_t, method = "ML"): possible convergence problem: optim
+#> gave code = 1
+
+#> Warning in arima(X_t, order = c(i, 0, (j - grupo)), xreg
+#> = Z_t, method = "ML"): possible convergence problem: optim
+#> gave code = 1
+#> Warning in log(s2): NaNs produced
+
+#> Warning in log(s2): NaNs produced
+
+#> Warning in log(s2): NaNs produced
+
+#> Warning in log(s2): NaNs produced
+#> Warning in arima(X_t, order = c(i, 0, (j - grupo)), xreg
+#> = Z_t, method = "ML"): possible convergence problem: optim
+#> gave code = 1
+
+#> Warning in arima(X_t, order = c(i, 0, (j - grupo)), xreg
+#> = Z_t, method = "ML"): possible convergence problem: optim
+#> gave code = 1
+
+#> Warning in arima(X_t, order = c(i, 0, (j - grupo)), xreg
+#> = Z_t, method = "ML"): possible convergence problem: optim
+#> gave code = 1
+#>       Rezago p Rezago q       AIC Optimo
+#>  [1,]        1        1 -515.9705      0
+#>  [2,]        1        2 -515.2759      0
+#>  [3,]        1        3 -526.1788      0
+#>  [4,]        1        4 -544.6840      0
+#>  [5,]        1        5 -549.7059      0
+#>  [6,]        1        6 -566.3787      0
+#>  [7,]        2        1 -515.6097      0
+#>  [8,]        2        2 -523.5230      0
+#>  [9,]        2        3 -528.3379      0
+#> [10,]        2        4 -562.7803      0
+#> [11,]        2        5 -629.1112      0
+#> [12,]        2        6 -639.3428      0
+#> [13,]        3        1 -493.0232      0
+#> [14,]        3        2 -521.5237      0
+#> [15,]        3        3 -540.6415      0
+#> [16,]        3        4 -627.6871      0
+#> [17,]        3        5 -638.1619      0
+#> [18,]        3        6 -642.3540      0
+#> [19,]        4        1 -491.1436      0
+#> [20,]        4        2 -616.1311      0
+#> [21,]        4        3 -541.0899      0
+#> [22,]        4        4 -751.3579      0
+#> [23,]        4        5 -749.8460      0
+#> [24,]        4        6 -750.2787      0
+#> [25,]        5        1 -580.2799      0
+#> [26,]        5        2 -572.7953      0
+#> [27,]        5        3 -678.9301      0
+#> [28,]        5        4 -747.5442      0
+#> [29,]        5        5 -689.7247      0
+#> [30,]        5        6 -678.0239      0
+#> [31,]        6        1 -661.8683      0
+#> [32,]        6        2 -663.5500      0
+#> [33,]        6        3 -661.5526      0
+#> [34,]        6        4 -680.3478      0
+#> [35,]        6        5 -696.3317      0
+#> [36,]        6        6 -764.4944      1
+
+
+ARMA_Ex_DLPax_Nal_2 <- arima(DLPax_Nal4, order = c(6, 0, 6),
+                             xreg = cbind(D_Ene4, D_Feb4, D_Jul4, D_Dic4, D_Mar20204, D_Abr20204, D_Jun20204, D_Jul20204, D_Mar20214),
+                             method = "ML")
+#> Warning in arima(DLPax_Nal4, order = c(6, 0, 6), xreg =
+#> cbind(D_Ene4, D_Feb4, : possible convergence problem: optim
+#> gave code = 1
+
+# Estimacion:
+ARMA_Ex_DLPax_Nal_2
+#> 
+#> Call:
+#> arima(x = DLPax_Nal4, order = c(6, 0, 6), xreg = cbind(D_Ene4, D_Feb4, D_Jul4, 
+#>     D_Dic4, D_Mar20204, D_Abr20204, D_Jun20204, D_Jul20204, D_Mar20214), method = "ML")
+#> 
+#> Coefficients:
+#>          ar1     ar2     ar3     ar4     ar5      ar6
+#>       0.0033  0.0010  0.0056  0.0016  0.0079  -0.9948
+#> s.e.  0.0062  0.0062  0.0085  0.0063  0.0062   0.0037
+#>           ma1      ma2      ma3     ma4      ma5     ma6
+#>       -0.0527  -0.0989  -0.1029  0.0245  -0.0505  0.9383
+#> s.e.   0.0499   0.0305   0.0483  0.0344   0.0493  0.0377
+#>       intercept   D_Ene4   D_Feb4  D_Jul4  D_Dic4
+#>          0.0169  -0.0635  -0.1604  0.0946  0.0056
+#> s.e.     0.0040   0.0934   0.0172  0.0927  0.0175
+#>       D_Mar20204  D_Abr20204  D_Jun20204  D_Jul20204
+#>          -0.4333     -1.9604      0.9050      0.5063
+#> s.e.      0.0497      0.0489      0.0519      0.0516
+#>       D_Mar20214
+#>           0.2198
+#> s.e.      0.0504
+#> 
+#> sigma^2 estimated as 0.002315:  log likelihood = 405.25,  aic = -764.49
+```
+
+
+```r
+
+plot(ARMA_Ex_DLPax_Nal_2$residuals, 
+     ylab = "",
+     main = "Residuales ARMA Diff LN Pasajeros Nacionales",
+     col = "darkblue")
+```
+
 <div class="figure" style="text-align: center">
-<img src="imagenes/G_Residuals_ARMA46_D.png" alt="Residuales del ARMA(4, 6) de una serie $DLPaxNal_t$." width="100%" />
+<img src="03-PE_Univariados_files/figure-html/GResidualsARMA46D-1.png" alt="Residuales del ARMA(4, 6) de una serie $DLPaxNal_t$." width="100%" />
 <p class="caption">(\#fig:GResidualsARMA46D)Residuales del ARMA(4, 6) de una serie $DLPaxNal_t$.</p>
 </div>
 
@@ -1157,7 +2014,127 @@ Table: (\#tab:ResultARMApq) Criterio de Akike para diferentes modelos ARMA(p, q)
 Continuando con el ejemplo, en la Figura \@ref(fig:PaxNalf) mostramos el resultado del pronóstico de la serie a partir del modelo ARMA(4, 6) que hemos discutido anteriormente.
 
 
+```r
+# Forecast:
+Predict_Datos <- read_excel("BD/Clase_10/Predict_Base_Transporte_ARIMA.xlsx", sheet = "Datos", col_names = TRUE)
+
+# Conversion a series de tiempo:
+D_Mar2020_fP	<- ts(Predict_Datos$D_Mar2020, 
+                start = c(2021, 8), 
+                freq = 12)
+
+D_Abr2020_fP	<- ts(Predict_Datos$D_Abr2020, 
+                start = c(2021, 8), 
+                freq = 12)
+
+D_Jun2020_fP	<- ts(Predict_Datos$D_Jun2020, 
+                start = c(2021, 8), 
+                freq = 12)
+
+D_Jul2020_fP <- ts(Predict_Datos$D_Jul2020, 
+                start = c(2021, 8), 
+                freq = 12)
+
+D_Mar2021_fP <- ts(Predict_Datos$D_Mar2021, 
+                start = c(2021, 8), 
+                freq = 12)
+
+D_Ene_fP <- ts(Predict_Datos$D_Ene, 
+            start = c(2021, 8), 
+            freq = 12)
+
+D_Feb_fP <- ts(Predict_Datos$D_Feb, 
+            start = c(2021, 8), 
+            freq = 12)
+
+D_Jul_fP <- ts(Predict_Datos$D_Jul, 
+            start = c(2021, 8), 
+            freq = 12)
+
+D_Dic_fP <- ts(Predict_Datos$D_Dic, 
+            start = c(2021, 8), 
+            freq = 12)
+
+# Prediccion 2 años de la serie en diferencias:
+# Usando la estimacion del proceso ARIMA(p, 1, q):
+predict(ARMA_Ex_DLPax_Nal_2, n.ahead = 24, 
+        newxreg = cbind(D_Ene_fP, D_Feb_fP, D_Jul_fP, D_Dic_fP, 
+                        D_Mar2020_fP, D_Abr2020_fP, D_Jun2020_fP, D_Jul2020_fP, D_Mar2021_fP))
+#> $pred
+#>               Jan          Feb          Mar          Apr
+#> 2021                                                    
+#> 2022 -0.113805772 -0.162345095  0.143209830 -0.013117736
+#> 2023 -0.112840693 -0.164880914  0.142135423 -0.013327904
+#>               May          Jun          Jul          Aug
+#> 2021                                         0.034506463
+#> 2022  0.056486178  0.001136661  0.178229215  0.037070040
+#> 2023  0.055930178  0.001792611  0.177247937             
+#>               Sep          Oct          Nov          Dec
+#> 2021 -0.109937459  0.046817343 -0.022944168  0.038579201
+#> 2022 -0.108866052  0.047031034 -0.022405053  0.037915211
+#> 2023                                                    
+#> 
+#> $se
+#>             Jan        Feb        Mar        Apr        May
+#> 2021                                                       
+#> 2022 0.04899045 0.04910882 0.04916415 0.04935297 0.04957147
+#> 2023 0.05023197 0.05035300 0.05040132 0.05057457 0.05078330
+#>             Jun        Jul        Aug        Sep        Oct
+#> 2021                       0.04846132 0.04852048 0.04871765
+#> 2022 0.04957786 0.04961940 0.04973912 0.04979084 0.04997169
+#> 2023 0.05078908 0.05082888                                 
+#>             Nov        Dec
+#> 2021 0.04894129 0.04894801
+#> 2022 0.05018523 0.05019131
+#> 2023
+
+DLPax_Nal_f <- predict(ARMA_Ex_DLPax_Nal_2, n.ahead = 24, 
+                      newxreg = cbind(D_Ene_fP, D_Feb_fP, D_Jul_fP, D_Dic_fP, 
+                                      D_Mar2020_fP, D_Abr2020_fP, D_Jun2020_fP, D_Jul2020_fP, D_Mar2021_fP))
+
+names(DLPax_Nal_f)
+#> [1] "pred" "se"
+
+# Prediccion de la serie original:
+Pronostico_Arima <- read_excel("BD/Clase_10/Pronostico_Arima.xlsx", sheet = "Datos", col_names = TRUE)
+
+Pronostico_Arima$Pax_Nal_f <- Pronostico_Arima$Pax_Nal
+
+for(i in 1:24){
+  Pronostico_Arima$Pax_Nal_f[259 + i] <- 
+    Pronostico_Arima$Pax_Nal_f[259 + i - 1]*(1 + DLPax_Nal_f$pred[i])
+}
+
+View(Pronostico_Arima)
+```
+
+
+```r
+
+ggplot(data = Pronostico_Arima, aes(x = Periodo)) +
+  geom_line(aes(y = Pax_Nal_f, color = "Pax_Nal_f")) +
+  geom_line(aes(y = Pax_Nal, color = "Pax_Nal")) +
+  scale_color_brewer(type = "qual", palette = 2) +
+  theme_bw() + 
+  theme(legend.position = "bottom") +
+  theme(legend.title = element_blank()) +
+  guides(col = guide_legend(nrow = 1, byrow = TRUE)) + 
+  xlab("Tiempo") + 
+  ylab("Pasajeros") + 
+  theme(plot.title = element_text(size = 11, face = "bold", hjust = 0)) + 
+  theme(plot.subtitle = element_text(size = 10, hjust = 0)) + 
+  theme(plot.caption = element_text(size = 10, hjust = 0)) +
+  theme(plot.margin = unit(c(1,1,1,1), "cm")) +
+  labs(
+    title = "Pasajeros en vuelos nacionales (Salidas)",
+    subtitle = "(Ene-2000 a Jun-2019)",
+    caption = "Fuente: Elaboración propia"
+  )
+#> Warning: Removed 24 row(s) containing missing values
+#> (geom_path).
+```
+
 <div class="figure" style="text-align: center">
-<img src="imagenes/Pax_Nal_f.png" alt="Pronóstico de la serie $PaxNAl_t$ a partir de una ARMA(4,6) en diferencias logaritmicas." width="100%" />
+<img src="03-PE_Univariados_files/figure-html/PaxNalf-1.png" alt="Pronóstico de la serie $PaxNAl_t$ a partir de una ARMA(4,6) en diferencias logaritmicas." width="100%" />
 <p class="caption">(\#fig:PaxNalf)Pronóstico de la serie $PaxNAl_t$ a partir de una ARMA(4,6) en diferencias logaritmicas.</p>
 </div>

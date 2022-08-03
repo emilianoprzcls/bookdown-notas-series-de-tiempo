@@ -212,7 +212,7 @@ Lo anterior, dado que hemos supuesto que en la caminata aleatoria todas la varia
     & = & min(t,s)
 \end{eqnarray*}
 
-```{r fig31, echo=FALSE, message=FALSE, warning=FALSE, results='asis', fig.cap="Ejemplo de 10 trayectorias de la caminata aleatoria, cuando sólo es posible cambios de +1 y -1$", fig.align='center'}
+```{r fig31, echo=TRUE, message=FALSE, warning=FALSE, results='asis', fig.cap="Ejemplo de 10 trayectorias de la caminata aleatoria, cuando sólo es posible cambios de +1 y -1$", fig.align='center'}
 
 set.seed(1234)
 # Utilizaremos una función guardada en un archivo a parte
@@ -388,7 +388,7 @@ La cual tiene una distribución $\chi^2$ con $2$ grados de libertad y donde $T$ 
 
 Veamos un ejemplo para ilustrar el uso de la función de autocorrelación. Tomemos como variable al número de pasajeros transportados por el sistema de transporte del metro de la CDMX.^[Los datos y algoritmo está disponible en el repositorio de GitHub y corresponde a la Clase 3.] Los datos empleados fueron tomados del INEGI y son una serie de tiempo en el periodo que va de enero de 2000 a junio de 2019, es decir, 234 observaciones. Como se puede apreciar en la Figura \@ref(fig:fig32), el número de pasajeros por mes ha oscilado significativamente a lo largo de tiempo. Incluso podemos observar un cambio estructural de la serie entre 2011 y 2012. Asimismo, podemos ubicar una caida atípica que ocurrió en septiembre de 2017.
 
-```{r echo=FALSE, message=FALSE}
+```{r echo=TRUE, message=FALSE}
 library(ggplot2)
 library(dplyr)
 library(readxl)
@@ -403,7 +403,7 @@ Dat_Aereo <- ts(Datos[c("Pax_Nal", "Pax_Int", "Vue_Nal", "Vue_Int")],
                 freq = 12)
 ```
 
-```{r fig32, fig.cap = "Evolución del número de pasajeros en el Metro de la CDMX, enero 2000 a junio de 2019", fig.align='center', echo=FALSE, out.width="90%"}
+```{r fig32, fig.cap = "Evolución del número de pasajeros en el Metro de la CDMX, enero 2000 a junio de 2019", fig.align='center', echo=TRUE, out.width="90%"}
 ggplot(data = Datos, aes(x = Periodo, y = Pax_Metro)) + 
   geom_line(size = 0.5, color = "darkblue") +
   #geom_point(size = 1.0, color = "darkblue") + 
@@ -439,7 +439,7 @@ Table: (\#tab:foo) Estadísticas descriptivas del número de pasajeros en el Met
 | $Q^* = T \sum_{j = 1}^{1} \hat{\rho} (j)^2$ | 86.7577 |
 | $Q^* = T \sum_{j = 1}^{2} \hat{\rho} (j)^2$ | 290.9279 |
 
-```{r fig33, fig.cap = "Función de Autocorrelación: 150 rezagos del número de pasajeros en el Metro de la CCDMX, enero 2000 a junio de 2019", fig.align='center', echo=FALSE, out.width="90%"}
+```{r fig33, fig.cap = "Función de Autocorrelación: 150 rezagos del número de pasajeros en el Metro de la CCDMX, enero 2000 a junio de 2019", fig.align='center', echo=TRUE, out.width="90%"}
 acf(Pax_Metro, 
     lag.max = 150, 
     xlab = 'Resagos k en meses', 

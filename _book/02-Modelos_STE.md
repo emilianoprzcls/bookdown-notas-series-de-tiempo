@@ -212,6 +212,41 @@ Lo anterior, dado que hemos supuesto que en la caminata aleatoria todas la varia
     & = & min(t,s)
 \end{eqnarray*}
 
+
+```r
+
+set.seed(1234)
+# Utilizaremos una función guardada en un archivo a parte
+# Llamamos a la función:
+source("Caminata.R")
+
+# Definimos argumentos de la función
+Opciones <- c(-1, 1)
+#
+Soporte <- 10000
+
+# Vamos a réplicar el proceso con estos parámetros
+Rango <- 200
+#
+Caminos <- 10
+
+#
+
+for(i in 1:Caminos){
+  TT <- data.matrix(data.frame(Caminata(Opciones, Soporte)[1]))
+  #
+  G_t <- data.matrix(data.frame(Caminata(Opciones, Soporte)[2]))
+  #
+  plot(TT, G_t, col = "blue", type = "l", ylab = "Ganancias", xlab = "Tiempo", ylim = c(-Rango,Rango))
+  #
+  par(new = TRUE)
+  #
+  i <- i +1
+}
+#
+par(new = FALSE)
+```
+
 <div class="figure" style="text-align: center">
 <img src="02-Modelos_STE_files/figure-html/fig31-1.png" alt="Ejemplo de 10 trayectorias de la caminata aleatoria, cuando sólo es posible cambios de +1 y -1$" width="672" />
 <p class="caption">(\#fig:fig31)Ejemplo de 10 trayectorias de la caminata aleatoria, cuando sólo es posible cambios de +1 y -1$</p>
@@ -359,6 +394,39 @@ La cual tiene una distribución $\chi^2$ con $2$ grados de libertad y donde $T$ 
 Veamos un ejemplo para ilustrar el uso de la función de autocorrelación. Tomemos como variable al número de pasajeros transportados por el sistema de transporte del metro de la CDMX.^[Los datos y algoritmo está disponible en el repositorio de GitHub y corresponde a la Clase 3.] Los datos empleados fueron tomados del INEGI y son una serie de tiempo en el periodo que va de enero de 2000 a junio de 2019, es decir, 234 observaciones. Como se puede apreciar en la Figura \@ref(fig:fig32), el número de pasajeros por mes ha oscilado significativamente a lo largo de tiempo. Incluso podemos observar un cambio estructural de la serie entre 2011 y 2012. Asimismo, podemos ubicar una caida atípica que ocurrió en septiembre de 2017.
 
 
+```r
+library(ggplot2)
+library(dplyr)
+library(readxl)
+
+Datos<- read_excel("BD/Clase_03/Base_Transporte.xlsx", sheet = "Datos", col_names = TRUE)
+
+Pax_Metro <- ts(Datos$Pax_Metro, 
+                start = 2000, 
+                freq = 12)
+Dat_Aereo <- ts(Datos[c("Pax_Nal", "Pax_Int", "Vue_Nal", "Vue_Int")], 
+                start = 2000, 
+                freq = 12)
+```
+
+
+```r
+ggplot(data = Datos, aes(x = Periodo, y = Pax_Metro)) + 
+  geom_line(size = 0.5, color = "darkblue") +
+  #geom_point(size = 1.0, color = "darkblue") + 
+  #theme_bw() + 
+  xlab("Tiempo") + 
+  ylab("Millones de pasajeros") + 
+  theme(plot.title = element_text(size = 11, face = "bold", hjust = 0)) + 
+  theme(plot.subtitle = element_text(size = 10, hjust = 0)) + 
+  theme(plot.caption = element_text(size = 10, hjust = 0)) +
+  theme(plot.margin = unit(c(1,1,1,1), "cm")) +
+  labs(
+    title = "Pasajeros Transportados en el Metro de la CDMX",
+    subtitle = "(Ene-2000 a Jul-2021)",
+    caption = "Fuente: Elaboración propia con información del INEGI, \nhttps://www.inegi.org.mx/app/indicadores/?tm=0&t=1090"
+  )+theme_bw()
+```
 
 <div class="figure" style="text-align: center">
 <img src="02-Modelos_STE_files/figure-html/fig32-1.png" alt="Evolución del número de pasajeros en el Metro de la CDMX, enero 2000 a junio de 2019" width="90%" />
@@ -382,6 +450,14 @@ Table: (\#tab:foo) Estadísticas descriptivas del número de pasajeros en el Met
 | $\hat{\rho}(3) = \frac{\sum^{T - 3}_{t=1} (X_t - \hat{\mu})(X_{t+3} - \hat{\mu})}{\sum^T_{t=1} (X_t - \hat{\mu})^2} = \frac{\hat{\gamma}(3)}{\hat{\gamma}(0)}$ | 0.6145 |
 | $Q^* = T \sum_{j = 1}^{1} \hat{\rho} (j)^2$ | 86.7577 |
 | $Q^* = T \sum_{j = 1}^{2} \hat{\rho} (j)^2$ | 290.9279 |
+
+
+```r
+acf(Pax_Metro, 
+    lag.max = 150, 
+    xlab = 'Resagos k en meses', 
+    main="Funcion de Autocorrelación del número de pasajeros del metro")
+```
 
 <div class="figure" style="text-align: center">
 <img src="02-Modelos_STE_files/figure-html/fig33-1.png" alt="Función de Autocorrelación: 150 rezagos del número de pasajeros en el Metro de la CCDMX, enero 2000 a junio de 2019" width="90%" />

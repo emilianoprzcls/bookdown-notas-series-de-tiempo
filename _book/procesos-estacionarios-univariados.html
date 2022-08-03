@@ -198,30 +198,116 @@ Cov(X_t, X_{t-\tau}) &amp; = &amp; \mathbb{E}[(X_t - \mu)(X_{t-\tau} - \mu)] \no
 <p>La Figura <a href="procesos-estacionarios-univariados.html#fig:GAR1Real">4.1</a> ilustra el comportamiento que se debería observar en una serie considerando el procedimiento iterativo de construcción. Por su parte, la Figura <a href="procesos-estacionarios-univariados.html#fig:GAR1Teo">4.2</a> ilustra el proceso o trayectoria de la solución de la serie de tiempo. Finalmente, las Figuras <a href="procesos-estacionarios-univariados.html#fig:GAR1FACr">4.3</a> y <a href="procesos-estacionarios-univariados.html#fig:GAR1FACr">4.3</a> muestran el correlograma calculado considerando una función de autocorrelación aplicada al porceso real y una función de autocorrelación aplicada al proceso teórico, respectivamente.</p>
 <p>Recordemos que una trayectoria de equilibrio o solución de un <span class="math inline">\(AR(1)\)</span> es como se muestra en la ecuación <a href="procesos-estacionarios-univariados.html#eq:AR1Sol">(4.6)</a>. Así, nuestra serie simulada cumple con la característica de que los errores son más relevantes cuando la serie es corta. Por el contrario, los errores son menos relevantes, cuando la serie es muy larga. La Figura <a href="procesos-estacionarios-univariados.html#fig:GAR1Com">4.5</a> ilustra esta observación de la trayectoria de equilibrio.</p>
 <p>Para el segundo ejemplo consideremos una aplicación a una serie de tiempo en especifico: Pasajeros transportados mensualmente en el Sistema de Transporte Colectivo Metro (pasajeros medidos en millones).<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content="&lt;p&gt;Fuente: INEGI, .&lt;/p&gt;"><sup>4</sup></a></p>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org">ggplot2</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org">dplyr</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://readxl.tidyverse.org">readxl</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://www.stefanom.io/latex2exp/">latex2exp</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Parametros:</span></span>
+<span><span class="va">a0</span> <span class="op">&lt;-</span> <span class="fl">5</span>; <span class="va">a1</span> <span class="op">&lt;-</span> <span class="fl">0.9</span>; <span class="va">X_0</span> <span class="op">&lt;-</span> <span class="op">(</span><span class="va">a0</span><span class="op">/</span><span class="op">(</span><span class="fl">1</span> <span class="op">-</span> <span class="va">a1</span><span class="op">)</span><span class="op">)</span>; <span class="cn">T</span> <span class="op">&lt;-</span> <span class="fl">1000</span></span>
+<span></span>
+<span><span class="co"># Definimos un data frame para almacenar el proceso, agregamos una columna para el tiempo</span></span>
+<span><span class="va">X_t</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>Tiempo <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span><span class="op">:</span><span class="cn">T</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co">#  Parte estocastica de la serie de tiempo:</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">12345</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Agregamos un término estocástico al data frame</span></span>
+<span><span class="va">X_t</span><span class="op">$</span><span class="va">U_t</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="cn">T</span><span class="op">+</span><span class="fl">1</span>, mean <span class="op">=</span> <span class="fl">0</span>, sd <span class="op">=</span> <span class="fl">4</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Agregamos columnas con NA's para un proceso teorico y uno real</span></span>
+<span><span class="va">X_t</span><span class="op">$</span><span class="va">X_t</span> <span class="op">&lt;-</span> <span class="cn">NA</span></span>
+<span><span class="va">X_t</span><span class="op">$</span><span class="va">XR_t</span> <span class="op">&lt;-</span> <span class="cn">NA</span></span>
+<span></span>
+<span><span class="co"># La serie teórica inicia en un valor inicial X_0</span></span>
+<span><span class="va">X_t</span><span class="op">$</span><span class="va">X_t</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="va">X_0</span></span>
+<span></span>
+<span><span class="co"># La serie real inicia en un valor inicial X_0</span></span>
+<span><span class="va">X_t</span><span class="op">$</span><span class="va">XR_t</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="va">X_0</span></span>
+<span></span>
+<span><span class="co"># Agregamos una columna para la función de Autocorrelación teórica:</span></span>
+<span><span class="va">X_t</span><span class="op">$</span><span class="va">rho</span> <span class="op">&lt;-</span><span class="cn">NA</span></span>
+<span></span>
+<span><span class="kw">for</span> <span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fl">2</span><span class="op">:</span><span class="op">(</span><span class="cn">T</span> <span class="op">+</span> <span class="fl">1</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="co"># Real:</span></span>
+<span>  <span class="va">X_t</span><span class="op">$</span><span class="va">XR_t</span><span class="op">[</span><span class="va">i</span><span class="op">]</span> <span class="op">=</span> <span class="va">a0</span> <span class="op">+</span> <span class="va">a1</span><span class="op">*</span><span class="va">X_t</span><span class="op">$</span><span class="va">XR_t</span><span class="op">[</span><span class="va">i</span><span class="op">-</span><span class="fl">1</span><span class="op">]</span> <span class="op">+</span> <span class="va">X_t</span><span class="op">$</span><span class="va">U_t</span><span class="op">[</span><span class="va">i</span><span class="op">-</span><span class="fl">1</span><span class="op">]</span></span>
+<span>  </span>
+<span>  <span class="co"># Teórico:</span></span>
+<span>  <span class="va">X_t</span><span class="op">$</span><span class="va">X_t</span><span class="op">[</span><span class="va">i</span><span class="op">]</span> <span class="op">=</span> <span class="va">X_t</span><span class="op">$</span><span class="va">X_t</span><span class="op">[</span><span class="va">i</span><span class="op">-</span><span class="fl">1</span><span class="op">]</span> <span class="op">+</span> <span class="op">(</span><span class="va">a1</span><span class="op">^</span><span class="op">(</span><span class="va">i</span><span class="op">-</span><span class="fl">1</span><span class="op">)</span><span class="op">)</span><span class="op">*</span><span class="va">X_t</span><span class="op">$</span><span class="va">U_t</span><span class="op">[</span><span class="va">i</span><span class="op">-</span><span class="fl">1</span><span class="op">]</span></span>
+<span>  </span>
+<span>  <span class="co"># Autocorrelación:</span></span>
+<span>  <span class="va">X_t</span><span class="op">$</span><span class="va">rho</span><span class="op">[</span><span class="va">i</span><span class="op">-</span><span class="fl">1</span><span class="op">]</span> <span class="op">=</span> <span class="va">a1</span><span class="op">^</span><span class="op">(</span><span class="va">i</span><span class="op">-</span><span class="fl">1</span><span class="op">)</span></span>
+<span><span class="op">}</span></span></code></pre></div>
 <div class="figure" style="text-align: center">
 <span style="display:block;" id="fig:GAR1Real"></span>
 <img src="03-PE_Univariados_files/figure-html/GAR1Real-1.png" alt="AR(1) considerando $X_t=5+0.9X_{t-1}+U_t$ ; $X_0=50$ y que $U_t$~$N(0, 4)$ y que $U_t \sim \mathcal{N}(0, 4)$" width="100%"><p class="caption">
 Figure 4.1: AR(1) considerando <span class="math inline">\(X_t=5+0.9X_{t-1}+U_t\)</span> ; <span class="math inline">\(X_0=50\)</span> y que <span class="math inline">\(U_t\)</span>~<span class="math inline">\(N(0, 4)\)</span> y que <span class="math inline">\(U_t \sim \mathcal{N}(0, 4)\)</span>
 </p>
 </div>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span></span>
+<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">X_t</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">Tiempo</span>, y <span class="op">=</span> <span class="va">X_t</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html">geom_line</a></span><span class="op">(</span>size <span class="op">=</span> <span class="fl">0.5</span>, color <span class="op">=</span> <span class="st">"darkblue"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_bw</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">xlab</a></span><span class="op">(</span><span class="st">"Tiempo"</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ylab</a></span><span class="op">(</span><span class="fu"><a href="https://www.stefanom.io/latex2exp/reference/TeX.html">TeX</a></span><span class="op">(</span><span class="st">"$X_t$"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span><span class="op">(</span>plot.title <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html">element_text</a></span><span class="op">(</span>size <span class="op">=</span> <span class="fl">11</span>, face <span class="op">=</span> <span class="st">"bold"</span>, hjust <span class="op">=</span> <span class="fl">0</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span><span class="op">(</span>plot.subtitle <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html">element_text</a></span><span class="op">(</span>size <span class="op">=</span> <span class="fl">10</span>, hjust <span class="op">=</span> <span class="fl">0</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span><span class="op">(</span>plot.caption <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html">element_text</a></span><span class="op">(</span>size <span class="op">=</span> <span class="fl">10</span>, hjust <span class="op">=</span> <span class="fl">0</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span><span class="op">(</span>plot.margin <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/grid/unit.html">unit</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">1</span>,<span class="fl">1</span>,<span class="fl">1</span><span class="op">)</span>, <span class="st">"cm"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span></span>
+<span>    title <span class="op">=</span> <span class="st">"Comportamiento del Proceso Teórico"</span>,</span>
+<span>    subtitle <span class="op">=</span> <span class="st">"Con un error con Distribución Normal (media = 0, desviación estándar = 4)"</span>,</span>
+<span>    caption <span class="op">=</span> <span class="st">"Fuente: Elaboración propia."</span></span>
+<span>  <span class="op">)</span></span></code></pre></div>
 <div class="figure" style="text-align: center">
 <span style="display:block;" id="fig:GAR1Teo"></span>
 <img src="03-PE_Univariados_files/figure-html/GAR1Teo-1.png" alt="$X_t = \frac{5}{1 - 0.9} + \sum_{j = 0}^{t-1} 0.9^j U_{t-j}$, y que $U_t \sim \mathcal{N}(0, 4)$}" width="100%"><p class="caption">
 Figure 4.2: <span class="math inline">\(X_t = \frac{5}{1 - 0.9} + \sum_{j = 0}^{t-1} 0.9^j U_{t-j}\)</span>, y que <span class="math inline">\(U_t \sim \mathcal{N}(0, 4)\)</span>}
 </p>
 </div>
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/stats/acf.html">acf</a></span><span class="op">(</span><span class="va">X_t</span><span class="op">$</span><span class="va">XR_t</span>, lag.max <span class="op">=</span> <span class="fl">30</span>, col <span class="op">=</span> <span class="st">"blue"</span>, </span>
+<span>    ylab <span class="op">=</span> <span class="st">"Autocorrelacion"</span>,</span>
+<span>    xlab<span class="op">=</span><span class="st">"Rezagos"</span>, </span>
+<span>    main<span class="op">=</span><span class="st">"Funcion de Autocorrelacion Real"</span><span class="op">)</span></span></code></pre></div>
 <div class="figure" style="text-align: center">
 <span style="display:block;" id="fig:GAR1FACr"></span>
 <img src="03-PE_Univariados_files/figure-html/GAR1FACr-1.png" alt="Función de autocorrelación de un AR(1): $\rho(\tau)=\frac{\gamma(    au)}{\gamma(0)}$" width="100%"><p class="caption">
 Figure 4.3: Función de autocorrelación de un AR(1): <span class="math inline">\(\rho(\tau)=\frac{\gamma( au)}{\gamma(0)}\)</span>
 </p>
 </div>
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/barplot.html">barplot</a></span><span class="op">(</span><span class="va">X_t</span><span class="op">$</span><span class="va">rho</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">30</span><span class="op">]</span>, names.arg <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">30</span><span class="op">)</span>, col <span class="op">=</span> <span class="st">"blue"</span>, border<span class="op">=</span><span class="st">"blue"</span>, density <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">10</span>,<span class="fl">20</span><span class="op">)</span>, </span>
+<span>        ylab <span class="op">=</span> <span class="st">"Autocorrelacion"</span>, </span>
+<span>        xlab<span class="op">=</span><span class="st">"Rezagos"</span>, </span>
+<span>        main<span class="op">=</span><span class="st">"Funcion de Autocorrelacion Teórica"</span><span class="op">)</span></span></code></pre></div>
 <div class="figure" style="text-align: center">
 <span style="display:block;" id="fig:GAR1FACt"></span>
 <img src="03-PE_Univariados_files/figure-html/GAR1FACt-1.png" alt="Función de autocorrelación de un AR(1): $\rho(\tau)= a_1^\tau$" width="100%"><p class="caption">
 Figure 4.4: Función de autocorrelación de un AR(1): <span class="math inline">\(\rho(\tau)= a_1^\tau\)</span>
 </p>
 </div>
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span></span>
+<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">X_t</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">Tiempo</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html">geom_line</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>y <span class="op">=</span> <span class="va">XR_t</span><span class="op">)</span>, size <span class="op">=</span> <span class="fl">0.5</span>, color <span class="op">=</span> <span class="st">"darkred"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html">geom_line</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>y <span class="op">=</span> <span class="va">X_t</span><span class="op">)</span>, size <span class="op">=</span> <span class="fl">0.5</span>, color <span class="op">=</span> <span class="st">"darkblue"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_bw</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">xlab</a></span><span class="op">(</span><span class="st">"Tiempo"</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ylab</a></span><span class="op">(</span><span class="fu"><a href="https://www.stefanom.io/latex2exp/reference/TeX.html">TeX</a></span><span class="op">(</span><span class="st">"$X_t$"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span><span class="op">(</span>plot.title <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html">element_text</a></span><span class="op">(</span>size <span class="op">=</span> <span class="fl">11</span>, face <span class="op">=</span> <span class="st">"bold"</span>, hjust <span class="op">=</span> <span class="fl">0</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span><span class="op">(</span>plot.subtitle <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html">element_text</a></span><span class="op">(</span>size <span class="op">=</span> <span class="fl">10</span>, hjust <span class="op">=</span> <span class="fl">0</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span><span class="op">(</span>plot.caption <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html">element_text</a></span><span class="op">(</span>size <span class="op">=</span> <span class="fl">10</span>, hjust <span class="op">=</span> <span class="fl">0</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span><span class="op">(</span>plot.margin <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/grid/unit.html">unit</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">1</span>,<span class="fl">1</span>,<span class="fl">1</span><span class="op">)</span>, <span class="st">"cm"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span></span>
+<span>    title <span class="op">=</span> <span class="st">"Comportamiento de los Procesos Real y Teórico"</span>,</span>
+<span>    subtitle <span class="op">=</span> <span class="st">"Con un error con Distribución Normal (media = 0, desviación estándar = 4)"</span>,</span>
+<span>    caption <span class="op">=</span> <span class="st">"Fuente: Elaboración propia."</span></span>
+<span>  <span class="op">)</span></span></code></pre></div>
 <div class="figure" style="text-align: center">
 <span style="display:block;" id="fig:GAR1Com"></span>
 <img src="03-PE_Univariados_files/figure-html/GAR1Com-1.png" alt="AR(1) considerando en conjunto $X_t = 5 + 0.9 X_{t-1} + U_t$; $X_0 = 50$ y $X_t = \frac{5}{1 - 0.9} + \sum_{j = 0}^{t-1} 0.9^j U_{t-j}$, y que $U_t \sim \mathcal{N}(0, 4)$" width="100%"><p class="caption">
@@ -262,12 +348,76 @@ PaxDLMetro_t  =  0.0007 &amp; - &amp; 0.6194 PaxDLMetro_{t-1} \\
     X_t = a_0 + a_1 X_{t-1} + a_2 X_{t-2} + U_t
     \tag{4.11}
 \end{equation}\]</span></p>
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">stats</span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://readxl.tidyverse.org">readxl</a></span><span class="op">)</span></span>
+<span><span class="va">Datos</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://readxl.tidyverse.org/reference/read_excel.html">read_excel</a></span><span class="op">(</span><span class="st">"BD/Base_Transporte.xlsx"</span>, sheet <span class="op">=</span> <span class="st">"Datos"</span>, col_names <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Conversion a series de tiempo:</span></span>
+<span></span>
+<span><span class="co">#Una serie - caso univariado:</span></span>
+<span></span>
+<span><span class="co"># En Niveles</span></span>
+<span><span class="va">Dat_Aereo</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/ts.html">ts</a></span><span class="op">(</span><span class="va">Datos</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Pax_Nal"</span>, <span class="st">"Pax_Int"</span>, <span class="st">"Vue_Nal"</span>, <span class="st">"Vue_Int"</span><span class="op">)</span><span class="op">]</span>, </span>
+<span>                start <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2000</span>, <span class="fl">1</span><span class="op">)</span>, </span>
+<span>                end <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2021</span>, <span class="fl">7</span><span class="op">)</span>, </span>
+<span>                freq <span class="op">=</span> <span class="fl">12</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">Pax_Metro</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/ts.html">ts</a></span><span class="op">(</span><span class="va">Datos</span><span class="op">$</span><span class="va">Pax_Metro</span>, start <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2000</span>, <span class="fl">1</span><span class="op">)</span>, </span>
+<span>                end <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2021</span>, <span class="fl">7</span><span class="op">)</span>, </span>
+<span>                freq <span class="op">=</span> <span class="fl">12</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># En Logaritmos:</span></span>
+<span><span class="va">Dat_LAereo</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/ts.html">ts</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span><span class="op">(</span><span class="va">Datos</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Pax_Nal"</span>, <span class="st">"Pax_Int"</span>, <span class="st">"Vue_Nal"</span>, <span class="st">"Vue_Int"</span><span class="op">)</span><span class="op">]</span><span class="op">)</span>, </span>
+<span>                start <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2000</span>, <span class="fl">1</span><span class="op">)</span>, </span>
+<span>                end <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2021</span>, <span class="fl">7</span><span class="op">)</span>, </span>
+<span>                freq <span class="op">=</span> <span class="fl">12</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">Pax_LMetro</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/ts.html">ts</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span><span class="op">(</span><span class="va">Datos</span><span class="op">$</span><span class="va">Pax_Metro</span><span class="op">)</span>, start <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2000</span>, <span class="fl">1</span><span class="op">)</span>, </span>
+<span>                end <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2021</span>, <span class="fl">7</span><span class="op">)</span>, </span>
+<span>                freq <span class="op">=</span> <span class="fl">12</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Diferencias mensuales:</span></span>
+<span></span>
+<span><span class="va">Pax_DLMetro</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/ts.html">ts</a></span><span class="op">(</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span><span class="op">(</span><span class="va">Datos</span><span class="op">$</span><span class="va">Pax_Metro</span><span class="op">)</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lag.html">lag</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span><span class="op">(</span><span class="va">Datos</span><span class="op">$</span><span class="va">Pax_Metro</span><span class="op">)</span>, k <span class="op">=</span> <span class="fl">1</span><span class="op">)</span>,</span>
+<span>                 start <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2000</span>, <span class="fl">1</span><span class="op">)</span>, freq <span class="op">=</span> <span class="fl">12</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co">#Graficas</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">Pax_Metro</span>, xlab <span class="op">=</span> <span class="st">"Tiempo"</span>, </span>
+<span>     main <span class="op">=</span> <span class="st">"Pasajeros transportados (Millones) en el SCM"</span>,</span>
+<span>     col <span class="op">=</span> <span class="st">"darkgreen"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">Pax_LMetro</span>, xlab <span class="op">=</span> <span class="st">"Tiempo"</span>, </span>
+<span>     main <span class="op">=</span> <span class="st">"LN Pasajeros transportados (Millones) en el SCM"</span>,</span>
+<span>     col <span class="op">=</span> <span class="st">"darkblue"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">Pax_DLMetro</span>, xlab <span class="op">=</span> <span class="st">"Tiempo"</span>, </span>
+<span>     main <span class="op">=</span> <span class="st">"Diff LN Pasajeros transportados (Millones) en el SCM"</span>, </span>
+<span>     col <span class="op">=</span> <span class="st">"darkred"</span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html">par</a></span><span class="op">(</span>mfrow <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">3</span>,<span class="fl">1</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">Pax_Metro</span>, xlab <span class="op">=</span> <span class="st">"Tiempo"</span>, </span>
+<span>     main <span class="op">=</span> <span class="st">"Pasajeros transportados (Millones) en el SCM"</span>,</span>
+<span>     col <span class="op">=</span> <span class="st">"darkgreen"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">Pax_LMetro</span>, xlab <span class="op">=</span> <span class="st">"Tiempo"</span>, </span>
+<span>     main <span class="op">=</span> <span class="st">"LN Pasajeros transportados (Millones) en el SCM"</span>,</span>
+<span>     col <span class="op">=</span> <span class="st">"darkblue"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">Pax_DLMetro</span>, xlab <span class="op">=</span> <span class="st">"Tiempo"</span>, </span>
+<span>     main <span class="op">=</span> <span class="st">"Diff LN Pasajeros transportados (Millones) en el SCM"</span>, </span>
+<span>     col <span class="op">=</span> <span class="st">"darkred"</span><span class="op">)</span></span></code></pre></div>
 <div class="figure" style="text-align: center">
 <span style="display:block;" id="fig:GPaxMetro"></span>
 <img src="03-PE_Univariados_files/figure-html/GPaxMetro-1.png" alt="Pasajeros transportados (Millones) en el metro de la CDM en niveles y en diferencias logaritmicas." width="100%"><p class="caption">
 Figure 4.6: Pasajeros transportados (Millones) en el metro de la CDM en niveles y en diferencias logaritmicas.
 </p>
 </div>
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html">par</a></span><span class="op">(</span>mfrow<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">1</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p>Donde <span class="math inline">\(U_t\)</span> denota un proceso puramente aleatorio con media cero (<span class="math inline">\(0\)</span>), varianza constante (<span class="math inline">\(\sigma^2\)</span>) y autocovarianza cero (<span class="math inline">\(Cov(U_t, U_s) = 0\)</span>, con <span class="math inline">\(t \neq s\)</span>), y un parametro <span class="math inline">\(a_2 \neq 0\)</span>. Así, utilizando el operador rezago podemos reescribir la ecuación <a href="procesos-estacionarios-univariados.html#eq:AR2Eq">(4.11)</a> como:
 <span class="math display">\[\begin{eqnarray*}
     X_t - a_1 X_{t-1} - a_2 X_{t-2} &amp; = &amp; a_0 + U_t \\
@@ -390,9 +540,9 @@ Figure 4.6: Pasajeros transportados (Millones) en el metro de la CDM en niveles 
 <span class="math display">\[\begin{eqnarray}
 \hat{\sigma}^2 &amp; = &amp; 0.009378 &amp; y &amp; AIC &amp; = &amp; -418.3
 \end{eqnarray}\]</span></p>
-<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
-<span><span class="va">Datos1</span> <span class="op">&lt;-</span> <span class="fu">read_excel</span><span class="op">(</span><span class="st">"BD/Clase_06/Base_Transporte.xlsx"</span>, sheet <span class="op">=</span> <span class="st">"Datos"</span>, col_names <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="va">Datos1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://readxl.tidyverse.org/reference/read_excel.html">read_excel</a></span><span class="op">(</span><span class="st">"BD/Clase_06/Base_Transporte.xlsx"</span>, sheet <span class="op">=</span> <span class="st">"Datos"</span>, col_names <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="va">Pax_Nal1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/ts.html">ts</a></span><span class="op">(</span><span class="va">Datos1</span><span class="op">$</span><span class="va">Pax_Nal</span>, </span>
 <span>              start <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2000</span>, <span class="fl">1</span><span class="op">)</span>,</span>
 <span>              end <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2021</span>, <span class="fl">7</span><span class="op">)</span>, </span>
@@ -407,18 +557,88 @@ Figure 4.6: Pasajeros transportados (Millones) en el metro de la CDM en niveles 
 <span><span class="co"># Diferencias mensuales:</span></span>
 <span><span class="va">DLPax_Nal1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/ts.html">ts</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span><span class="op">(</span><span class="va">Datos1</span><span class="op">$</span><span class="va">Pax_Nal</span><span class="op">)</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lag.html">lag</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span><span class="op">(</span><span class="va">Datos1</span><span class="op">$</span><span class="va">Pax_Nal</span><span class="op">)</span>, k <span class="op">=</span> <span class="fl">1</span><span class="op">)</span>,</span>
 <span>                start <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2000</span>, <span class="fl">1</span><span class="op">)</span>, freq <span class="op">=</span> <span class="fl">12</span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html">par</a></span><span class="op">(</span>mfrow<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">3</span>,<span class="fl">1</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">Pax_Nal1</span>, xlab <span class="op">=</span> <span class="st">"Tiempo"</span>, ylab <span class="op">=</span> <span class="st">"Pasajeros"</span>,</span>
+<span>     main <span class="op">=</span> <span class="st">"Pasajeros en vuelos nacionales de salida"</span>,</span>
+<span>     col <span class="op">=</span> <span class="st">"darkgreen"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">LPax_Nal1</span>, xlab <span class="op">=</span> <span class="st">"Tiempo"</span>, ylab <span class="op">=</span> <span class="st">"LN Pasajeros"</span>,</span>
+<span>     main <span class="op">=</span> <span class="st">"LN Pasajeros en vuelos nacionales de salida"</span>,</span>
+<span>     col <span class="op">=</span> <span class="st">"darkblue"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">DLPax_Nal1</span>, xlab <span class="op">=</span> <span class="st">"Tiempo"</span>, ylab <span class="op">=</span> <span class="st">"DLN Pasajeros"</span>,</span>
+<span>     main <span class="op">=</span> <span class="st">"Diff LN Pasajeros en vuelos nacionales de salida"</span>, </span>
+<span>     col <span class="op">=</span> <span class="st">"darkred"</span><span class="op">)</span></span></code></pre></div>
 <div class="figure" style="text-align: center">
 <span style="display:block;" id="fig:GPaxNal"></span>
 <img src="03-PE_Univariados_files/figure-html/GPaxNal-1.png" alt="Pasajeros transportados (Millones) en el metro de la CDM en niveles y en diferencias logaritmicas." width="100%"><p class="caption">
 Figure 4.7: Pasajeros transportados (Millones) en el metro de la CDM en niveles y en diferencias logaritmicas.
 </p>
 </div>
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html">par</a></span><span class="op">(</span>mfrow<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">1</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co">#</span></span>
+<span><span class="va">AR_LPax_Nal</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/arima.html">arima</a></span><span class="op">(</span><span class="va">LPax_Nal1</span>, order <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fl">0</span>, <span class="fl">0</span><span class="op">)</span>, method <span class="op">=</span> <span class="st">"ML"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">AR_LPax_Nal</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Call:</span></span>
+<span><span class="co">#&gt; arima(x = LPax_Nal1, order = c(2, 0, 0), method = "ML")</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Coefficients:</span></span>
+<span><span class="co">#&gt;          ar1      ar2  intercept</span></span>
+<span><span class="co">#&gt;       1.0290  -0.1521    14.6263</span></span>
+<span><span class="co">#&gt; s.e.  0.0613   0.0618     0.0857</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; sigma^2 estimated as 0.03009:  log likelihood = 85.37,  aic = -162.74</span></span>
+<span></span>
+<span><span class="co">#plot(AR_LPax_Nal$residuals, xlab = "Tiempo", ylab = "",main = "Residuales del AR (2) para LN de pasajeros en vuelos nacionales de salida",col = "darkgreen")</span></span>
+<span></span>
+<span><span class="co"># AR(2) en DIFERENCIAS:</span></span>
+<span></span>
+<span><span class="va">AR_DLPax_Nal</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/arima.html">arima</a></span><span class="op">(</span><span class="va">DLPax_Nal1</span>, order <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fl">0</span>, <span class="fl">0</span><span class="op">)</span>, method <span class="op">=</span> <span class="st">"ML"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">AR_DLPax_Nal</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Call:</span></span>
+<span><span class="co">#&gt; arima(x = DLPax_Nal1, order = c(2, 0, 0), method = "ML")</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Coefficients:</span></span>
+<span><span class="co">#&gt;          ar1      ar2  intercept</span></span>
+<span><span class="co">#&gt;       0.1132  -0.2794     0.0043</span></span>
+<span><span class="co">#&gt; s.e.  0.0598   0.0596     0.0092</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; sigma^2 estimated as 0.02963:  log likelihood = 87.79,  aic = -167.57</span></span>
+<span></span>
+<span><span class="co">#plot(AR_DLPax_Nal$residuals, xlab = "Tiempo", ylab = "",main = "Residuales del AR (2) para DLN \nde pasajeros en vuelos nacionales de salida",col = "darkred")</span></span></code></pre></div>
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/source.html">source</a></span><span class="op">(</span><span class="st">"BD/Clase_06/arroots.R"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/source.html">source</a></span><span class="op">(</span><span class="st">"BD/Clase_06/plot.armaroots.R"</span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html">par</a></span><span class="op">(</span>mfrow<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">2</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">plot.armaroots</span><span class="op">(</span><span class="fu">arroots</span><span class="op">(</span><span class="va">AR_LPax_Nal</span><span class="op">)</span>, </span>
+<span>               main<span class="op">=</span><span class="st">"Inverse AR roots of \nAR(2): LN Pax Nal"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">plot.armaroots</span><span class="op">(</span><span class="fu">arroots</span><span class="op">(</span><span class="va">AR_DLPax_Nal</span><span class="op">)</span>, </span>
+<span>               main<span class="op">=</span><span class="st">"Inverse AR roots of \nAR(2): Diff LN Pax Nal"</span><span class="op">)</span></span></code></pre></div>
 <div class="figure" style="text-align: center">
 <span style="display:block;" id="fig:GRootsAR2"></span>
-<img src="imagenes/G_Roots_AR2.png" alt="Inverso de las Raíces del polinomio característico." width="100%"><p class="caption">
+<img src="03-PE_Univariados_files/figure-html/GRootsAR2-1.png" alt="Inverso de las Raíces del polinomio característico." width="100%"><p class="caption">
 Figure 4.8: Inverso de las Raíces del polinomio característico.
 </p>
 </div>
+<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html">par</a></span><span class="op">(</span>mfrow<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">1</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p>Para ambos casos entre parentésis indicamos los errores estándar y reportamos el estadístico de Akaike, AIC. Finalmente, podemos determinar si las soluciones serán convergentes, para ello en la Figura <a href="procesos-estacionarios-univariados.html#fig:GRootsAR2">4.8</a> mostramos las raíces asociadas a cada uno de los polinomios. De la inspección visual podemos concluir que ambas propuesta de AR(2) representan una solución convergente y estable.</p>
 </div>
 <div id="arp" class="section level3" number="4.1.3">
@@ -547,15 +767,96 @@ Figure 4.8: Inverso de las Raíces del polinomio característico.
 \hat{\sigma}^2 &amp; = &amp; 0.02371 &amp; y &amp; AIC &amp; = &amp; -198.16
 \end{eqnarray}\]</span></p>
 <p>Entre parentésis indicamos los errores estándar y reportamos el estadístico de Akaike, AIC. Finalmente, podemos determinar si las soluciones serán convergentes, para ello en la Figura <a href="procesos-estacionarios-univariados.html#fig:GRootsARp">4.10</a> mostramos las raíces asociadas a cada uno de los polinomios. De la inspección visual podemos concluir que el AR(4) representan una solución convergente y estable.</p>
+<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span></span>
+<span><span class="va">Datos2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://readxl.tidyverse.org/reference/read_excel.html">read_excel</a></span><span class="op">(</span><span class="st">"BD/Clase_07/Base_Transporte.xlsx"</span>, sheet <span class="op">=</span> <span class="st">"Datos"</span>, col_names <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/source.html">source</a></span><span class="op">(</span><span class="st">"BD/Clase_07/arroots.R"</span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/source.html">source</a></span><span class="op">(</span><span class="st">"BD/Clase_07/plot.armaroots.R"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Conversion a series de tiempo:</span></span>
+<span><span class="va">Pax_Int2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/ts.html">ts</a></span><span class="op">(</span><span class="va">Datos2</span><span class="op">$</span><span class="va">Pax_Int</span>, </span>
+<span>              start <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2000</span>, <span class="fl">1</span><span class="op">)</span>, </span>
+<span>              freq <span class="op">=</span> <span class="fl">12</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Logaritmos:</span></span>
+<span><span class="va">LPax_Int2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/ts.html">ts</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span><span class="op">(</span><span class="va">Datos2</span><span class="op">$</span><span class="va">Pax_Int</span><span class="op">)</span>, </span>
+<span>               start <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2000</span>, <span class="fl">1</span><span class="op">)</span>, </span>
+<span>               freq <span class="op">=</span> <span class="fl">12</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Diferencias mensuales:</span></span>
+<span><span class="va">DLPax_Int2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/ts.html">ts</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span><span class="op">(</span><span class="va">Datos2</span><span class="op">$</span><span class="va">Pax_Int</span><span class="op">)</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lag.html">lag</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span><span class="op">(</span><span class="va">Datos2</span><span class="op">$</span><span class="va">Pax_Int</span><span class="op">)</span>, k <span class="op">=</span> <span class="fl">1</span><span class="op">)</span>,</span>
+<span>                start <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2000</span>, <span class="fl">1</span><span class="op">)</span>, </span>
+<span>                freq <span class="op">=</span> <span class="fl">12</span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html">par</a></span><span class="op">(</span>mfrow<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">3</span>,<span class="fl">1</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">Pax_Int2</span>, xlab <span class="op">=</span> <span class="st">"Tiempo"</span>, ylab <span class="op">=</span> <span class="st">"Pasajeros"</span>,</span>
+<span>     main <span class="op">=</span> <span class="st">"Pasajeros en vuelos internacionales de salida"</span>,</span>
+<span>     col <span class="op">=</span> <span class="st">"darkgreen"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">LPax_Int2</span>, xlab <span class="op">=</span> <span class="st">"Tiempo"</span>, ylab <span class="op">=</span> <span class="st">"LN Pasajeros"</span>,</span>
+<span>     main <span class="op">=</span> <span class="st">"LN Pasajeros en vuelos internacionales de salida"</span>,</span>
+<span>     col <span class="op">=</span> <span class="st">"darkblue"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">DLPax_Int2</span>, xlab <span class="op">=</span> <span class="st">"Tiempo"</span>, ylab <span class="op">=</span> <span class="st">"DLN Pasajeros"</span>,</span>
+<span>     main <span class="op">=</span> <span class="st">"Diff LN Pasajeros en vuelos internacionales de salia"</span>, </span>
+<span>     col <span class="op">=</span> <span class="st">"darkred"</span><span class="op">)</span></span></code></pre></div>
 <div class="figure" style="text-align: center">
 <span style="display:block;" id="fig:GPaxInt"></span>
-<img src="imagenes/G_Pax_Int.png" alt="Pasajeros en vuelos internacionales de salida en niveles y en diferencias logaritmicas." width="100%"><p class="caption">
+<img src="03-PE_Univariados_files/figure-html/GPaxInt-1.png" alt="Pasajeros en vuelos internacionales de salida en niveles y en diferencias logaritmicas." width="100%"><p class="caption">
 Figure 4.9: Pasajeros en vuelos internacionales de salida en niveles y en diferencias logaritmicas.
 </p>
 </div>
+<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html">par</a></span><span class="op">(</span>mfrow<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">1</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># AR(p) en NIVELES:</span></span>
+<span></span>
+<span><span class="va">AR_LPax_Int2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/arima.html">arima</a></span><span class="op">(</span><span class="va">LPax_Int2</span>, order <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">4</span>, <span class="fl">0</span>, <span class="fl">0</span><span class="op">)</span>, method <span class="op">=</span> <span class="st">"ML"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">AR_LPax_Int2</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Call:</span></span>
+<span><span class="co">#&gt; arima(x = LPax_Int2, order = c(4, 0, 0), method = "ML")</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Coefficients:</span></span>
+<span><span class="co">#&gt;          ar1      ar2     ar3     ar4  intercept</span></span>
+<span><span class="co">#&gt;       0.9861  -0.2941  0.0726  0.0825    13.9419</span></span>
+<span><span class="co">#&gt; s.e.  0.0618   0.0870  0.0869  0.0619     0.1031</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; sigma^2 estimated as 0.06747:  log likelihood = -19.04,  aic = 50.07</span></span>
+<span></span>
+<span><span class="co">#plot(AR_LPax_Int$residuals)</span></span>
+<span></span>
+<span><span class="co">#plot.armaroots(arroots(AR_LPax_Int), </span></span>
+<span>               <span class="co">#main="Inverse AR roots of \nAR(p): LN PAx Int")</span></span>
+<span></span>
+<span><span class="co"># AR(p) en DIFERENCIAS:</span></span>
+<span></span>
+<span><span class="va">AR_DLPax_Int2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/arima.html">arima</a></span><span class="op">(</span><span class="va">DLPax_Int2</span>, order <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">4</span>, <span class="fl">0</span>, <span class="fl">0</span><span class="op">)</span>, method <span class="op">=</span> <span class="st">"ML"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">AR_DLPax_Int2</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Call:</span></span>
+<span><span class="co">#&gt; arima(x = DLPax_Int2, order = c(4, 0, 0), method = "ML")</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Coefficients:</span></span>
+<span><span class="co">#&gt;          ar1      ar2      ar3      ar4  intercept</span></span>
+<span><span class="co">#&gt;       0.0441  -0.2426  -0.1457  -0.0483      0.004</span></span>
+<span><span class="co">#&gt; s.e.  0.0622   0.0615   0.0614   0.0620      0.012</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; sigma^2 estimated as 0.07134:  log likelihood = -25.59,  aic = 63.17</span></span>
+<span></span>
+<span><span class="co">#plot(AR_DLPax_Int$residuals, xlab = "Tiempo", ylab = "DLN Pasajeros",</span></span>
+<span>     <span class="co">#main = "Residuales de un AR(4) para pasajeros en vuelos internacionales de salida",</span></span>
+<span>     <span class="co">#col = "darkblue")</span></span></code></pre></div>
+<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">plot.armaroots</span><span class="op">(</span><span class="fu">arroots</span><span class="op">(</span><span class="va">AR_DLPax_Int2</span><span class="op">)</span>,main<span class="op">=</span><span class="st">"Inverse AR roots of \nAR(p): Diff LN PAx Int"</span><span class="op">)</span></span></code></pre></div>
 <div class="figure" style="text-align: center">
 <span style="display:block;" id="fig:GRootsARp"></span>
-<img src="imagenes/G_Roots_ARp.png" alt="Inverso de las Raíces del polinomio característico." width="100%"><p class="caption">
+<img src="03-PE_Univariados_files/figure-html/GRootsARp-1.png" alt="Inverso de las Raíces del polinomio característico." width="100%"><p class="caption">
 Figure 4.10: Inverso de las Raíces del polinomio característico.
 </p>
 </div>
@@ -716,6 +1017,77 @@ Figure 4.10: Inverso de las Raíces del polinomio característico.
 <span class="header-section-number">4.3</span> Procesos ARMA(p, q) y ARIMA(p, d, q)<a class="anchor" aria-label="anchor" href="#procesos-armap-q-y-arimap-d-q"><i class="fas fa-link"></i></a>
 </h2>
 <p>Hemos establecido algunas relaciones las de los porcesos AR y los procesos MA, es decir, cómo un <span class="math inline">\(MA(q)\)</span> de la serie <span class="math inline">\(X_t\)</span> puede ser reexpresada como un <span class="math inline">\(AR(\infty)\)</span> de la serie <span class="math inline">\(U_t\)</span>, y viceversa un <span class="math inline">\(AR(p)\)</span> de la serie <span class="math inline">\(X_t\)</span> puede ser reeexpresada como un <span class="math inline">\(MA(\infty)\)</span>.</p>
+<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">Datos3</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://readxl.tidyverse.org/reference/read_excel.html">read_excel</a></span><span class="op">(</span><span class="st">"BD/Clase_09/Base_Transporte_ARIMA.xlsx"</span>, sheet <span class="op">=</span> <span class="st">"Datos"</span>, col_names <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/source.html">source</a></span><span class="op">(</span><span class="st">"BD/Clase_09/maroots.R"</span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/source.html">source</a></span><span class="op">(</span><span class="st">"BD/Clase_09/arroots.R"</span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/source.html">source</a></span><span class="op">(</span><span class="st">"BD/Clase_09/plot.armaroots.R"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Conversion a series de tiempo:</span></span>
+<span><span class="va">ax_Nal3</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/ts.html">ts</a></span><span class="op">(</span><span class="va">Datos3</span><span class="op">$</span><span class="va">Pax_Nal</span>, </span>
+<span>              start <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2000</span>, <span class="fl">1</span><span class="op">)</span>, </span>
+<span>              freq <span class="op">=</span> <span class="fl">12</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">LPax_Nal3</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/ts.html">ts</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span><span class="op">(</span><span class="va">Datos3</span><span class="op">$</span><span class="va">Pax_Nal</span><span class="op">)</span>, </span>
+<span>               start <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2000</span>, <span class="fl">1</span><span class="op">)</span>, </span>
+<span>               freq <span class="op">=</span> <span class="fl">12</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">DLPax_Nal3</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/ts.html">ts</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span><span class="op">(</span><span class="va">Datos3</span><span class="op">$</span><span class="va">Pax_Nal</span><span class="op">)</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lag.html">lag</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span><span class="op">(</span><span class="va">Datos3</span><span class="op">$</span><span class="va">Pax_Nal</span><span class="op">)</span>, k <span class="op">=</span> <span class="fl">1</span><span class="op">)</span>,</span>
+<span>                start <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2000</span>, <span class="fl">1</span><span class="op">)</span>, </span>
+<span>                freq <span class="op">=</span> <span class="fl">12</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">D_Feb2020</span>   <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/ts.html">ts</a></span><span class="op">(</span><span class="va">Datos3</span><span class="op">$</span><span class="va">D_Feb2020</span>,</span>
+<span>                start <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2000</span>, <span class="fl">1</span><span class="op">)</span>, </span>
+<span>                freq <span class="op">=</span> <span class="fl">12</span><span class="op">)</span></span>
+<span></span>
+<span></span>
+<span><span class="va">D_Mar2020</span>   <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/ts.html">ts</a></span><span class="op">(</span><span class="va">Datos3</span><span class="op">$</span><span class="va">D_Mar2020</span>, </span>
+<span>                start <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2000</span>, <span class="fl">1</span><span class="op">)</span>, </span>
+<span>                freq <span class="op">=</span> <span class="fl">12</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">D_Abr2020</span>   <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/ts.html">ts</a></span><span class="op">(</span><span class="va">Datos3</span><span class="op">$</span><span class="va">D_Abr2020</span>, </span>
+<span>                start <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2000</span>, <span class="fl">1</span><span class="op">)</span>, </span>
+<span>                freq <span class="op">=</span> <span class="fl">12</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">D_May2020</span>   <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/ts.html">ts</a></span><span class="op">(</span><span class="va">Datos3</span><span class="op">$</span><span class="va">D_May2020</span>, </span>
+<span>                start <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2000</span>, <span class="fl">1</span><span class="op">)</span>, </span>
+<span>                freq <span class="op">=</span> <span class="fl">12</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">D_Jun2020</span>   <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/ts.html">ts</a></span><span class="op">(</span><span class="va">Datos3</span><span class="op">$</span><span class="va">D_Jun2020</span>, </span>
+<span>                start <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2000</span>, <span class="fl">1</span><span class="op">)</span>, </span>
+<span>                freq <span class="op">=</span> <span class="fl">12</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">D_Jul2020</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/ts.html">ts</a></span><span class="op">(</span><span class="va">Datos3</span><span class="op">$</span><span class="va">D_Jul2020</span>, </span>
+<span>                start <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2000</span>, <span class="fl">1</span><span class="op">)</span>, </span>
+<span>                freq <span class="op">=</span> <span class="fl">12</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">D_Ene2021</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/ts.html">ts</a></span><span class="op">(</span><span class="va">Datos3</span><span class="op">$</span><span class="va">D_Ene2021</span>, </span>
+<span>                start <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2000</span>, <span class="fl">1</span><span class="op">)</span>, </span>
+<span>                freq <span class="op">=</span> <span class="fl">12</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">D_Mar2021</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/ts.html">ts</a></span><span class="op">(</span><span class="va">Datos3</span><span class="op">$</span><span class="va">D_Mar2021</span>, </span>
+<span>                start <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2000</span>, <span class="fl">1</span><span class="op">)</span>, </span>
+<span>                freq <span class="op">=</span> <span class="fl">12</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">D_Ene</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/ts.html">ts</a></span><span class="op">(</span><span class="va">Datos3</span><span class="op">$</span><span class="va">D_Ene</span>, </span>
+<span>            start <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2000</span>, <span class="fl">1</span><span class="op">)</span>, </span>
+<span>            freq <span class="op">=</span> <span class="fl">12</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">D_Feb</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/ts.html">ts</a></span><span class="op">(</span><span class="va">Datos3</span><span class="op">$</span><span class="va">D_Feb</span>, </span>
+<span>            start <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2000</span>, <span class="fl">1</span><span class="op">)</span>, </span>
+<span>            freq <span class="op">=</span> <span class="fl">12</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">D_Jul</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/ts.html">ts</a></span><span class="op">(</span><span class="va">Datos3</span><span class="op">$</span><span class="va">D_Jul</span>, </span>
+<span>            start <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2000</span>, <span class="fl">1</span><span class="op">)</span>, </span>
+<span>            freq <span class="op">=</span> <span class="fl">12</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">D_Dic</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/ts.html">ts</a></span><span class="op">(</span><span class="va">Datos3</span><span class="op">$</span><span class="va">D_Dic</span>, </span>
+<span>            start <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2000</span>, <span class="fl">1</span><span class="op">)</span>, </span>
+<span>            freq <span class="op">=</span> <span class="fl">12</span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span></span>
+<span><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/include_graphics.html">include_graphics</a></span><span class="op">(</span><span class="st">"imagenes/G_Roots_MAq.png"</span><span class="op">)</span></span></code></pre></div>
 <div class="figure" style="text-align: center">
 <span style="display:block;" id="fig:GRootsMAq"></span>
 <img src="imagenes/G_Roots_MAq.png" alt="Inverso de las Raíces del polinomio característico." width="100%"><p class="caption">
@@ -897,12 +1269,119 @@ Figure 4.11: Inverso de las Raíces del polinomio característico.
     \hat{\sigma}^2 &amp; = &amp; 0.007096 &amp; y &amp; AIC &amp; = &amp; -475.12
 \end{eqnarray}\]</span></p>
 <p>Donde entre parentésis indicamos los errores estándar. Adicionalmente, reportamos el estadístico de Akaike (AIC). Finalmente, podemos determinar si las soluciones serán convergentes, para ello en la Figura <a href="procesos-estacionarios-univariados.html#fig:GRootsARMA11">4.12</a> mostramos las raíces asociadas a cada uno de los polinomios. De la inspección visual podemos concluir que tenemos una solución convergente y estable. Por su parte la Figura <a href="procesos-estacionarios-univariados.html#fig:GResidualsARMA11">4.13</a> muestra los residuales de la estimación del <span class="math inline">\(ARMA(1, 1)\)</span>.</p>
+<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">Datos4</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://readxl.tidyverse.org/reference/read_excel.html">read_excel</a></span><span class="op">(</span><span class="st">"BD/Clase_10.5/Base_Transporte_ARIMA.xlsx"</span>, sheet <span class="op">=</span> <span class="st">"Datos"</span>, col_names <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Funciones que extrae y grafica las raices del polinomio caracteristico</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/source.html">source</a></span><span class="op">(</span><span class="st">"BD/Clase_09/arroots.R"</span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/source.html">source</a></span><span class="op">(</span><span class="st">"BD/Clase_09/maroots.R"</span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/source.html">source</a></span><span class="op">(</span><span class="st">"BD/Clase_09/plot.armaroots.R"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Conversion a series de tiempo:</span></span>
+<span><span class="va">Pax_Nal4</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/ts.html">ts</a></span><span class="op">(</span><span class="va">Datos4</span><span class="op">$</span><span class="va">Pax_Nal</span>, </span>
+<span>              start <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2000</span>, <span class="fl">1</span><span class="op">)</span>, </span>
+<span>              freq <span class="op">=</span> <span class="fl">12</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">LPax_Nal4</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/ts.html">ts</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span><span class="op">(</span><span class="va">Datos4</span><span class="op">$</span><span class="va">Pax_Nal</span><span class="op">)</span>, </span>
+<span>               start <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2000</span>, <span class="fl">1</span><span class="op">)</span>, </span>
+<span>               freq <span class="op">=</span> <span class="fl">12</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">DLPax_Nal4</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/ts.html">ts</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span><span class="op">(</span><span class="va">Datos4</span><span class="op">$</span><span class="va">Pax_Nal</span><span class="op">)</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lag.html">lag</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span><span class="op">(</span><span class="va">Datos4</span><span class="op">$</span><span class="va">Pax_Nal</span><span class="op">)</span>, k <span class="op">=</span> <span class="fl">1</span><span class="op">)</span>,</span>
+<span>                start <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2000</span>, <span class="fl">1</span><span class="op">)</span>, </span>
+<span>                freq <span class="op">=</span> <span class="fl">12</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">DLPax_Nal_S4</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/diff.html">diff</a></span><span class="op">(</span><span class="va">DLPax_Nal4</span>, <span class="fl">12</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">D_Feb20204</span>  <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/ts.html">ts</a></span><span class="op">(</span><span class="va">Datos4</span><span class="op">$</span><span class="va">D_Feb2020</span>,</span>
+<span>                start <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2000</span>, <span class="fl">1</span><span class="op">)</span>, </span>
+<span>                freq <span class="op">=</span> <span class="fl">12</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">D_Mar20204</span>  <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/ts.html">ts</a></span><span class="op">(</span><span class="va">Datos4</span><span class="op">$</span><span class="va">D_Mar2020</span>, </span>
+<span>                start <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2000</span>, <span class="fl">1</span><span class="op">)</span>, </span>
+<span>                freq <span class="op">=</span> <span class="fl">12</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">D_Abr20204</span>  <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/ts.html">ts</a></span><span class="op">(</span><span class="va">Datos4</span><span class="op">$</span><span class="va">D_Abr2020</span>, </span>
+<span>                start <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2000</span>, <span class="fl">1</span><span class="op">)</span>, </span>
+<span>                freq <span class="op">=</span> <span class="fl">12</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">D_May20204</span>  <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/ts.html">ts</a></span><span class="op">(</span><span class="va">Datos4</span><span class="op">$</span><span class="va">D_May2020</span>, </span>
+<span>                start <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2000</span>, <span class="fl">1</span><span class="op">)</span>, </span>
+<span>                freq <span class="op">=</span> <span class="fl">12</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">D_Jun20204</span>  <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/ts.html">ts</a></span><span class="op">(</span><span class="va">Datos4</span><span class="op">$</span><span class="va">D_Jun2020</span>, </span>
+<span>                start <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2000</span>, <span class="fl">1</span><span class="op">)</span>, </span>
+<span>                freq <span class="op">=</span> <span class="fl">12</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">D_Jul20204</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/ts.html">ts</a></span><span class="op">(</span><span class="va">Datos4</span><span class="op">$</span><span class="va">D_Jul2020</span>, </span>
+<span>                start <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2000</span>, <span class="fl">1</span><span class="op">)</span>, </span>
+<span>                freq <span class="op">=</span> <span class="fl">12</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">D_Ene20214</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/ts.html">ts</a></span><span class="op">(</span><span class="va">Datos4</span><span class="op">$</span><span class="va">D_Ene2021</span>, </span>
+<span>                start <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2000</span>, <span class="fl">1</span><span class="op">)</span>, </span>
+<span>                freq <span class="op">=</span> <span class="fl">12</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">D_Mar20214</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/ts.html">ts</a></span><span class="op">(</span><span class="va">Datos4</span><span class="op">$</span><span class="va">D_Mar2021</span>, </span>
+<span>                start <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2000</span>, <span class="fl">1</span><span class="op">)</span>, </span>
+<span>                freq <span class="op">=</span> <span class="fl">12</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">D_Ene4</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/ts.html">ts</a></span><span class="op">(</span><span class="va">Datos4</span><span class="op">$</span><span class="va">D_Ene</span>, </span>
+<span>            start <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2000</span>, <span class="fl">1</span><span class="op">)</span>, </span>
+<span>            freq <span class="op">=</span> <span class="fl">12</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">D_Feb4</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/ts.html">ts</a></span><span class="op">(</span><span class="va">Datos4</span><span class="op">$</span><span class="va">D_Feb</span>, </span>
+<span>            start <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2000</span>, <span class="fl">1</span><span class="op">)</span>, </span>
+<span>            freq <span class="op">=</span> <span class="fl">12</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">D_Jul4</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/ts.html">ts</a></span><span class="op">(</span><span class="va">Datos4</span><span class="op">$</span><span class="va">D_Jul</span>, </span>
+<span>            start <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2000</span>, <span class="fl">1</span><span class="op">)</span>, </span>
+<span>            freq <span class="op">=</span> <span class="fl">12</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">D_Dic4</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/ts.html">ts</a></span><span class="op">(</span><span class="va">Datos4</span><span class="op">$</span><span class="va">D_Dic</span>, </span>
+<span>            start <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2000</span>, <span class="fl">1</span><span class="op">)</span>, </span>
+<span>            freq <span class="op">=</span> <span class="fl">12</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Funciones que determinan el rezago optimo (que minimiza el criterio de Akaike)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/source.html">source</a></span><span class="op">(</span><span class="st">"BD/Clase_10.5/Lag_Opt_ARIMA_Exog.R"</span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/source.html">source</a></span><span class="op">(</span><span class="st">"BD/Clase_10.5/Lag_Opt_SARIMA_Exog.R"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Estimacion de ARIMA(1, 1, 1)</span></span>
+<span><span class="va">ARMA_DLPax_Nal</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/arima.html">arima</a></span><span class="op">(</span><span class="va">DLPax_Nal4</span>, order <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">0</span>, <span class="fl">1</span><span class="op">)</span>,</span>
+<span>                        xreg <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html">cbind</a></span><span class="op">(</span><span class="va">D_Ene4</span>, <span class="va">D_Feb4</span>, <span class="va">D_Jul4</span>, <span class="va">D_Dic4</span><span class="op">)</span>,</span>
+<span>                        method <span class="op">=</span> <span class="st">"ML"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">ARMA_DLPax_Nal</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Call:</span></span>
+<span><span class="co">#&gt; arima(x = DLPax_Nal4, order = c(1, 0, 1), xreg = cbind(D_Ene4, D_Feb4, D_Jul4, </span></span>
+<span><span class="co">#&gt;     D_Dic4), method = "ML")</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Coefficients:</span></span>
+<span><span class="co">#&gt;           ar1     ma1  intercept   D_Ene4   D_Feb4  D_Jul4</span></span>
+<span><span class="co">#&gt;       -0.5620  0.8029     0.0013  -0.0938  -0.1195  0.1855</span></span>
+<span><span class="co">#&gt; s.e.   0.1095  0.0725     0.0138   0.0383   0.0391  0.0343</span></span>
+<span><span class="co">#&gt;       D_Dic4</span></span>
+<span><span class="co">#&gt;       0.0643</span></span>
+<span><span class="co">#&gt; s.e.  0.0374</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; sigma^2 estimated as 0.02558:  log likelihood = 106.7,  aic = -197.41</span></span></code></pre></div>
+<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html">par</a></span><span class="op">(</span>mfrow<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">2</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">plot.armaroots</span><span class="op">(</span><span class="fu">arroots</span><span class="op">(</span><span class="va">ARMA_DLPax_Nal</span><span class="op">)</span>, </span>
+<span>               main<span class="op">=</span><span class="st">"Inverse AR roots of \nAR(p): LN PAx Nal"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">plot.armaroots</span><span class="op">(</span><span class="fu">maroots</span><span class="op">(</span><span class="va">ARMA_DLPax_Nal</span><span class="op">)</span>, </span>
+<span>               main<span class="op">=</span><span class="st">"Inverse MA roots of \nMA(q): LN PAx Nal"</span><span class="op">)</span></span></code></pre></div>
 <div class="figure" style="text-align: center">
 <span style="display:block;" id="fig:GRootsARMA11"></span>
-<img src="imagenes/G_Roots_ARMA11.png" alt="Inverso de las Raíces del polinomio característico de un ARMA(1,1)" width="100%"><p class="caption">
+<img src="03-PE_Univariados_files/figure-html/GRootsARMA11-1.png" alt="Inverso de las Raíces del polinomio característico de un ARMA(1,1)" width="100%"><p class="caption">
 Figure 4.12: Inverso de las Raíces del polinomio característico de un ARMA(1,1)
 </p>
 </div>
+<div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html">par</a></span><span class="op">(</span>mfrow<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">1</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p>En lo que resta de este capítulo, utilizaremos la serie en diferencias logarítmicas de los pasajeros en vuelos nacionales de salida, <span class="math inline">\(DLPaxNal_t\)</span>, para discutir los ejemplos que ilustran cada uno de los puntos teóricos que a continuación exponemos.</p>
 </div>
 </div>
@@ -911,9 +1390,15 @@ Figure 4.12: Inverso de las Raíces del polinomio característico de un ARMA(1,1
 <span class="header-section-number">4.4</span> Función de Autocorrelación Parcial<a class="anchor" aria-label="anchor" href="#funci%C3%B3n-de-autocorrelaci%C3%B3n-parcial"><i class="fas fa-link"></i></a>
 </h2>
 <p>Ahora introduciremos el concepto de Función de Autocorrelación Parcial (PACF, por sus siglas en inglés). Primero, dadas las condiciones de estabilidad y de convergencia, si suponemos que un proceso AR, MA, ARMA o ARIMA tienen toda la información de los rezagos de la serie en conjunto y toda la información de los promedio móviles del término de error, resulta importante construir una métrica para distinguir el efecto de <span class="math inline">\(X_{t - \tau}\)</span> o el efecto de <span class="math inline">\(U_{t - \tau}\)</span> (para cualquier <span class="math inline">\(\tau\)</span>) sobre <span class="math inline">\(X_t\)</span> de forma individual.</p>
+<div class="sourceCode" id="cb35"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">ARMA_DLPax_Nal</span><span class="op">$</span><span class="va">residuals</span>,</span>
+<span>     main <span class="op">=</span> <span class="st">"Residuales de un ARIMA LN Pasajeros en vuelos nacionales de salida"</span>,</span>
+<span>     col <span class="op">=</span> <span class="st">"darkblue"</span>,</span>
+<span>     ylab <span class="op">=</span> <span class="st">"Residuals ARMA(1, 1)"</span><span class="op">)</span></span></code></pre></div>
 <div class="figure" style="text-align: center">
 <span style="display:block;" id="fig:GResidualsARMA11"></span>
-<img src="imagenes/G_Residuals_ARMA11.png" alt="Inverso de las Raíces del polinomio característico de un ARMA(1,1)" width="100%"><p class="caption">
+<img src="03-PE_Univariados_files/figure-html/GResidualsARMA11-1.png" alt="Inverso de las Raíces del polinomio característico de un ARMA(1,1)" width="100%"><p class="caption">
 Figure 4.13: Inverso de las Raíces del polinomio característico de un ARMA(1,1)
 </p>
 </div>
@@ -984,12 +1469,26 @@ Figure 4.13: Inverso de las Raíces del polinomio característico de un ARMA(1,1
 <p>Posterior al análisis analítico platearemos un enfoque para interpretar las funciones de autocorrelación y autocorrelación parcial. Este enfoque pretende aportar al principio de parcimonia, en el cual podemos identificar el número de parámetros que posiblemente puede describir mejor a la serie en un modelo ARMA(p, q).</p>
 <p>En el Cuadro <a href="procesos-estacionarios-univariados.html#tab:foo1">4.1</a> se muestra un resumen de las caranterísticas que debemos observar para determinar el número de parámetros de cada uno de los componentes AR y MA. Lo anterior por observación de las funciones de autocorrelación y autocorrelación parcial. Este enfoque no es el más formal, más adelante implemtaremos uno más formal y que puede ser más claro de cómo determinar el númeto de parámetros.</p>
 <p>Continuando con el ejemplo en la Figura <a href="procesos-estacionarios-univariados.html#fig:GACFPACF">4.14</a> mostramos tanto la Función de Autocorrelación como la Función de Autocorrelación Parcial. En esta identificamos que ambas gráficas muestran que el modelo que explica a la variable <span class="math inline">\(DLPaxNal_t\)</span> tiene tanto componentes AR como MA. Sin embargo, dado lo errático del comportamiento de ambas funciones, resulta complicado determinar cuál sería un buen número de parametros <span class="math inline">\(p\)</span> y <span class="math inline">\(q\)</span> a considerar en el <span class="math inline">\(ARMA(p,q)\)</span>. Por esta razón a continuación platearemos algunas pruebas más formales para determinar dichos parámetros.</p>
+<div class="sourceCode" id="cb36"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html">par</a></span><span class="op">(</span>mfrow<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">2</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/stats/acf.html">acf</a></span><span class="op">(</span><span class="va">DLPax_Nal4</span><span class="op">[</span><span class="fl">2</span><span class="op">:</span><span class="fl">234</span><span class="op">]</span>, lag.max <span class="op">=</span> <span class="fl">24</span>,</span>
+<span>    xlab <span class="op">=</span> <span class="st">"Rezagos"</span>,</span>
+<span>    main <span class="op">=</span> <span class="st">"Diff LN Pasajeros Nacionales"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/stats/acf.html">pacf</a></span><span class="op">(</span><span class="va">DLPax_Nal4</span><span class="op">[</span><span class="fl">2</span><span class="op">:</span><span class="fl">234</span><span class="op">]</span>, lag.max <span class="op">=</span> <span class="fl">24</span>, </span>
+<span>     xlab <span class="op">=</span> <span class="st">'Rezagos'</span>,</span>
+<span>     main <span class="op">=</span> <span class="st">"Diff LN Pasajeros Nacionales"</span><span class="op">)</span></span></code></pre></div>
 <div class="figure" style="text-align: center">
 <span style="display:block;" id="fig:GACFPACF"></span>
-<img src="imagenes/G_ACF_PACF.png" alt="Función de Autocorrelación y la Función de Autocorrelación Parcial de una serie $DLPaxNal_t$." width="100%"><p class="caption">
+<img src="03-PE_Univariados_files/figure-html/GACFPACF-1.png" alt="Función de Autocorrelación y la Función de Autocorrelación Parcial de una serie $DLPaxNal_t$." width="100%"><p class="caption">
 Figure 4.14: Función de Autocorrelación y la Función de Autocorrelación Parcial de una serie <span class="math inline">\(DLPaxNal_t\)</span>.
 </p>
 </div>
+<div class="sourceCode" id="cb37"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html">par</a></span><span class="op">(</span>mfrow<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">1</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div id="selección-de-las-constantes-p-q-d-en-un-arp-un-maq-un-armap-q-o-un-arimap-d-q" class="section level2" number="4.5">
 <h2>
@@ -1121,9 +1620,164 @@ HQ = ln \left[ \frac{1}{T} \sum_{t=1}^{T} \left( \hat{U}_t^{(p)} \right) ^2 \rig
 <p>Al respecto, en el Cuadro <a href="procesos-estacionarios-univariados.html#tab:SelecARMApq">4.2</a> reportamos el criterio de Akaike que resultan de aplicar dicho criterio a los residuales resultantes de cada combinación de procesos <span class="math inline">\(ARMA(p, q)\)</span>. La forma de escoger será aquel modelo que reporta el criterio de Akaike menor. En la cuarta columna de la tabla se señala el valor del criterio de información que resulta ser el mínimo de todos los posibles.</p>
 <p>El Cuadro <a href="procesos-estacionarios-univariados.html#tab:SelecARMApq">4.2</a> reporta los resultados para 36 diferentes modelos, todos incluyen variables exogenas. Como resultado del análisis concluimos que el modelo más adecuado es el 24, el cual considera un <span class="math inline">\(ARMA(4, 6)\)</span>, con variables dummies para controlar la estacionalidad de los meses de enero, febrero, julio y diciembre. En el Cuadro <a href="procesos-estacionarios-univariados.html#tab:ResultARMApq">4.3</a> mostramos los resutados del modelo.</p>
 <p>No obstante, una inspección de los residuales del modelo nos permite sospechar que requiere de incluir un par de dummies más. Ambas, asociadas con la caída del transporte aéreo en 2009, principalmente asociado con la crisis mundial de ese año. La Figura <a href="procesos-estacionarios-univariados.html#fig:GResidualsARMA46">4.15</a> muestra los residuales mencionados.</p>
+<div class="sourceCode" id="cb38"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Funciones que determinan el rezago optimo (que minimiza el criterio de Akaike)</span></span>
+<span><span class="co">#Esta es una prueba mas formar respecto de la meta inspeccion grafica</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/source.html">source</a></span><span class="op">(</span><span class="st">"BD/Clase_09/Lag_Opt_ARIMA_Exog.R"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Estimacion del proceso ARIMA(p, 1, q):</span></span>
+<span><span class="co">#CON variables exogenas:</span></span>
+<span><span class="fu">Lag_Opt_ARIMA_Exog</span><span class="op">(</span>p_max <span class="op">=</span> <span class="fl">6</span>, q_max <span class="op">=</span> <span class="fl">6</span>, </span>
+<span>                   X_t <span class="op">=</span> <span class="va">DLPax_Nal4</span>, </span>
+<span>                   Ex <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>                   Z_t <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html">cbind</a></span><span class="op">(</span><span class="va">D_Ene4</span>, <span class="va">D_Feb4</span>, <span class="va">D_Jul4</span>, <span class="va">D_Dic4</span><span class="op">)</span> <span class="op">)</span></span>
+<span><span class="co">#&gt; Warning in log(s2): NaNs produced</span></span>
+<span><span class="co">#&gt; Warning in arima(X_t, order = c(i, 0, (j - grupo)), xreg</span></span>
+<span><span class="co">#&gt; = Z_t, method = "ML"): possible convergence problem: optim</span></span>
+<span><span class="co">#&gt; gave code = 1</span></span>
+<span></span>
+<span><span class="co">#&gt; Warning in arima(X_t, order = c(i, 0, (j - grupo)), xreg</span></span>
+<span><span class="co">#&gt; = Z_t, method = "ML"): possible convergence problem: optim</span></span>
+<span><span class="co">#&gt; gave code = 1</span></span>
+<span><span class="co">#&gt; Warning in log(s2): NaNs produced</span></span>
+<span></span>
+<span><span class="co">#&gt; Warning in log(s2): NaNs produced</span></span>
+<span><span class="co">#&gt; Warning in arima(X_t, order = c(i, 0, (j - grupo)), xreg</span></span>
+<span><span class="co">#&gt; = Z_t, method = "ML"): possible convergence problem: optim</span></span>
+<span><span class="co">#&gt; gave code = 1</span></span>
+<span></span>
+<span><span class="co">#&gt; Warning in arima(X_t, order = c(i, 0, (j - grupo)), xreg</span></span>
+<span><span class="co">#&gt; = Z_t, method = "ML"): possible convergence problem: optim</span></span>
+<span><span class="co">#&gt; gave code = 1</span></span>
+<span><span class="co">#&gt;       Rezago p Rezago q       AIC Optimo</span></span>
+<span><span class="co">#&gt;  [1,]        1        1 -197.4050      0</span></span>
+<span><span class="co">#&gt;  [2,]        1        2 -225.1386      0</span></span>
+<span><span class="co">#&gt;  [3,]        1        3 -223.5953      0</span></span>
+<span><span class="co">#&gt;  [4,]        1        4 -220.5549      0</span></span>
+<span><span class="co">#&gt;  [5,]        1        5 -218.6917      0</span></span>
+<span><span class="co">#&gt;  [6,]        1        6 -231.4310      0</span></span>
+<span><span class="co">#&gt;  [7,]        2        1 -220.2086      0</span></span>
+<span><span class="co">#&gt;  [8,]        2        2 -224.4070      0</span></span>
+<span><span class="co">#&gt;  [9,]        2        3 -224.5471      0</span></span>
+<span><span class="co">#&gt; [10,]        2        4 -223.3335      0</span></span>
+<span><span class="co">#&gt; [11,]        2        5 -225.1568      0</span></span>
+<span><span class="co">#&gt; [12,]        2        6 -229.4401      0</span></span>
+<span><span class="co">#&gt; [13,]        3        1 -222.6373      0</span></span>
+<span><span class="co">#&gt; [14,]        3        2 -224.7367      0</span></span>
+<span><span class="co">#&gt; [15,]        3        3 -220.9403      0</span></span>
+<span><span class="co">#&gt; [16,]        3        4 -276.7301      1</span></span>
+<span><span class="co">#&gt; [17,]        3        5 -275.5672      0</span></span>
+<span><span class="co">#&gt; [18,]        3        6 -227.4626      0</span></span>
+<span><span class="co">#&gt; [19,]        4        1 -221.3591      0</span></span>
+<span><span class="co">#&gt; [20,]        4        2 -222.9806      0</span></span>
+<span><span class="co">#&gt; [21,]        4        3 -243.7884      0</span></span>
+<span><span class="co">#&gt; [22,]        4        4 -243.9174      0</span></span>
+<span><span class="co">#&gt; [23,]        4        5 -244.1439      0</span></span>
+<span><span class="co">#&gt; [24,]        4        6 -271.5143      0</span></span>
+<span><span class="co">#&gt; [25,]        5        1 -220.0956      0</span></span>
+<span><span class="co">#&gt; [26,]        5        2 -221.8154      0</span></span>
+<span><span class="co">#&gt; [27,]        5        3 -272.1756      0</span></span>
+<span><span class="co">#&gt; [28,]        5        4 -245.4954      0</span></span>
+<span><span class="co">#&gt; [29,]        5        5 -243.5682      0</span></span>
+<span><span class="co">#&gt; [30,]        5        6 -269.1516      0</span></span>
+<span><span class="co">#&gt; [31,]        6        1 -227.5711      0</span></span>
+<span><span class="co">#&gt; [32,]        6        2 -226.2520      0</span></span>
+<span><span class="co">#&gt; [33,]        6        3 -273.6243      0</span></span>
+<span><span class="co">#&gt; [34,]        6        4 -270.1272      0</span></span>
+<span><span class="co">#&gt; [35,]        6        5 -270.0199      0</span></span>
+<span><span class="co">#&gt; [36,]        6        6 -269.4984      0</span></span>
+<span></span>
+<span><span class="co">#SIN variables exogenas:</span></span>
+<span><span class="fu">Lag_Opt_ARIMA_Exog</span><span class="op">(</span>p_max <span class="op">=</span> <span class="fl">6</span>, q_max <span class="op">=</span> <span class="fl">6</span>, </span>
+<span>                   X_t <span class="op">=</span> <span class="va">DLPax_Nal4</span>, </span>
+<span>                   Ex <span class="op">=</span> <span class="fl">0</span>,</span>
+<span>                   Z_t <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html">cbind</a></span><span class="op">(</span><span class="va">D_Ene4</span>, <span class="va">D_Feb4</span>, <span class="va">D_Jul4</span>, <span class="va">D_Dic4</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Warning in arima(X_t, order = c(i, 0, (j - grupo)), method =</span></span>
+<span><span class="co">#&gt; "ML"): possible convergence problem: optim gave code = 1</span></span>
+<span><span class="co">#&gt; Warning in arima(X_t, order = c(i, 0, (j - grupo)), method =</span></span>
+<span><span class="co">#&gt; "ML"): possible convergence problem: optim gave code = 1</span></span>
+<span></span>
+<span><span class="co">#&gt; Warning in arima(X_t, order = c(i, 0, (j - grupo)), method =</span></span>
+<span><span class="co">#&gt; "ML"): possible convergence problem: optim gave code = 1</span></span>
+<span></span>
+<span><span class="co">#&gt; Warning in arima(X_t, order = c(i, 0, (j - grupo)), method =</span></span>
+<span><span class="co">#&gt; "ML"): possible convergence problem: optim gave code = 1</span></span>
+<span></span>
+<span><span class="co">#&gt; Warning in arima(X_t, order = c(i, 0, (j - grupo)), method =</span></span>
+<span><span class="co">#&gt; "ML"): possible convergence problem: optim gave code = 1</span></span>
+<span></span>
+<span><span class="co">#&gt; Warning in arima(X_t, order = c(i, 0, (j - grupo)), method =</span></span>
+<span><span class="co">#&gt; "ML"): possible convergence problem: optim gave code = 1</span></span>
+<span></span>
+<span><span class="co">#&gt; Warning in arima(X_t, order = c(i, 0, (j - grupo)), method =</span></span>
+<span><span class="co">#&gt; "ML"): possible convergence problem: optim gave code = 1</span></span>
+<span><span class="co">#&gt;       Rezago p Rezago q       AIC Optimo</span></span>
+<span><span class="co">#&gt;  [1,]        1        1 -158.4886      0</span></span>
+<span><span class="co">#&gt;  [2,]        1        2 -188.4346      0</span></span>
+<span><span class="co">#&gt;  [3,]        1        3 -187.4277      0</span></span>
+<span><span class="co">#&gt;  [4,]        1        4 -187.7574      0</span></span>
+<span><span class="co">#&gt;  [5,]        1        5 -186.0283      0</span></span>
+<span><span class="co">#&gt;  [6,]        1        6 -197.3958      0</span></span>
+<span><span class="co">#&gt;  [7,]        2        1 -184.0936      0</span></span>
+<span><span class="co">#&gt;  [8,]        2        2 -189.0901      0</span></span>
+<span><span class="co">#&gt;  [9,]        2        3 -188.0542      0</span></span>
+<span><span class="co">#&gt; [10,]        2        4 -186.0658      0</span></span>
+<span><span class="co">#&gt; [11,]        2        5 -190.3917      0</span></span>
+<span><span class="co">#&gt; [12,]        2        6 -195.4309      0</span></span>
+<span><span class="co">#&gt; [13,]        3        1 -188.0653      0</span></span>
+<span><span class="co">#&gt; [14,]        3        2 -187.8864      0</span></span>
+<span><span class="co">#&gt; [15,]        3        3 -205.6144      0</span></span>
+<span><span class="co">#&gt; [16,]        3        4 -241.7423      0</span></span>
+<span><span class="co">#&gt; [17,]        3        5 -241.5593      0</span></span>
+<span><span class="co">#&gt; [18,]        3        6 -247.4453      0</span></span>
+<span><span class="co">#&gt; [19,]        4        1 -164.8898      0</span></span>
+<span><span class="co">#&gt; [20,]        4        2 -186.7417      0</span></span>
+<span><span class="co">#&gt; [21,]        4        3 -214.8872      0</span></span>
+<span><span class="co">#&gt; [22,]        4        4 -211.3784      0</span></span>
+<span><span class="co">#&gt; [23,]        4        5 -208.6211      0</span></span>
+<span><span class="co">#&gt; [24,]        4        6 -216.6316      0</span></span>
+<span><span class="co">#&gt; [25,]        5        1 -184.9023      0</span></span>
+<span><span class="co">#&gt; [26,]        5        2 -186.8473      0</span></span>
+<span><span class="co">#&gt; [27,]        5        3 -245.1477      0</span></span>
+<span><span class="co">#&gt; [28,]        5        4 -213.9622      0</span></span>
+<span><span class="co">#&gt; [29,]        5        5 -212.4953      0</span></span>
+<span><span class="co">#&gt; [30,]        5        6 -241.4802      0</span></span>
+<span><span class="co">#&gt; [31,]        6        1 -200.6707      0</span></span>
+<span><span class="co">#&gt; [32,]        6        2 -198.6868      0</span></span>
+<span><span class="co">#&gt; [33,]        6        3 -248.2317      0</span></span>
+<span><span class="co">#&gt; [34,]        6        4 -246.1741      0</span></span>
+<span><span class="co">#&gt; [35,]        6        5 -264.2011      0</span></span>
+<span><span class="co">#&gt; [36,]        6        6 -270.5896      1</span></span>
+<span></span>
+<span><span class="co">#Estimacion:</span></span>
+<span><span class="va">ARMA_Ex_DLPax_Nal</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/arima.html">arima</a></span><span class="op">(</span><span class="va">DLPax_Nal4</span>, order <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">3</span>, <span class="fl">0</span>, <span class="fl">4</span><span class="op">)</span>,</span>
+<span>                           xreg <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html">cbind</a></span><span class="op">(</span><span class="va">D_Ene4</span>, <span class="va">D_Feb4</span>, <span class="va">D_Jul4</span>, <span class="va">D_Dic4</span><span class="op">)</span>,</span>
+<span>                           method <span class="op">=</span> <span class="st">"ML"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">ARMA_Ex_DLPax_Nal</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Call:</span></span>
+<span><span class="co">#&gt; arima(x = DLPax_Nal4, order = c(3, 0, 4), xreg = cbind(D_Ene4, D_Feb4, D_Jul4, </span></span>
+<span><span class="co">#&gt;     D_Dic4), method = "ML")</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Coefficients:</span></span>
+<span><span class="co">#&gt;           ar1     ar2     ar3     ma1      ma2      ma3</span></span>
+<span><span class="co">#&gt;       -1.0454  0.1932  0.6873  1.3011  -0.2973  -1.4188</span></span>
+<span><span class="co">#&gt; s.e.   0.0504  0.0872  0.0504  0.0563   0.0499   0.0476</span></span>
+<span><span class="co">#&gt;           ma4  intercept   D_Ene4   D_Feb4  D_Jul4  D_Dic4</span></span>
+<span><span class="co">#&gt;       -0.5849    -0.0142  -0.1312  -0.0061  0.2910  0.0612</span></span>
+<span><span class="co">#&gt; s.e.   0.0564     0.0099   0.0412   0.0434  0.0514  0.0431</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; sigma^2 estimated as 0.01722:  log likelihood = 151.37,  aic = -276.73</span></span></code></pre></div>
+<div class="sourceCode" id="cb39"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">ARMA_Ex_DLPax_Nal</span><span class="op">$</span><span class="va">residuals</span>, </span>
+<span>     ylab <span class="op">=</span> <span class="st">""</span>,</span>
+<span>     main <span class="op">=</span> <span class="st">"Residuales ARMA Diff LN Pasajeros Nacionales"</span>,</span>
+<span>     col <span class="op">=</span> <span class="st">"darkblue"</span><span class="op">)</span></span></code></pre></div>
 <div class="figure" style="text-align: center">
 <span style="display:block;" id="fig:GResidualsARMA46"></span>
-<img src="imagenes/G_Residuals_ARMA46.png" alt="Residuales del ARMA(4, 6) de una serie $DLPaxNal_t$." width="100%"><p class="caption">
+<img src="03-PE_Univariados_files/figure-html/GResidualsARMA46-1.png" alt="Residuales del ARMA(4, 6) de una serie $DLPaxNal_t$." width="100%"><p class="caption">
 Figure 4.15: Residuales del ARMA(4, 6) de una serie <span class="math inline">\(DLPaxNal_t\)</span>.
 </p>
 </div>
@@ -1138,9 +1792,133 @@ Figure 4.15: Residuales del ARMA(4, 6) de una serie <span class="math inline">\(
     \mathbb{E}_t[X_{t+\tau}] = \delta + a_1 \mathbb{E}_t[X_{t+\tau-1}] + a_2 \mathbb{E}_t[X_{t+\tau-2}] + \ldots + + a_p \mathbb{E}_t[X_{t+\tau-p}]
     \tag{4.77}
 \end{eqnarray}\]</span></p>
+<div class="sourceCode" id="cb40"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Nueva Estimacion del proceso ARIMA(p, 1, q):</span></span>
+<span><span class="co">#CON variables exogenas rezagos optimos:</span></span>
+<span><span class="fu">Lag_Opt_ARIMA_Exog</span><span class="op">(</span>p_max <span class="op">=</span> <span class="fl">6</span>, q_max <span class="op">=</span> <span class="fl">6</span>, </span>
+<span>                   X_t <span class="op">=</span> <span class="va">DLPax_Nal4</span>, </span>
+<span>                   Ex <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>                   Z_t <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html">cbind</a></span><span class="op">(</span><span class="va">D_Ene4</span>, <span class="va">D_Feb4</span>, <span class="va">D_Jul4</span>, <span class="va">D_Dic4</span>, <span class="va">D_Mar20204</span>, <span class="va">D_Abr20204</span>, <span class="va">D_Jun20204</span>, <span class="va">D_Jul20204</span>, <span class="va">D_Mar20214</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Warning in log(s2): NaNs produced</span></span>
+<span></span>
+<span><span class="co">#&gt; Warning in log(s2): NaNs produced</span></span>
+<span><span class="co">#&gt; Warning in arima(X_t, order = c(i, 0, (j - grupo)), xreg</span></span>
+<span><span class="co">#&gt; = Z_t, method = "ML"): possible convergence problem: optim</span></span>
+<span><span class="co">#&gt; gave code = 1</span></span>
+<span></span>
+<span><span class="co">#&gt; Warning in arima(X_t, order = c(i, 0, (j - grupo)), xreg</span></span>
+<span><span class="co">#&gt; = Z_t, method = "ML"): possible convergence problem: optim</span></span>
+<span><span class="co">#&gt; gave code = 1</span></span>
+<span><span class="co">#&gt; Warning in log(s2): NaNs produced</span></span>
+<span><span class="co">#&gt; Warning in arima(X_t, order = c(i, 0, (j - grupo)), xreg</span></span>
+<span><span class="co">#&gt; = Z_t, method = "ML"): possible convergence problem: optim</span></span>
+<span><span class="co">#&gt; gave code = 1</span></span>
+<span></span>
+<span><span class="co">#&gt; Warning in arima(X_t, order = c(i, 0, (j - grupo)), xreg</span></span>
+<span><span class="co">#&gt; = Z_t, method = "ML"): possible convergence problem: optim</span></span>
+<span><span class="co">#&gt; gave code = 1</span></span>
+<span></span>
+<span><span class="co">#&gt; Warning in arima(X_t, order = c(i, 0, (j - grupo)), xreg</span></span>
+<span><span class="co">#&gt; = Z_t, method = "ML"): possible convergence problem: optim</span></span>
+<span><span class="co">#&gt; gave code = 1</span></span>
+<span><span class="co">#&gt; Warning in log(s2): NaNs produced</span></span>
+<span></span>
+<span><span class="co">#&gt; Warning in log(s2): NaNs produced</span></span>
+<span></span>
+<span><span class="co">#&gt; Warning in log(s2): NaNs produced</span></span>
+<span></span>
+<span><span class="co">#&gt; Warning in log(s2): NaNs produced</span></span>
+<span><span class="co">#&gt; Warning in arima(X_t, order = c(i, 0, (j - grupo)), xreg</span></span>
+<span><span class="co">#&gt; = Z_t, method = "ML"): possible convergence problem: optim</span></span>
+<span><span class="co">#&gt; gave code = 1</span></span>
+<span></span>
+<span><span class="co">#&gt; Warning in arima(X_t, order = c(i, 0, (j - grupo)), xreg</span></span>
+<span><span class="co">#&gt; = Z_t, method = "ML"): possible convergence problem: optim</span></span>
+<span><span class="co">#&gt; gave code = 1</span></span>
+<span></span>
+<span><span class="co">#&gt; Warning in arima(X_t, order = c(i, 0, (j - grupo)), xreg</span></span>
+<span><span class="co">#&gt; = Z_t, method = "ML"): possible convergence problem: optim</span></span>
+<span><span class="co">#&gt; gave code = 1</span></span>
+<span><span class="co">#&gt;       Rezago p Rezago q       AIC Optimo</span></span>
+<span><span class="co">#&gt;  [1,]        1        1 -515.9705      0</span></span>
+<span><span class="co">#&gt;  [2,]        1        2 -515.2759      0</span></span>
+<span><span class="co">#&gt;  [3,]        1        3 -526.1788      0</span></span>
+<span><span class="co">#&gt;  [4,]        1        4 -544.6840      0</span></span>
+<span><span class="co">#&gt;  [5,]        1        5 -549.7059      0</span></span>
+<span><span class="co">#&gt;  [6,]        1        6 -566.3787      0</span></span>
+<span><span class="co">#&gt;  [7,]        2        1 -515.6097      0</span></span>
+<span><span class="co">#&gt;  [8,]        2        2 -523.5230      0</span></span>
+<span><span class="co">#&gt;  [9,]        2        3 -528.3379      0</span></span>
+<span><span class="co">#&gt; [10,]        2        4 -562.7803      0</span></span>
+<span><span class="co">#&gt; [11,]        2        5 -629.1112      0</span></span>
+<span><span class="co">#&gt; [12,]        2        6 -639.3428      0</span></span>
+<span><span class="co">#&gt; [13,]        3        1 -493.0232      0</span></span>
+<span><span class="co">#&gt; [14,]        3        2 -521.5237      0</span></span>
+<span><span class="co">#&gt; [15,]        3        3 -540.6415      0</span></span>
+<span><span class="co">#&gt; [16,]        3        4 -627.6871      0</span></span>
+<span><span class="co">#&gt; [17,]        3        5 -638.1619      0</span></span>
+<span><span class="co">#&gt; [18,]        3        6 -642.3540      0</span></span>
+<span><span class="co">#&gt; [19,]        4        1 -491.1436      0</span></span>
+<span><span class="co">#&gt; [20,]        4        2 -616.1311      0</span></span>
+<span><span class="co">#&gt; [21,]        4        3 -541.0899      0</span></span>
+<span><span class="co">#&gt; [22,]        4        4 -751.3579      0</span></span>
+<span><span class="co">#&gt; [23,]        4        5 -749.8460      0</span></span>
+<span><span class="co">#&gt; [24,]        4        6 -750.2787      0</span></span>
+<span><span class="co">#&gt; [25,]        5        1 -580.2799      0</span></span>
+<span><span class="co">#&gt; [26,]        5        2 -572.7953      0</span></span>
+<span><span class="co">#&gt; [27,]        5        3 -678.9301      0</span></span>
+<span><span class="co">#&gt; [28,]        5        4 -747.5442      0</span></span>
+<span><span class="co">#&gt; [29,]        5        5 -689.7247      0</span></span>
+<span><span class="co">#&gt; [30,]        5        6 -678.0239      0</span></span>
+<span><span class="co">#&gt; [31,]        6        1 -661.8683      0</span></span>
+<span><span class="co">#&gt; [32,]        6        2 -663.5500      0</span></span>
+<span><span class="co">#&gt; [33,]        6        3 -661.5526      0</span></span>
+<span><span class="co">#&gt; [34,]        6        4 -680.3478      0</span></span>
+<span><span class="co">#&gt; [35,]        6        5 -696.3317      0</span></span>
+<span><span class="co">#&gt; [36,]        6        6 -764.4944      1</span></span>
+<span></span>
+<span></span>
+<span><span class="va">ARMA_Ex_DLPax_Nal_2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/arima.html">arima</a></span><span class="op">(</span><span class="va">DLPax_Nal4</span>, order <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">6</span>, <span class="fl">0</span>, <span class="fl">6</span><span class="op">)</span>,</span>
+<span>                             xreg <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html">cbind</a></span><span class="op">(</span><span class="va">D_Ene4</span>, <span class="va">D_Feb4</span>, <span class="va">D_Jul4</span>, <span class="va">D_Dic4</span>, <span class="va">D_Mar20204</span>, <span class="va">D_Abr20204</span>, <span class="va">D_Jun20204</span>, <span class="va">D_Jul20204</span>, <span class="va">D_Mar20214</span><span class="op">)</span>,</span>
+<span>                             method <span class="op">=</span> <span class="st">"ML"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Warning in arima(DLPax_Nal4, order = c(6, 0, 6), xreg =</span></span>
+<span><span class="co">#&gt; cbind(D_Ene4, D_Feb4, : possible convergence problem: optim</span></span>
+<span><span class="co">#&gt; gave code = 1</span></span>
+<span></span>
+<span><span class="co"># Estimacion:</span></span>
+<span><span class="va">ARMA_Ex_DLPax_Nal_2</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Call:</span></span>
+<span><span class="co">#&gt; arima(x = DLPax_Nal4, order = c(6, 0, 6), xreg = cbind(D_Ene4, D_Feb4, D_Jul4, </span></span>
+<span><span class="co">#&gt;     D_Dic4, D_Mar20204, D_Abr20204, D_Jun20204, D_Jul20204, D_Mar20214), method = "ML")</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Coefficients:</span></span>
+<span><span class="co">#&gt;          ar1     ar2     ar3     ar4     ar5      ar6</span></span>
+<span><span class="co">#&gt;       0.0033  0.0010  0.0056  0.0016  0.0079  -0.9948</span></span>
+<span><span class="co">#&gt; s.e.  0.0062  0.0062  0.0085  0.0063  0.0062   0.0037</span></span>
+<span><span class="co">#&gt;           ma1      ma2      ma3     ma4      ma5     ma6</span></span>
+<span><span class="co">#&gt;       -0.0527  -0.0989  -0.1029  0.0245  -0.0505  0.9383</span></span>
+<span><span class="co">#&gt; s.e.   0.0499   0.0305   0.0483  0.0344   0.0493  0.0377</span></span>
+<span><span class="co">#&gt;       intercept   D_Ene4   D_Feb4  D_Jul4  D_Dic4</span></span>
+<span><span class="co">#&gt;          0.0169  -0.0635  -0.1604  0.0946  0.0056</span></span>
+<span><span class="co">#&gt; s.e.     0.0040   0.0934   0.0172  0.0927  0.0175</span></span>
+<span><span class="co">#&gt;       D_Mar20204  D_Abr20204  D_Jun20204  D_Jul20204</span></span>
+<span><span class="co">#&gt;          -0.4333     -1.9604      0.9050      0.5063</span></span>
+<span><span class="co">#&gt; s.e.      0.0497      0.0489      0.0519      0.0516</span></span>
+<span><span class="co">#&gt;       D_Mar20214</span></span>
+<span><span class="co">#&gt;           0.2198</span></span>
+<span><span class="co">#&gt; s.e.      0.0504</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; sigma^2 estimated as 0.002315:  log likelihood = 405.25,  aic = -764.49</span></span></code></pre></div>
+<div class="sourceCode" id="cb41"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">ARMA_Ex_DLPax_Nal_2</span><span class="op">$</span><span class="va">residuals</span>, </span>
+<span>     ylab <span class="op">=</span> <span class="st">""</span>,</span>
+<span>     main <span class="op">=</span> <span class="st">"Residuales ARMA Diff LN Pasajeros Nacionales"</span>,</span>
+<span>     col <span class="op">=</span> <span class="st">"darkblue"</span><span class="op">)</span></span></code></pre></div>
 <div class="figure" style="text-align: center">
 <span style="display:block;" id="fig:GResidualsARMA46D"></span>
-<img src="imagenes/G_Residuals_ARMA46_D.png" alt="Residuales del ARMA(4, 6) de una serie $DLPaxNal_t$." width="100%"><p class="caption">
+<img src="03-PE_Univariados_files/figure-html/GResidualsARMA46D-1.png" alt="Residuales del ARMA(4, 6) de una serie $DLPaxNal_t$." width="100%"><p class="caption">
 Figure 4.16: Residuales del ARMA(4, 6) de una serie <span class="math inline">\(DLPaxNal_t\)</span>.
 </p>
 </div>
@@ -1300,9 +2078,124 @@ Figure 4.16: Residuales del ARMA(4, 6) de una serie <span class="math inline">\(
 </tbody>
 </table></div>
 <p>Continuando con el ejemplo, en la Figura <a href="procesos-estacionarios-univariados.html#fig:PaxNalf">4.17</a> mostramos el resultado del pronóstico de la serie a partir del modelo ARMA(4, 6) que hemos discutido anteriormente.</p>
+<div class="sourceCode" id="cb42"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Forecast:</span></span>
+<span><span class="va">Predict_Datos</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://readxl.tidyverse.org/reference/read_excel.html">read_excel</a></span><span class="op">(</span><span class="st">"BD/Clase_10/Predict_Base_Transporte_ARIMA.xlsx"</span>, sheet <span class="op">=</span> <span class="st">"Datos"</span>, col_names <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Conversion a series de tiempo:</span></span>
+<span><span class="va">D_Mar2020_fP</span>    <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/ts.html">ts</a></span><span class="op">(</span><span class="va">Predict_Datos</span><span class="op">$</span><span class="va">D_Mar2020</span>, </span>
+<span>                start <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2021</span>, <span class="fl">8</span><span class="op">)</span>, </span>
+<span>                freq <span class="op">=</span> <span class="fl">12</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">D_Abr2020_fP</span>    <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/ts.html">ts</a></span><span class="op">(</span><span class="va">Predict_Datos</span><span class="op">$</span><span class="va">D_Abr2020</span>, </span>
+<span>                start <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2021</span>, <span class="fl">8</span><span class="op">)</span>, </span>
+<span>                freq <span class="op">=</span> <span class="fl">12</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">D_Jun2020_fP</span>    <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/ts.html">ts</a></span><span class="op">(</span><span class="va">Predict_Datos</span><span class="op">$</span><span class="va">D_Jun2020</span>, </span>
+<span>                start <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2021</span>, <span class="fl">8</span><span class="op">)</span>, </span>
+<span>                freq <span class="op">=</span> <span class="fl">12</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">D_Jul2020_fP</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/ts.html">ts</a></span><span class="op">(</span><span class="va">Predict_Datos</span><span class="op">$</span><span class="va">D_Jul2020</span>, </span>
+<span>                start <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2021</span>, <span class="fl">8</span><span class="op">)</span>, </span>
+<span>                freq <span class="op">=</span> <span class="fl">12</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">D_Mar2021_fP</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/ts.html">ts</a></span><span class="op">(</span><span class="va">Predict_Datos</span><span class="op">$</span><span class="va">D_Mar2021</span>, </span>
+<span>                start <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2021</span>, <span class="fl">8</span><span class="op">)</span>, </span>
+<span>                freq <span class="op">=</span> <span class="fl">12</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">D_Ene_fP</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/ts.html">ts</a></span><span class="op">(</span><span class="va">Predict_Datos</span><span class="op">$</span><span class="va">D_Ene</span>, </span>
+<span>            start <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2021</span>, <span class="fl">8</span><span class="op">)</span>, </span>
+<span>            freq <span class="op">=</span> <span class="fl">12</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">D_Feb_fP</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/ts.html">ts</a></span><span class="op">(</span><span class="va">Predict_Datos</span><span class="op">$</span><span class="va">D_Feb</span>, </span>
+<span>            start <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2021</span>, <span class="fl">8</span><span class="op">)</span>, </span>
+<span>            freq <span class="op">=</span> <span class="fl">12</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">D_Jul_fP</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/ts.html">ts</a></span><span class="op">(</span><span class="va">Predict_Datos</span><span class="op">$</span><span class="va">D_Jul</span>, </span>
+<span>            start <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2021</span>, <span class="fl">8</span><span class="op">)</span>, </span>
+<span>            freq <span class="op">=</span> <span class="fl">12</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">D_Dic_fP</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/ts.html">ts</a></span><span class="op">(</span><span class="va">Predict_Datos</span><span class="op">$</span><span class="va">D_Dic</span>, </span>
+<span>            start <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2021</span>, <span class="fl">8</span><span class="op">)</span>, </span>
+<span>            freq <span class="op">=</span> <span class="fl">12</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Prediccion 2 años de la serie en diferencias:</span></span>
+<span><span class="co"># Usando la estimacion del proceso ARIMA(p, 1, q):</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/stats/predict.html">predict</a></span><span class="op">(</span><span class="va">ARMA_Ex_DLPax_Nal_2</span>, n.ahead <span class="op">=</span> <span class="fl">24</span>, </span>
+<span>        newxreg <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html">cbind</a></span><span class="op">(</span><span class="va">D_Ene_fP</span>, <span class="va">D_Feb_fP</span>, <span class="va">D_Jul_fP</span>, <span class="va">D_Dic_fP</span>, </span>
+<span>                        <span class="va">D_Mar2020_fP</span>, <span class="va">D_Abr2020_fP</span>, <span class="va">D_Jun2020_fP</span>, <span class="va">D_Jul2020_fP</span>, <span class="va">D_Mar2021_fP</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; $pred</span></span>
+<span><span class="co">#&gt;               Jan          Feb          Mar          Apr</span></span>
+<span><span class="co">#&gt; 2021                                                    </span></span>
+<span><span class="co">#&gt; 2022 -0.113805772 -0.162345095  0.143209830 -0.013117736</span></span>
+<span><span class="co">#&gt; 2023 -0.112840693 -0.164880914  0.142135423 -0.013327904</span></span>
+<span><span class="co">#&gt;               May          Jun          Jul          Aug</span></span>
+<span><span class="co">#&gt; 2021                                         0.034506463</span></span>
+<span><span class="co">#&gt; 2022  0.056486178  0.001136661  0.178229215  0.037070040</span></span>
+<span><span class="co">#&gt; 2023  0.055930178  0.001792611  0.177247937             </span></span>
+<span><span class="co">#&gt;               Sep          Oct          Nov          Dec</span></span>
+<span><span class="co">#&gt; 2021 -0.109937459  0.046817343 -0.022944168  0.038579201</span></span>
+<span><span class="co">#&gt; 2022 -0.108866052  0.047031034 -0.022405053  0.037915211</span></span>
+<span><span class="co">#&gt; 2023                                                    </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $se</span></span>
+<span><span class="co">#&gt;             Jan        Feb        Mar        Apr        May</span></span>
+<span><span class="co">#&gt; 2021                                                       </span></span>
+<span><span class="co">#&gt; 2022 0.04899045 0.04910882 0.04916415 0.04935297 0.04957147</span></span>
+<span><span class="co">#&gt; 2023 0.05023197 0.05035300 0.05040132 0.05057457 0.05078330</span></span>
+<span><span class="co">#&gt;             Jun        Jul        Aug        Sep        Oct</span></span>
+<span><span class="co">#&gt; 2021                       0.04846132 0.04852048 0.04871765</span></span>
+<span><span class="co">#&gt; 2022 0.04957786 0.04961940 0.04973912 0.04979084 0.04997169</span></span>
+<span><span class="co">#&gt; 2023 0.05078908 0.05082888                                 </span></span>
+<span><span class="co">#&gt;             Nov        Dec</span></span>
+<span><span class="co">#&gt; 2021 0.04894129 0.04894801</span></span>
+<span><span class="co">#&gt; 2022 0.05018523 0.05019131</span></span>
+<span><span class="co">#&gt; 2023</span></span>
+<span></span>
+<span><span class="va">DLPax_Nal_f</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/predict.html">predict</a></span><span class="op">(</span><span class="va">ARMA_Ex_DLPax_Nal_2</span>, n.ahead <span class="op">=</span> <span class="fl">24</span>, </span>
+<span>                      newxreg <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html">cbind</a></span><span class="op">(</span><span class="va">D_Ene_fP</span>, <span class="va">D_Feb_fP</span>, <span class="va">D_Jul_fP</span>, <span class="va">D_Dic_fP</span>, </span>
+<span>                                      <span class="va">D_Mar2020_fP</span>, <span class="va">D_Abr2020_fP</span>, <span class="va">D_Jun2020_fP</span>, <span class="va">D_Jul2020_fP</span>, <span class="va">D_Mar2021_fP</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">DLPax_Nal_f</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] "pred" "se"</span></span>
+<span></span>
+<span><span class="co"># Prediccion de la serie original:</span></span>
+<span><span class="va">Pronostico_Arima</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://readxl.tidyverse.org/reference/read_excel.html">read_excel</a></span><span class="op">(</span><span class="st">"BD/Clase_10/Pronostico_Arima.xlsx"</span>, sheet <span class="op">=</span> <span class="st">"Datos"</span>, col_names <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">Pronostico_Arima</span><span class="op">$</span><span class="va">Pax_Nal_f</span> <span class="op">&lt;-</span> <span class="va">Pronostico_Arima</span><span class="op">$</span><span class="va">Pax_Nal</span></span>
+<span></span>
+<span><span class="kw">for</span><span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="fl">24</span><span class="op">)</span><span class="op">{</span></span>
+<span>  <span class="va">Pronostico_Arima</span><span class="op">$</span><span class="va">Pax_Nal_f</span><span class="op">[</span><span class="fl">259</span> <span class="op">+</span> <span class="va">i</span><span class="op">]</span> <span class="op">&lt;-</span> </span>
+<span>    <span class="va">Pronostico_Arima</span><span class="op">$</span><span class="va">Pax_Nal_f</span><span class="op">[</span><span class="fl">259</span> <span class="op">+</span> <span class="va">i</span> <span class="op">-</span> <span class="fl">1</span><span class="op">]</span><span class="op">*</span><span class="op">(</span><span class="fl">1</span> <span class="op">+</span> <span class="va">DLPax_Nal_f</span><span class="op">$</span><span class="va">pred</span><span class="op">[</span><span class="va">i</span><span class="op">]</span><span class="op">)</span></span>
+<span><span class="op">}</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/View.html">View</a></span><span class="op">(</span><span class="va">Pronostico_Arima</span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb43"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span></span>
+<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">Pronostico_Arima</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">Periodo</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html">geom_line</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>y <span class="op">=</span> <span class="va">Pax_Nal_f</span>, color <span class="op">=</span> <span class="st">"Pax_Nal_f"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html">geom_line</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>y <span class="op">=</span> <span class="va">Pax_Nal</span>, color <span class="op">=</span> <span class="st">"Pax_Nal"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_brewer.html">scale_color_brewer</a></span><span class="op">(</span>type <span class="op">=</span> <span class="st">"qual"</span>, palette <span class="op">=</span> <span class="fl">2</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_bw</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">"bottom"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span><span class="op">(</span>legend.title <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html">element_blank</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/guides.html">guides</a></span><span class="op">(</span>col <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/guide_legend.html">guide_legend</a></span><span class="op">(</span>nrow <span class="op">=</span> <span class="fl">1</span>, byrow <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">xlab</a></span><span class="op">(</span><span class="st">"Tiempo"</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ylab</a></span><span class="op">(</span><span class="st">"Pasajeros"</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span><span class="op">(</span>plot.title <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html">element_text</a></span><span class="op">(</span>size <span class="op">=</span> <span class="fl">11</span>, face <span class="op">=</span> <span class="st">"bold"</span>, hjust <span class="op">=</span> <span class="fl">0</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span><span class="op">(</span>plot.subtitle <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html">element_text</a></span><span class="op">(</span>size <span class="op">=</span> <span class="fl">10</span>, hjust <span class="op">=</span> <span class="fl">0</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span><span class="op">(</span>plot.caption <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html">element_text</a></span><span class="op">(</span>size <span class="op">=</span> <span class="fl">10</span>, hjust <span class="op">=</span> <span class="fl">0</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span><span class="op">(</span>plot.margin <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/grid/unit.html">unit</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">1</span>,<span class="fl">1</span>,<span class="fl">1</span><span class="op">)</span>, <span class="st">"cm"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span></span>
+<span>    title <span class="op">=</span> <span class="st">"Pasajeros en vuelos nacionales (Salidas)"</span>,</span>
+<span>    subtitle <span class="op">=</span> <span class="st">"(Ene-2000 a Jun-2019)"</span>,</span>
+<span>    caption <span class="op">=</span> <span class="st">"Fuente: Elaboración propia"</span></span>
+<span>  <span class="op">)</span></span>
+<span><span class="co">#&gt; Warning: Removed 24 row(s) containing missing values</span></span>
+<span><span class="co">#&gt; (geom_path).</span></span></code></pre></div>
 <div class="figure" style="text-align: center">
 <span style="display:block;" id="fig:PaxNalf"></span>
-<img src="imagenes/Pax_Nal_f.png" alt="Pronóstico de la serie $PaxNAl_t$ a partir de una ARMA(4,6) en diferencias logaritmicas." width="100%"><p class="caption">
+<img src="03-PE_Univariados_files/figure-html/PaxNalf-1.png" alt="Pronóstico de la serie $PaxNAl_t$ a partir de una ARMA(4,6) en diferencias logaritmicas." width="100%"><p class="caption">
 Figure 4.17: Pronóstico de la serie <span class="math inline">\(PaxNAl_t\)</span> a partir de una ARMA(4,6) en diferencias logaritmicas.
 </p>
 </div>
@@ -1356,7 +2249,7 @@ Figure 4.17: Pronóstico de la serie <span class="math inline">\(PaxNAl_t\)</spa
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Notas de Clase: Series de Tiempo</strong>" was written by Benjamín Oliva, Omar Alfaro-Rivera y Emiliano Pérez Caullieres. It was last built on 2022-07-25.</p>
+    <p>"<strong>Notas de Clase: Series de Tiempo</strong>" was written by Benjamín Oliva, Omar Alfaro-Rivera y Emiliano Pérez Caullieres. It was last built on 2022-08-02.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

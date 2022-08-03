@@ -232,6 +232,35 @@ Como un segundo caso a estudiar se ubica el caso de las Ecuaciones en Diferencia
 
 
 
+```r
+library(knitr)
+library(tidyverse)
+library(kableExtra)
+Tiempo = c(0:100)
+Zt = rep(NA, 101)
+Zt2 = rep(NA,101)
+Zt[1] = 10
+Zt2[1] = 10
+
+for (i in c(2:101)){
+  Zt[i] = 2+0.9*Zt[i-1]
+  Zt2[i] = 2 - 0.5*Zt2[i-1]
+}
+lista = c(1:16, 97:101)
+Tiempo1 = Tiempo[lista]
+Zt1=Zt[lista]
+Zt21=Zt2[lista]
+
+
+tabla1 = data.frame(Tiempo1, Zt1, Zt21)
+colnames(tabla1) <- c("Tiempo", "$Z_t =2+0.9Z_{t-1}$", "$Z_t = 2-0.5Z_{t-1}$")
+
+kable(tabla1, caption = "Dos ejemplos de Procesos de Ecuaciones Lineales de Primer Orden Convergentes ", format = "pandoc")%>%
+  kable_styling(font_size = 10)
+```
+
+
+
 Table: (\#tab:table1)Dos ejemplos de Procesos de Ecuaciones Lineales de Primer Orden Convergentes 
 
  Tiempo   $Z_t =2+0.9Z_{t-1}$   $Z_t = 2-0.5Z_{t-1}$
@@ -259,11 +288,28 @@ Table: (\#tab:table1)Dos ejemplos de Procesos de Ecuaciones Lineales de Primer O
     100              19.99973               1.333333
 
 
+
+```r
+ggplot(,aes(x = Tiempo, y=Zt))+
+  geom_line(col="blue4")+
+  geom_point(col= "blue4")+
+  labs(y=expression(Z[t]))
+```
+
 <div class="figure" style="text-align: center">
 <img src="01-Elementos_Eq_Diff_files/figure-html/fig21-1.png" alt="Evolución del proceso dado por $Z_t =2+0.9Z_{t-1}$" width="672" />
 <p class="caption">(\#fig:fig21)Evolución del proceso dado por $Z_t =2+0.9Z_{t-1}$</p>
 </div>
 
+
+
+```r
+
+ggplot(,aes(x = Tiempo, y=Zt2))+
+  geom_line(col="red4")+
+  geom_point(col= "red4")+
+  labs(y=expression(Z[t]))
+```
 
 <div class="figure" style="text-align: center">
 <img src="01-Elementos_Eq_Diff_files/figure-html/fig22-1.png" alt="Evolución del proceso dado por $Z_t =2-0.5Z_{t-1}$" width="672" />
@@ -475,6 +521,26 @@ Donde $t = \ldots, -2, -1, 0, 1, 2, \ldots$ y $a_p \neq 0$. La ecuación \@ref(e
     (\#eq:EDOP2)
 \end{eqnarray}
 
+```r
+
+t = ts(c(0:100))
+
+Zt=10-450*(0.4^t)+440*(0.5^t)
+
+lista = c(1:16, 97:101)
+t1 = t[lista]
+Zt1=Zt[lista]
+
+
+tabla1 = data.frame(Tiempo1, Zt1)
+colnames(tabla1) <- c("Tiempo", "$Z_t =10-450(0.4)^t+440(0.5)^t$")
+
+kable(tabla1, caption = "Un ejemplo de proceso de Ecuación de Segundo Orden convengente", format = "pandoc")%>%
+  kable_styling(font_size = 10)
+```
+
+
+
 Table: (\#tab:table2)Un ejemplo de proceso de Ecuación de Segundo Orden convengente
 
  Tiempo   $Z_t =10-450(0.4)^t+440(0.5)^t$
@@ -500,6 +566,15 @@ Table: (\#tab:table2)Un ejemplo de proceso de Ecuación de Segundo Orden conveng
      98                          10.00000
      99                          10.00000
     100                          10.00000
+
+
+```r
+
+ggplot(,aes(x = t, y=Zt))+
+  geom_line(col="green4")+
+  geom_point(col= "green4")+
+  labs(y=expression(Z[t]))
+```
 
 <div class="figure" style="text-align: center">
 <img src="01-Elementos_Eq_Diff_files/figure-html/fig23-1.png" alt="Evolución del proceso dado por $Z_t =3+0.9Z_{t-1}-0.2Z_{t-2}$" width="672" />
@@ -600,6 +675,18 @@ Para $\forall i = 1, 2, \ldots, p$. Cuando la raíces son imaginarias, las dos c
 \end{eqnarray}
 
 Para $\forall i \neq j$ y $i, j = 1, 2, \ldots, p$. Cuando $g_1 = g_2 = \ldots = g_p = g$, la condición de la ecuación \@ref(eq:COND3) se resume a que $|g| < 1$. En resumen, las condiciones descritas en las ecuaciones \@ref(eq:COND3) y \@ref(eq:COND4) se puden ilustrar con un circulo unitario como el de la Figura \@ref(fig:fig24) en que sí las raíces se ubican dentro de éste, podemos decir que el proceso es convergente en el largo plazo.
+
+
+```r
+x = seq(-1,1,0.001)
+y = sqrt(1-x^2)
+par(new = T) 
+plot(x,y, type = "line", ylim = c(-1,1), col="red4")
+par(new = T) 
+plot(x,-y, type = "line", ylim = c(-1,1), ylab = "", col="red4")
+abline(v = 0)
+abline(h=0)
+```
 
 <div class="figure" style="text-align: center">
 <img src="01-Elementos_Eq_Diff_files/figure-html/fig24-1.png" alt="Circulo unitario en el que se cumple que $|g_i|&lt;1$ y $(g_i g_j)^{1/2} = (u^2 + v^2)^{1/2} &lt; 1$" width="384" />
