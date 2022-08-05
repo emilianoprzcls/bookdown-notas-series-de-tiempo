@@ -108,8 +108,68 @@ Dicho lo anterior, el test de causalidad de Granger se establece con una prueba 
 
 Ahora veámos un ejemplo. Consideremos como variables analizadas al Índice Nacional de Precios al Consumidor ($INPC_t$), al Tipo de Cambio ($TDC_t$) y al rendimiento anual de los Cetes a 28 días ($CETE28_t$), todas desestacionalizadas para el periodo de enero de 2000 a julio de 2019. Dado que la metodología de Granger supone que las series son estacionarias, utilizaremos las diferencias logaritmicas de cada una de las tres series (es decir, utilizaremos una transformación del tipo $ln(X_t) - ln(X_{t-1})$). La Figura \@ref(fig:DLGranger) muestra las series en su transformación de diferencias logarítmicas.
 
+```r
+#DEPENDENCIAS
+library(ggplot2)
+library(dplyr)
+library(readxl)
+library(stats)
+library(zoo)
+library(lmtest)
+
+# Importamos Datos desde un archivo de R:
+
+#Los datos "cargados" son los originales y los ajustados por estacionalidad. Los cuales son:
+
+#* INPC: Indice Nacional de Precios al Consumidor (2QJul2018 = 100)
+
+#* TC: Tipo de Cambio FIX 
+
+#* CETE28: Tasa de rendimiento promedio mensual de los Cetes 28, en por ciento anual
+
+#* IGAE: Indicador global de la actividad económica (2013 = 100)
+
+#* IPI: Industrial Production Index (2012 = 100)
+
+load("BD/Clase_13/Datos_Ad.RData")
+
+## Conversion a series de tiempo:
+
+INPC_G <- ts(Datos_Ad$INPC_Ad, 
+           start = c(2000, 1), 
+           freq = 12)
+
+DLINPC_G <- ts(log(Datos_Ad$INPC_Ad) - lag(log(Datos_Ad$INPC_Ad), k = 1), 
+             start = c(2000, 1), 
+             freq = 12)
+
+TC_G <- ts(Datos_Ad$TC_Ad, 
+         start = c(2000, 1), 
+         freq = 12)
+
+DLTC_G <- ts(log(Datos_Ad$TC_Ad) - lag(log(Datos_Ad$TC_Ad), k = 1), 
+           start = c(2000, 1), 
+           freq = 12)
+
+CETE28_G <- ts(Datos_Ad$CETE28_Ad, 
+             start = c(2000, 1), 
+             freq = 12)
+
+DLCETE28_G <- ts(log(Datos_Ad$CETE28_Ad) - lag(log(Datos_Ad$CETE28_Ad), k = 1), 
+               start = c(2000, 1), 
+               freq = 12)
+DLIGAE_G <- ts(log(Datos_Ad$IGAE_Ad) - lag(log(Datos_Ad$IGAE_Ad), k = 1), 
+             start = c(2000, 1), 
+             freq = 12)
+
+DLIPI_G <- ts(log(Datos_Ad$IPI_Ad) - lag(log(Datos_Ad$IPI_Ad), k = 1), 
+            start = c(2000, 1), 
+            freq = 12)
+## Graficas:
+```
+
 <div class="figure" style="text-align: center">
-<img src="imagenes/DLGranger.png" alt="Series en diferencias logarítmicas dadas por las siguientes expresiones: $DLINPC_t = ln(DLINPC_t) - ln(DLINPC_{t-1})$, $DLTC_t = ln(TC_t) - ln(TC_{t-1})$ y $DLCETE28_t = ln(CETE28_t) - ln(CETE28_{t-1})$." width="100%" />
+<img src="05-VAR_files/figure-html/DLGranger-1.png" alt="Series en diferencias logarítmicas dadas por las siguientes expresiones: $DLINPC_t = ln(DLINPC_t) - ln(DLINPC_{t-1})$, $DLTC_t = ln(TC_t) - ln(TC_{t-1})$ y $DLCETE28_t = ln(CETE28_t) - ln(CETE28_{t-1})$." width="100%" />
 <p class="caption">(\#fig:DLGranger)Series en diferencias logarítmicas dadas por las siguientes expresiones: $DLINPC_t = ln(DLINPC_t) - ln(DLINPC_{t-1})$, $DLTC_t = ln(TC_t) - ln(TC_{t-1})$ y $DLCETE28_t = ln(CETE28_t) - ln(CETE28_{t-1})$.</p>
 </div>
 
@@ -322,8 +382,42 @@ Donde la matriz de varianzas y covarianzas contemporáneas estará dada por:
 
 Ahora veámos un ejemplo de estimación de $VAR(p)$. Para el ejemplo utilizaremos las series de INPC, Tipo de CAmbio, rendimiento de los Cetes a 28 días, el IGAE y el Índice de Producción Industrial de los Estados Unidos, todas desestacionalizadas y para el período de enero de 2000 a julio de 2019. Dado que el supuesto estacionariedad sigue presente en nuestro análisis, emplearemos cada una de las series en su versión de diferencias logaritmicas. La Figura \@ref(fig:VARDLSeries) muestra las series referidas.
 
+
+```r
+
+Datos_G <- data.frame(cbind(DLINPC_G, DLTC_G, DLCETE28_G))
+
+Datos_G <- cbind(Datos_Ad["FECHA"], Datos_G)
+
+Datos_G2 <- data.frame(cbind(DLINPC_G, DLTC_G, DLCETE28_G, DLIGAE_G, DLIPI_G))
+Datos_G2 <- ts(Datos_G2[2 : 259, ], 
+            start = c(2000, 2), freq = 12)
+```
+
+
+```r
+plot(Datos_G2, plot.type = "s", 
+     col = c("darkgreen", "darkblue", "darkred", "black", "purple"), 
+     main = "Series en Diferencias logaritmicas", 
+     xlab = "Tiempo", ylab = "Variacion")
+
+legend("bottomright", c("INPC", "TC", "CETES28", "IGAE", "IPI"),
+       cex = 0.6, lty = 1:1, 
+       col = c("darkgreen", "darkblue", "darkred", "black", "purple"))
+```
+
+
+```r
+
+
+
+plot(Datos_G2, plot.type = "m", 
+     col = "darkgreen", 
+     main = "Series en Diferencias logaritmicas", xlab = "Tiempo")
+```
+
 <div class="figure" style="text-align: center">
-<img src="imagenes/VAR_DLSeries.png" alt="Series en diferencias logarítmicas, enero de 2000 a julio de 201p" width="100%" />
+<img src="05-VAR_files/figure-html/VARDLSeries-1.png" alt="Series en diferencias logarítmicas, enero de 2000 a julio de 201p" width="100%" />
 <p class="caption">(\#fig:VARDLSeries)Series en diferencias logarítmicas, enero de 2000 a julio de 201p</p>
 </div>
 
@@ -407,6 +501,235 @@ Una de las grandes ventajas que aporta el análisis de los modelos VAR es el an�
 Donde $\Psi_0 = I$ y cada una de las $\Psi_i = - \mathbf{B}_i$, $i = 1, 2, \ldots$. De esta forma se verifica el efecto que tiene en $\mathbf{X}_t$ cada las innovaciones pasadas. Por lo que el análisis de Impulso-Respuesta cuantifica el efecto de cada una de esas matrices en las que hemos descompuesto a $\mathbf{B}(L)$.
 
 Retomando el modelo $VAR(2)$ anteriormente estimado, en el Cuadro \@ref(tab:IRVARTC) reportamos las gráficas de Impulso-respuesta de la serie $DLTC_t$ ante cambios en los residuales del resto de las series y de la propia serie.
+
+
+
+```r
+#Dependencias
+library(ggplot2)
+library(dplyr)
+library(stats)
+library(MASS)
+library(strucchange)
+library(zoo)
+library(sandwich)
+library(urca)
+library(lmtest)
+library(vars)
+
+#Datos
+Datos_G3 <- data.frame(cbind(DLINPC_G, DLTC_G, DLCETE28_G, DLIGAE_G, DLIPI_G))
+Datos_G3 <- ts(Datos_G3[2 : 259, ], 
+            start = c(2000, 2), freq = 12)
+
+## VAR Estimación:
+VARselect(Datos_G3, lag.max = 12, type = "const")
+#> $selection
+#> AIC(n)  HQ(n)  SC(n) FPE(n) 
+#>      2      1      1      2 
+#> 
+#> $criteria
+#>                    1             2             3
+#> AIC(n) -4.195465e+01 -4.198941e+01 -4.195421e+01
+#> HQ(n)  -4.178252e+01 -4.167385e+01 -4.149521e+01
+#> SC(n)  -4.152717e+01 -4.120570e+01 -4.081426e+01
+#> FPE(n)  6.016568e-19  5.812443e-19  6.024461e-19
+#>                    4             5             6
+#> AIC(n) -4.186713e+01 -4.181541e+01 -4.179207e+01
+#> HQ(n)  -4.126469e+01 -4.106953e+01 -4.090275e+01
+#> SC(n)  -4.037095e+01 -3.996300e+01 -3.958342e+01
+#> FPE(n)  6.580247e-19  6.942566e-19  7.126238e-19
+#>                    7             8             9
+#> AIC(n) -4.183689e+01 -4.183860e+01 -4.181243e+01
+#> HQ(n)  -4.080413e+01 -4.066240e+01 -4.049279e+01
+#> SC(n)  -3.927201e+01 -3.891749e+01 -3.853508e+01
+#> FPE(n)  6.840149e-19  6.863474e-19  7.091908e-19
+#>                   10            11            12
+#> AIC(n) -4.169621e+01 -4.167191e+01 -4.160623e+01
+#> HQ(n)  -4.023314e+01 -4.006540e+01 -3.985628e+01
+#> SC(n)  -3.806263e+01 -3.768211e+01 -3.726019e+01
+#> FPE(n)  8.031729e-19  8.312778e-19  8.986015e-19
+VAR_p <- VAR(Datos_G3, p = 2, type = "const")
+
+summary(VAR_p)
+#> 
+#> VAR Estimation Results:
+#> ========================= 
+#> Endogenous variables: DLINPC_G, DLTC_G, DLCETE28_G, DLIGAE_G, DLIPI_G 
+#> Deterministic variables: const 
+#> Sample size: 256 
+#> Log Likelihood: 3617.305 
+#> Roots of the characteristic polynomial:
+#> 0.4932 0.4932 0.4905 0.4905 0.4585 0.4585 0.4046 0.4046 0.2654 0.2654
+#> Call:
+#> VAR(y = Datos_G3, p = 2, type = "const")
+#> 
+#> 
+#> Estimation results for equation DLINPC_G: 
+#> ========================================= 
+#> DLINPC_G = DLINPC_G.l1 + DLTC_G.l1 + DLCETE28_G.l1 + DLIGAE_G.l1 + DLIPI_G.l1 + DLINPC_G.l2 + DLTC_G.l2 + DLCETE28_G.l2 + DLIGAE_G.l2 + DLIPI_G.l2 + const 
+#> 
+#>                 Estimate Std. Error t value Pr(>|t|)    
+#> DLINPC_G.l1    0.3794127  0.0660203   5.747 2.69e-08 ***
+#> DLTC_G.l1      0.0036715  0.0052749   0.696    0.487    
+#> DLCETE28_G.l1 -0.0003844  0.0020534  -0.187    0.852    
+#> DLIGAE_G.l1    0.0042967  0.0176732   0.243    0.808    
+#> DLIPI_G.l1    -0.0154936  0.0105907  -1.463    0.145    
+#> DLINPC_G.l2   -0.0408406  0.0667181  -0.612    0.541    
+#> DLTC_G.l2      0.0057580  0.0051995   1.107    0.269    
+#> DLCETE28_G.l2  0.0015534  0.0020603   0.754    0.452    
+#> DLIGAE_G.l2   -0.0059282  0.0170903  -0.347    0.729    
+#> DLIPI_G.l2     0.0042370  0.0105063   0.403    0.687    
+#> const          0.0023632  0.0003116   7.583 6.97e-13 ***
+#> ---
+#> Signif. codes:  
+#> 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+#> 
+#> 
+#> Residual standard error: 0.002139 on 245 degrees of freedom
+#> Multiple R-Squared: 0.1493,	Adjusted R-squared: 0.1146 
+#> F-statistic:   4.3 on 10 and 245 DF,  p-value: 1.531e-05 
+#> 
+#> 
+#> Estimation results for equation DLTC_G: 
+#> ======================================= 
+#> DLTC_G = DLINPC_G.l1 + DLTC_G.l1 + DLCETE28_G.l1 + DLIGAE_G.l1 + DLIPI_G.l1 + DLINPC_G.l2 + DLTC_G.l2 + DLCETE28_G.l2 + DLIGAE_G.l2 + DLIPI_G.l2 + const 
+#> 
+#>                Estimate Std. Error t value Pr(>|t|)    
+#> DLINPC_G.l1   -3.221572   0.887833  -3.629 0.000347 ***
+#> DLTC_G.l1      0.284813   0.070937   4.015 7.91e-05 ***
+#> DLCETE28_G.l1 -0.038985   0.027613  -1.412 0.159270    
+#> DLIGAE_G.l1   -0.035047   0.237666  -0.147 0.882889    
+#> DLIPI_G.l1     0.207555   0.142422   1.457 0.146309    
+#> DLINPC_G.l2    1.185665   0.897215   1.321 0.187569    
+#> DLTC_G.l2     -0.186162   0.069922  -2.662 0.008271 ** 
+#> DLCETE28_G.l2  0.034580   0.027707   1.248 0.213211    
+#> DLIGAE_G.l2   -0.287855   0.229828  -1.252 0.211590    
+#> DLIPI_G.l2     0.046610   0.141287   0.330 0.741761    
+#> const          0.010145   0.004191   2.421 0.016220 *  
+#> ---
+#> Signif. codes:  
+#> 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+#> 
+#> 
+#> Residual standard error: 0.02877 on 245 degrees of freedom
+#> Multiple R-Squared: 0.1237,	Adjusted R-squared: 0.08789 
+#> F-statistic: 3.457 on 10 and 245 DF,  p-value: 0.0002874 
+#> 
+#> 
+#> Estimation results for equation DLCETE28_G: 
+#> =========================================== 
+#> DLCETE28_G = DLINPC_G.l1 + DLTC_G.l1 + DLCETE28_G.l1 + DLIGAE_G.l1 + DLIPI_G.l1 + DLINPC_G.l2 + DLTC_G.l2 + DLCETE28_G.l2 + DLIGAE_G.l2 + DLIPI_G.l2 + const 
+#> 
+#>                Estimate Std. Error t value Pr(>|t|)  
+#> DLINPC_G.l1    3.547010   2.044696   1.735   0.0840 .
+#> DLTC_G.l1      0.106557   0.163369   0.652   0.5149  
+#> DLCETE28_G.l1  0.106108   0.063594   1.669   0.0965 .
+#> DLIGAE_G.l1   -0.124387   0.547350  -0.227   0.8204  
+#> DLIPI_G.l1     0.269513   0.328001   0.822   0.4121  
+#> DLINPC_G.l2   -3.562148   2.066305  -1.724   0.0860 .
+#> DLTC_G.l2      0.128717   0.161031   0.799   0.4249  
+#> DLCETE28_G.l2  0.038798   0.063810   0.608   0.5437  
+#> DLIGAE_G.l2    0.870921   0.529299   1.645   0.1012  
+#> DLIPI_G.l2    -0.116675   0.325388  -0.359   0.7202  
+#> const         -0.005317   0.009652  -0.551   0.5822  
+#> ---
+#> Signif. codes:  
+#> 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+#> 
+#> 
+#> Residual standard error: 0.06626 on 245 degrees of freedom
+#> Multiple R-Squared: 0.06876,	Adjusted R-squared: 0.03075 
+#> F-statistic: 1.809 on 10 and 245 DF,  p-value: 0.05961 
+#> 
+#> 
+#> Estimation results for equation DLIGAE_G: 
+#> ========================================= 
+#> DLIGAE_G = DLINPC_G.l1 + DLTC_G.l1 + DLCETE28_G.l1 + DLIGAE_G.l1 + DLIPI_G.l1 + DLINPC_G.l2 + DLTC_G.l2 + DLCETE28_G.l2 + DLIGAE_G.l2 + DLIPI_G.l2 + const 
+#> 
+#>                Estimate Std. Error t value Pr(>|t|)  
+#> DLINPC_G.l1    1.184559   0.461082   2.569   0.0108 *
+#> DLTC_G.l1     -0.063718   0.036840  -1.730   0.0850 .
+#> DLCETE28_G.l1  0.008687   0.014341   0.606   0.5452  
+#> DLIGAE_G.l1   -0.184057   0.123428  -1.491   0.1372  
+#> DLIPI_G.l1     0.135931   0.073965   1.838   0.0673 .
+#> DLINPC_G.l2   -1.042586   0.465955  -2.238   0.0262 *
+#> DLTC_G.l2      0.022293   0.036313   0.614   0.5398  
+#> DLCETE28_G.l2 -0.018839   0.014389  -1.309   0.1917  
+#> DLIGAE_G.l2   -0.272896   0.119358  -2.286   0.0231 *
+#> DLIPI_G.l2     0.132921   0.073375   1.812   0.0713 .
+#> const          0.001485   0.002176   0.682   0.4958  
+#> ---
+#> Signif. codes:  
+#> 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+#> 
+#> 
+#> Residual standard error: 0.01494 on 245 degrees of freedom
+#> Multiple R-Squared: 0.1046,	Adjusted R-squared: 0.06802 
+#> F-statistic: 2.861 on 10 and 245 DF,  p-value: 0.002173 
+#> 
+#> 
+#> Estimation results for equation DLIPI_G: 
+#> ======================================== 
+#> DLIPI_G = DLINPC_G.l1 + DLTC_G.l1 + DLCETE28_G.l1 + DLIGAE_G.l1 + DLIPI_G.l1 + DLINPC_G.l2 + DLTC_G.l2 + DLCETE28_G.l2 + DLIGAE_G.l2 + DLIPI_G.l2 + const 
+#> 
+#>                Estimate Std. Error t value Pr(>|t|)  
+#> DLINPC_G.l1    2.061526   0.801864   2.571   0.0107 *
+#> DLTC_G.l1     -0.081057   0.064068  -1.265   0.2070  
+#> DLCETE28_G.l1 -0.005573   0.024940  -0.223   0.8234  
+#> DLIGAE_G.l1    0.454249   0.214653   2.116   0.0353 *
+#> DLIPI_G.l1    -0.270920   0.128631  -2.106   0.0362 *
+#> DLINPC_G.l2   -1.639854   0.810338  -2.024   0.0441 *
+#> DLTC_G.l2      0.066871   0.063151   1.059   0.2907  
+#> DLCETE28_G.l2 -0.026739   0.025024  -1.069   0.2863  
+#> DLIGAE_G.l2   -0.196948   0.207574  -0.949   0.3437  
+#> DLIPI_G.l2    -0.013132   0.127607  -0.103   0.9181  
+#> const         -0.001787   0.003785  -0.472   0.6373  
+#> ---
+#> Signif. codes:  
+#> 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+#> 
+#> 
+#> Residual standard error: 0.02598 on 245 degrees of freedom
+#> Multiple R-Squared: 0.09088,	Adjusted R-squared: 0.05377 
+#> F-statistic: 2.449 on 10 and 245 DF,  p-value: 0.008383 
+#> 
+#> 
+#> 
+#> Covariance matrix of residuals:
+#>              DLINPC_G     DLTC_G DLCETE28_G   DLIGAE_G
+#> DLINPC_G    4.577e-06 -3.256e-06  4.284e-07  6.192e-06
+#> DLTC_G     -3.256e-06  8.276e-04  3.273e-04 -1.598e-04
+#> DLCETE28_G  4.284e-07  3.273e-04  4.390e-03  7.695e-05
+#> DLIGAE_G    6.192e-06 -1.598e-04  7.695e-05  2.232e-04
+#> DLIPI_G     1.433e-05 -3.145e-04  1.211e-04  3.354e-04
+#>               DLIPI_G
+#> DLINPC_G    1.433e-05
+#> DLTC_G     -3.145e-04
+#> DLCETE28_G  1.211e-04
+#> DLIGAE_G    3.354e-04
+#> DLIPI_G     6.751e-04
+#> 
+#> Correlation matrix of residuals:
+#>             DLINPC_G   DLTC_G DLCETE28_G DLIGAE_G  DLIPI_G
+#> DLINPC_G    1.000000 -0.05291   0.003022  0.19372  0.25782
+#> DLTC_G     -0.052911  1.00000   0.171697 -0.37187 -0.42073
+#> DLCETE28_G  0.003022  0.17170   1.000000  0.07774  0.07033
+#> DLIGAE_G    0.193715 -0.37187   0.077740  1.00000  0.86403
+#> DLIPI_G     0.257823 -0.42073   0.070327  0.86403  1.00000
+
+#Impulse response
+IR_DLINPC <- irf(VAR_p, n.ahead = 12, boot = TRUE, 
+                 ci = 0.95, response = "DLINPC_G")
+```
+
+```r
+#Al correr esta línea de codigo se obtienen los 
+#plots correspondientes a la tabla 6.7
+
+#plot(IR_DLINPC)
+```
+
 
 Table: (\#tab:IRVARTC) Gráficas de Impulso-respuesta de la serie $DLTC_t$ ante cambios en los residuales del resto de las series y de la propia serie.
 

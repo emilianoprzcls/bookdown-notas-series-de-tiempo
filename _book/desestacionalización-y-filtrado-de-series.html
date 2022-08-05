@@ -42,7 +42,22 @@
 </form>
 
       <nav aria-label="Table of contents"><h2>Table of contents</h2>
-        <ul class="book-toc list-unstyled"><li><a class="" href="index.html"><span class="header-section-number">Capítulo 5</span> Desestacionalización y filtrado de Series</a></li></ul>
+        <ul class="book-toc list-unstyled">
+<li><a class="" href="index.html"><span class="header-section-number">1</span> Introducción</a></li>
+<li><a class="" href="elementos-de-ecuaciones-en-diferencia.html"><span class="header-section-number">2</span> Elementos de Ecuaciones en Diferencia</a></li>
+<li><a class="" href="modelos-de-series-de-tiempo-estacionarias.html"><span class="header-section-number">3</span> Modelos de Series de Tiempo Estacionarias</a></li>
+<li><a class="" href="procesos-estacionarios-univariados.html"><span class="header-section-number">4</span> Procesos estacionarios univariados</a></li>
+<li><a class="active" href="desestacionalizaci%C3%B3n-y-filtrado-de-series.html"><span class="header-section-number">5</span> Desestacionalización y filtrado de Series</a></li>
+<li><a class="" href="procesos-basados-en-vectores-autoregresivos.html"><span class="header-section-number">6</span> Procesos Basados en Vectores Autoregresivos</a></li>
+<li><a class="" href="procesos-no-estacionarios.html"><span class="header-section-number">7</span> Procesos No Estacionarios</a></li>
+<li><a class="" href="cointegraci%C3%B3n.html"><span class="header-section-number">8</span> Cointegración</a></li>
+<li><a class="" href="modelos-univariados-y-multivariados-de-volatilidad.html"><span class="header-section-number">9</span> Modelos Univariados y Multivariados de Volatilidad</a></li>
+<li><a class="" href="modelos-adrl.html"><span class="header-section-number">10</span> Modelos ADRL</a></li>
+<li><a class="" href="modelos-de-datos-panel.html"><span class="header-section-number">11</span> Modelos de Datos Panel</a></li>
+<li><a class="" href="otros-modelos-de-series-de-tiempo-no-lineales.html"><span class="header-section-number">12</span> Otros Modelos de Series de Tiempo No lineales</a></li>
+<li><a class="" href="apendice-i.html"><span class="header-section-number">13</span> Apendice I</a></li>
+<li><a class="" href="ap%C3%A9ndice-ii.html"><span class="header-section-number">14</span> Apéndice II</a></li>
+</ul>
 
         <div class="book-extra">
           <p><a id="book-repo" href="git@github.com:emilianoprzcls/bookdown-notas-series-de-tiempo.git">View book source <i class="fab fa-github"></i></a></p>
@@ -57,7 +72,7 @@
 <h2>
 <span class="header-section-number">5.1</span> Motivación<a class="anchor" aria-label="anchor" href="#motivaci%C3%B3n"><i class="fas fa-link"></i></a>
 </h2>
-<p>Existen múltiples enfoques para la desestacionalización de series. Algunos modelos, por ejemplo, pueden estar basados en modelos ARIMA como un conjunto de dummies. No obstante, en el caso partícular que discutiremos en este curso, estará basado en un modelo ARIMA de la serie. Este enfoque está basado en el modelo X11 de la oficina del censo de Estados Unidos (Census Bureau) el cual es conocido como el modelo X13-ARIMA-SEATS.<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content="&lt;p&gt;La información y material respecto del modelo esta disponible en la dirección &lt;/p&gt;"><sup>1</sup></a> El modelo X13-ARIMA-SEATS es, como su nombre lo indica, la combinación de un modelo ARIMA con componentes estacionales (por la traducción literal de la palabra: seasonal).</p>
+<p>Existen múltiples enfoques para la desestacionalización de series. Algunos modelos, por ejemplo, pueden estar basados en modelos ARIMA como un conjunto de dummies. No obstante, en el caso partícular que discutiremos en este curso, estará basado en un modelo ARIMA de la serie. Este enfoque está basado en el modelo X11 de la oficina del censo de Estados Unidos (Census Bureau) el cual es conocido como el modelo X13-ARIMA-SEATS.<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content="&lt;p&gt;La información y material respecto del modelo esta disponible en la dirección &lt;/p&gt;"><sup>8</sup></a> El modelo X13-ARIMA-SEATS es, como su nombre lo indica, la combinación de un modelo ARIMA con componentes estacionales (por la traducción literal de la palabra: seasonal).</p>
 <p>Un modelo ARIMA estacional emplea la serie en diferencias y como regresores los valores rezagados de las diferencia de la serie tantas veces como procesos estacionales <span class="math inline">\(s\)</span> existan en ésta, con el objeto de remover los efectos aditivos de la estacionalidad. Sólo para entender qué significa este mecanismo, recordemos que cuando se utiliza la primera direncia de la serie respecto del periodo inmediato anterior se remueve la tendencia. Por su parte, cuando se incluye la diferencia respecto del mes <span class="math inline">\(s\)</span> se está en el caso en que se modela la serie como una media móvil en términos del rezago <span class="math inline">\(s\)</span>.</p>
 <p>El modelo ARIMA estacional incluye como componentes autoregresivos y de medias móviles a los valores rezagados de la serie en el periodo <span class="math inline">\(s\)</span> en diferencias. El ARIMA(p, d, q)(P, D, Q) estacional puede ser expresado de la siguiente manera utilizando el operador rezago <span class="math inline">\(L\)</span>:
 <span class="math display" id="eq:ARIMAseas">\[\begin{equation}
@@ -73,7 +88,7 @@
 - Tasa de rendimiento promedio mensual de los Cetes 28, en por ciento anual, <span class="math inline">\(CETE28_t\)</span>
 - Indicador global de la actividad económica (base 2013 = 100), <span class="math inline">\(IGAE_t\)</span>
 - Industrial Production Index o Índice de Producción Industrial de los Estados Unidos (base 2012 = 100), <span class="math inline">\(IPI_t\)</span></p>
-<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb44"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">knitr</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/knitr/man/opts_chunk.html">opts_chunk</a></span><span class="op">$</span><span class="fu">set</span><span class="op">(</span>echo <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co">#install.packages("ggplot2")</span></span>
@@ -360,7 +375,7 @@ Figure 5.1: Índice Nacional de Precios al Consumidor (<span class="math inline"
 0 &amp; 0 &amp; 0 &amp; 0 &amp; \ldots &amp; 1 \\
 \end{pmatrix}
 \]</span></p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb45"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">#install.packages("ggplot2")</span></span>
 <span><span class="co">#install.packages("dplyr")</span></span>
 <span><span class="co">#install.packages("readxl")</span></span>
@@ -628,7 +643,7 @@ Figure 5.2: Descomposición del Índice Nacional de Precios al Consumidor (<span
 </div>
 <p>En resumen, podemos decir que el filtro de Hodrick y Prescott (1997) es un algoritmo que mimiza las distancias o variaciones de la trayectoria de largo plazo. De esta forma, determina una trayectoria estable de largo plazo, por lo que las desviaciones respecto de esta trayectoria serán componentes de ciclos de negocio o cambios transitorios (tanto positivos como negativos).</p>
 <p>A contiuación, ilustraremos el filtro de Hodrick y Prescott (1997) para dos series desestacionalizadas: <span class="math inline">\(INPC_t\)</span> y <span class="math inline">\(TC_t\)</span>. Las Figura <a href="desestacionalizaci%C3%B3n-y-filtrado-de-series.html#fig:INPCHP">5.2</a> y Figura <a href="desestacionalizaci%C3%B3n-y-filtrado-de-series.html#fig:TCHP">5.3</a> muestran los resultados de la implementación del filtro.</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb46"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">TC_hpf</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/mFilter/man/hpfilter.html">hpfilter</a></span><span class="op">(</span><span class="va">TC</span>, freq <span class="op">=</span> <span class="fl">14400</span><span class="op">)</span></span>
 <span><span class="co">#plot(TC_hpf)</span></span></code></pre></div>
 <div class="figure" style="text-align: center">
@@ -642,15 +657,20 @@ Figure 5.3: Descomposición del Tipo de Cambio FIX (<span class="math inline">\(
 </div>
 
   <div class="chapter-nav">
-<div class="empty"></div>
-<div class="empty"></div>
+<div class="prev"><a href="procesos-estacionarios-univariados.html"><span class="header-section-number">4</span> Procesos estacionarios univariados</a></div>
+<div class="next"><a href="procesos-basados-en-vectores-autoregresivos.html"><span class="header-section-number">6</span> Procesos Basados en Vectores Autoregresivos</a></div>
 </div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
     <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
-      <div id="book-on-this-page"></div>
+      <ul class="nav navbar-nav">
+<li><a class="nav-link" href="#desestacionalizaci%C3%B3n-y-filtrado-de-series"><span class="header-section-number">5</span> Desestacionalización y filtrado de Series</a></li>
+<li><a class="nav-link" href="#motivaci%C3%B3n"><span class="header-section-number">5.1</span> Motivación</a></li>
+<li><a class="nav-link" href="#filtro-hodrick-prescott"><span class="header-section-number">5.2</span> Filtro Hodrick-Prescott</a></li>
+</ul>
 
       <div class="book-extra">
         <ul class="list-unstyled">
-          
+<li><a id="book-source" href="git@github.com:emilianoprzcls/bookdown-notas-series-de-tiempo.git/blob/master/04-Desestacionalizacion_Filtros.Rmd">View source <i class="fab fa-github"></i></a></li>
+          <li><a id="book-edit" href="git@github.com:emilianoprzcls/bookdown-notas-series-de-tiempo.git/edit/master/04-Desestacionalizacion_Filtros.Rmd">Edit this page <i class="fab fa-github"></i></a></li>
         </ul>
 </div>
     </nav>
@@ -662,7 +682,7 @@ Figure 5.3: Descomposición del Tipo de Cambio FIX (<span class="math inline">\(
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Notas de Clase: Series de Tiempo</strong>" was written by Benjamín Oliva, Omar Alfaro-Rivera y Emiliano Pérez Caullieres. It was last built on 2022-08-02.</p>
+    <p>"<strong>Notas de Clase: Series de Tiempo</strong>" was written by Benjamín Oliva, Omar Alfaro-Rivera y Emiliano Pérez Caullieres. It was last built on 2022-08-05.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

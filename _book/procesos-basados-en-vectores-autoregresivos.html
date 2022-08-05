@@ -16,7 +16,7 @@
 <meta name="twitter:description" content="PBVA En este capítulo romperemos el supuesto de que el análisis es univariado, ya que introduciremos la posibilidad de que los procesos generadores de datos compartan información entre dos o más...">
 <!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
-<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.3.0/transition.js"></script><script src="libs/bs3compat-0.3.0/tabs.js"></script><script src="libs/bs3compat-0.3.0/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
+<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.4.0/transition.js"></script><script src="libs/bs3compat-0.4.0/tabs.js"></script><script src="libs/bs3compat-0.4.0/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
 <script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS --><style type="text/css">
     
     div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
@@ -165,9 +165,67 @@
             \tag{6.9}
 \end{equation}\]</span></p>
 <p>Ahora veámos un ejemplo. Consideremos como variables analizadas al Índice Nacional de Precios al Consumidor (<span class="math inline">\(INPC_t\)</span>), al Tipo de Cambio (<span class="math inline">\(TDC_t\)</span>) y al rendimiento anual de los Cetes a 28 días (<span class="math inline">\(CETE28_t\)</span>), todas desestacionalizadas para el periodo de enero de 2000 a julio de 2019. Dado que la metodología de Granger supone que las series son estacionarias, utilizaremos las diferencias logaritmicas de cada una de las tres series (es decir, utilizaremos una transformación del tipo <span class="math inline">\(ln(X_t) - ln(X_{t-1})\)</span>). La Figura <a href="procesos-basados-en-vectores-autoregresivos.html#fig:DLGranger">6.1</a> muestra las series en su transformación de diferencias logarítmicas.</p>
+<div class="sourceCode" id="cb47"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co">#DEPENDENCIAS</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org">ggplot2</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org">dplyr</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://readxl.tidyverse.org">readxl</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">stats</span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://zoo.R-Forge.R-project.org/">zoo</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">lmtest</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Importamos Datos desde un archivo de R:</span></span>
+<span></span>
+<span><span class="co">#Los datos "cargados" son los originales y los ajustados por estacionalidad. Los cuales son:</span></span>
+<span></span>
+<span><span class="co">#* INPC: Indice Nacional de Precios al Consumidor (2QJul2018 = 100)</span></span>
+<span></span>
+<span><span class="co">#* TC: Tipo de Cambio FIX </span></span>
+<span></span>
+<span><span class="co">#* CETE28: Tasa de rendimiento promedio mensual de los Cetes 28, en por ciento anual</span></span>
+<span></span>
+<span><span class="co">#* IGAE: Indicador global de la actividad económica (2013 = 100)</span></span>
+<span></span>
+<span><span class="co">#* IPI: Industrial Production Index (2012 = 100)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/load.html">load</a></span><span class="op">(</span><span class="st">"BD/Clase_13/Datos_Ad.RData"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co">## Conversion a series de tiempo:</span></span>
+<span></span>
+<span><span class="va">INPC_G</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/ts.html">ts</a></span><span class="op">(</span><span class="va">Datos_Ad</span><span class="op">$</span><span class="va">INPC_Ad</span>, </span>
+<span>           start <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2000</span>, <span class="fl">1</span><span class="op">)</span>, </span>
+<span>           freq <span class="op">=</span> <span class="fl">12</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">DLINPC_G</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/ts.html">ts</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span><span class="op">(</span><span class="va">Datos_Ad</span><span class="op">$</span><span class="va">INPC_Ad</span><span class="op">)</span> <span class="op">-</span> <span class="fu">lag</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span><span class="op">(</span><span class="va">Datos_Ad</span><span class="op">$</span><span class="va">INPC_Ad</span><span class="op">)</span>, k <span class="op">=</span> <span class="fl">1</span><span class="op">)</span>, </span>
+<span>             start <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2000</span>, <span class="fl">1</span><span class="op">)</span>, </span>
+<span>             freq <span class="op">=</span> <span class="fl">12</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">TC_G</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/ts.html">ts</a></span><span class="op">(</span><span class="va">Datos_Ad</span><span class="op">$</span><span class="va">TC_Ad</span>, </span>
+<span>         start <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2000</span>, <span class="fl">1</span><span class="op">)</span>, </span>
+<span>         freq <span class="op">=</span> <span class="fl">12</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">DLTC_G</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/ts.html">ts</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span><span class="op">(</span><span class="va">Datos_Ad</span><span class="op">$</span><span class="va">TC_Ad</span><span class="op">)</span> <span class="op">-</span> <span class="fu">lag</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span><span class="op">(</span><span class="va">Datos_Ad</span><span class="op">$</span><span class="va">TC_Ad</span><span class="op">)</span>, k <span class="op">=</span> <span class="fl">1</span><span class="op">)</span>, </span>
+<span>           start <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2000</span>, <span class="fl">1</span><span class="op">)</span>, </span>
+<span>           freq <span class="op">=</span> <span class="fl">12</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">CETE28_G</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/ts.html">ts</a></span><span class="op">(</span><span class="va">Datos_Ad</span><span class="op">$</span><span class="va">CETE28_Ad</span>, </span>
+<span>             start <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2000</span>, <span class="fl">1</span><span class="op">)</span>, </span>
+<span>             freq <span class="op">=</span> <span class="fl">12</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">DLCETE28_G</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/ts.html">ts</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span><span class="op">(</span><span class="va">Datos_Ad</span><span class="op">$</span><span class="va">CETE28_Ad</span><span class="op">)</span> <span class="op">-</span> <span class="fu">lag</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span><span class="op">(</span><span class="va">Datos_Ad</span><span class="op">$</span><span class="va">CETE28_Ad</span><span class="op">)</span>, k <span class="op">=</span> <span class="fl">1</span><span class="op">)</span>, </span>
+<span>               start <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2000</span>, <span class="fl">1</span><span class="op">)</span>, </span>
+<span>               freq <span class="op">=</span> <span class="fl">12</span><span class="op">)</span></span>
+<span><span class="va">DLIGAE_G</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/ts.html">ts</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span><span class="op">(</span><span class="va">Datos_Ad</span><span class="op">$</span><span class="va">IGAE_Ad</span><span class="op">)</span> <span class="op">-</span> <span class="fu">lag</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span><span class="op">(</span><span class="va">Datos_Ad</span><span class="op">$</span><span class="va">IGAE_Ad</span><span class="op">)</span>, k <span class="op">=</span> <span class="fl">1</span><span class="op">)</span>, </span>
+<span>             start <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2000</span>, <span class="fl">1</span><span class="op">)</span>, </span>
+<span>             freq <span class="op">=</span> <span class="fl">12</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">DLIPI_G</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/ts.html">ts</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span><span class="op">(</span><span class="va">Datos_Ad</span><span class="op">$</span><span class="va">IPI_Ad</span><span class="op">)</span> <span class="op">-</span> <span class="fu">lag</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span><span class="op">(</span><span class="va">Datos_Ad</span><span class="op">$</span><span class="va">IPI_Ad</span><span class="op">)</span>, k <span class="op">=</span> <span class="fl">1</span><span class="op">)</span>, </span>
+<span>            start <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2000</span>, <span class="fl">1</span><span class="op">)</span>, </span>
+<span>            freq <span class="op">=</span> <span class="fl">12</span><span class="op">)</span></span>
+<span><span class="co">## Graficas:</span></span></code></pre></div>
 <div class="figure" style="text-align: center">
 <span style="display:block;" id="fig:DLGranger"></span>
-<img src="imagenes/DLGranger.png" alt="Series en diferencias logarítmicas dadas por las siguientes expresiones: $DLINPC_t = ln(DLINPC_t) - ln(DLINPC_{t-1})$, $DLTC_t = ln(TC_t) - ln(TC_{t-1})$ y $DLCETE28_t = ln(CETE28_t) - ln(CETE28_{t-1})$." width="100%"><p class="caption">
+<img src="05-VAR_files/figure-html/DLGranger-1.png" alt="Series en diferencias logarítmicas dadas por las siguientes expresiones: $DLINPC_t = ln(DLINPC_t) - ln(DLINPC_{t-1})$, $DLTC_t = ln(TC_t) - ln(TC_{t-1})$ y $DLCETE28_t = ln(CETE28_t) - ln(CETE28_{t-1})$." width="100%"><p class="caption">
 Figure 6.1: Series en diferencias logarítmicas dadas por las siguientes expresiones: <span class="math inline">\(DLINPC_t = ln(DLINPC_t) - ln(DLINPC_{t-1})\)</span>, <span class="math inline">\(DLTC_t = ln(TC_t) - ln(TC_{t-1})\)</span> y <span class="math inline">\(DLCETE28_t = ln(CETE28_t) - ln(CETE28_{t-1})\)</span>.
 </p>
 </div>
@@ -379,9 +437,34 @@ Figure 6.1: Series en diferencias logarítmicas dadas por las siguientes expresi
             \right]
         \end{equation*}\]</span></p>
 <p>Ahora veámos un ejemplo de estimación de <span class="math inline">\(VAR(p)\)</span>. Para el ejemplo utilizaremos las series de INPC, Tipo de CAmbio, rendimiento de los Cetes a 28 días, el IGAE y el Índice de Producción Industrial de los Estados Unidos, todas desestacionalizadas y para el período de enero de 2000 a julio de 2019. Dado que el supuesto estacionariedad sigue presente en nuestro análisis, emplearemos cada una de las series en su versión de diferencias logaritmicas. La Figura <a href="procesos-basados-en-vectores-autoregresivos.html#fig:VARDLSeries">6.2</a> muestra las series referidas.</p>
+<div class="sourceCode" id="cb48"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span></span>
+<span><span class="va">Datos_G</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/cbind.html">cbind</a></span><span class="op">(</span><span class="va">DLINPC_G</span>, <span class="va">DLTC_G</span>, <span class="va">DLCETE28_G</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">Datos_G</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html">cbind</a></span><span class="op">(</span><span class="va">Datos_Ad</span><span class="op">[</span><span class="st">"FECHA"</span><span class="op">]</span>, <span class="va">Datos_G</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">Datos_G2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/cbind.html">cbind</a></span><span class="op">(</span><span class="va">DLINPC_G</span>, <span class="va">DLTC_G</span>, <span class="va">DLCETE28_G</span>, <span class="va">DLIGAE_G</span>, <span class="va">DLIPI_G</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">Datos_G2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/ts.html">ts</a></span><span class="op">(</span><span class="va">Datos_G2</span><span class="op">[</span><span class="fl">2</span> <span class="op">:</span> <span class="fl">259</span>, <span class="op">]</span>, </span>
+<span>            start <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2000</span>, <span class="fl">2</span><span class="op">)</span>, freq <span class="op">=</span> <span class="fl">12</span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb49"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">Datos_G2</span>, plot.type <span class="op">=</span> <span class="st">"s"</span>, </span>
+<span>     col <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"darkgreen"</span>, <span class="st">"darkblue"</span>, <span class="st">"darkred"</span>, <span class="st">"black"</span>, <span class="st">"purple"</span><span class="op">)</span>, </span>
+<span>     main <span class="op">=</span> <span class="st">"Series en Diferencias logaritmicas"</span>, </span>
+<span>     xlab <span class="op">=</span> <span class="st">"Tiempo"</span>, ylab <span class="op">=</span> <span class="st">"Variacion"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/legend.html">legend</a></span><span class="op">(</span><span class="st">"bottomright"</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"INPC"</span>, <span class="st">"TC"</span>, <span class="st">"CETES28"</span>, <span class="st">"IGAE"</span>, <span class="st">"IPI"</span><span class="op">)</span>,</span>
+<span>       cex <span class="op">=</span> <span class="fl">0.6</span>, lty <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">1</span>, </span>
+<span>       col <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"darkgreen"</span>, <span class="st">"darkblue"</span>, <span class="st">"darkred"</span>, <span class="st">"black"</span>, <span class="st">"purple"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb50"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span></span>
+<span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">Datos_G2</span>, plot.type <span class="op">=</span> <span class="st">"m"</span>, </span>
+<span>     col <span class="op">=</span> <span class="st">"darkgreen"</span>, </span>
+<span>     main <span class="op">=</span> <span class="st">"Series en Diferencias logaritmicas"</span>, xlab <span class="op">=</span> <span class="st">"Tiempo"</span><span class="op">)</span></span></code></pre></div>
 <div class="figure" style="text-align: center">
 <span style="display:block;" id="fig:VARDLSeries"></span>
-<img src="imagenes/VAR_DLSeries.png" alt="Series en diferencias logarítmicas, enero de 2000 a julio de 201p" width="100%"><p class="caption">
+<img src="05-VAR_files/figure-html/VARDLSeries-1.png" alt="Series en diferencias logarítmicas, enero de 2000 a julio de 201p" width="100%"><p class="caption">
 Figure 6.2: Series en diferencias logarítmicas, enero de 2000 a julio de 201p
 </p>
 </div>
@@ -652,6 +735,228 @@ Figure 6.2: Series en diferencias logarítmicas, enero de 2000 a julio de 201p
 \end{eqnarray}\]</span></p>
 <p>Donde <span class="math inline">\(\Psi_0 = I\)</span> y cada una de las <span class="math inline">\(\Psi_i = - \mathbf{B}_i\)</span>, <span class="math inline">\(i = 1, 2, \ldots\)</span>. De esta forma se verifica el efecto que tiene en <span class="math inline">\(\mathbf{X}_t\)</span> cada las innovaciones pasadas. Por lo que el análisis de Impulso-Respuesta cuantifica el efecto de cada una de esas matrices en las que hemos descompuesto a <span class="math inline">\(\mathbf{B}(L)\)</span>.</p>
 <p>Retomando el modelo <span class="math inline">\(VAR(2)\)</span> anteriormente estimado, en el Cuadro <a href="procesos-basados-en-vectores-autoregresivos.html#tab:IRVARTC">6.7</a> reportamos las gráficas de Impulso-respuesta de la serie <span class="math inline">\(DLTC_t\)</span> ante cambios en los residuales del resto de las series y de la propia serie.</p>
+<div class="sourceCode" id="cb51"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co">#Dependencias</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org">ggplot2</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org">dplyr</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">stats</span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://www.stats.ox.ac.uk/pub/MASS4/">MASS</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">strucchange</span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://zoo.R-Forge.R-project.org/">zoo</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://sandwich.R-Forge.R-project.org/">sandwich</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">urca</span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">lmtest</span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://www.pfaffikus.de">vars</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="co">#Datos</span></span>
+<span><span class="va">Datos_G3</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/cbind.html">cbind</a></span><span class="op">(</span><span class="va">DLINPC_G</span>, <span class="va">DLTC_G</span>, <span class="va">DLCETE28_G</span>, <span class="va">DLIGAE_G</span>, <span class="va">DLIPI_G</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">Datos_G3</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/ts.html">ts</a></span><span class="op">(</span><span class="va">Datos_G3</span><span class="op">[</span><span class="fl">2</span> <span class="op">:</span> <span class="fl">259</span>, <span class="op">]</span>, </span>
+<span>            start <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2000</span>, <span class="fl">2</span><span class="op">)</span>, freq <span class="op">=</span> <span class="fl">12</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co">## VAR Estimación:</span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/vars/man/VARselect.html">VARselect</a></span><span class="op">(</span><span class="va">Datos_G3</span>, lag.max <span class="op">=</span> <span class="fl">12</span>, type <span class="op">=</span> <span class="st">"const"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; $selection</span></span>
+<span><span class="co">#&gt; AIC(n)  HQ(n)  SC(n) FPE(n) </span></span>
+<span><span class="co">#&gt;      2      1      1      2 </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $criteria</span></span>
+<span><span class="co">#&gt;                    1             2             3</span></span>
+<span><span class="co">#&gt; AIC(n) -4.195465e+01 -4.198941e+01 -4.195421e+01</span></span>
+<span><span class="co">#&gt; HQ(n)  -4.178252e+01 -4.167385e+01 -4.149521e+01</span></span>
+<span><span class="co">#&gt; SC(n)  -4.152717e+01 -4.120570e+01 -4.081426e+01</span></span>
+<span><span class="co">#&gt; FPE(n)  6.016568e-19  5.812443e-19  6.024461e-19</span></span>
+<span><span class="co">#&gt;                    4             5             6</span></span>
+<span><span class="co">#&gt; AIC(n) -4.186713e+01 -4.181541e+01 -4.179207e+01</span></span>
+<span><span class="co">#&gt; HQ(n)  -4.126469e+01 -4.106953e+01 -4.090275e+01</span></span>
+<span><span class="co">#&gt; SC(n)  -4.037095e+01 -3.996300e+01 -3.958342e+01</span></span>
+<span><span class="co">#&gt; FPE(n)  6.580247e-19  6.942566e-19  7.126238e-19</span></span>
+<span><span class="co">#&gt;                    7             8             9</span></span>
+<span><span class="co">#&gt; AIC(n) -4.183689e+01 -4.183860e+01 -4.181243e+01</span></span>
+<span><span class="co">#&gt; HQ(n)  -4.080413e+01 -4.066240e+01 -4.049279e+01</span></span>
+<span><span class="co">#&gt; SC(n)  -3.927201e+01 -3.891749e+01 -3.853508e+01</span></span>
+<span><span class="co">#&gt; FPE(n)  6.840149e-19  6.863474e-19  7.091908e-19</span></span>
+<span><span class="co">#&gt;                   10            11            12</span></span>
+<span><span class="co">#&gt; AIC(n) -4.169621e+01 -4.167191e+01 -4.160623e+01</span></span>
+<span><span class="co">#&gt; HQ(n)  -4.023314e+01 -4.006540e+01 -3.985628e+01</span></span>
+<span><span class="co">#&gt; SC(n)  -3.806263e+01 -3.768211e+01 -3.726019e+01</span></span>
+<span><span class="co">#&gt; FPE(n)  8.031729e-19  8.312778e-19  8.986015e-19</span></span>
+<span><span class="va">VAR_p</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/vars/man/VAR.html">VAR</a></span><span class="op">(</span><span class="va">Datos_G3</span>, p <span class="op">=</span> <span class="fl">2</span>, type <span class="op">=</span> <span class="st">"const"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/urca/man/summary-methods.html">summary</a></span><span class="op">(</span><span class="va">VAR_p</span><span class="op">)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; VAR Estimation Results:</span></span>
+<span><span class="co">#&gt; ========================= </span></span>
+<span><span class="co">#&gt; Endogenous variables: DLINPC_G, DLTC_G, DLCETE28_G, DLIGAE_G, DLIPI_G </span></span>
+<span><span class="co">#&gt; Deterministic variables: const </span></span>
+<span><span class="co">#&gt; Sample size: 256 </span></span>
+<span><span class="co">#&gt; Log Likelihood: 3617.305 </span></span>
+<span><span class="co">#&gt; Roots of the characteristic polynomial:</span></span>
+<span><span class="co">#&gt; 0.4932 0.4932 0.4905 0.4905 0.4585 0.4585 0.4046 0.4046 0.2654 0.2654</span></span>
+<span><span class="co">#&gt; Call:</span></span>
+<span><span class="co">#&gt; VAR(y = Datos_G3, p = 2, type = "const")</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Estimation results for equation DLINPC_G: </span></span>
+<span><span class="co">#&gt; ========================================= </span></span>
+<span><span class="co">#&gt; DLINPC_G = DLINPC_G.l1 + DLTC_G.l1 + DLCETE28_G.l1 + DLIGAE_G.l1 + DLIPI_G.l1 + DLINPC_G.l2 + DLTC_G.l2 + DLCETE28_G.l2 + DLIGAE_G.l2 + DLIPI_G.l2 + const </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;                 Estimate Std. Error t value Pr(&gt;|t|)    </span></span>
+<span><span class="co">#&gt; DLINPC_G.l1    0.3794127  0.0660203   5.747 2.69e-08 ***</span></span>
+<span><span class="co">#&gt; DLTC_G.l1      0.0036715  0.0052749   0.696    0.487    </span></span>
+<span><span class="co">#&gt; DLCETE28_G.l1 -0.0003844  0.0020534  -0.187    0.852    </span></span>
+<span><span class="co">#&gt; DLIGAE_G.l1    0.0042967  0.0176732   0.243    0.808    </span></span>
+<span><span class="co">#&gt; DLIPI_G.l1    -0.0154936  0.0105907  -1.463    0.145    </span></span>
+<span><span class="co">#&gt; DLINPC_G.l2   -0.0408406  0.0667181  -0.612    0.541    </span></span>
+<span><span class="co">#&gt; DLTC_G.l2      0.0057580  0.0051995   1.107    0.269    </span></span>
+<span><span class="co">#&gt; DLCETE28_G.l2  0.0015534  0.0020603   0.754    0.452    </span></span>
+<span><span class="co">#&gt; DLIGAE_G.l2   -0.0059282  0.0170903  -0.347    0.729    </span></span>
+<span><span class="co">#&gt; DLIPI_G.l2     0.0042370  0.0105063   0.403    0.687    </span></span>
+<span><span class="co">#&gt; const          0.0023632  0.0003116   7.583 6.97e-13 ***</span></span>
+<span><span class="co">#&gt; ---</span></span>
+<span><span class="co">#&gt; Signif. codes:  </span></span>
+<span><span class="co">#&gt; 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Residual standard error: 0.002139 on 245 degrees of freedom</span></span>
+<span><span class="co">#&gt; Multiple R-Squared: 0.1493,  Adjusted R-squared: 0.1146 </span></span>
+<span><span class="co">#&gt; F-statistic:   4.3 on 10 and 245 DF,  p-value: 1.531e-05 </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Estimation results for equation DLTC_G: </span></span>
+<span><span class="co">#&gt; ======================================= </span></span>
+<span><span class="co">#&gt; DLTC_G = DLINPC_G.l1 + DLTC_G.l1 + DLCETE28_G.l1 + DLIGAE_G.l1 + DLIPI_G.l1 + DLINPC_G.l2 + DLTC_G.l2 + DLCETE28_G.l2 + DLIGAE_G.l2 + DLIPI_G.l2 + const </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;                Estimate Std. Error t value Pr(&gt;|t|)    </span></span>
+<span><span class="co">#&gt; DLINPC_G.l1   -3.221572   0.887833  -3.629 0.000347 ***</span></span>
+<span><span class="co">#&gt; DLTC_G.l1      0.284813   0.070937   4.015 7.91e-05 ***</span></span>
+<span><span class="co">#&gt; DLCETE28_G.l1 -0.038985   0.027613  -1.412 0.159270    </span></span>
+<span><span class="co">#&gt; DLIGAE_G.l1   -0.035047   0.237666  -0.147 0.882889    </span></span>
+<span><span class="co">#&gt; DLIPI_G.l1     0.207555   0.142422   1.457 0.146309    </span></span>
+<span><span class="co">#&gt; DLINPC_G.l2    1.185665   0.897215   1.321 0.187569    </span></span>
+<span><span class="co">#&gt; DLTC_G.l2     -0.186162   0.069922  -2.662 0.008271 ** </span></span>
+<span><span class="co">#&gt; DLCETE28_G.l2  0.034580   0.027707   1.248 0.213211    </span></span>
+<span><span class="co">#&gt; DLIGAE_G.l2   -0.287855   0.229828  -1.252 0.211590    </span></span>
+<span><span class="co">#&gt; DLIPI_G.l2     0.046610   0.141287   0.330 0.741761    </span></span>
+<span><span class="co">#&gt; const          0.010145   0.004191   2.421 0.016220 *  </span></span>
+<span><span class="co">#&gt; ---</span></span>
+<span><span class="co">#&gt; Signif. codes:  </span></span>
+<span><span class="co">#&gt; 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Residual standard error: 0.02877 on 245 degrees of freedom</span></span>
+<span><span class="co">#&gt; Multiple R-Squared: 0.1237,  Adjusted R-squared: 0.08789 </span></span>
+<span><span class="co">#&gt; F-statistic: 3.457 on 10 and 245 DF,  p-value: 0.0002874 </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Estimation results for equation DLCETE28_G: </span></span>
+<span><span class="co">#&gt; =========================================== </span></span>
+<span><span class="co">#&gt; DLCETE28_G = DLINPC_G.l1 + DLTC_G.l1 + DLCETE28_G.l1 + DLIGAE_G.l1 + DLIPI_G.l1 + DLINPC_G.l2 + DLTC_G.l2 + DLCETE28_G.l2 + DLIGAE_G.l2 + DLIPI_G.l2 + const </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;                Estimate Std. Error t value Pr(&gt;|t|)  </span></span>
+<span><span class="co">#&gt; DLINPC_G.l1    3.547010   2.044696   1.735   0.0840 .</span></span>
+<span><span class="co">#&gt; DLTC_G.l1      0.106557   0.163369   0.652   0.5149  </span></span>
+<span><span class="co">#&gt; DLCETE28_G.l1  0.106108   0.063594   1.669   0.0965 .</span></span>
+<span><span class="co">#&gt; DLIGAE_G.l1   -0.124387   0.547350  -0.227   0.8204  </span></span>
+<span><span class="co">#&gt; DLIPI_G.l1     0.269513   0.328001   0.822   0.4121  </span></span>
+<span><span class="co">#&gt; DLINPC_G.l2   -3.562148   2.066305  -1.724   0.0860 .</span></span>
+<span><span class="co">#&gt; DLTC_G.l2      0.128717   0.161031   0.799   0.4249  </span></span>
+<span><span class="co">#&gt; DLCETE28_G.l2  0.038798   0.063810   0.608   0.5437  </span></span>
+<span><span class="co">#&gt; DLIGAE_G.l2    0.870921   0.529299   1.645   0.1012  </span></span>
+<span><span class="co">#&gt; DLIPI_G.l2    -0.116675   0.325388  -0.359   0.7202  </span></span>
+<span><span class="co">#&gt; const         -0.005317   0.009652  -0.551   0.5822  </span></span>
+<span><span class="co">#&gt; ---</span></span>
+<span><span class="co">#&gt; Signif. codes:  </span></span>
+<span><span class="co">#&gt; 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Residual standard error: 0.06626 on 245 degrees of freedom</span></span>
+<span><span class="co">#&gt; Multiple R-Squared: 0.06876, Adjusted R-squared: 0.03075 </span></span>
+<span><span class="co">#&gt; F-statistic: 1.809 on 10 and 245 DF,  p-value: 0.05961 </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Estimation results for equation DLIGAE_G: </span></span>
+<span><span class="co">#&gt; ========================================= </span></span>
+<span><span class="co">#&gt; DLIGAE_G = DLINPC_G.l1 + DLTC_G.l1 + DLCETE28_G.l1 + DLIGAE_G.l1 + DLIPI_G.l1 + DLINPC_G.l2 + DLTC_G.l2 + DLCETE28_G.l2 + DLIGAE_G.l2 + DLIPI_G.l2 + const </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;                Estimate Std. Error t value Pr(&gt;|t|)  </span></span>
+<span><span class="co">#&gt; DLINPC_G.l1    1.184559   0.461082   2.569   0.0108 *</span></span>
+<span><span class="co">#&gt; DLTC_G.l1     -0.063718   0.036840  -1.730   0.0850 .</span></span>
+<span><span class="co">#&gt; DLCETE28_G.l1  0.008687   0.014341   0.606   0.5452  </span></span>
+<span><span class="co">#&gt; DLIGAE_G.l1   -0.184057   0.123428  -1.491   0.1372  </span></span>
+<span><span class="co">#&gt; DLIPI_G.l1     0.135931   0.073965   1.838   0.0673 .</span></span>
+<span><span class="co">#&gt; DLINPC_G.l2   -1.042586   0.465955  -2.238   0.0262 *</span></span>
+<span><span class="co">#&gt; DLTC_G.l2      0.022293   0.036313   0.614   0.5398  </span></span>
+<span><span class="co">#&gt; DLCETE28_G.l2 -0.018839   0.014389  -1.309   0.1917  </span></span>
+<span><span class="co">#&gt; DLIGAE_G.l2   -0.272896   0.119358  -2.286   0.0231 *</span></span>
+<span><span class="co">#&gt; DLIPI_G.l2     0.132921   0.073375   1.812   0.0713 .</span></span>
+<span><span class="co">#&gt; const          0.001485   0.002176   0.682   0.4958  </span></span>
+<span><span class="co">#&gt; ---</span></span>
+<span><span class="co">#&gt; Signif. codes:  </span></span>
+<span><span class="co">#&gt; 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Residual standard error: 0.01494 on 245 degrees of freedom</span></span>
+<span><span class="co">#&gt; Multiple R-Squared: 0.1046,  Adjusted R-squared: 0.06802 </span></span>
+<span><span class="co">#&gt; F-statistic: 2.861 on 10 and 245 DF,  p-value: 0.002173 </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Estimation results for equation DLIPI_G: </span></span>
+<span><span class="co">#&gt; ======================================== </span></span>
+<span><span class="co">#&gt; DLIPI_G = DLINPC_G.l1 + DLTC_G.l1 + DLCETE28_G.l1 + DLIGAE_G.l1 + DLIPI_G.l1 + DLINPC_G.l2 + DLTC_G.l2 + DLCETE28_G.l2 + DLIGAE_G.l2 + DLIPI_G.l2 + const </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;                Estimate Std. Error t value Pr(&gt;|t|)  </span></span>
+<span><span class="co">#&gt; DLINPC_G.l1    2.061526   0.801864   2.571   0.0107 *</span></span>
+<span><span class="co">#&gt; DLTC_G.l1     -0.081057   0.064068  -1.265   0.2070  </span></span>
+<span><span class="co">#&gt; DLCETE28_G.l1 -0.005573   0.024940  -0.223   0.8234  </span></span>
+<span><span class="co">#&gt; DLIGAE_G.l1    0.454249   0.214653   2.116   0.0353 *</span></span>
+<span><span class="co">#&gt; DLIPI_G.l1    -0.270920   0.128631  -2.106   0.0362 *</span></span>
+<span><span class="co">#&gt; DLINPC_G.l2   -1.639854   0.810338  -2.024   0.0441 *</span></span>
+<span><span class="co">#&gt; DLTC_G.l2      0.066871   0.063151   1.059   0.2907  </span></span>
+<span><span class="co">#&gt; DLCETE28_G.l2 -0.026739   0.025024  -1.069   0.2863  </span></span>
+<span><span class="co">#&gt; DLIGAE_G.l2   -0.196948   0.207574  -0.949   0.3437  </span></span>
+<span><span class="co">#&gt; DLIPI_G.l2    -0.013132   0.127607  -0.103   0.9181  </span></span>
+<span><span class="co">#&gt; const         -0.001787   0.003785  -0.472   0.6373  </span></span>
+<span><span class="co">#&gt; ---</span></span>
+<span><span class="co">#&gt; Signif. codes:  </span></span>
+<span><span class="co">#&gt; 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Residual standard error: 0.02598 on 245 degrees of freedom</span></span>
+<span><span class="co">#&gt; Multiple R-Squared: 0.09088, Adjusted R-squared: 0.05377 </span></span>
+<span><span class="co">#&gt; F-statistic: 2.449 on 10 and 245 DF,  p-value: 0.008383 </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Covariance matrix of residuals:</span></span>
+<span><span class="co">#&gt;              DLINPC_G     DLTC_G DLCETE28_G   DLIGAE_G</span></span>
+<span><span class="co">#&gt; DLINPC_G    4.577e-06 -3.256e-06  4.284e-07  6.192e-06</span></span>
+<span><span class="co">#&gt; DLTC_G     -3.256e-06  8.276e-04  3.273e-04 -1.598e-04</span></span>
+<span><span class="co">#&gt; DLCETE28_G  4.284e-07  3.273e-04  4.390e-03  7.695e-05</span></span>
+<span><span class="co">#&gt; DLIGAE_G    6.192e-06 -1.598e-04  7.695e-05  2.232e-04</span></span>
+<span><span class="co">#&gt; DLIPI_G     1.433e-05 -3.145e-04  1.211e-04  3.354e-04</span></span>
+<span><span class="co">#&gt;               DLIPI_G</span></span>
+<span><span class="co">#&gt; DLINPC_G    1.433e-05</span></span>
+<span><span class="co">#&gt; DLTC_G     -3.145e-04</span></span>
+<span><span class="co">#&gt; DLCETE28_G  1.211e-04</span></span>
+<span><span class="co">#&gt; DLIGAE_G    3.354e-04</span></span>
+<span><span class="co">#&gt; DLIPI_G     6.751e-04</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Correlation matrix of residuals:</span></span>
+<span><span class="co">#&gt;             DLINPC_G   DLTC_G DLCETE28_G DLIGAE_G  DLIPI_G</span></span>
+<span><span class="co">#&gt; DLINPC_G    1.000000 -0.05291   0.003022  0.19372  0.25782</span></span>
+<span><span class="co">#&gt; DLTC_G     -0.052911  1.00000   0.171697 -0.37187 -0.42073</span></span>
+<span><span class="co">#&gt; DLCETE28_G  0.003022  0.17170   1.000000  0.07774  0.07033</span></span>
+<span><span class="co">#&gt; DLIGAE_G    0.193715 -0.37187   0.077740  1.00000  0.86403</span></span>
+<span><span class="co">#&gt; DLIPI_G     0.257823 -0.42073   0.070327  0.86403  1.00000</span></span>
+<span></span>
+<span><span class="co">#Impulse response</span></span>
+<span><span class="va">IR_DLINPC</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/vars/man/irf.html">irf</a></span><span class="op">(</span><span class="va">VAR_p</span>, n.ahead <span class="op">=</span> <span class="fl">12</span>, boot <span class="op">=</span> <span class="cn">TRUE</span>, </span>
+<span>                 ci <span class="op">=</span> <span class="fl">0.95</span>, response <span class="op">=</span> <span class="st">"DLINPC_G"</span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb52"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co">#Al correr esta línea de codigo se obtienen los </span></span>
+<span><span class="co">#plots correspondientes a la tabla 6.7</span></span>
+<span></span>
+<span><span class="co">#plot(IR_DLINPC)</span></span></code></pre></div>
 <div class="inline-table"><table class="table table-sm">
 <caption>
 <span id="tab:IRVARTC">Table 6.7: </span> Gráficas de Impulso-respuesta de la serie <span class="math inline">\(DLTC_t\)</span> ante cambios en los residuales del resto de las series y de la propia serie.</caption>
@@ -705,7 +1010,7 @@ Figure 6.2: Series en diferencias logarítmicas, enero de 2000 a julio de 201p
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Notas de Clase: Series de Tiempo</strong>" was written by Benjamín Oliva, Omar Alfaro-Rivera y Emiliano Pérez Caullieres. It was last built on 2022-08-02.</p>
+    <p>"<strong>Notas de Clase: Series de Tiempo</strong>" was written by Benjamín Oliva, Omar Alfaro-Rivera y Emiliano Pérez Caullieres. It was last built on 2022-08-05.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

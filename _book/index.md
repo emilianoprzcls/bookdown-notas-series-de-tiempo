@@ -1,7 +1,7 @@
 --- 
 title: "Notas de Clase: Series de Tiempo"
 author: "Benjamín Oliva, Omar Alfaro-Rivera y Emiliano Pérez Caullieres"
-date: "2022-08-02"
+date: "2022-08-05"
 site: bookdown::bookdown_site
 documentclass: book
 bibliography: [book.bib, packages.bib]
