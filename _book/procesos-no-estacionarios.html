@@ -1,33 +1,57 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>Capítulo 7 Procesos No Estacionarios | Notas de Clase: Series de Tiempo</title>
-<meta name="author" content="Benjamín Oliva, Omar Alfaro-Rivera y Emiliano Pérez Caullieres">
-<meta name="description" content="7.1 Definición y formas de No Estacionariedad Hasta ahora hemos planteado una serie de ténicas de regresión que aplican sólo a procesos o series estacionarias. En esta sección relajaremos la...">
-<meta name="generator" content="bookdown 0.27 with bs4_book()">
-<meta property="og:title" content="Capítulo 7 Procesos No Estacionarios | Notas de Clase: Series de Tiempo">
-<meta property="og:type" content="book">
-<meta property="og:description" content="7.1 Definición y formas de No Estacionariedad Hasta ahora hemos planteado una serie de ténicas de regresión que aplican sólo a procesos o series estacionarias. En esta sección relajaremos la...">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Capítulo 7 Procesos No Estacionarios | Notas de Clase: Series de Tiempo">
-<meta name="twitter:description" content="7.1 Definición y formas de No Estacionariedad Hasta ahora hemos planteado una serie de ténicas de regresión que aplican sólo a procesos o series estacionarias. En esta sección relajaremos la...">
-<!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
-<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.4.0/transition.js"></script><script src="libs/bs3compat-0.4.0/tabs.js"></script><script src="libs/bs3compat-0.4.0/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
-<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS --><style type="text/css">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <title>Capítulo 7 Procesos No Estacionarios | Notas de Clase: Series de Tiempo</title>
+
+    <meta name="author" content="Benjamín Oliva, Omar Alfaro-Rivera y Emiliano Pérez Caullieres" />
+  
+   <meta name="description" content="Trabajo siempre en proceso de mejora, para cualquier comentario o aclaración, contactar al correo benjov@ciencias.unam.mx o omarxalpha@gmail.com" />
+   <meta name="generator" content="placeholder" />
+  <meta property="og:title" content="Capítulo 7 Procesos No Estacionarios | Notas de Clase: Series de Tiempo" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="Trabajo siempre en proceso de mejora, para cualquier comentario o aclaración, contactar al correo benjov@ciencias.unam.mx o omarxalpha@gmail.com" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Capítulo 7 Procesos No Estacionarios | Notas de Clase: Series de Tiempo" />
+  
+  <meta name="twitter:description" content="Trabajo siempre en proceso de mejora, para cualquier comentario o aclaración, contactar al correo benjov@ciencias.unam.mx o omarxalpha@gmail.com" />
+  
+  <!-- JS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script>
+  <script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script>
+    <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet" />
+    <script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script>
+    <script src="libs/bs3compat-0.4.0/transition.js"></script>
+    <script src="libs/bs3compat-0.4.0/tabs.js"></script>
+    <script src="libs/bs3compat-0.4.0/bs3compat.js"></script>
+    <link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet" />
+    <script src="libs/bs4_book-1.0.0/bs4_book.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script>
+
+  <!-- CSS -->
+  <style type="text/css">
     
     div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
   </style>
-<link rel="stylesheet" href="style.css">
+      <link rel="stylesheet" href="style.css" />
+  
 </head>
+
 <body data-spy="scroll" data-target="#toc">
 
 <div class="container-fluid">
 <div class="row">
-  <header class="col-sm-12 col-lg-3 sidebar sidebar-book"><a class="sr-only sr-only-focusable" href="#content">Skip to main content</a>
+  <header class="col-sm-12 col-lg-3 sidebar sidebar-book">
+    <a class="sr-only sr-only-focusable" href="#content">Skip to main content</a>
 
     <div class="d-flex align-items-start justify-content-between">
       <h1>
@@ -39,39 +63,24 @@
     <div id="main-nav" class="collapse-lg">
       <form role="search">
         <input id="search" class="form-control" type="search" placeholder="Search" aria-label="Search">
-</form>
+      </form>
 
-      <nav aria-label="Table of contents"><h2>Table of contents</h2>
-        <ul class="book-toc list-unstyled">
-<li><a class="" href="index.html"><span class="header-section-number">1</span> Introducción</a></li>
-<li><a class="" href="elementos-de-ecuaciones-en-diferencia.html"><span class="header-section-number">2</span> Elementos de Ecuaciones en Diferencia</a></li>
-<li><a class="" href="modelos-de-series-de-tiempo-estacionarias.html"><span class="header-section-number">3</span> Modelos de Series de Tiempo Estacionarias</a></li>
-<li><a class="" href="procesos-estacionarios-univariados.html"><span class="header-section-number">4</span> Procesos estacionarios univariados</a></li>
-<li><a class="" href="desestacionalizaci%C3%B3n-y-filtrado-de-series.html"><span class="header-section-number">5</span> Desestacionalización y filtrado de Series</a></li>
-<li><a class="" href="procesos-basados-en-vectores-autoregresivos.html"><span class="header-section-number">6</span> Procesos Basados en Vectores Autoregresivos</a></li>
-<li><a class="active" href="procesos-no-estacionarios.html"><span class="header-section-number">7</span> Procesos No Estacionarios</a></li>
-<li><a class="" href="cointegraci%C3%B3n.html"><span class="header-section-number">8</span> Cointegración</a></li>
-<li><a class="" href="modelos-univariados-y-multivariados-de-volatilidad.html"><span class="header-section-number">9</span> Modelos Univariados y Multivariados de Volatilidad</a></li>
-<li><a class="" href="modelos-adrl.html"><span class="header-section-number">10</span> Modelos ADRL</a></li>
-<li><a class="" href="modelos-de-datos-panel.html"><span class="header-section-number">11</span> Modelos de Datos Panel</a></li>
-<li><a class="" href="otros-modelos-de-series-de-tiempo-no-lineales.html"><span class="header-section-number">12</span> Otros Modelos de Series de Tiempo No lineales</a></li>
-<li><a class="" href="apendice-i.html"><span class="header-section-number">13</span> Apendice I</a></li>
-<li><a class="" href="ap%C3%A9ndice-ii.html"><span class="header-section-number">14</span> Apéndice II</a></li>
-</ul>
+      <nav aria-label="Table of contents">
+        <h2>Table of contents</h2>
+        <div id="book-toc"></div>
 
         <div class="book-extra">
-          <p><a id="book-repo" href="git@github.com:emilianoprzcls/bookdown-notas-series-de-tiempo.git">View book source <i class="fab fa-github"></i></a></p>
+          <p><a id="book-repo" href="#">View book source <i class="fab fa-github"></i></a></li></p>
         </div>
       </nav>
-</div>
-  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="procesos-no-estacionarios" class="section level1" number="7">
-<h1>
-<span class="header-section-number">Capítulo 7</span> Procesos No Estacionarios<a class="anchor" aria-label="anchor" href="#procesos-no-estacionarios"><i class="fas fa-link"></i></a>
-</h1>
+    </div>
+  </header>
+
+  <main class="col-sm-12 col-md-9 col-lg-7" id="content">
+<div id="procesos-no-estacionarios" class="section level1" number="7">
+<h1><span class="header-section-number">Capítulo 7</span> Procesos No Estacionarios</h1>
 <div id="definición-y-formas-de-no-estacionariedad" class="section level2" number="7.1">
-<h2>
-<span class="header-section-number">7.1</span> Definición y formas de No Estacionariedad<a class="anchor" aria-label="anchor" href="#definici%C3%B3n-y-formas-de-no-estacionariedad"><i class="fas fa-link"></i></a>
-</h2>
+<h2><span class="header-section-number">7.1</span> Definición y formas de No Estacionariedad</h2>
 <p>Hasta ahora hemos planteado una serie de ténicas de regresión que aplican sólo a procesos o series estacionarias. En esta sección relajaremos la definición de estacionariedad y plantearemos pruebas para determinar cuando una serie es estacionaria bajo tres diferentes especificiones: (1) estacionariedad al rededor de una tendencia determinística; (2) estacionariedad al rededor de una media, y (3) estacionariedad al rededor del cero.</p>
 <p>A continuación discutiremos cómo es posible que una serie sea estacionaria al rededor de una tendencia determinística. Diremos que una tendencia es determinística si ésta puede ser aproximada o modelada por un polinomio en función de <span class="math inline">\(t\)</span>, la cual incluye posibles transformaciones logarítmicas.</p>
 <p>Bajo este enfoque, el proceso está lejos de cumplir con la defición de estacionariedad que hemos establecido en capítulos previos, pero relajaremos el supuesto y reconoceremos que una serie puede ser estacionaria en varianza bajo una tendencia determinística. Así, diremos que la serie será descrita por una ecuación dada por:
@@ -159,15 +168,11 @@
 <p>Ambos casos no son estacionarios en media, pero si lo son en varianza. De ambos podemos decir que los choques o innovaciones del término de error tienen un efecto transitorio en el primero, pero permanentes en el segundo.</p>
 </div>
 <div id="pruebas-de-raíces-unitarias" class="section level2" number="7.2">
-<h2>
-<span class="header-section-number">7.2</span> Pruebas de Raíces Unitarias<a class="anchor" aria-label="anchor" href="#pruebas-de-ra%C3%ADces-unitarias"><i class="fas fa-link"></i></a>
-</h2>
+<h2><span class="header-section-number">7.2</span> Pruebas de Raíces Unitarias</h2>
 <p>En esta sección plantearemos una serie de pruebas estadísticas para determinar cuando una serie puede ser estacionaria bajo tres posibles casos: (1) estacionariedad al rededor de una tendencia determinística; (2) estacionariedad al rededor de una media, y (3) estacionariedad al rededor del cero.</p>
 </div>
 <div id="dickey---fuller-df" class="section level2" number="7.3">
-<h2>
-<span class="header-section-number">7.3</span> Dickey - Fuller (DF)<a class="anchor" aria-label="anchor" href="#dickey---fuller-df"><i class="fas fa-link"></i></a>
-</h2>
+<h2><span class="header-section-number">7.3</span> Dickey - Fuller (DF)</h2>
 <p>Partamos de una forma del proceso <span class="math inline">\(Y_t\)</span> dada por:
 <span class="math display" id="eq:URDFG">\[\begin{equation}
     Y_t = \sum_{j = 0}^m \delta_j t^j + X_t
@@ -203,9 +208,7 @@ Buscamos probar si <span class="math inline">\(H_0 : \beta = \rho - 1 = 0\)</spa
 Buscamos probar si <span class="math inline">\(H_0 : \beta = \rho - 1 = 0\)</span> contra <span class="math inline">\(H_a : \beta &lt; 0\)</span>, por lo que es una prueba de una cola. Otra forma de decirlo, es probamos si el proceso tiene raíz unitaria contra si el proceso es estacionario sin considerar una constante o una tendencia determinística, es decir, es un proceso puramente aleatorio.</p></li>
 </ol>
 <div id="dickey---fuller-aumentada-adf" class="section level3" number="7.3.1">
-<h3>
-<span class="header-section-number">7.3.1</span> Dickey - Fuller Aumentada (ADF)<a class="anchor" aria-label="anchor" href="#dickey---fuller-aumentada-adf"><i class="fas fa-link"></i></a>
-</h3>
+<h3><span class="header-section-number">7.3.1</span> Dickey - Fuller Aumentada (ADF)</h3>
 <p>A diferencia de un modelo AR(1) para el caso de una prueba DF como en la ecuación <a href="procesos-no-estacionarios.html#eq:URDF">(7.15)</a>, en una prueba ADF se asume que el proceso es un AR(p) de la forma (por simplicidad hemos omitido el término constante y el término de tendencia determinística):</p>
 <p><span class="math display" id="eq:URADF">\[\begin{equation}
     Y_t = a_1 Y_{t-1} + a_2 Y_{t-2} + \ldots + a_p Y_{t-p} + U_t
@@ -246,9 +249,7 @@ Buscamos probar si <span class="math inline">\(H_0 : \beta = \rho - 1 = 0\)</spa
 </ol>
 </div>
 <div id="phillips---perron-pp" class="section level3" number="7.3.2">
-<h3>
-<span class="header-section-number">7.3.2</span> Phillips - Perron (PP)<a class="anchor" aria-label="anchor" href="#phillips---perron-pp"><i class="fas fa-link"></i></a>
-</h3>
+<h3><span class="header-section-number">7.3.2</span> Phillips - Perron (PP)</h3>
 <p>Una tercera prueba es la de PP, la cual también está basada en una AR(1) dado por la ecuación:
 <span class="math display" id="eq:URPP">\[\begin{equation}
     Y_t = d \eta + \rho Y_{t-1} + U_t
@@ -270,9 +271,7 @@ Buscamos probar si <span class="math inline">\(H_0 : \rho = 1\)</span> contra <s
 </ol>
 </div>
 <div id="kwiatkowsky---phillips---schmidt---shin-kpss" class="section level3" number="7.3.3">
-<h3>
-<span class="header-section-number">7.3.3</span> Kwiatkowsky - Phillips - Schmidt - Shin (KPSS)<a class="anchor" aria-label="anchor" href="#kwiatkowsky---phillips---schmidt---shin-kpss"><i class="fas fa-link"></i></a>
-</h3>
+<h3><span class="header-section-number">7.3.3</span> Kwiatkowsky - Phillips - Schmidt - Shin (KPSS)</h3>
 <p>La prueba KPSS considera que el proceso es estacionario bajo la hipótesis nula, lo cual hace una diferencia respecto de las anteriores pruebas. El modelo considerado es:
 <span class="math display" id="eq:ARR5">\[\begin{equation}
     Y_t = \delta t + \xi_t + U_t
@@ -286,22 +285,20 @@ Buscamos probar si <span class="math inline">\(H_0 : \rho = 1\)</span> contra <s
 </ol>
 </div>
 <div id="ejemplo-con-aplicación-de-todas-las-pruebas-de-raíces-unitarias" class="section level3" number="7.3.4">
-<h3>
-<span class="header-section-number">7.3.4</span> Ejemplo con aplicación de todas las pruebas de raíces unitarias<a class="anchor" aria-label="anchor" href="#ejemplo-con-aplicaci%C3%B3n-de-todas-las-pruebas-de-ra%C3%ADces-unitarias"><i class="fas fa-link"></i></a>
-</h3>
+<h3><span class="header-section-number">7.3.4</span> Ejemplo con aplicación de todas las pruebas de raíces unitarias</h3>
 <p>A continuación, mostraremos como ejemplo la aplicación de las pruebas de raíces unitarias a la serie de Tipo de Cambio en forma logaritmica y de diferencias logaritmicas. Asumamos que determinamos el valor de los rezagos de la prueba con el criterio de <span class="math inline">\(p = int\{ 4 (T/100)^{1/4} \}\)</span>. En la práctica, existen otras formas de determinar el valor de <span class="math inline">\(p\)</span>, como el criterio de AIC, pero es decisión del investigador cual usar.</p>
 <p>En el Cuadro <a href="procesos-no-estacionarios.html#tab:ResultUR">7.1</a> mostramos los resultados de aplicar las pruebas de raíces unitarias a la serie <span class="math inline">\(LTC_t\)</span>, considerando <span class="math inline">\(p = int \{ 4 (234/100)^{(1/4)} \} = 4\)</span> para aquellas pruebas que requieren de rezagos: ADF, PP y KPSS. Los raultados para todos los modelos se ubican en el Scrip Clase 16 en el GitHub.</p>
-<div class="inline-table"><table class="table table-sm">
-<caption>
-<span id="tab:ResultUR">Table 7.1: </span> Pruebas de Raíces Unitarias para la serie <span class="math inline">\(LTC_t\)</span> utilizando 4 rezagos. <strong>Nota: (1) Entre parentésis se indica el modelo utilizado que es aquel más probable de ser aceptado. (2) * Indica el rechazo de <span class="math inline">\(H_0\)</span> al 5%. Los valores criticos para los modelos A, B y C para las pruebas DF y ADF son:-3.43, -2.88 y -1.95, respectivamente. Los valores criticos para prueba PP son: -3.430186 y -2.873954, y los valores criticos para prueba KPSS son: 0.146 y 0.463, para los modelos A y B, respectivamente.</strong>
-</caption>
-<thead><tr class="header">
+<table>
+<caption><span id="tab:ResultUR">Table 7.1: </span> Pruebas de Raíces Unitarias para la serie <span class="math inline">\(LTC_t\)</span> utilizando 4 rezagos. <strong>Nota: (1) Entre parentésis se indica el modelo utilizado que es aquel más probable de ser aceptado. (2) * Indica el rechazo de <span class="math inline">\(H_0\)</span> al 5%. Los valores criticos para los modelos A, B y C para las pruebas DF y ADF son:-3.43, -2.88 y -1.95, respectivamente. Los valores criticos para prueba PP son: -3.430186 y -2.873954, y los valores criticos para prueba KPSS son: 0.146 y 0.463, para los modelos A y B, respectivamente.</strong></caption>
+<thead>
+<tr class="header">
 <th align="center">Variable</th>
 <th align="center">Dickey-Fuller</th>
 <th align="center">DF Aumentada</th>
 <th align="center">Phillips-Perron</th>
 <th align="center">KPSS</th>
-</tr></thead>
+</tr>
+</thead>
 <tbody>
 <tr class="odd">
 <td align="center"><span class="math inline">\(LTC_t\)</span></td>
@@ -318,45 +315,35 @@ Buscamos probar si <span class="math inline">\(H_0 : \rho = 1\)</span> contra <s
 <td align="center">0.0611(B)*</td>
 </tr>
 </tbody>
-</table></div>
+</table>
+
 </div>
 </div>
 </div>
-  <div class="chapter-nav">
-<div class="prev"><a href="procesos-basados-en-vectores-autoregresivos.html"><span class="header-section-number">6</span> Procesos Basados en Vectores Autoregresivos</a></div>
-<div class="next"><a href="cointegraci%C3%B3n.html"><span class="header-section-number">8</span> Cointegración</a></div>
-</div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
-    <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
-      <ul class="nav navbar-nav">
-<li><a class="nav-link" href="#procesos-no-estacionarios"><span class="header-section-number">7</span> Procesos No Estacionarios</a></li>
-<li><a class="nav-link" href="#definici%C3%B3n-y-formas-de-no-estacionariedad"><span class="header-section-number">7.1</span> Definición y formas de No Estacionariedad</a></li>
-<li><a class="nav-link" href="#pruebas-de-ra%C3%ADces-unitarias"><span class="header-section-number">7.2</span> Pruebas de Raíces Unitarias</a></li>
-<li>
-<a class="nav-link" href="#dickey---fuller-df"><span class="header-section-number">7.3</span> Dickey - Fuller (DF)</a><ul class="nav navbar-nav">
-<li><a class="nav-link" href="#dickey---fuller-aumentada-adf"><span class="header-section-number">7.3.1</span> Dickey - Fuller Aumentada (ADF)</a></li>
-<li><a class="nav-link" href="#phillips---perron-pp"><span class="header-section-number">7.3.2</span> Phillips - Perron (PP)</a></li>
-<li><a class="nav-link" href="#kwiatkowsky---phillips---schmidt---shin-kpss"><span class="header-section-number">7.3.3</span> Kwiatkowsky - Phillips - Schmidt - Shin (KPSS)</a></li>
-<li><a class="nav-link" href="#ejemplo-con-aplicaci%C3%B3n-de-todas-las-pruebas-de-ra%C3%ADces-unitarias"><span class="header-section-number">7.3.4</span> Ejemplo con aplicación de todas las pruebas de raíces unitarias</a></li>
-</ul>
-</li>
-</ul>
+  </main>
+
+  <div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
+    <nav id="toc" data-toggle="toc" aria-label="On this page">
+      <h2>On this page</h2>
+      <div id="book-on-this-page"></div>
 
       <div class="book-extra">
         <ul class="list-unstyled">
-<li><a id="book-source" href="git@github.com:emilianoprzcls/bookdown-notas-series-de-tiempo.git/blob/master/06-No_Estacionarios.Rmd">View source <i class="fab fa-github"></i></a></li>
-          <li><a id="book-edit" href="git@github.com:emilianoprzcls/bookdown-notas-series-de-tiempo.git/edit/master/06-No_Estacionarios.Rmd">Edit this page <i class="fab fa-github"></i></a></li>
+          <li><a id="book-source" href="#">View source <i class="fab fa-github"></i></a></li>
+          <li><a id="book-edit" href="#">Edit this page <i class="fab fa-github"></i></a></li>
         </ul>
-</div>
+      </div>
     </nav>
-</div>
+  </div>
 
 </div>
 </div> <!-- .container -->
 
-<footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
+<footer class="bg-primary text-light mt-5">
+  <div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Notas de Clase: Series de Tiempo</strong>" was written by Benjamín Oliva, Omar Alfaro-Rivera y Emiliano Pérez Caullieres. It was last built on 2022-08-05.</p>
+    <p>"<strong>Notas de Clase: Series de Tiempo</strong>" was written by Benjamín Oliva, Omar Alfaro-Rivera y Emiliano Pérez Caullieres. It was last built on 2022-08-07.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">
@@ -364,7 +351,11 @@ Buscamos probar si <span class="math inline">\(H_0 : \rho = 1\)</span> contra <s
   </div>
 
 </div></div>
-</footer><!-- dynamically load mathjax for compatibility with self-contained --><script>
+</footer>
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
   (function () {
     var script = document.createElement("script");
     script.type = "text/javascript";
@@ -376,7 +367,8 @@ Buscamos probar si <span class="math inline">\(H_0 : \rho = 1\)</span> contra <s
     script.src = src;
     document.getElementsByTagName("head")[0].appendChild(script);
   })();
-</script><script type="text/x-mathjax-config">const popovers = document.querySelectorAll('a.footnote-ref[data-toggle="popover"]');
+</script>
+<script type="text/x-mathjax-config">const popovers = document.querySelectorAll('a.footnote-ref[data-toggle="popover"]');
 for (let popover of popovers) {
   const div = document.createElement('div');
   div.setAttribute('style', 'position: absolute; top: 0, left:0; width:0, height:0, overflow: hidden; visibility: hidden;');
@@ -394,4 +386,5 @@ for (let popover of popovers) {
 }
 </script>
 </body>
+
 </html>

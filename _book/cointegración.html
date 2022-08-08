@@ -1,33 +1,57 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>Capítulo 8 Cointegración | Notas de Clase: Series de Tiempo</title>
-<meta name="author" content="Benjamín Oliva, Omar Alfaro-Rivera y Emiliano Pérez Caullieres">
-<meta name="description" content="Hasta ahora en el curso hemos usado el supuesto de que las series son estacionarias para el conjunto de técnicas \(ARMA(p,q)\) y \(VAR(p)\). No obstante, dado que relajamos el supuesto de...">
-<meta name="generator" content="bookdown 0.27 with bs4_book()">
-<meta property="og:title" content="Capítulo 8 Cointegración | Notas de Clase: Series de Tiempo">
-<meta property="og:type" content="book">
-<meta property="og:description" content="Hasta ahora en el curso hemos usado el supuesto de que las series son estacionarias para el conjunto de técnicas \(ARMA(p,q)\) y \(VAR(p)\). No obstante, dado que relajamos el supuesto de...">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Capítulo 8 Cointegración | Notas de Clase: Series de Tiempo">
-<meta name="twitter:description" content="Hasta ahora en el curso hemos usado el supuesto de que las series son estacionarias para el conjunto de técnicas \(ARMA(p,q)\) y \(VAR(p)\). No obstante, dado que relajamos el supuesto de...">
-<!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
-<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.4.0/transition.js"></script><script src="libs/bs3compat-0.4.0/tabs.js"></script><script src="libs/bs3compat-0.4.0/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
-<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS --><style type="text/css">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <title>Capítulo 8 Cointegración | Notas de Clase: Series de Tiempo</title>
+
+    <meta name="author" content="Benjamín Oliva, Omar Alfaro-Rivera y Emiliano Pérez Caullieres" />
+  
+   <meta name="description" content="Trabajo siempre en proceso de mejora, para cualquier comentario o aclaración, contactar al correo benjov@ciencias.unam.mx o omarxalpha@gmail.com" />
+   <meta name="generator" content="placeholder" />
+  <meta property="og:title" content="Capítulo 8 Cointegración | Notas de Clase: Series de Tiempo" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="Trabajo siempre en proceso de mejora, para cualquier comentario o aclaración, contactar al correo benjov@ciencias.unam.mx o omarxalpha@gmail.com" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Capítulo 8 Cointegración | Notas de Clase: Series de Tiempo" />
+  
+  <meta name="twitter:description" content="Trabajo siempre en proceso de mejora, para cualquier comentario o aclaración, contactar al correo benjov@ciencias.unam.mx o omarxalpha@gmail.com" />
+  
+  <!-- JS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script>
+  <script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script>
+    <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet" />
+    <script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script>
+    <script src="libs/bs3compat-0.4.0/transition.js"></script>
+    <script src="libs/bs3compat-0.4.0/tabs.js"></script>
+    <script src="libs/bs3compat-0.4.0/bs3compat.js"></script>
+    <link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet" />
+    <script src="libs/bs4_book-1.0.0/bs4_book.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script>
+
+  <!-- CSS -->
+  <style type="text/css">
     
     div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
   </style>
-<link rel="stylesheet" href="style.css">
+      <link rel="stylesheet" href="style.css" />
+  
 </head>
+
 <body data-spy="scroll" data-target="#toc">
 
 <div class="container-fluid">
 <div class="row">
-  <header class="col-sm-12 col-lg-3 sidebar sidebar-book"><a class="sr-only sr-only-focusable" href="#content">Skip to main content</a>
+  <header class="col-sm-12 col-lg-3 sidebar sidebar-book">
+    <a class="sr-only sr-only-focusable" href="#content">Skip to main content</a>
 
     <div class="d-flex align-items-start justify-content-between">
       <h1>
@@ -39,43 +63,41 @@
     <div id="main-nav" class="collapse-lg">
       <form role="search">
         <input id="search" class="form-control" type="search" placeholder="Search" aria-label="Search">
-</form>
+      </form>
 
-      <nav aria-label="Table of contents"><h2>Table of contents</h2>
-        <ul class="book-toc list-unstyled"><li><a class="" href="index.html"><span class="header-section-number">Capítulo 8</span> Cointegración</a></li></ul>
+      <nav aria-label="Table of contents">
+        <h2>Table of contents</h2>
+        <div id="book-toc"></div>
 
         <div class="book-extra">
-          <p><a id="book-repo" href="git@github.com:emilianoprzcls/bookdown-notas-series-de-tiempo.git">View book source <i class="fab fa-github"></i></a></p>
+          <p><a id="book-repo" href="#">View book source <i class="fab fa-github"></i></a></li></p>
         </div>
       </nav>
-</div>
-  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="cointegración" class="section level1" number="8">
-<h1>
-<span class="header-section-number">Capítulo 8</span> Cointegración<a class="anchor" aria-label="anchor" href="#cointegraci%C3%B3n"><i class="fas fa-link"></i></a>
-</h1>
+    </div>
+  </header>
+
+  <main class="col-sm-12 col-md-9 col-lg-7" id="content">
+<div id="cointegración" class="section level1" number="8">
+<h1><span class="header-section-number">Capítulo 8</span> Cointegración</h1>
 <p>Hasta ahora en el curso hemos usado el supuesto de que las series son estacionarias para el conjunto de técnicas <span class="math inline">\(ARMA(p,q)\)</span> y <span class="math inline">\(VAR(p)\)</span>. No obstante, dado que relajamos el supuesto de estacionariedad (incluyendo la estacionariedad en varianza) y que establecimos una serie de pruebas para determinar cuando una serie es estadísticamente estacionaria, ahora podemos plantear una técnica llamada Cointegración. Para esta técnica consideraremos sólo series que son <span class="math inline">\(I(1)\)</span> y reconoceremos que se originó con los trabajos de Engle y Granger (1987), Stock (1987) y Johansen (1988).</p>
 <div id="definición-y-propiedades-del-proceso-de-cointegración" class="section level2" number="8.1">
-<h2>
-<span class="header-section-number">8.1</span> Definición y propiedades del proceso de cointegración<a class="anchor" aria-label="anchor" href="#definici%C3%B3n-y-propiedades-del-proceso-de-cointegraci%C3%B3n"><i class="fas fa-link"></i></a>
-</h2>
+<h2><span class="header-section-number">8.1</span> Definición y propiedades del proceso de cointegración</h2>
 <p>Cointegración puede ser caracterizada o definida en palabras sencillas como que dos o más variables tienen una relación común estable en el largo plazo. Es decir, estas no suelen tomar caminos o trayectorias diferentes, excepto por periodos de tiempo transitorios y eventuales. A continuación, utilizaremos la definición de Engle y Grnager (1984) de cointegración.</p>
 <p>Sea <span class="math inline">\(\mathbf{Y}\)</span> un vector de k-series de tiempo, decimos que los elementos en <span class="math inline">\(\mathbf{Y}\)</span> están cointegrados en un orden (d, c), es decir, <span class="math inline">\(\mathbf{Y} \sim CI(d, c)\)</span>, si todos los elementos de <span class="math inline">\(\mathbf{Y}\)</span> son series integradas de orden d, I(d), y si existe al menos una combinación lineal no trivial <span class="math inline">\(\mathbf{Z}\)</span> de esas variables que es de orden I(d - c), donde <span class="math inline">\(d \geq c &gt; 0\)</span>, si y sólo si:
 <span class="math display" id="eq:em1">\[\begin{equation}
-    \boldsymbol{\beta}_i' \mathbf{Y}_t = \mathbf{Y}_{it} \sim I(d-c)
-    \tag{8.1}
+    \boldsymbol{\beta}_i&#39; \mathbf{Y}_t = \mathbf{Y}_{it} \sim I(d-c)
+    \tag{3.11}
 \end{equation}\]</span></p>
 <p>Donde <span class="math inline">\(i = 1, 2, \ldots, r\)</span> y <span class="math inline">\(r &lt; k\)</span>.</p>
 <p>A los diferentes vectores <span class="math inline">\(\boldsymbol{\beta}_i\)</span> se les denomina como vectores de cointegración. El rango de la matriz de vectores de cointegración <span class="math inline">\(r\)</span> es el número de vectores de cointegración linealmente independientes. En general diremos que los vectores de la matriz de cointegración <span class="math inline">\(\boldsymbol{\beta}\)</span> tendrá la forma de:
 <span class="math display" id="eq:em2">\[\begin{equation}
-    \boldsymbol{\beta}' \mathbf{Y}_t = \mathbf{Z}_t
-        \tag{8.2}
+    \boldsymbol{\beta}&#39; \mathbf{Y}_t = \mathbf{Z}_t
+        \tag{3.12}
 \end{equation}\]</span></p>
 <p>Antes de continuar hagamos algunas observaciones. Si todas las variables de <span class="math inline">\(\mathbf{Y}\)</span> son I(1) y <span class="math inline">\(0 \leq r &lt; k\)</span>, diremos que las series no cointegran si <span class="math inline">\(r = 0\)</span>. Si esto pasa, entonces, como demostraremos más adelante, la mejor opción será estimar un modelo VAR(p) en diferencias. Adicionalmente, asumiremos que <span class="math inline">\(c = d = 1\)</span>, por lo que la relación de cointegración, en su caso, generará combinaciones lineales <span class="math inline">\(\mathbf{Z}\)</span> estacionarias.</p>
 </div>
 <div id="cointegración-para-modelos-de-más-de-una-ecuación-o-para-modelos-basados-en-vectores-autoregresivos" class="section level2" number="8.2">
-<h2>
-<span class="header-section-number">8.2</span> Cointegración para modelos de más de una ecuación o para modelos basados en Vectores Autoregresivos<a class="anchor" aria-label="anchor" href="#cointegraci%C3%B3n-para-modelos-de-m%C3%A1s-de-una-ecuaci%C3%B3n-o-para-modelos-basados-en-vectores-autoregresivos"><i class="fas fa-link"></i></a>
-</h2>
+<h2><span class="header-section-number">8.2</span> Cointegración para modelos de más de una ecuación o para modelos basados en Vectores Autoregresivos</h2>
 <p>Sean <span class="math inline">\(Y_1, Y_2, \ldots, Y_k\)</span> son series que forman <span class="math inline">\(\mathbf{Y}\)</span> y que todas son I(1), entonces los siguientes casos son posibles:</p>
 <ol style="list-style-type: decimal">
 <li>Si <span class="math inline">\(r = 1\)</span> entonces se trata de un caso de cointegración de Granger.</li>
@@ -84,10 +106,10 @@
 <p>Por lo anterior, en este curso analizaremos el caso de Cointegración de Johansen. Ahora plantearemos la forma de estimar el proceso de cointgración. El primer paso para ello es determinar un modelo VAR(p) con las k-series no estacionarias (series en niveles). Alegimos el valor de <span class="math inline">\(p\)</span> mediante el uso de los criterios de información. De esta forma tendremos una especificación similar a:
 <span class="math display" id="eq:VARCI">\[\begin{equation}
     \mathbf{Y}_t = \sum_{j=1}^p \mathbf{A}_j \mathbf{Y}_{t-j} + \mathbf{D}_t + \mathbf{U}_t
-        \tag{8.3}
+        \tag{8.1}
 \end{equation}\]</span></p>
 <p>Donde <span class="math inline">\(\mathbf{U}_t\)</span> es un término de error k-dimensional puramente aleatorio; <span class="math inline">\(\mathbf{D}_t\)</span> contiene los compeoentes deterministicos de constante y tendencia, y <span class="math inline">\(\mathbf{A}_i\)</span>, <span class="math inline">\(i = 1, 2, \ldots, p\)</span>, son matrices de <span class="math inline">\(k \times k\)</span> coeficientes. Notemos que el VAR(p) involucrado en este caso, a diferencia del VAR anteriormente estudiado, puede incluir un término de tendencia. Esto en razón de que hemos relajado el concepto de estacionariedad.</p>
-<p>Si reescribimos la ecuación <a href="cointegraci%C3%B3n.html#eq:VARCI">(8.3)</a> en su forma de Vector Corrector de Errores (VEC, por sus siglas en inglés) tenemos:
+<p>Si reescribimos la ecuación <a href="cointegración.html#eq:VARCI">(8.1)</a> en su forma de Vector Corrector de Errores (VEC, por sus siglas en inglés) tenemos:
 <span class="math display" id="eq:VARVEC">\[\begin{eqnarray}
     \mathbf{Y}_t - \mathbf{Y}_{t-1} &amp; = &amp; \Delta \mathbf{Y}_t \nonumber \\
     &amp; = &amp; \sum_{j=1}^p \mathbf{A}_j \mathbf{Y}_{t-j} + \mathbf{D}_t - \mathbf{Y}_{t-1} + \mathbf{U}_t \nonumber \\
@@ -95,23 +117,23 @@
     &amp; = &amp; \left( \sum_{j=1}^{p} \mathbf{A}_j - \mathbf{I} \right) \mathbf{Y}_{t-1} + \sum_{j=1}^{p-1} \mathbf{A}^*_j \Delta \mathbf{Y}_{t-j} + \mathbf{D}_t \mathbf{U}_t \nonumber \\
     &amp; = &amp; - \left( \mathbf{I} - \sum_{j=1}^{p} \mathbf{A}_j \right) \mathbf{Y}_{t-1} + \sum_{j=1}^{p-1} \mathbf{A}^*_j \Delta \mathbf{Y}_{t-j} + \mathbf{D}_t \mathbf{U}_t \nonumber \\
     \Delta \mathbf{Y}_t &amp; = &amp; - \Pi \mathbf{Y}_{t-1} + \sum_{j=1}^{p-1} \mathbf{A}^*_j \Delta \mathbf{Y}_{t-j} + \mathbf{D}_t + \mathbf{U}_t
-    \tag{8.4}
+    \tag{8.2}
 \end{eqnarray}\]</span></p>
-<p>Donde <span class="math inline">\(\mathbf{A}_j^* = - \sum_{i=j+1}^p \mathbf{A}_i\)</span>, <span class="math inline">\(i = 1, 2, \ldots, p-1\)</span>, y la matriz <span class="math inline">\(\Pi\)</span> representa todas las relaciones de largo plazo entre las variables, por lo que la matriz es de rango completo <span class="math inline">\(k \times k\)</span>. Por lo tanto, tenemos que dicha matriz en la ecuación <a href="cointegraci%C3%B3n.html#eq:VARVEC">(8.4)</a> se puede factorizar como:
+<p>Donde <span class="math inline">\(\mathbf{A}_j^* = - \sum_{i=j+1}^p \mathbf{A}_i\)</span>, <span class="math inline">\(i = 1, 2, \ldots, p-1\)</span>, y la matriz <span class="math inline">\(\Pi\)</span> representa todas las relaciones de largo plazo entre las variables, por lo que la matriz es de rango completo <span class="math inline">\(k \times k\)</span>. Por lo tanto, tenemos que dicha matriz en la ecuación <a href="cointegración.html#eq:VARVEC">(8.2)</a> se puede factorizar como:
 <span class="math display" id="eq:PiMatrix">\[\begin{equation}
-    \Pi_{(k \times k)} = \Gamma_{(k \times r)} \boldsymbol{\beta}_{(r \times k)}'
-    \tag{8.5}
+    \Pi_{(k \times k)} = \Gamma_{(k \times r)} \boldsymbol{\beta}_{(r \times k)}&#39;
+    \tag{8.3}
 \end{equation}\]</span></p>
-<p>Donde <span class="math inline">\(\boldsymbol{\beta}_{(r \times k)}' \mathbf{Y}_{t-1}\)</span> son <span class="math inline">\(r\)</span> combinaciones linealmente independientes que son estacionarias.</p>
-<p>Dada la ecuación <a href="cointegraci%C3%B3n.html#eq:VARVEC">(8.4)</a> podemos establecer la aproximación de Johansen (1988) que se realiza mediante una estimación por Máxima Verosimilitud de la ecuación:
+<p>Donde <span class="math inline">\(\boldsymbol{\beta}_{(r \times k)}&#39; \mathbf{Y}_{t-1}\)</span> son <span class="math inline">\(r\)</span> combinaciones linealmente independientes que son estacionarias.</p>
+<p>Dada la ecuación <a href="cointegración.html#eq:VARVEC">(8.2)</a> podemos establecer la aproximación de Johansen (1988) que se realiza mediante una estimación por Máxima Verosimilitud de la ecuación:
 <span class="math display" id="eq:PiMatrix1">\[\begin{equation}
-    \Delta \mathbf{Y}_t + \Gamma \boldsymbol{\beta}' \mathbf{Y}_{t-1} = \sum_{j=1}^{p-1} \mathbf{A}^*_j \Delta \mathbf{Y}_{t-j} + \mathbf{D}_t + \mathbf{U}_t
-        \tag{8.6}
+    \Delta \mathbf{Y}_t + \Gamma \boldsymbol{\beta}&#39; \mathbf{Y}_{t-1} = \sum_{j=1}^{p-1} \mathbf{A}^*_j \Delta \mathbf{Y}_{t-j} + \mathbf{D}_t + \mathbf{U}_t
+        \tag{8.4}
 \end{equation}\]</span></p>
 <p>Donde una vez estimado el sistema:
 <span class="math display" id="eq:PiMatrix2">\[\begin{equation}
     \boldsymbol{\beta} = [v_1, v_2, \ldots, v_r]
-        \tag{8.7}
+        \tag{8.5}
 \end{equation}\]</span></p>
 <p>Cada <span class="math inline">\(v_i\)</span>, <span class="math inline">\(i = 1, 2, \ldots, r\)</span>, es un vector propio que asociado a los <span class="math inline">\(r\)</span> valores propios positivos, mismos que estás asociados con la prueba de hipótesis de cointegración. Dicha hipótesis está basada en dos estadísticas con las que se determina el rango <span class="math inline">\(r\)</span> de <span class="math inline">\(\Pi\)</span>:</p>
 <ol style="list-style-type: decimal">
@@ -128,77 +150,62 @@
 </blockquote>
 </div>
 <div id="ejemplo-de-cointegración" class="section level2" number="8.3">
-<h2>
-<span class="header-section-number">8.3</span> Ejemplo de cointegración<a class="anchor" aria-label="anchor" href="#ejemplo-de-cointegraci%C3%B3n"><i class="fas fa-link"></i></a>
-</h2>
+<h2><span class="header-section-number">8.3</span> Ejemplo de cointegración</h2>
 <p>Para ejemplificar el procedimiento de cointegración utilizaremos las series de INPC, Tipo de Cambio, rendimiento de los Cetes a 28 días, IGAE e Índice de Producción Industrial de Estados Unidos. Quizá el marco teórico de la relación entre las variables no sea del todo correcta, pero dejando de lado ese problema estimaremos si las 5 series cointegran.</p>
-<p>En el Scrip Clase 17 de la capeta de GoogleDrive se encuentra el desarrollo de este ejemplo. Por principio, probaremos que todas las series son I(1), lo cual es cierto (ver Scrip para mayores detalles). En la Figura <a href="#fig:GCointegracion"><strong>??</strong></a> se muestran las series en niveles y en diferencias, con lo cual ilustramos como es viable que las series sean I(1).</p>
-<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co">#Dependencias</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org">ggplot2</a></span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org">dplyr</a></span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">stats</span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://www.stats.ox.ac.uk/pub/MASS4/">MASS</a></span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">strucchange</span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://zoo.R-Forge.R-project.org/">zoo</a></span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://sandwich.R-Forge.R-project.org/">sandwich</a></span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">urca</span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">lmtest</span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://www.pfaffikus.de">vars</a></span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># Importamos Datos desde un archivo de R:</span></span>
-<span><span class="co">#Los datos "cargados" son los originales y los ajustados por estacionalidad. Los cuales son:</span></span>
-<span><span class="co">#* INPC: Indice Nacional de Precios al Consumidor (2QJul2018 = 100)</span></span>
-<span><span class="co">#* TC: Tipo de Cambio FIX </span></span>
-<span><span class="co">#* CETE28: Tasa de rendimiento promedio mensual de los Cetes 28, en por ciento anual</span></span>
-<span><span class="co">#* IGAE: Indicador global de la actividad económica (2013 = 100)</span></span>
-<span><span class="co">#* IPI: Industrial Production Index (2012 = 100)</span></span>
-<span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/load.html">load</a></span><span class="op">(</span><span class="st">"BD/Clase_17/Datos_Ad.RData"</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co">## Conversion a series de tiempo:</span></span>
-<span><span class="va">Datos_co</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/ts.html">ts</a></span><span class="op">(</span><span class="va">Datos_Ad</span><span class="op">[</span><span class="fl">7</span><span class="op">:</span> <span class="fl">11</span><span class="op">]</span>, </span>
-<span>            start <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2000</span>, <span class="fl">1</span><span class="op">)</span>, </span>
-<span>            end <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2021</span>, <span class="fl">7</span><span class="op">)</span>, </span>
-<span>            freq <span class="op">=</span> <span class="fl">12</span><span class="op">)</span></span>
-<span></span>
-<span><span class="va">LDatos</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span><span class="op">(</span><span class="va">Datos_co</span><span class="op">)</span></span>
-<span></span>
-<span><span class="va">DLDatos</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/diff.html">diff</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span><span class="op">(</span><span class="va">Datos_co</span>, base <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html">exp</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span><span class="op">)</span>, </span>
-<span>                lag <span class="op">=</span> <span class="fl">1</span>, </span>
-<span>                differences <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># Gráficas</span></span></code></pre></div>
-<div class="figure" style="text-align: center">
-<span style="display:block;" id="fig:GCointegracion-1"></span>
-<img src="07-Cointegracion_files/figure-html/GCointegracion-1.png" alt="Series en niveles (logatirmos) y en diferencias logarítmicas para la prueba de Cointegración." width="100%"><p class="caption">
+<p>En el Scrip Clase 17 de la capeta de GoogleDrive se encuentra el desarrollo de este ejemplo. Por principio, probaremos que todas las series son I(1), lo cual es cierto (ver Scrip para mayores detalles). En la Figura <a href="cointegración.html#fig:GCointegracion">8.1</a> se muestran las series en niveles y en diferencias, con lo cual ilustramos como es viable que las series sean I(1).</p>
+<div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb53-1"><a href="cointegración.html#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Dependencias</span></span>
+<span id="cb53-2"><a href="cointegración.html#cb53-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb53-3"><a href="cointegración.html#cb53-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb53-4"><a href="cointegración.html#cb53-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(stats)</span>
+<span id="cb53-5"><a href="cointegración.html#cb53-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(MASS)</span>
+<span id="cb53-6"><a href="cointegración.html#cb53-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(strucchange)</span>
+<span id="cb53-7"><a href="cointegración.html#cb53-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(zoo)</span>
+<span id="cb53-8"><a href="cointegración.html#cb53-8" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sandwich)</span>
+<span id="cb53-9"><a href="cointegración.html#cb53-9" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(urca)</span>
+<span id="cb53-10"><a href="cointegración.html#cb53-10" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lmtest)</span>
+<span id="cb53-11"><a href="cointegración.html#cb53-11" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(vars)</span>
+<span id="cb53-12"><a href="cointegración.html#cb53-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-13"><a href="cointegración.html#cb53-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Importamos Datos desde un archivo de R:</span></span>
+<span id="cb53-14"><a href="cointegración.html#cb53-14" aria-hidden="true" tabindex="-1"></a><span class="co">#Los datos &quot;cargados&quot; son los originales y los ajustados por estacionalidad. Los cuales son:</span></span>
+<span id="cb53-15"><a href="cointegración.html#cb53-15" aria-hidden="true" tabindex="-1"></a><span class="co">#* INPC: Indice Nacional de Precios al Consumidor (2QJul2018 = 100)</span></span>
+<span id="cb53-16"><a href="cointegración.html#cb53-16" aria-hidden="true" tabindex="-1"></a><span class="co">#* TC: Tipo de Cambio FIX </span></span>
+<span id="cb53-17"><a href="cointegración.html#cb53-17" aria-hidden="true" tabindex="-1"></a><span class="co">#* CETE28: Tasa de rendimiento promedio mensual de los Cetes 28, en por ciento anual</span></span>
+<span id="cb53-18"><a href="cointegración.html#cb53-18" aria-hidden="true" tabindex="-1"></a><span class="co">#* IGAE: Indicador global de la actividad económica (2013 = 100)</span></span>
+<span id="cb53-19"><a href="cointegración.html#cb53-19" aria-hidden="true" tabindex="-1"></a><span class="co">#* IPI: Industrial Production Index (2012 = 100)</span></span>
+<span id="cb53-20"><a href="cointegración.html#cb53-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-21"><a href="cointegración.html#cb53-21" aria-hidden="true" tabindex="-1"></a><span class="fu">load</span>(<span class="st">&quot;BD/Clase_17/Datos_Ad.RData&quot;</span>)</span>
+<span id="cb53-22"><a href="cointegración.html#cb53-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-23"><a href="cointegración.html#cb53-23" aria-hidden="true" tabindex="-1"></a><span class="do">## Conversion a series de tiempo:</span></span>
+<span id="cb53-24"><a href="cointegración.html#cb53-24" aria-hidden="true" tabindex="-1"></a>Datos_co <span class="ot">&lt;-</span> <span class="fu">ts</span>(Datos_Ad[<span class="dv">7</span><span class="sc">:</span> <span class="dv">11</span>], </span>
+<span id="cb53-25"><a href="cointegración.html#cb53-25" aria-hidden="true" tabindex="-1"></a>            <span class="at">start =</span> <span class="fu">c</span>(<span class="dv">2000</span>, <span class="dv">1</span>), </span>
+<span id="cb53-26"><a href="cointegración.html#cb53-26" aria-hidden="true" tabindex="-1"></a>            <span class="at">end =</span> <span class="fu">c</span>(<span class="dv">2021</span>, <span class="dv">7</span>), </span>
+<span id="cb53-27"><a href="cointegración.html#cb53-27" aria-hidden="true" tabindex="-1"></a>            <span class="at">freq =</span> <span class="dv">12</span>)</span>
+<span id="cb53-28"><a href="cointegración.html#cb53-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-29"><a href="cointegración.html#cb53-29" aria-hidden="true" tabindex="-1"></a>LDatos <span class="ot">&lt;-</span> <span class="fu">log</span>(Datos_co)</span>
+<span id="cb53-30"><a href="cointegración.html#cb53-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-31"><a href="cointegración.html#cb53-31" aria-hidden="true" tabindex="-1"></a>DLDatos <span class="ot">&lt;-</span> <span class="fu">diff</span>(<span class="fu">log</span>(Datos_co, <span class="at">base =</span> <span class="fu">exp</span>(<span class="dv">1</span>)), </span>
+<span id="cb53-32"><a href="cointegración.html#cb53-32" aria-hidden="true" tabindex="-1"></a>                <span class="at">lag =</span> <span class="dv">1</span>, </span>
+<span id="cb53-33"><a href="cointegración.html#cb53-33" aria-hidden="true" tabindex="-1"></a>                <span class="at">differences =</span> <span class="dv">1</span>)</span>
+<span id="cb53-34"><a href="cointegración.html#cb53-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-35"><a href="cointegración.html#cb53-35" aria-hidden="true" tabindex="-1"></a><span class="co"># Gráficas</span></span></code></pre></div>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:GCointegracion"></span>
+<img src="07-Cointegracion_files/figure-html/GCointegracion-1.png" alt="Series en niveles (logatirmos) y en diferencias logarítmicas para la prueba de Cointegración." width="100%" />
+<p class="caption">
 Figure 8.1: Series en niveles (logatirmos) y en diferencias logarítmicas para la prueba de Cointegración.
 </p>
 </div>
-<div class="figure" style="text-align: center">
-<span style="display:block;" id="fig:GCointegracion-2"></span>
-<img src="07-Cointegracion_files/figure-html/GCointegracion-2.png" alt="Series en niveles (logatirmos) y en diferencias logarítmicas para la prueba de Cointegración." width="100%"><p class="caption">
-Figure 8.2: Series en niveles (logatirmos) y en diferencias logarítmicas para la prueba de Cointegración.
-</p>
-</div>
-<div class="figure" style="text-align: center">
-<span style="display:block;" id="fig:GCointegracion-3"></span>
-<img src="07-Cointegracion_files/figure-html/GCointegracion-3.png" alt="Series en niveles (logatirmos) y en diferencias logarítmicas para la prueba de Cointegración." width="100%"><p class="caption">
-Figure 8.3: Series en niveles (logatirmos) y en diferencias logarítmicas para la prueba de Cointegración.
-</p>
-</div>
-<p>Posteriormente, determinamos cuál es el orden adecuado de un VAR(p) en niveles. En el Cuadro <a href="cointegraci%C3%B3n.html#tab:SelectVARVEC">8.1</a> mostramos los resultados de los criterios de información para determinar el número de rezagos óptimos, el cual resultó en <span class="math inline">\(p = 3\)</span> para los criterios AIC y FPE, <span class="math inline">\(p = 2\)</span> para el criterio HQ y <span class="math inline">\(p = 1\)</span> para el citerio SC. Por lo tanto decidiremos utilizar un VAR(3) con tendencia y constante.</p>
-<div class="inline-table"><table class="table table-sm">
-<caption>
-<span id="tab:SelectVARVEC">Table 8.1: </span> Criterios de información para diferentes especificaciones de modelos VAR(p) con término constante y tendencia de la series <span class="math inline">\(LINPC_t\)</span>, <span class="math inline">\(LTC_t\)</span>, <span class="math inline">\(LCETE28_t\)</span>, <span class="math inline">\(LIGAE_t\)</span> y <span class="math inline">\(LIPI_t\)</span>. <strong>Se reporta el valor de los criterios de información.</strong>
-</caption>
-<thead><tr class="header">
+<p>Posteriormente, determinamos cuál es el orden adecuado de un VAR(p) en niveles. En el Cuadro <a href="cointegración.html#tab:SelectVARVEC">8.1</a> mostramos los resultados de los criterios de información para determinar el número de rezagos óptimos, el cual resultó en <span class="math inline">\(p = 3\)</span> para los criterios AIC y FPE, <span class="math inline">\(p = 2\)</span> para el criterio HQ y <span class="math inline">\(p = 1\)</span> para el citerio SC. Por lo tanto decidiremos utilizar un VAR(3) con tendencia y constante.</p>
+<table>
+<caption><span id="tab:SelectVARVEC">Table 8.1: </span> Criterios de información para diferentes especificaciones de modelos VAR(p) con término constante y tendencia de la series <span class="math inline">\(LINPC_t\)</span>, <span class="math inline">\(LTC_t\)</span>, <span class="math inline">\(LCETE28_t\)</span>, <span class="math inline">\(LIGAE_t\)</span> y <span class="math inline">\(LIPI_t\)</span>. <strong>Se reporta el valor de los criterios de información.</strong></caption>
+<thead>
+<tr class="header">
 <th align="center">Rezagos</th>
 <th align="center">AIC</th>
 <th align="center">HQ</th>
 <th align="center">SC</th>
 <th align="center">FPE</th>
-</tr></thead>
+</tr>
+</thead>
 <tbody>
 <tr class="odd">
 <td align="center">1</td>
@@ -236,19 +243,19 @@ Figure 8.3: Series en niveles (logatirmos) y en diferencias logarítmicas para l
 <td align="center"><span class="math inline">\(\vdots\)</span></td>
 </tr>
 </tbody>
-</table></div>
-<p>El mismo número de rezagos los utilizaremos para probar la Cointegración ya sea por una estadística de la Traza o por una de el máximo valor propio. En el Scrip llamado Clase 18 que se encuentra en la carpeta de GoogleDrive se ubican todos los resultados citados acontinuación. Derivado de la exploración de los resultados sólo matraremos uno de los caso en que las series cointegran y sólo para el caso de la prueba de la traza. En el Cuadro <a href="cointegraci%C3%B3n.html#tab:TrazaTest">8.2</a> reportamos los resultados del Test de Cointegración para un modelo con 3 rezagos.</p>
-<div class="inline-table"><table class="table table-sm">
-<caption>
-<span id="tab:TrazaTest">Table 8.2: </span> Criterios de información para diferentes especificaciones de modelos VAR(p) con tendencia de la series <span class="math inline">\(LINPC_t\)</span>, <span class="math inline">\(LTC_t\)</span>, <span class="math inline">\(LCETE28_t\)</span>, <span class="math inline">\(LIGAE_t\)</span> y <span class="math inline">\(LIPI_t\)</span>.</caption>
-<thead><tr class="header">
-<th align="center">r <span class="math inline">\(\leq\)</span>
-</th>
+</table>
+<p>El mismo número de rezagos los utilizaremos para probar la Cointegración ya sea por una estadística de la Traza o por una de el máximo valor propio. En el Scrip llamado Clase 18 que se encuentra en la carpeta de GoogleDrive se ubican todos los resultados citados acontinuación. Derivado de la exploración de los resultados sólo matraremos uno de los caso en que las series cointegran y sólo para el caso de la prueba de la traza. En el Cuadro <a href="cointegración.html#tab:TrazaTest">8.2</a> reportamos los resultados del Test de Cointegración para un modelo con 3 rezagos.</p>
+<table>
+<caption><span id="tab:TrazaTest">Table 8.2: </span> Criterios de información para diferentes especificaciones de modelos VAR(p) con tendencia de la series <span class="math inline">\(LINPC_t\)</span>, <span class="math inline">\(LTC_t\)</span>, <span class="math inline">\(LCETE28_t\)</span>, <span class="math inline">\(LIGAE_t\)</span> y <span class="math inline">\(LIPI_t\)</span>.</caption>
+<thead>
+<tr class="header">
+<th align="center">r <span class="math inline">\(\leq\)</span></th>
 <th align="center">Estadística</th>
 <th align="center">10%</th>
 <th align="center">5%</th>
 <th align="center">1%</th>
-</tr></thead>
+</tr>
+</thead>
 <tbody>
 <tr class="odd">
 <td align="center">4</td>
@@ -286,8 +293,8 @@ Figure 8.3: Series en niveles (logatirmos) y en diferencias logarítmicas para l
 <td align="center">96.58</td>
 </tr>
 </tbody>
-</table></div>
-<p>Los resutados del Cuadro <a href="cointegraci%C3%B3n.html#tab:TrazaTest">8.2</a> indican que acptamos la hipótesis nula para el caso de <span class="math inline">\(r \leq 1\)</span> al <span class="math inline">\(5\%\)</span>, por lo que podemos concluir que existe evidencia estadística para probar que existen al menos 1 vector de cointegración. Por lo que dicho vector es:
+</table>
+<p>Los resutados del Cuadro <a href="cointegración.html#tab:TrazaTest">8.2</a> indican que acptamos la hipótesis nula para el caso de <span class="math inline">\(r \leq 1\)</span> al <span class="math inline">\(5\%\)</span>, por lo que podemos concluir que existe evidencia estadística para probar que existen al menos 1 vector de cointegración. Por lo que dicho vector es:
 <span class="math display" id="eq:PiMatrix29">\[\begin{equation}
     \boldsymbol{\beta} = \left[
     \begin{matrix}
@@ -298,7 +305,7 @@ Figure 8.3: Series en niveles (logatirmos) y en diferencias logarítmicas para l
     0.229295743 \\
     -0.004350646 \\
     \end{matrix} \right]
-            \tag{8.8}
+            \tag{8.6}
 \end{equation}\]</span></p>
 <p>Donde el vector esta normalizado para la serie <span class="math inline">\(LINPC_t\)</span>, por lo que concluímos que la relación de largo plazo que encontramos cointegra estará dada por:
 <span class="math display">\[\begin{eqnarray*}
@@ -306,47 +313,48 @@ Figure 8.3: Series en niveles (logatirmos) y en diferencias logarítmicas para l
     &amp;  &amp; - 0.163804862 LIGAE_t - 0.229295743 LIPI_t \\
     &amp;  &amp; + 0.004350646 t
 \end{eqnarray*}\]</span></p>
-<p>Considerando lo anterior, podemos determinar <span class="math inline">\(\hat{U}_t\)</span> para esta ecuación de cointegración. En la Figura <a href="cointegraci%C3%B3n.html#fig:GUCointegration">8.4</a> mostramos los residuales estimados. Derivado de la impección visual parecería que estos no son estacionarios, condición que debería ser cierta. De esta forma, una prueba deseable es aplicar todas la pruebas de raíces unitarias a esta serie para mostrar que es I(0). En el Scrip llamado Clase 18 en la carpeta de GoogleDrive se muestran algunas pruebas sobre esta serie y se encuentra que es posible que no sea estacionaria.</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span> </span>
-<span><span class="co"># Residuales:</span></span>
-<span><span class="va">TT</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/ts.html">ts</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">259</span><span class="op">)</span>, </span>
-<span>         start <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2000</span>, <span class="fl">1</span><span class="op">)</span>, </span>
-<span>         end <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2021</span>, <span class="fl">7</span><span class="op">)</span>, </span>
-<span>         freq <span class="op">=</span> <span class="fl">12</span><span class="op">)</span></span>
-<span></span>
-<span><span class="va">U</span> <span class="op">&lt;-</span> <span class="va">LDatos</span><span class="op">[</span> , <span class="fl">1</span><span class="op">]</span> <span class="op">+</span> <span class="fl">0.7559141</span><span class="op">*</span><span class="va">LDatos</span><span class="op">[</span> , <span class="fl">2</span><span class="op">]</span> <span class="op">-</span> <span class="fl">0.3623270</span><span class="op">*</span><span class="va">LDatos</span><span class="op">[</span> , <span class="fl">3</span><span class="op">]</span> <span class="op">-</span> <span class="fl">5.0035388</span><span class="op">*</span><span class="va">LDatos</span><span class="op">[</span> , <span class="fl">4</span><span class="op">]</span> <span class="op">+</span> <span class="fl">4.2690269</span><span class="op">*</span><span class="va">LDatos</span><span class="op">[</span> , <span class="fl">5</span><span class="op">]</span> <span class="op">-</span> <span class="fl">3.2113796</span></span></code></pre></div>
-<div class="figure" style="text-align: center">
-<span style="display:block;" id="fig:GUCointegration"></span>
-<img src="07-Cointegracion_files/figure-html/GUCointegration-1.png" alt="Series en niveles (logatirmos) y en diferencias logarítmicas para la prueba de Cointegración." width="100%"><p class="caption">
-Figure 8.4: Series en niveles (logatirmos) y en diferencias logarítmicas para la prueba de Cointegración.
+<p>Considerando lo anterior, podemos determinar <span class="math inline">\(\hat{U}_t\)</span> para esta ecuación de cointegración. En la Figura <a href="cointegración.html#fig:GUCointegration">8.2</a> mostramos los residuales estimados. Derivado de la impección visual parecería que estos no son estacionarios, condición que debería ser cierta. De esta forma, una prueba deseable es aplicar todas la pruebas de raíces unitarias a esta serie para mostrar que es I(0). En el Scrip llamado Clase 18 en la carpeta de GoogleDrive se muestran algunas pruebas sobre esta serie y se encuentra que es posible que no sea estacionaria.</p>
+<div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb54-1"><a href="cointegración.html#cb54-1" aria-hidden="true" tabindex="-1"></a> </span>
+<span id="cb54-2"><a href="cointegración.html#cb54-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Residuales:</span></span>
+<span id="cb54-3"><a href="cointegración.html#cb54-3" aria-hidden="true" tabindex="-1"></a>TT <span class="ot">&lt;-</span> <span class="fu">ts</span>(<span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">259</span>), </span>
+<span id="cb54-4"><a href="cointegración.html#cb54-4" aria-hidden="true" tabindex="-1"></a>         <span class="at">start =</span> <span class="fu">c</span>(<span class="dv">2000</span>, <span class="dv">1</span>), </span>
+<span id="cb54-5"><a href="cointegración.html#cb54-5" aria-hidden="true" tabindex="-1"></a>         <span class="at">end =</span> <span class="fu">c</span>(<span class="dv">2021</span>, <span class="dv">7</span>), </span>
+<span id="cb54-6"><a href="cointegración.html#cb54-6" aria-hidden="true" tabindex="-1"></a>         <span class="at">freq =</span> <span class="dv">12</span>)</span>
+<span id="cb54-7"><a href="cointegración.html#cb54-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb54-8"><a href="cointegración.html#cb54-8" aria-hidden="true" tabindex="-1"></a>U <span class="ot">&lt;-</span> LDatos[ , <span class="dv">1</span>] <span class="sc">+</span> <span class="fl">0.7559141</span><span class="sc">*</span>LDatos[ , <span class="dv">2</span>] <span class="sc">-</span> <span class="fl">0.3623270</span><span class="sc">*</span>LDatos[ , <span class="dv">3</span>] <span class="sc">-</span> <span class="fl">5.0035388</span><span class="sc">*</span>LDatos[ , <span class="dv">4</span>] <span class="sc">+</span> <span class="fl">4.2690269</span><span class="sc">*</span>LDatos[ , <span class="dv">5</span>] <span class="sc">-</span> <span class="fl">3.2113796</span></span></code></pre></div>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:GUCointegration"></span>
+<img src="07-Cointegracion_files/figure-html/GUCointegration-1.png" alt="Series en niveles (logatirmos) y en diferencias logarítmicas para la prueba de Cointegración." width="100%" />
+<p class="caption">
+Figure 8.2: Series en niveles (logatirmos) y en diferencias logarítmicas para la prueba de Cointegración.
 </p>
 </div>
 
 </div>
 </div>
-  <div class="chapter-nav">
-<div class="empty"></div>
-<div class="empty"></div>
-</div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
-    <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
+  </main>
+
+  <div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
+    <nav id="toc" data-toggle="toc" aria-label="On this page">
+      <h2>On this page</h2>
       <div id="book-on-this-page"></div>
 
       <div class="book-extra">
         <ul class="list-unstyled">
-          
+          <li><a id="book-source" href="#">View source <i class="fab fa-github"></i></a></li>
+          <li><a id="book-edit" href="#">Edit this page <i class="fab fa-github"></i></a></li>
         </ul>
-</div>
+      </div>
     </nav>
-</div>
+  </div>
 
 </div>
 </div> <!-- .container -->
 
-<footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
+<footer class="bg-primary text-light mt-5">
+  <div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Notas de Clase: Series de Tiempo</strong>" was written by Benjamín Oliva, Omar Alfaro-Rivera y Emiliano Pérez Caullieres. It was last built on 2022-08-05.</p>
+    <p>"<strong>Notas de Clase: Series de Tiempo</strong>" was written by Benjamín Oliva, Omar Alfaro-Rivera y Emiliano Pérez Caullieres. It was last built on 2022-08-07.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">
@@ -354,7 +362,11 @@ Figure 8.4: Series en niveles (logatirmos) y en diferencias logarítmicas para l
   </div>
 
 </div></div>
-</footer><!-- dynamically load mathjax for compatibility with self-contained --><script>
+</footer>
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
   (function () {
     var script = document.createElement("script");
     script.type = "text/javascript";
@@ -366,7 +378,8 @@ Figure 8.4: Series en niveles (logatirmos) y en diferencias logarítmicas para l
     script.src = src;
     document.getElementsByTagName("head")[0].appendChild(script);
   })();
-</script><script type="text/x-mathjax-config">const popovers = document.querySelectorAll('a.footnote-ref[data-toggle="popover"]');
+</script>
+<script type="text/x-mathjax-config">const popovers = document.querySelectorAll('a.footnote-ref[data-toggle="popover"]');
 for (let popover of popovers) {
   const div = document.createElement('div');
   div.setAttribute('style', 'position: absolute; top: 0, left:0; width:0, height:0, overflow: hidden; visibility: hidden;');
@@ -384,4 +397,5 @@ for (let popover of popovers) {
 }
 </script>
 </body>
+
 </html>

@@ -396,6 +396,3 @@ prueba-f
 prueba-t
 apéndice-ii
 referencias
-fig:GCointegracion-1
-fig:GCointegracion-2
-fig:GCointegracion-3

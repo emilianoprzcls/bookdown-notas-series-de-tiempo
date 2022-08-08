@@ -1,33 +1,57 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>Capítulo 14 Apéndice II | Notas de Clase: Series de Tiempo</title>
-<meta name="author" content="Benjamín Oliva, Omar Alfaro-Rivera y Emiliano Pérez Caullieres">
-<meta name="description" content="14.1 Referencias Cowpertwait, P. y Metcalfe, A. (2009). Introductory Time Series with R. Spinger. Guerrero Guzmán, Victor (2014). Análisis Estadístico y Pronóstico de Series de Tiempo Económicas....">
-<meta name="generator" content="bookdown 0.27 with bs4_book()">
-<meta property="og:title" content="Capítulo 14 Apéndice II | Notas de Clase: Series de Tiempo">
-<meta property="og:type" content="book">
-<meta property="og:description" content="14.1 Referencias Cowpertwait, P. y Metcalfe, A. (2009). Introductory Time Series with R. Spinger. Guerrero Guzmán, Victor (2014). Análisis Estadístico y Pronóstico de Series de Tiempo Económicas....">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Capítulo 14 Apéndice II | Notas de Clase: Series de Tiempo">
-<meta name="twitter:description" content="14.1 Referencias Cowpertwait, P. y Metcalfe, A. (2009). Introductory Time Series with R. Spinger. Guerrero Guzmán, Victor (2014). Análisis Estadístico y Pronóstico de Series de Tiempo Económicas....">
-<!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
-<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.4.0/transition.js"></script><script src="libs/bs3compat-0.4.0/tabs.js"></script><script src="libs/bs3compat-0.4.0/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
-<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS --><style type="text/css">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <title>Capítulo 14 Apéndice II | Notas de Clase: Series de Tiempo</title>
+
+    <meta name="author" content="Benjamín Oliva, Omar Alfaro-Rivera y Emiliano Pérez Caullieres" />
+  
+   <meta name="description" content="Trabajo siempre en proceso de mejora, para cualquier comentario o aclaración, contactar al correo benjov@ciencias.unam.mx o omarxalpha@gmail.com" />
+   <meta name="generator" content="placeholder" />
+  <meta property="og:title" content="Capítulo 14 Apéndice II | Notas de Clase: Series de Tiempo" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="Trabajo siempre en proceso de mejora, para cualquier comentario o aclaración, contactar al correo benjov@ciencias.unam.mx o omarxalpha@gmail.com" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Capítulo 14 Apéndice II | Notas de Clase: Series de Tiempo" />
+  
+  <meta name="twitter:description" content="Trabajo siempre en proceso de mejora, para cualquier comentario o aclaración, contactar al correo benjov@ciencias.unam.mx o omarxalpha@gmail.com" />
+  
+  <!-- JS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script>
+  <script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script>
+    <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet" />
+    <script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script>
+    <script src="libs/bs3compat-0.4.0/transition.js"></script>
+    <script src="libs/bs3compat-0.4.0/tabs.js"></script>
+    <script src="libs/bs3compat-0.4.0/bs3compat.js"></script>
+    <link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet" />
+    <script src="libs/bs4_book-1.0.0/bs4_book.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script>
+
+  <!-- CSS -->
+  <style type="text/css">
     
     div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
   </style>
-<link rel="stylesheet" href="style.css">
+      <link rel="stylesheet" href="style.css" />
+  
 </head>
+
 <body data-spy="scroll" data-target="#toc">
 
 <div class="container-fluid">
 <div class="row">
-  <header class="col-sm-12 col-lg-3 sidebar sidebar-book"><a class="sr-only sr-only-focusable" href="#content">Skip to main content</a>
+  <header class="col-sm-12 col-lg-3 sidebar sidebar-book">
+    <a class="sr-only sr-only-focusable" href="#content">Skip to main content</a>
 
     <div class="d-flex align-items-start justify-content-between">
       <h1>
@@ -39,39 +63,24 @@
     <div id="main-nav" class="collapse-lg">
       <form role="search">
         <input id="search" class="form-control" type="search" placeholder="Search" aria-label="Search">
-</form>
+      </form>
 
-      <nav aria-label="Table of contents"><h2>Table of contents</h2>
-        <ul class="book-toc list-unstyled">
-<li><a class="" href="index.html"><span class="header-section-number">1</span> Introducción</a></li>
-<li><a class="" href="elementos-de-ecuaciones-en-diferencia.html"><span class="header-section-number">2</span> Elementos de Ecuaciones en Diferencia</a></li>
-<li><a class="" href="modelos-de-series-de-tiempo-estacionarias.html"><span class="header-section-number">3</span> Modelos de Series de Tiempo Estacionarias</a></li>
-<li><a class="" href="procesos-estacionarios-univariados.html"><span class="header-section-number">4</span> Procesos estacionarios univariados</a></li>
-<li><a class="" href="desestacionalizaci%C3%B3n-y-filtrado-de-series.html"><span class="header-section-number">5</span> Desestacionalización y filtrado de Series</a></li>
-<li><a class="" href="procesos-basados-en-vectores-autoregresivos.html"><span class="header-section-number">6</span> Procesos Basados en Vectores Autoregresivos</a></li>
-<li><a class="" href="procesos-no-estacionarios.html"><span class="header-section-number">7</span> Procesos No Estacionarios</a></li>
-<li><a class="" href="cointegraci%C3%B3n.html"><span class="header-section-number">8</span> Cointegración</a></li>
-<li><a class="" href="modelos-univariados-y-multivariados-de-volatilidad.html"><span class="header-section-number">9</span> Modelos Univariados y Multivariados de Volatilidad</a></li>
-<li><a class="" href="modelos-adrl.html"><span class="header-section-number">10</span> Modelos ADRL</a></li>
-<li><a class="" href="modelos-de-datos-panel.html"><span class="header-section-number">11</span> Modelos de Datos Panel</a></li>
-<li><a class="" href="otros-modelos-de-series-de-tiempo-no-lineales.html"><span class="header-section-number">12</span> Otros Modelos de Series de Tiempo No lineales</a></li>
-<li><a class="" href="apendice-i.html"><span class="header-section-number">13</span> Apendice I</a></li>
-<li><a class="active" href="ap%C3%A9ndice-ii.html"><span class="header-section-number">14</span> Apéndice II</a></li>
-</ul>
+      <nav aria-label="Table of contents">
+        <h2>Table of contents</h2>
+        <div id="book-toc"></div>
 
         <div class="book-extra">
-          <p><a id="book-repo" href="git@github.com:emilianoprzcls/bookdown-notas-series-de-tiempo.git">View book source <i class="fab fa-github"></i></a></p>
+          <p><a id="book-repo" href="#">View book source <i class="fab fa-github"></i></a></li></p>
         </div>
       </nav>
-</div>
-  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="apéndice-ii" class="section level1" number="14">
-<h1>
-<span class="header-section-number">Capítulo 14</span> Apéndice II<a class="anchor" aria-label="anchor" href="#ap%C3%A9ndice-ii"><i class="fas fa-link"></i></a>
-</h1>
+    </div>
+  </header>
+
+  <main class="col-sm-12 col-md-9 col-lg-7" id="content">
+<div id="apéndice-ii" class="section level1" number="14">
+<h1><span class="header-section-number">Capítulo 14</span> Apéndice II</h1>
 <div id="referencias" class="section level2" number="14.1">
-<h2>
-<span class="header-section-number">14.1</span> Referencias<a class="anchor" aria-label="anchor" href="#referencias"><i class="fas fa-link"></i></a>
-</h2>
+<h2><span class="header-section-number">14.1</span> Referencias</h2>
 <ul>
 <li>Cowpertwait, P. y Metcalfe, A. (2009). <em>Introductory Time Series with R</em>. Spinger.</li>
 <li>Guerrero Guzmán, Victor (2014). <em>Análisis Estadístico y Pronóstico de Series de Tiempo Económicas</em>. Jit Press. 3ra Edición. (Las ediciones 1 y 2 del libro fueron publicadas con el título: <em>Análisis Estadístico de Series de Tiempo Económicas</em>).</li>
@@ -82,11 +91,11 @@
 <li>Kleiber, Christian y Claudio Lupi (2011). <em>Panel Unit Root Testing with R</em>. CRAN task views are visible at <a href="http://cran.r-project.org/web/views/" class="uri">http://cran.r-project.org/web/views/</a>.</li>
 <li>Lutkepohl, Helmut (2005). <em>New Introduction to Multiple Time Series Analysis</em>. Spinger.</li>
 <li>Shrestha, Min B. y Guna R. Bhatta (2018). <em>Selecting appropriate methodological framework for time series data analysis</em>. The Journal of Finance and Data Science (4) 71-89.</li>
-<li>Sigmund, Michael y Robert Ferstl (nd). Panel Vector Autoregression in R with the Package panelvar. Electronic copy available at: <a href="https://ssrn.com/abstract=2896087" class="uri">https://ssrn.com/abstract=2896087</a>
-</li>
+<li>Sigmund, Michael y Robert Ferstl (nd). Panel Vector Autoregression in R with the Package panelvar. Electronic copy available at: <a href="https://ssrn.com/abstract=2896087" class="uri">https://ssrn.com/abstract=2896087</a></li>
 <li>Tsay, Ruey (2014). <em>Multivariate Time Series Analysis with R and Financial Applications</em>. Wiley.</li>
 <li>Wei, William (2019). <em>Multivariate Time Series Analysis and Applications</em>. Wiley Series in Probability ans Statistics.</li>
 </ul>
+
 </div>
 </div>
 
@@ -102,32 +111,30 @@
 
 
 
-  <div class="chapter-nav">
-<div class="prev"><a href="apendice-i.html"><span class="header-section-number">13</span> Apendice I</a></div>
-<div class="empty"></div>
-</div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
-    <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
-      <ul class="nav navbar-nav">
-<li><a class="nav-link" href="#ap%C3%A9ndice-ii"><span class="header-section-number">14</span> Apéndice II</a></li>
-<li><a class="nav-link" href="#referencias"><span class="header-section-number">14.1</span> Referencias</a></li>
-</ul>
+  </main>
+
+  <div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
+    <nav id="toc" data-toggle="toc" aria-label="On this page">
+      <h2>On this page</h2>
+      <div id="book-on-this-page"></div>
 
       <div class="book-extra">
         <ul class="list-unstyled">
-<li><a id="book-source" href="git@github.com:emilianoprzcls/bookdown-notas-series-de-tiempo.git/blob/master/13-ApendiceII.Rmd">View source <i class="fab fa-github"></i></a></li>
-          <li><a id="book-edit" href="git@github.com:emilianoprzcls/bookdown-notas-series-de-tiempo.git/edit/master/13-ApendiceII.Rmd">Edit this page <i class="fab fa-github"></i></a></li>
+          <li><a id="book-source" href="#">View source <i class="fab fa-github"></i></a></li>
+          <li><a id="book-edit" href="#">Edit this page <i class="fab fa-github"></i></a></li>
         </ul>
-</div>
+      </div>
     </nav>
-</div>
+  </div>
 
 </div>
 </div> <!-- .container -->
 
-<footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
+<footer class="bg-primary text-light mt-5">
+  <div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Notas de Clase: Series de Tiempo</strong>" was written by Benjamín Oliva, Omar Alfaro-Rivera y Emiliano Pérez Caullieres. It was last built on 2022-08-05.</p>
+    <p>"<strong>Notas de Clase: Series de Tiempo</strong>" was written by Benjamín Oliva, Omar Alfaro-Rivera y Emiliano Pérez Caullieres. It was last built on 2022-08-07.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">
@@ -135,7 +142,11 @@
   </div>
 
 </div></div>
-</footer><!-- dynamically load mathjax for compatibility with self-contained --><script>
+</footer>
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
   (function () {
     var script = document.createElement("script");
     script.type = "text/javascript";
@@ -147,7 +158,8 @@
     script.src = src;
     document.getElementsByTagName("head")[0].appendChild(script);
   })();
-</script><script type="text/x-mathjax-config">const popovers = document.querySelectorAll('a.footnote-ref[data-toggle="popover"]');
+</script>
+<script type="text/x-mathjax-config">const popovers = document.querySelectorAll('a.footnote-ref[data-toggle="popover"]');
 for (let popover of popovers) {
   const div = document.createElement('div');
   div.setAttribute('style', 'position: absolute; top: 0, left:0; width:0, height:0, overflow: hidden; visibility: hidden;');
@@ -165,4 +177,5 @@ for (let popover of popovers) {
 }
 </script>
 </body>
+
 </html>
