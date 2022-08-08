@@ -1,57 +1,33 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-  <title>Capítulo 5 Desestacionalización y filtrado de Series | Notas de Clase: Series de Tiempo</title>
-
-    <meta name="author" content="Benjamín Oliva, Omar Alfaro-Rivera y Emiliano Pérez Caullieres" />
-  
-   <meta name="description" content="Trabajo siempre en proceso de mejora, para cualquier comentario o aclaración, contactar al correo benjov@ciencias.unam.mx o omarxalpha@gmail.com" />
-   <meta name="generator" content="placeholder" />
-  <meta property="og:title" content="Capítulo 5 Desestacionalización y filtrado de Series | Notas de Clase: Series de Tiempo" />
-  <meta property="og:type" content="book" />
-  
-  
-  <meta property="og:description" content="Trabajo siempre en proceso de mejora, para cualquier comentario o aclaración, contactar al correo benjov@ciencias.unam.mx o omarxalpha@gmail.com" />
-
-  <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Capítulo 5 Desestacionalización y filtrado de Series | Notas de Clase: Series de Tiempo" />
-  
-  <meta name="twitter:description" content="Trabajo siempre en proceso de mejora, para cualquier comentario o aclaración, contactar al correo benjov@ciencias.unam.mx o omarxalpha@gmail.com" />
-  
-  <!-- JS -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script>
-  <script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script>
-    <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    <link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet" />
-    <script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script>
-    <script src="libs/bs3compat-0.4.0/transition.js"></script>
-    <script src="libs/bs3compat-0.4.0/tabs.js"></script>
-    <script src="libs/bs3compat-0.4.0/bs3compat.js"></script>
-    <link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet" />
-    <script src="libs/bs4_book-1.0.0/bs4_book.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script>
-
-  <!-- CSS -->
-  <style type="text/css">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>Capítulo 5 Desestacionalización y filtrado de Series | Notas de Clase: Series de Tiempo</title>
+<meta name="author" content="Benjamín Oliva, Omar Alfaro-Rivera y Emiliano Pérez Caullieres">
+<meta name="description" content="5.1 Motivación Existen múltiples enfoques para la desestacionalización de series. Algunos modelos, por ejemplo, pueden estar basados en modelos ARIMA como un conjunto de dummies. No obstante, en...">
+<meta name="generator" content="bookdown 0.27 with bs4_book()">
+<meta property="og:title" content="Capítulo 5 Desestacionalización y filtrado de Series | Notas de Clase: Series de Tiempo">
+<meta property="og:type" content="book">
+<meta property="og:description" content="5.1 Motivación Existen múltiples enfoques para la desestacionalización de series. Algunos modelos, por ejemplo, pueden estar basados en modelos ARIMA como un conjunto de dummies. No obstante, en...">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Capítulo 5 Desestacionalización y filtrado de Series | Notas de Clase: Series de Tiempo">
+<meta name="twitter:description" content="5.1 Motivación Existen múltiples enfoques para la desestacionalización de series. Algunos modelos, por ejemplo, pueden estar basados en modelos ARIMA como un conjunto de dummies. No obstante, en...">
+<!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
+<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.4.0/transition.js"></script><script src="libs/bs3compat-0.4.0/tabs.js"></script><script src="libs/bs3compat-0.4.0/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
+<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS --><style type="text/css">
     
     div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
   </style>
-      <link rel="stylesheet" href="style.css" />
-  
+<link rel="stylesheet" href="style.css">
 </head>
-
 <body data-spy="scroll" data-target="#toc">
 
 <div class="container-fluid">
 <div class="row">
-  <header class="col-sm-12 col-lg-3 sidebar sidebar-book">
-    <a class="sr-only sr-only-focusable" href="#content">Skip to main content</a>
+  <header class="col-sm-12 col-lg-3 sidebar sidebar-book"><a class="sr-only sr-only-focusable" href="#content">Skip to main content</a>
 
     <div class="d-flex align-items-start justify-content-between">
       <h1>
@@ -63,282 +39,300 @@
     <div id="main-nav" class="collapse-lg">
       <form role="search">
         <input id="search" class="form-control" type="search" placeholder="Search" aria-label="Search">
-      </form>
+</form>
 
-      <nav aria-label="Table of contents">
-        <h2>Table of contents</h2>
-        <div id="book-toc"></div>
+      <nav aria-label="Table of contents"><h2>Table of contents</h2>
+        <ul class="book-toc list-unstyled">
+<li><a class="" href="index.html"><span class="header-section-number">1</span> Introducción</a></li>
+<li><a class="" href="elementos-de-ecuaciones-en-diferencia.html"><span class="header-section-number">2</span> Elementos de Ecuaciones en Diferencia</a></li>
+<li><a class="" href="modelos-de-series-de-tiempo-estacionarias.html"><span class="header-section-number">3</span> Modelos de Series de Tiempo Estacionarias</a></li>
+<li><a class="" href="procesos-estacionarios-univariados.html"><span class="header-section-number">4</span> Procesos estacionarios univariados</a></li>
+<li><a class="active" href="desestacionalizaci%C3%B3n-y-filtrado-de-series.html"><span class="header-section-number">5</span> Desestacionalización y filtrado de Series</a></li>
+<li><a class="" href="procesos-basados-en-vectores-autoregresivos.html"><span class="header-section-number">6</span> Procesos Basados en Vectores Autoregresivos</a></li>
+<li><a class="" href="procesos-no-estacionarios.html"><span class="header-section-number">7</span> Procesos No Estacionarios</a></li>
+<li><a class="" href="cointegraci%C3%B3n.html"><span class="header-section-number">8</span> Cointegración</a></li>
+<li><a class="" href="modelos-univariados-y-multivariados-de-volatilidad.html"><span class="header-section-number">9</span> Modelos Univariados y Multivariados de Volatilidad</a></li>
+<li><a class="" href="modelos-adrl.html"><span class="header-section-number">10</span> Modelos ADRL</a></li>
+<li><a class="" href="modelos-de-datos-panel.html"><span class="header-section-number">11</span> Modelos de Datos Panel</a></li>
+<li><a class="" href="otros-modelos-de-series-de-tiempo-no-lineales.html"><span class="header-section-number">12</span> Otros Modelos de Series de Tiempo No lineales</a></li>
+<li><a class="" href="apendice-i.html"><span class="header-section-number">13</span> Apendice I</a></li>
+<li><a class="" href="ap%C3%A9ndice-ii.html"><span class="header-section-number">14</span> Apéndice II</a></li>
+</ul>
 
         <div class="book-extra">
-          <p><a id="book-repo" href="#">View book source <i class="fab fa-github"></i></a></li></p>
+          <p><a id="book-repo" href="git@github.com:emilianoprzcls/bookdown-notas-series-de-tiempo.git">View book source <i class="fab fa-github"></i></a></p>
         </div>
       </nav>
-    </div>
-  </header>
-
-  <main class="col-sm-12 col-md-9 col-lg-7" id="content">
-<div id="desestacionalización-y-filtrado-de-series" class="section level1" number="5">
-<h1><span class="header-section-number">Capítulo 5</span> Desestacionalización y filtrado de Series</h1>
+</div>
+  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="desestacionalización-y-filtrado-de-series" class="section level1" number="5">
+<h1>
+<span class="header-section-number">Capítulo 5</span> Desestacionalización y filtrado de Series<a class="anchor" aria-label="anchor" href="#desestacionalizaci%C3%B3n-y-filtrado-de-series"><i class="fas fa-link"></i></a>
+</h1>
 <div id="motivación" class="section level2" number="5.1">
-<h2><span class="header-section-number">5.1</span> Motivación</h2>
-<p>Existen múltiples enfoques para la desestacionalización de series. Algunos modelos, por ejemplo, pueden estar basados en modelos ARIMA como un conjunto de dummies. No obstante, en el caso partícular que discutiremos en este curso, estará basado en un modelo ARIMA de la serie. Este enfoque está basado en el modelo X11 de la oficina del censo de Estados Unidos (Census Bureau) el cual es conocido como el modelo X13-ARIMA-SEATS.<a href="#fn8" class="footnote-ref" id="fnref8"><sup>8</sup></a> El modelo X13-ARIMA-SEATS es, como su nombre lo indica, la combinación de un modelo ARIMA con componentes estacionales (por la traducción literal de la palabra: seasonal).</p>
+<h2>
+<span class="header-section-number">5.1</span> Motivación<a class="anchor" aria-label="anchor" href="#motivaci%C3%B3n"><i class="fas fa-link"></i></a>
+</h2>
+<p>Existen múltiples enfoques para la desestacionalización de series. Algunos modelos, por ejemplo, pueden estar basados en modelos ARIMA como un conjunto de dummies. No obstante, en el caso partícular que discutiremos en este curso, estará basado en un modelo ARIMA de la serie. Este enfoque está basado en el modelo X11 de la oficina del censo de Estados Unidos (Census Bureau) el cual es conocido como el modelo X13-ARIMA-SEATS.<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content="&lt;p&gt;La información y material respecto del modelo esta disponible en la dirección &lt;/p&gt;"><sup>8</sup></a> El modelo X13-ARIMA-SEATS es, como su nombre lo indica, la combinación de un modelo ARIMA con componentes estacionales (por la traducción literal de la palabra: seasonal).</p>
 <p>Un modelo ARIMA estacional emplea la serie en diferencias y como regresores los valores rezagados de las diferencia de la serie tantas veces como procesos estacionales <span class="math inline">\(s\)</span> existan en ésta, con el objeto de remover los efectos aditivos de la estacionalidad. Sólo para entender qué significa este mecanismo, recordemos que cuando se utiliza la primera direncia de la serie respecto del periodo inmediato anterior se remueve la tendencia. Por su parte, cuando se incluye la diferencia respecto del mes <span class="math inline">\(s\)</span> se está en el caso en que se modela la serie como una media móvil en términos del rezago <span class="math inline">\(s\)</span>.</p>
 <p>El modelo ARIMA estacional incluye como componentes autoregresivos y de medias móviles a los valores rezagados de la serie en el periodo <span class="math inline">\(s\)</span> en diferencias. El ARIMA(p, d, q)(P, D, Q) estacional puede ser expresado de la siguiente manera utilizando el operador rezago <span class="math inline">\(L\)</span>:
 <span class="math display" id="eq:ARIMAseas">\[\begin{equation}
     \Theta_P(L^s) \theta_p(L) (1 - L^s)^D (1 - L)^d X_t = \Psi_Q(L^s) \psi_q(L) U_t
     \tag{5.1}
 \end{equation}\]</span></p>
-<p>Donde <span class="math inline">\(\Theta_P(.)\)</span>, <span class="math inline">\(\theta_p(.)\)</span>, <span class="math inline">\(\Psi_Q(.)\)</span> y <span class="math inline">\(\psi_q(.)\)</span> son polinomios de <span class="math inline">\(L\)</span> de orden <span class="math inline">\(P\)</span>, <span class="math inline">\(p\)</span>, <span class="math inline">\(Q\)</span> y <span class="math inline">\(q\)</span> respectivamente. En general, la representación es de una serie no estacionaria, aunque si <span class="math inline">\(D = d = 0\)</span> y las raíces del polinomio carácteristico (de los polinomios del lado izquierdo de la ecuación <a href="desestacionalización-y-filtrado-de-series.html#eq:ARIMAseas">(5.1)</a> todas son más grandes que 1 en valor absoluto, el proceso modelado será estacionario.</p>
-<p>Si bien es cierto que existen otras formas de modelar la desestacionalización, como la modelación en diferencias con dummies para identificar ciertos patrones regulares, en los algorimtos disponibles como el X11 o X13-ARIMA-SEATS se emplea la formulación de la ecuación <a href="desestacionalización-y-filtrado-de-series.html#eq:ARIMAseas">(5.1)</a>. A continuación implementaremos la desestacionalización de una serie.</p>
-<p>Como ejemplo utilizaremos la serie del Índice Nacional de Precios al Consumidor (INPC) en el periodo de enero de 2000 a julio de 2019. Utilizando el Scrip Clase 11, diponible en el repositorio de GitHub, podemos ver que la serie original del INPC y su ajuste estacional bajo una metodología X13-ARIMA-SEATS son como se muestra en la Figura <a href="desestacionalización-y-filtrado-de-series.html#fig:INPCAdj">5.1</a>.</p>
+<p>Donde <span class="math inline">\(\Theta_P(.)\)</span>, <span class="math inline">\(\theta_p(.)\)</span>, <span class="math inline">\(\Psi_Q(.)\)</span> y <span class="math inline">\(\psi_q(.)\)</span> son polinomios de <span class="math inline">\(L\)</span> de orden <span class="math inline">\(P\)</span>, <span class="math inline">\(p\)</span>, <span class="math inline">\(Q\)</span> y <span class="math inline">\(q\)</span> respectivamente. En general, la representación es de una serie no estacionaria, aunque si <span class="math inline">\(D = d = 0\)</span> y las raíces del polinomio carácteristico (de los polinomios del lado izquierdo de la ecuación <a href="desestacionalizaci%C3%B3n-y-filtrado-de-series.html#eq:ARIMAseas">(5.1)</a> todas son más grandes que 1 en valor absoluto, el proceso modelado será estacionario.</p>
+<p>Si bien es cierto que existen otras formas de modelar la desestacionalización, como la modelación en diferencias con dummies para identificar ciertos patrones regulares, en los algorimtos disponibles como el X11 o X13-ARIMA-SEATS se emplea la formulación de la ecuación <a href="desestacionalizaci%C3%B3n-y-filtrado-de-series.html#eq:ARIMAseas">(5.1)</a>. A continuación implementaremos la desestacionalización de una serie.</p>
+<p>Como ejemplo utilizaremos la serie del Índice Nacional de Precios al Consumidor (INPC) en el periodo de enero de 2000 a julio de 2019. Utilizando el Scrip Clase 11, diponible en el repositorio de GitHub, podemos ver que la serie original del INPC y su ajuste estacional bajo una metodología X13-ARIMA-SEATS son como se muestra en la Figura <a href="desestacionalizaci%C3%B3n-y-filtrado-de-series.html#fig:INPCAdj">5.1</a>.</p>
 <p>El mismo procesamiento puede ser seguido para todas las series que busquemos analizar. En particular, en adelante, además del INPC que incluimos en la lista, utilzaremos las siguientes series, así como su versión desestacionalizada:
 - Índice Nacional de Precios al Consumidor (base 2QJul2018 = 100), <span class="math inline">\(INPC_t\)</span>.
 - Tipo de Cambio FIX, <span class="math inline">\(TC_t\)</span>
 - Tasa de rendimiento promedio mensual de los Cetes 28, en por ciento anual, <span class="math inline">\(CETE28_t\)</span>
 - Indicador global de la actividad económica (base 2013 = 100), <span class="math inline">\(IGAE_t\)</span>
 - Industrial Production Index o Índice de Producción Industrial de los Estados Unidos (base 2012 = 100), <span class="math inline">\(IPI_t\)</span></p>
-<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb44-1"><a href="desestacionalización-y-filtrado-de-series.html#cb44-1" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span>opts_chunk<span class="sc">$</span><span class="fu">set</span>(<span class="at">echo =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb44-2"><a href="desestacionalización-y-filtrado-de-series.html#cb44-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-3"><a href="desestacionalización-y-filtrado-de-series.html#cb44-3" aria-hidden="true" tabindex="-1"></a><span class="co">#install.packages(&quot;ggplot2&quot;)</span></span>
-<span id="cb44-4"><a href="desestacionalización-y-filtrado-de-series.html#cb44-4" aria-hidden="true" tabindex="-1"></a><span class="co">#install.packages(&quot;dplyr&quot;)</span></span>
-<span id="cb44-5"><a href="desestacionalización-y-filtrado-de-series.html#cb44-5" aria-hidden="true" tabindex="-1"></a><span class="co">#install.packages(&quot;readxl&quot;)</span></span>
-<span id="cb44-6"><a href="desestacionalización-y-filtrado-de-series.html#cb44-6" aria-hidden="true" tabindex="-1"></a><span class="co">#install.packages(stats)</span></span>
-<span id="cb44-7"><a href="desestacionalización-y-filtrado-de-series.html#cb44-7" aria-hidden="true" tabindex="-1"></a><span class="co">#install.packages(&quot;seasonal&quot;)</span></span>
-<span id="cb44-8"><a href="desestacionalización-y-filtrado-de-series.html#cb44-8" aria-hidden="true" tabindex="-1"></a><span class="co">#install.packages(&quot;seasonalview&quot;)</span></span>
-<span id="cb44-9"><a href="desestacionalización-y-filtrado-de-series.html#cb44-9" aria-hidden="true" tabindex="-1"></a><span class="co">#install.packages(&quot;shiny&quot;)</span></span>
-<span id="cb44-10"><a href="desestacionalización-y-filtrado-de-series.html#cb44-10" aria-hidden="true" tabindex="-1"></a><span class="co">#install.packages(&quot;TClass&quot;)</span></span>
-<span id="cb44-11"><a href="desestacionalización-y-filtrado-de-series.html#cb44-11" aria-hidden="true" tabindex="-1"></a><span class="co">#install.packages(&quot;remotes&quot;)</span></span>
-<span id="cb44-12"><a href="desestacionalización-y-filtrado-de-series.html#cb44-12" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
-<span id="cb44-13"><a href="desestacionalización-y-filtrado-de-series.html#cb44-13" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb44-14"><a href="desestacionalización-y-filtrado-de-series.html#cb44-14" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
-<span id="cb44-15"><a href="desestacionalización-y-filtrado-de-series.html#cb44-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb44-16"><a href="desestacionalización-y-filtrado-de-series.html#cb44-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Attaching package: &#39;dplyr&#39;</span></span>
-<span id="cb44-17"><a href="desestacionalización-y-filtrado-de-series.html#cb44-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; The following objects are masked from &#39;package:stats&#39;:</span></span>
-<span id="cb44-18"><a href="desestacionalización-y-filtrado-de-series.html#cb44-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb44-19"><a href="desestacionalización-y-filtrado-de-series.html#cb44-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     filter, lag</span></span>
-<span id="cb44-20"><a href="desestacionalización-y-filtrado-de-series.html#cb44-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; The following objects are masked from &#39;package:base&#39;:</span></span>
-<span id="cb44-21"><a href="desestacionalización-y-filtrado-de-series.html#cb44-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb44-22"><a href="desestacionalización-y-filtrado-de-series.html#cb44-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     intersect, setdiff, setequal, union</span></span>
-<span id="cb44-23"><a href="desestacionalización-y-filtrado-de-series.html#cb44-23" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readxl)</span>
-<span id="cb44-24"><a href="desestacionalización-y-filtrado-de-series.html#cb44-24" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(stats)</span>
-<span id="cb44-25"><a href="desestacionalización-y-filtrado-de-series.html#cb44-25" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(seasonal)</span>
-<span id="cb44-26"><a href="desestacionalización-y-filtrado-de-series.html#cb44-26" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(seasonalview)</span>
-<span id="cb44-27"><a href="desestacionalización-y-filtrado-de-series.html#cb44-27" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb44-28"><a href="desestacionalización-y-filtrado-de-series.html#cb44-28" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Attaching package: &#39;seasonalview&#39;</span></span>
-<span id="cb44-29"><a href="desestacionalización-y-filtrado-de-series.html#cb44-29" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; The following object is masked from &#39;package:seasonal&#39;:</span></span>
-<span id="cb44-30"><a href="desestacionalización-y-filtrado-de-series.html#cb44-30" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb44-31"><a href="desestacionalización-y-filtrado-de-series.html#cb44-31" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     view</span></span>
-<span id="cb44-32"><a href="desestacionalización-y-filtrado-de-series.html#cb44-32" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(shiny)</span>
-<span id="cb44-33"><a href="desestacionalización-y-filtrado-de-series.html#cb44-33" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-34"><a href="desestacionalización-y-filtrado-de-series.html#cb44-34" aria-hidden="true" tabindex="-1"></a><span class="co"># Importamos Datos:</span></span>
-<span id="cb44-35"><a href="desestacionalización-y-filtrado-de-series.html#cb44-35" aria-hidden="true" tabindex="-1"></a><span class="co">#Los datos importados son:</span></span>
-<span id="cb44-36"><a href="desestacionalización-y-filtrado-de-series.html#cb44-36" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-37"><a href="desestacionalización-y-filtrado-de-series.html#cb44-37" aria-hidden="true" tabindex="-1"></a><span class="co"># INPC: Indice Nacional de Precios al Consumidor (2QJul2018 = 100)</span></span>
-<span id="cb44-38"><a href="desestacionalización-y-filtrado-de-series.html#cb44-38" aria-hidden="true" tabindex="-1"></a><span class="co"># TC: Tipo de Cambio FIX </span></span>
-<span id="cb44-39"><a href="desestacionalización-y-filtrado-de-series.html#cb44-39" aria-hidden="true" tabindex="-1"></a><span class="co"># CETE28: Tasa de rendimiento promedio mensual de los Cetes 28, en por ciento anual*# IGAE: Indicador global de la actividad económica (2013 = 100)</span></span>
-<span id="cb44-40"><a href="desestacionalización-y-filtrado-de-series.html#cb44-40" aria-hidden="true" tabindex="-1"></a><span class="co"># IPI: Industrial Production Index (2012 = 100)</span></span>
-<span id="cb44-41"><a href="desestacionalización-y-filtrado-de-series.html#cb44-41" aria-hidden="true" tabindex="-1"></a>Datos_deses <span class="ot">&lt;-</span> <span class="fu">read_excel</span>(<span class="st">&quot;BD/Clase_11/Base_VAR.xlsx&quot;</span>, <span class="at">sheet =</span> <span class="st">&quot;Datos&quot;</span>, <span class="at">col_names =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb44-42"><a href="desestacionalización-y-filtrado-de-series.html#cb44-42" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-43"><a href="desestacionalización-y-filtrado-de-series.html#cb44-43" aria-hidden="true" tabindex="-1"></a><span class="co"># Primer ejemplo:</span></span>
-<span id="cb44-44"><a href="desestacionalización-y-filtrado-de-series.html#cb44-44" aria-hidden="true" tabindex="-1"></a>INPC <span class="ot">&lt;-</span> <span class="fu">ts</span>(Datos_deses<span class="sc">$</span>INPC, </span>
-<span id="cb44-45"><a href="desestacionalización-y-filtrado-de-series.html#cb44-45" aria-hidden="true" tabindex="-1"></a>           <span class="at">start =</span> <span class="fu">c</span>(<span class="dv">2000</span>, <span class="dv">1</span>), </span>
-<span id="cb44-46"><a href="desestacionalización-y-filtrado-de-series.html#cb44-46" aria-hidden="true" tabindex="-1"></a>           <span class="at">freq =</span> <span class="dv">12</span>)</span>
-<span id="cb44-47"><a href="desestacionalización-y-filtrado-de-series.html#cb44-47" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-48"><a href="desestacionalización-y-filtrado-de-series.html#cb44-48" aria-hidden="true" tabindex="-1"></a><span class="co"># Desestacionalizacion (forma complicada):</span></span>
-<span id="cb44-49"><a href="desestacionalización-y-filtrado-de-series.html#cb44-49" aria-hidden="true" tabindex="-1"></a>Seas_INPC <span class="ot">&lt;-</span> <span class="fu">seas</span>(INPC)</span>
-<span id="cb44-50"><a href="desestacionalización-y-filtrado-de-series.html#cb44-50" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-51"><a href="desestacionalización-y-filtrado-de-series.html#cb44-51" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(Seas_INPC)</span>
-<span id="cb44-52"><a href="desestacionalización-y-filtrado-de-series.html#cb44-52" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1] &quot;series&quot;      &quot;udg&quot;         &quot;data&quot;        &quot;err&quot;        </span></span>
-<span id="cb44-53"><a href="desestacionalización-y-filtrado-de-series.html#cb44-53" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [5] &quot;est&quot;         &quot;model&quot;       &quot;fivebestmdl&quot; &quot;wdir&quot;       </span></span>
-<span id="cb44-54"><a href="desestacionalización-y-filtrado-de-series.html#cb44-54" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [9] &quot;iofile&quot;      &quot;call&quot;        &quot;list&quot;        &quot;x&quot;          </span></span>
-<span id="cb44-55"><a href="desestacionalización-y-filtrado-de-series.html#cb44-55" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [13] &quot;spc&quot;</span></span>
-<span id="cb44-56"><a href="desestacionalización-y-filtrado-de-series.html#cb44-56" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-57"><a href="desestacionalización-y-filtrado-de-series.html#cb44-57" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(Seas_INPC)</span>
-<span id="cb44-58"><a href="desestacionalización-y-filtrado-de-series.html#cb44-58" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb44-59"><a href="desestacionalización-y-filtrado-de-series.html#cb44-59" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Call:</span></span>
-<span id="cb44-60"><a href="desestacionalización-y-filtrado-de-series.html#cb44-60" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; seas(x = INPC)</span></span>
-<span id="cb44-61"><a href="desestacionalización-y-filtrado-de-series.html#cb44-61" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb44-62"><a href="desestacionalización-y-filtrado-de-series.html#cb44-62" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Coefficients:</span></span>
-<span id="cb44-63"><a href="desestacionalización-y-filtrado-de-series.html#cb44-63" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                    Estimate Std. Error z value Pr(&gt;|z|)    </span></span>
-<span id="cb44-64"><a href="desestacionalización-y-filtrado-de-series.html#cb44-64" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; AO2002.Jan         0.004619   0.001079   4.280 1.87e-05 ***</span></span>
-<span id="cb44-65"><a href="desestacionalización-y-filtrado-de-series.html#cb44-65" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; LS2017.Jan         0.011927   0.001804   6.611 3.81e-11 ***</span></span>
-<span id="cb44-66"><a href="desestacionalización-y-filtrado-de-series.html#cb44-66" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; AO2020.Apr        -0.006200   0.001083  -5.723 1.05e-08 ***</span></span>
-<span id="cb44-67"><a href="desestacionalización-y-filtrado-de-series.html#cb44-67" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; MA-Nonseasonal-01 -0.462302   0.054407  -8.497  &lt; 2e-16 ***</span></span>
-<span id="cb44-68"><a href="desestacionalización-y-filtrado-de-series.html#cb44-68" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; MA-Seasonal-12     0.784240   0.040881  19.183  &lt; 2e-16 ***</span></span>
-<span id="cb44-69"><a href="desestacionalización-y-filtrado-de-series.html#cb44-69" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ---</span></span>
-<span id="cb44-70"><a href="desestacionalización-y-filtrado-de-series.html#cb44-70" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Signif. codes:  </span></span>
-<span id="cb44-71"><a href="desestacionalización-y-filtrado-de-series.html#cb44-71" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</span></span>
-<span id="cb44-72"><a href="desestacionalización-y-filtrado-de-series.html#cb44-72" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb44-73"><a href="desestacionalización-y-filtrado-de-series.html#cb44-73" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; SEATS adj.  ARIMA: (0 1 1)(0 1 1)  Obs.: 259  Transform: log</span></span>
-<span id="cb44-74"><a href="desestacionalización-y-filtrado-de-series.html#cb44-74" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; AICc: -180.5, BIC: -159.8  QS (no seasonality in final):    0  </span></span>
-<span id="cb44-75"><a href="desestacionalización-y-filtrado-de-series.html#cb44-75" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Box-Ljung (no autocorr.): 23.65   Shapiro (normality): 0.9831 **</span></span>
-<span id="cb44-76"><a href="desestacionalización-y-filtrado-de-series.html#cb44-76" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-77"><a href="desestacionalización-y-filtrado-de-series.html#cb44-77" aria-hidden="true" tabindex="-1"></a><span class="co">#</span></span>
-<span id="cb44-78"><a href="desestacionalización-y-filtrado-de-series.html#cb44-78" aria-hidden="true" tabindex="-1"></a><span class="fu">final</span>(Seas_INPC)</span>
-<span id="cb44-79"><a href="desestacionalización-y-filtrado-de-series.html#cb44-79" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;            Jan       Feb       Mar       Apr       May</span></span>
-<span id="cb44-80"><a href="desestacionalización-y-filtrado-de-series.html#cb44-80" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2000  44.77029  45.18403  45.40234  45.70368  46.08070</span></span>
-<span id="cb44-81"><a href="desestacionalización-y-filtrado-de-series.html#cb44-81" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2001  48.39654  48.38881  48.65881  48.95142  49.29006</span></span>
-<span id="cb44-82"><a href="desestacionalización-y-filtrado-de-series.html#cb44-82" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2002  50.71225  50.70179  50.92105  51.25509  51.60943</span></span>
-<span id="cb44-83"><a href="desestacionalización-y-filtrado-de-series.html#cb44-83" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2003  53.31609  53.48246  53.77800  53.94089  54.05056</span></span>
-<span id="cb44-84"><a href="desestacionalización-y-filtrado-de-series.html#cb44-84" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2004  55.54334  55.88971  56.03962  56.21125  56.38531</span></span>
-<span id="cb44-85"><a href="desestacionalización-y-filtrado-de-series.html#cb44-85" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2005  58.05282  58.26189  58.48581  58.79626  58.99578</span></span>
-<span id="cb44-86"><a href="desestacionalización-y-filtrado-de-series.html#cb44-86" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2006  60.31635  60.42680  60.46618  60.67856  60.78415</span></span>
-<span id="cb44-87"><a href="desestacionalización-y-filtrado-de-series.html#cb44-87" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2007  62.70196  62.89541  62.99002  63.10118  63.19887</span></span>
-<span id="cb44-88"><a href="desestacionalización-y-filtrado-de-series.html#cb44-88" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2008  65.01709  65.22681  65.64787  65.96965  66.33437</span></span>
-<span id="cb44-89"><a href="desestacionalización-y-filtrado-de-series.html#cb44-89" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2009  69.08646  69.25034  69.58933  70.03565  70.30536</span></span>
-<span id="cb44-90"><a href="desestacionalización-y-filtrado-de-series.html#cb44-90" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2010  72.15127  72.56587  73.02022  73.02491  73.06952</span></span>
-<span id="cb44-91"><a href="desestacionalización-y-filtrado-de-series.html#cb44-91" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2011  74.86517  75.13956  75.23038  75.48953  75.45523</span></span>
-<span id="cb44-92"><a href="desestacionalización-y-filtrado-de-series.html#cb44-92" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2012  77.88882  78.03832  78.03412  78.08142  78.36672</span></span>
-<span id="cb44-93"><a href="desestacionalización-y-filtrado-de-series.html#cb44-93" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2013  80.43511  80.81548  81.35072  81.71941  81.99156</span></span>
-<span id="cb44-94"><a href="desestacionalización-y-filtrado-de-series.html#cb44-94" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2014  84.04428  84.23918  84.41483  84.59701  84.87807</span></span>
-<span id="cb44-95"><a href="desestacionalización-y-filtrado-de-series.html#cb44-95" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2015  86.63243  86.77474  87.07291  87.20811  87.32823</span></span>
-<span id="cb44-96"><a href="desestacionalización-y-filtrado-de-series.html#cb44-96" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2016  88.90614  89.26620  89.34757  89.44196  89.59871</span></span>
-<span id="cb44-97"><a href="desestacionalización-y-filtrado-de-series.html#cb44-97" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2017  93.11384  93.62242  94.14690  94.66363  95.12087</span></span>
-<span id="cb44-98"><a href="desestacionalización-y-filtrado-de-series.html#cb44-98" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2018  98.28379  98.63525  98.90946  98.99765  99.41535</span></span>
-<span id="cb44-99"><a href="desestacionalización-y-filtrado-de-series.html#cb44-99" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2019 102.58552 102.53864 102.88957 103.37936 103.66756</span></span>
-<span id="cb44-100"><a href="desestacionalización-y-filtrado-de-series.html#cb44-100" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2020 105.92752 106.33873 106.24531 105.61243 106.60476</span></span>
-<span id="cb44-101"><a href="desestacionalización-y-filtrado-de-series.html#cb44-101" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2021 109.70405 110.36088 111.21655 112.03885 112.87386</span></span>
-<span id="cb44-102"><a href="desestacionalización-y-filtrado-de-series.html#cb44-102" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;            Jun       Jul       Aug       Sep       Oct</span></span>
-<span id="cb44-103"><a href="desestacionalización-y-filtrado-de-series.html#cb44-103" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2000  46.42157  46.69961  46.94796  47.16362  47.45045</span></span>
-<span id="cb44-104"><a href="desestacionalización-y-filtrado-de-series.html#cb44-104" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2001  49.48158  49.45252  49.73396  50.05702  50.24097</span></span>
-<span id="cb44-105"><a href="desestacionalización-y-filtrado-de-series.html#cb44-105" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2002  51.94236  52.18259  52.36916  52.53823  52.72274</span></span>
-<span id="cb44-106"><a href="desestacionalización-y-filtrado-de-series.html#cb44-106" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2003  54.18788  54.34573  54.49561  54.66727  54.81421</span></span>
-<span id="cb44-107"><a href="desestacionalización-y-filtrado-de-series.html#cb44-107" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2004  56.57944  56.79298  57.12822  57.43813  57.77350</span></span>
-<span id="cb44-108"><a href="desestacionalización-y-filtrado-de-series.html#cb44-108" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2005  59.05133  59.33307  59.38990  59.46232  59.54214</span></span>
-<span id="cb44-109"><a href="desestacionalización-y-filtrado-de-series.html#cb44-109" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2006  60.95215  61.15781  61.45478  61.90260  62.09959</span></span>
-<span id="cb44-110"><a href="desestacionalización-y-filtrado-de-series.html#cb44-110" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2007  63.39157  63.68921  63.93606  64.26552  64.43308</span></span>
-<span id="cb44-111"><a href="desestacionalización-y-filtrado-de-series.html#cb44-111" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2008  66.72845  67.12236  67.50312  67.80588  68.17087</span></span>
-<span id="cb44-112"><a href="desestacionalización-y-filtrado-de-series.html#cb44-112" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2009  70.56076  70.77126  70.94118  71.15129  71.25491</span></span>
-<span id="cb44-113"><a href="desestacionalización-y-filtrado-de-series.html#cb44-113" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2010  73.17567  73.34645  73.55578  73.80811  74.13190</span></span>
-<span id="cb44-114"><a href="desestacionalización-y-filtrado-de-series.html#cb44-114" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2011  75.57749  75.94343  76.07298  76.14170  76.50837</span></span>
-<span id="cb44-115"><a href="desestacionalización-y-filtrado-de-series.html#cb44-115" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2012  78.84734  79.29152  79.53788  79.77728  80.02172</span></span>
-<span id="cb44-116"><a href="desestacionalización-y-filtrado-de-series.html#cb44-116" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2013  82.06220  82.04215  82.28146  82.48604  82.70823</span></span>
-<span id="cb44-117"><a href="desestacionalización-y-filtrado-de-series.html#cb44-117" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2014  85.13828  85.37364  85.68228  85.95862  86.24939</span></span>
-<span id="cb44-118"><a href="desestacionalización-y-filtrado-de-series.html#cb44-118" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2015  87.57860  87.69859  87.88463  88.11900  88.37916</span></span>
-<span id="cb44-119"><a href="desestacionalización-y-filtrado-de-series.html#cb44-119" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2016  89.79442  90.00801  90.26224  90.73091  91.08230</span></span>
-<span id="cb44-120"><a href="desestacionalización-y-filtrado-de-series.html#cb44-120" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2017  95.45046  95.77245  96.24606  96.48198  96.88011</span></span>
-<span id="cb44-121"><a href="desestacionalización-y-filtrado-de-series.html#cb44-121" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2018  99.87640 100.34917 100.93781 101.31323 101.62119</span></span>
-<span id="cb44-122"><a href="desestacionalización-y-filtrado-de-series.html#cb44-122" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2019 103.79846 104.10668 104.10498 104.34324 104.68334</span></span>
-<span id="cb44-123"><a href="desestacionalización-y-filtrado-de-series.html#cb44-123" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2020 107.23615 107.84074 108.28547 108.51181 108.94882</span></span>
-<span id="cb44-124"><a href="desestacionalización-y-filtrado-de-series.html#cb44-124" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2021 113.51893 114.07876                              </span></span>
-<span id="cb44-125"><a href="desestacionalización-y-filtrado-de-series.html#cb44-125" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;            Nov       Dec</span></span>
-<span id="cb44-126"><a href="desestacionalización-y-filtrado-de-series.html#cb44-126" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2000  47.71179  48.17650</span></span>
-<span id="cb44-127"><a href="desestacionalización-y-filtrado-de-series.html#cb44-127" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2001  50.27430  50.29634</span></span>
-<span id="cb44-128"><a href="desestacionalización-y-filtrado-de-series.html#cb44-128" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2002  52.97261  53.15249</span></span>
-<span id="cb44-129"><a href="desestacionalización-y-filtrado-de-series.html#cb44-129" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2003  55.07420  55.25544</span></span>
-<span id="cb44-130"><a href="desestacionalización-y-filtrado-de-series.html#cb44-130" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2004  58.05206  58.10890</span></span>
-<span id="cb44-131"><a href="desestacionalización-y-filtrado-de-series.html#cb44-131" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2005  59.74558  60.03535</span></span>
-<span id="cb44-132"><a href="desestacionalización-y-filtrado-de-series.html#cb44-132" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2006  62.18779  62.46086</span></span>
-<span id="cb44-133"><a href="desestacionalización-y-filtrado-de-series.html#cb44-133" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2007  64.63223  64.80593</span></span>
-<span id="cb44-134"><a href="desestacionalización-y-filtrado-de-series.html#cb44-134" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2008  68.66243  69.03189</span></span>
-<span id="cb44-135"><a href="desestacionalización-y-filtrado-de-series.html#cb44-135" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2009  71.32529  71.50399</span></span>
-<span id="cb44-136"><a href="desestacionalización-y-filtrado-de-series.html#cb44-136" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2010  74.40086  74.64066</span></span>
-<span id="cb44-137"><a href="desestacionalización-y-filtrado-de-series.html#cb44-137" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2011  76.99023  77.48331</span></span>
-<span id="cb44-138"><a href="desestacionalización-y-filtrado-de-series.html#cb44-138" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2012  80.20706  80.25132</span></span>
-<span id="cb44-139"><a href="desestacionalización-y-filtrado-de-series.html#cb44-139" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2013  83.10867  83.43538</span></span>
-<span id="cb44-140"><a href="desestacionalización-y-filtrado-de-series.html#cb44-140" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2014  86.56489  86.83237</span></span>
-<span id="cb44-141"><a href="desestacionalización-y-filtrado-de-series.html#cb44-141" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2015  88.48548  88.68687</span></span>
-<span id="cb44-142"><a href="desestacionalización-y-filtrado-de-series.html#cb44-142" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2016  91.41636  91.67473</span></span>
-<span id="cb44-143"><a href="desestacionalización-y-filtrado-de-series.html#cb44-143" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2017  97.48690  97.88655</span></span>
-<span id="cb44-144"><a href="desestacionalización-y-filtrado-de-series.html#cb44-144" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2018 102.09704 102.62583</span></span>
-<span id="cb44-145"><a href="desestacionalización-y-filtrado-de-series.html#cb44-145" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2019 105.16079 105.56388</span></span>
-<span id="cb44-146"><a href="desestacionalización-y-filtrado-de-series.html#cb44-146" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2020 108.69159 108.93224</span></span>
-<span id="cb44-147"><a href="desestacionalización-y-filtrado-de-series.html#cb44-147" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2021</span></span>
-<span id="cb44-148"><a href="desestacionalización-y-filtrado-de-series.html#cb44-148" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-149"><a href="desestacionalización-y-filtrado-de-series.html#cb44-149" aria-hidden="true" tabindex="-1"></a>INPC_Ad <span class="ot">&lt;-</span> <span class="fu">final</span>(Seas_INPC)</span>
-<span id="cb44-150"><a href="desestacionalización-y-filtrado-de-series.html#cb44-150" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-151"><a href="desestacionalización-y-filtrado-de-series.html#cb44-151" aria-hidden="true" tabindex="-1"></a><span class="co">#</span></span>
-<span id="cb44-152"><a href="desestacionalización-y-filtrado-de-series.html#cb44-152" aria-hidden="true" tabindex="-1"></a><span class="fu">original</span>(Seas_INPC)</span>
-<span id="cb44-153"><a href="desestacionalización-y-filtrado-de-series.html#cb44-153" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;            Jan       Feb       Mar       Apr       May</span></span>
-<span id="cb44-154"><a href="desestacionalización-y-filtrado-de-series.html#cb44-154" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2000  44.93083  45.32938  45.58068  45.84002  46.01138</span></span>
-<span id="cb44-155"><a href="desestacionalización-y-filtrado-de-series.html#cb44-155" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2001  48.57548  48.54333  48.85089  49.09731  49.20997</span></span>
-<span id="cb44-156"><a href="desestacionalización-y-filtrado-de-series.html#cb44-156" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2002  50.90047  50.86775  51.12795  51.40724  51.51143</span></span>
-<span id="cb44-157"><a href="desestacionalización-y-filtrado-de-series.html#cb44-157" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2003  53.52544  53.67412  54.01293  54.10514  53.93056</span></span>
-<span id="cb44-158"><a href="desestacionalización-y-filtrado-de-series.html#cb44-158" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2004  55.77432  56.10795  56.29807  56.38303  56.24160</span></span>
-<span id="cb44-159"><a href="desestacionalización-y-filtrado-de-series.html#cb44-159" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2005  58.30916  58.50343  58.76712  58.97642  58.82825</span></span>
-<span id="cb44-160"><a href="desestacionalización-y-filtrado-de-series.html#cb44-160" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2006  60.60363  60.69636  60.77251  60.86162  60.59067</span></span>
-<span id="cb44-161"><a href="desestacionalización-y-filtrado-de-series.html#cb44-161" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2007  63.01621  63.19235  63.32911  63.29129  62.98253</span></span>
-<span id="cb44-162"><a href="desestacionalización-y-filtrado-de-series.html#cb44-162" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2008  65.35056  65.54483  66.01989  66.17013  66.09864</span></span>
-<span id="cb44-163"><a href="desestacionalización-y-filtrado-de-series.html#cb44-163" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2009  69.45615  69.60949  70.00995  70.25499  70.05036</span></span>
-<span id="cb44-164"><a href="desestacionalización-y-filtrado-de-series.html#cb44-164" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2010  72.55205  72.97167  73.48973  73.25557  72.79398</span></span>
-<span id="cb44-165"><a href="desestacionalización-y-filtrado-de-series.html#cb44-165" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2011  75.29599  75.57846  75.72345  75.71744  75.15926</span></span>
-<span id="cb44-166"><a href="desestacionalización-y-filtrado-de-series.html#cb44-166" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2012  78.34305  78.50231  78.54739  78.30098  78.05382</span></span>
-<span id="cb44-167"><a href="desestacionalización-y-filtrado-de-series.html#cb44-167" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2013  80.89278  81.29094  81.88743  81.94152  81.66882</span></span>
-<span id="cb44-168"><a href="desestacionalización-y-filtrado-de-series.html#cb44-168" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2014  84.51905  84.73316  84.96529  84.80678  84.53558</span></span>
-<span id="cb44-169"><a href="desestacionalización-y-filtrado-de-series.html#cb44-169" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2015  87.11010  87.27538  87.63072  87.40384  86.96737</span></span>
-<span id="cb44-170"><a href="desestacionalización-y-filtrado-de-series.html#cb44-170" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2016  89.38638  89.77778  89.91000  89.62528  89.22562</span></span>
-<span id="cb44-171"><a href="desestacionalización-y-filtrado-de-series.html#cb44-171" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2017  93.60388  94.14478  94.72249  94.83893  94.72549</span></span>
-<span id="cb44-172"><a href="desestacionalización-y-filtrado-de-series.html#cb44-172" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2018  98.79500  99.17137  99.49216  99.15485  98.99408</span></span>
-<span id="cb44-173"><a href="desestacionalización-y-filtrado-de-series.html#cb44-173" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2019 103.10800 103.07900 103.47600 103.53100 103.23300</span></span>
-<span id="cb44-174"><a href="desestacionalización-y-filtrado-de-series.html#cb44-174" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2020 106.44700 106.88900 106.83800 105.75500 106.16200</span></span>
-<span id="cb44-175"><a href="desestacionalización-y-filtrado-de-series.html#cb44-175" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2021 110.21000 110.90700 111.82400 112.19000 112.41900</span></span>
-<span id="cb44-176"><a href="desestacionalización-y-filtrado-de-series.html#cb44-176" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;            Jun       Jul       Aug       Sep       Oct</span></span>
-<span id="cb44-177"><a href="desestacionalización-y-filtrado-de-series.html#cb44-177" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2000  46.28392  46.46447  46.71979  47.06107  47.38514</span></span>
-<span id="cb44-178"><a href="desestacionalización-y-filtrado-de-series.html#cb44-178" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2001  49.32636  49.19820  49.48969  49.95038  50.17614</span></span>
-<span id="cb44-179"><a href="desestacionalización-y-filtrado-de-series.html#cb44-179" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2002  51.76259  51.91118  52.10856  52.42198  52.65304</span></span>
-<span id="cb44-180"><a href="desestacionalización-y-filtrado-de-series.html#cb44-180" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2003  53.97511  54.05334  54.21549  54.53824  54.73821</span></span>
-<span id="cb44-181"><a href="desestacionalización-y-filtrado-de-series.html#cb44-181" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2004  56.33174  56.47939  56.82804  57.29792  57.69475</span></span>
-<span id="cb44-182"><a href="desestacionalización-y-filtrado-de-series.html#cb44-182" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2005  58.77178  59.00180  59.07225  59.30901  59.45458</span></span>
-<span id="cb44-183"><a href="desestacionalización-y-filtrado-de-series.html#cb44-183" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2006  60.64300  60.80929  61.11961  61.73661  62.00652</span></span>
-<span id="cb44-184"><a href="desestacionalización-y-filtrado-de-series.html#cb44-184" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2007  63.05817  63.32601  63.58400  64.07770  64.32740</span></span>
-<span id="cb44-185"><a href="desestacionalización-y-filtrado-de-series.html#cb44-185" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2008  66.37217  66.74206  67.12749  67.58494  68.04549</span></span>
-<span id="cb44-186"><a href="desestacionalización-y-filtrado-de-series.html#cb44-186" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2009  70.17935  70.37052  70.53888  70.89272  71.10719</span></span>
-<span id="cb44-187"><a href="desestacionalización-y-filtrado-de-series.html#cb44-187" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2010  72.77118  72.92919  73.13175  73.51511  73.96893</span></span>
-<span id="cb44-188"><a href="desestacionalización-y-filtrado-de-series.html#cb44-188" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2011  75.15551  75.51611  75.63555  75.82111  76.33271</span></span>
-<span id="cb44-189"><a href="desestacionalización-y-filtrado-de-series.html#cb44-189" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2012  78.41367  78.85390  79.09054  79.43912  79.84104</span></span>
-<span id="cb44-190"><a href="desestacionalización-y-filtrado-de-series.html#cb44-190" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2013  81.61924  81.59219  81.82433  82.13234  82.52299</span></span>
-<span id="cb44-191"><a href="desestacionalización-y-filtrado-de-series.html#cb44-191" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2014  84.68207  84.91496  85.21997  85.59634  86.06963</span></span>
-<span id="cb44-192"><a href="desestacionalización-y-filtrado-de-series.html#cb44-192" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2015  87.11311  87.24082  87.42488  87.75242  88.20392</span></span>
-<span id="cb44-193"><a href="desestacionalización-y-filtrado-de-series.html#cb44-193" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2016  89.32403  89.55691  89.80933  90.35774  90.90615</span></span>
-<span id="cb44-194"><a href="desestacionalización-y-filtrado-de-series.html#cb44-194" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2017  94.96364  95.32274  95.79377  96.09351  96.69827</span></span>
-<span id="cb44-195"><a href="desestacionalización-y-filtrado-de-series.html#cb44-195" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2018  99.37646  99.90910 100.49200 100.91700 101.44000</span></span>
-<span id="cb44-196"><a href="desestacionalización-y-filtrado-de-series.html#cb44-196" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2019 103.29900 103.68700 103.67000 103.94200 104.50300</span></span>
-<span id="cb44-197"><a href="desestacionalización-y-filtrado-de-series.html#cb44-197" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2020 106.74300 107.44400 107.86700 108.11400 108.77400</span></span>
-<span id="cb44-198"><a href="desestacionalización-y-filtrado-de-series.html#cb44-198" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2021 113.01800 113.68200                              </span></span>
-<span id="cb44-199"><a href="desestacionalización-y-filtrado-de-series.html#cb44-199" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;            Nov       Dec</span></span>
-<span id="cb44-200"><a href="desestacionalización-y-filtrado-de-series.html#cb44-200" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2000  47.79029  48.30767</span></span>
-<span id="cb44-201"><a href="desestacionalización-y-filtrado-de-series.html#cb44-201" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2001  50.36515  50.43490</span></span>
-<span id="cb44-202"><a href="desestacionalización-y-filtrado-de-series.html#cb44-202" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2002  53.07888  53.30993</span></span>
-<span id="cb44-203"><a href="desestacionalización-y-filtrado-de-series.html#cb44-203" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2003  55.19254  55.42981</span></span>
-<span id="cb44-204"><a href="desestacionalización-y-filtrado-de-series.html#cb44-204" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2004  58.18690  58.30709</span></span>
-<span id="cb44-205"><a href="desestacionalización-y-filtrado-de-series.html#cb44-205" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2005  59.88249  60.25031</span></span>
-<span id="cb44-206"><a href="desestacionalización-y-filtrado-de-series.html#cb44-206" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2006  62.33186  62.69242</span></span>
-<span id="cb44-207"><a href="desestacionalización-y-filtrado-de-series.html#cb44-207" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2007  64.78122  65.04906</span></span>
-<span id="cb44-208"><a href="desestacionalización-y-filtrado-de-series.html#cb44-208" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2008  68.81894  69.29555</span></span>
-<span id="cb44-209"><a href="desestacionalización-y-filtrado-de-series.html#cb44-209" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2009  71.47605  71.77186</span></span>
-<span id="cb44-210"><a href="desestacionalización-y-filtrado-de-series.html#cb44-210" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2010  74.56158  74.93095</span></span>
-<span id="cb44-211"><a href="desestacionalización-y-filtrado-de-series.html#cb44-211" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2011  77.15833  77.79238</span></span>
-<span id="cb44-212"><a href="desestacionalización-y-filtrado-de-series.html#cb44-212" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2012  80.38344  80.56824</span></span>
-<span id="cb44-213"><a href="desestacionalización-y-filtrado-de-series.html#cb44-213" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2013  83.29227  83.77006</span></span>
-<span id="cb44-214"><a href="desestacionalización-y-filtrado-de-series.html#cb44-214" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2014  86.76378  87.18898</span></span>
-<span id="cb44-215"><a href="desestacionalización-y-filtrado-de-series.html#cb44-215" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2015  88.68547  89.04682</span></span>
-<span id="cb44-216"><a href="desestacionalización-y-filtrado-de-series.html#cb44-216" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2016  91.61683  92.03903</span></span>
-<span id="cb44-217"><a href="desestacionalización-y-filtrado-de-series.html#cb44-217" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2017  97.69517  98.27288</span></span>
-<span id="cb44-218"><a href="desestacionalización-y-filtrado-de-series.html#cb44-218" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2018 102.30300 103.02000</span></span>
-<span id="cb44-219"><a href="desestacionalización-y-filtrado-de-series.html#cb44-219" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2019 105.34600 105.93400</span></span>
-<span id="cb44-220"><a href="desestacionalización-y-filtrado-de-series.html#cb44-220" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2020 108.85600 109.27100</span></span>
-<span id="cb44-221"><a href="desestacionalización-y-filtrado-de-series.html#cb44-221" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2021</span></span>
-<span id="cb44-222"><a href="desestacionalización-y-filtrado-de-series.html#cb44-222" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-223"><a href="desestacionalización-y-filtrado-de-series.html#cb44-223" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-224"><a href="desestacionalización-y-filtrado-de-series.html#cb44-224" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-225"><a href="desestacionalización-y-filtrado-de-series.html#cb44-225" aria-hidden="true" tabindex="-1"></a><span class="co"># Forma Facil:</span></span>
-<span id="cb44-226"><a href="desestacionalización-y-filtrado-de-series.html#cb44-226" aria-hidden="true" tabindex="-1"></a><span class="co">#runApp(view(Seas_INPC))</span></span></code></pre></div>
-<div class="figure" style="text-align: center"><span style="display:block;" id="fig:INPCAdj"></span>
-<img src="04-Desestacionalizacion_Filtros_files/figure-html/INPCAdj-1.png" alt="Índice Nacional de Precios al Consumidor ($INPC_t$) y su serie desestacionalizada utilizando un proceso X13-ARIMA-SEATS." width="100%" />
-<p class="caption">
+<div class="sourceCode" id="cb44"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">knitr</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/knitr/man/opts_chunk.html">opts_chunk</a></span><span class="op">$</span><span class="fu">set</span><span class="op">(</span>echo <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co">#install.packages("ggplot2")</span></span>
+<span><span class="co">#install.packages("dplyr")</span></span>
+<span><span class="co">#install.packages("readxl")</span></span>
+<span><span class="co">#install.packages(stats)</span></span>
+<span><span class="co">#install.packages("seasonal")</span></span>
+<span><span class="co">#install.packages("seasonalview")</span></span>
+<span><span class="co">#install.packages("shiny")</span></span>
+<span><span class="co">#install.packages("TClass")</span></span>
+<span><span class="co">#install.packages("remotes")</span></span>
+<span><span class="co"># </span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org">ggplot2</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org">dplyr</a></span><span class="op">)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Attaching package: 'dplyr'</span></span>
+<span><span class="co">#&gt; The following objects are masked from 'package:stats':</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;     filter, lag</span></span>
+<span><span class="co">#&gt; The following objects are masked from 'package:base':</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;     intersect, setdiff, setequal, union</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://readxl.tidyverse.org">readxl</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">stats</span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://www.seasonal.website">seasonal</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://www.seasonal.website">seasonalview</a></span><span class="op">)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Attaching package: 'seasonalview'</span></span>
+<span><span class="co">#&gt; The following object is masked from 'package:seasonal':</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;     view</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://shiny.rstudio.com/">shiny</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Importamos Datos:</span></span>
+<span><span class="co">#Los datos importados son:</span></span>
+<span></span>
+<span><span class="co"># INPC: Indice Nacional de Precios al Consumidor (2QJul2018 = 100)</span></span>
+<span><span class="co"># TC: Tipo de Cambio FIX </span></span>
+<span><span class="co"># CETE28: Tasa de rendimiento promedio mensual de los Cetes 28, en por ciento anual*# IGAE: Indicador global de la actividad económica (2013 = 100)</span></span>
+<span><span class="co"># IPI: Industrial Production Index (2012 = 100)</span></span>
+<span><span class="va">Datos_deses</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://readxl.tidyverse.org/reference/read_excel.html">read_excel</a></span><span class="op">(</span><span class="st">"BD/Clase_11/Base_VAR.xlsx"</span>, sheet <span class="op">=</span> <span class="st">"Datos"</span>, col_names <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Primer ejemplo:</span></span>
+<span><span class="va">INPC</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/ts.html">ts</a></span><span class="op">(</span><span class="va">Datos_deses</span><span class="op">$</span><span class="va">INPC</span>, </span>
+<span>           start <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2000</span>, <span class="fl">1</span><span class="op">)</span>, </span>
+<span>           freq <span class="op">=</span> <span class="fl">12</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Desestacionalizacion (forma complicada):</span></span>
+<span><span class="va">Seas_INPC</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/seasonal/man/seas.html">seas</a></span><span class="op">(</span><span class="va">INPC</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">Seas_INPC</span><span class="op">)</span></span>
+<span><span class="co">#&gt;  [1] "series"      "udg"         "data"        "err"        </span></span>
+<span><span class="co">#&gt;  [5] "est"         "model"       "fivebestmdl" "wdir"       </span></span>
+<span><span class="co">#&gt;  [9] "iofile"      "call"        "list"        "x"          </span></span>
+<span><span class="co">#&gt; [13] "spc"</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">Seas_INPC</span><span class="op">)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Call:</span></span>
+<span><span class="co">#&gt; seas(x = INPC)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Coefficients:</span></span>
+<span><span class="co">#&gt;                    Estimate Std. Error z value Pr(&gt;|z|)    </span></span>
+<span><span class="co">#&gt; AO2002.Jan         0.004619   0.001079   4.280 1.87e-05 ***</span></span>
+<span><span class="co">#&gt; LS2017.Jan         0.011927   0.001804   6.611 3.81e-11 ***</span></span>
+<span><span class="co">#&gt; AO2020.Apr        -0.006200   0.001083  -5.723 1.05e-08 ***</span></span>
+<span><span class="co">#&gt; MA-Nonseasonal-01 -0.462302   0.054407  -8.497  &lt; 2e-16 ***</span></span>
+<span><span class="co">#&gt; MA-Seasonal-12     0.784240   0.040881  19.183  &lt; 2e-16 ***</span></span>
+<span><span class="co">#&gt; ---</span></span>
+<span><span class="co">#&gt; Signif. codes:  </span></span>
+<span><span class="co">#&gt; 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; SEATS adj.  ARIMA: (0 1 1)(0 1 1)  Obs.: 259  Transform: log</span></span>
+<span><span class="co">#&gt; AICc: -180.5, BIC: -159.8  QS (no seasonality in final):    0  </span></span>
+<span><span class="co">#&gt; Box-Ljung (no autocorr.): 23.65   Shapiro (normality): 0.9831 **</span></span>
+<span></span>
+<span><span class="co">#</span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/seasonal/man/final.html">final</a></span><span class="op">(</span><span class="va">Seas_INPC</span><span class="op">)</span></span>
+<span><span class="co">#&gt;            Jan       Feb       Mar       Apr       May</span></span>
+<span><span class="co">#&gt; 2000  44.77029  45.18403  45.40234  45.70368  46.08070</span></span>
+<span><span class="co">#&gt; 2001  48.39654  48.38881  48.65881  48.95142  49.29006</span></span>
+<span><span class="co">#&gt; 2002  50.71225  50.70179  50.92105  51.25509  51.60943</span></span>
+<span><span class="co">#&gt; 2003  53.31609  53.48246  53.77800  53.94089  54.05056</span></span>
+<span><span class="co">#&gt; 2004  55.54334  55.88971  56.03962  56.21125  56.38531</span></span>
+<span><span class="co">#&gt; 2005  58.05282  58.26189  58.48581  58.79626  58.99578</span></span>
+<span><span class="co">#&gt; 2006  60.31635  60.42680  60.46618  60.67856  60.78415</span></span>
+<span><span class="co">#&gt; 2007  62.70196  62.89541  62.99002  63.10118  63.19887</span></span>
+<span><span class="co">#&gt; 2008  65.01709  65.22681  65.64787  65.96965  66.33437</span></span>
+<span><span class="co">#&gt; 2009  69.08646  69.25034  69.58933  70.03565  70.30536</span></span>
+<span><span class="co">#&gt; 2010  72.15127  72.56587  73.02022  73.02491  73.06952</span></span>
+<span><span class="co">#&gt; 2011  74.86517  75.13956  75.23038  75.48953  75.45523</span></span>
+<span><span class="co">#&gt; 2012  77.88882  78.03832  78.03412  78.08142  78.36672</span></span>
+<span><span class="co">#&gt; 2013  80.43511  80.81548  81.35072  81.71941  81.99156</span></span>
+<span><span class="co">#&gt; 2014  84.04428  84.23918  84.41483  84.59701  84.87807</span></span>
+<span><span class="co">#&gt; 2015  86.63243  86.77474  87.07291  87.20811  87.32823</span></span>
+<span><span class="co">#&gt; 2016  88.90614  89.26620  89.34757  89.44196  89.59871</span></span>
+<span><span class="co">#&gt; 2017  93.11384  93.62242  94.14690  94.66363  95.12087</span></span>
+<span><span class="co">#&gt; 2018  98.28379  98.63525  98.90946  98.99765  99.41535</span></span>
+<span><span class="co">#&gt; 2019 102.58552 102.53864 102.88957 103.37936 103.66756</span></span>
+<span><span class="co">#&gt; 2020 105.92752 106.33873 106.24531 105.61243 106.60476</span></span>
+<span><span class="co">#&gt; 2021 109.70405 110.36088 111.21655 112.03885 112.87386</span></span>
+<span><span class="co">#&gt;            Jun       Jul       Aug       Sep       Oct</span></span>
+<span><span class="co">#&gt; 2000  46.42157  46.69961  46.94796  47.16362  47.45045</span></span>
+<span><span class="co">#&gt; 2001  49.48158  49.45252  49.73396  50.05702  50.24097</span></span>
+<span><span class="co">#&gt; 2002  51.94236  52.18259  52.36916  52.53823  52.72274</span></span>
+<span><span class="co">#&gt; 2003  54.18788  54.34573  54.49561  54.66727  54.81421</span></span>
+<span><span class="co">#&gt; 2004  56.57944  56.79298  57.12822  57.43813  57.77350</span></span>
+<span><span class="co">#&gt; 2005  59.05133  59.33307  59.38990  59.46232  59.54214</span></span>
+<span><span class="co">#&gt; 2006  60.95215  61.15781  61.45478  61.90260  62.09959</span></span>
+<span><span class="co">#&gt; 2007  63.39157  63.68921  63.93606  64.26552  64.43308</span></span>
+<span><span class="co">#&gt; 2008  66.72845  67.12236  67.50312  67.80588  68.17087</span></span>
+<span><span class="co">#&gt; 2009  70.56076  70.77126  70.94118  71.15129  71.25491</span></span>
+<span><span class="co">#&gt; 2010  73.17567  73.34645  73.55578  73.80811  74.13190</span></span>
+<span><span class="co">#&gt; 2011  75.57749  75.94343  76.07298  76.14170  76.50837</span></span>
+<span><span class="co">#&gt; 2012  78.84734  79.29152  79.53788  79.77728  80.02172</span></span>
+<span><span class="co">#&gt; 2013  82.06220  82.04215  82.28146  82.48604  82.70823</span></span>
+<span><span class="co">#&gt; 2014  85.13828  85.37364  85.68228  85.95862  86.24939</span></span>
+<span><span class="co">#&gt; 2015  87.57860  87.69859  87.88463  88.11900  88.37916</span></span>
+<span><span class="co">#&gt; 2016  89.79442  90.00801  90.26224  90.73091  91.08230</span></span>
+<span><span class="co">#&gt; 2017  95.45046  95.77245  96.24606  96.48198  96.88011</span></span>
+<span><span class="co">#&gt; 2018  99.87640 100.34917 100.93781 101.31323 101.62119</span></span>
+<span><span class="co">#&gt; 2019 103.79846 104.10668 104.10498 104.34324 104.68334</span></span>
+<span><span class="co">#&gt; 2020 107.23615 107.84074 108.28547 108.51181 108.94882</span></span>
+<span><span class="co">#&gt; 2021 113.51893 114.07876                              </span></span>
+<span><span class="co">#&gt;            Nov       Dec</span></span>
+<span><span class="co">#&gt; 2000  47.71179  48.17650</span></span>
+<span><span class="co">#&gt; 2001  50.27430  50.29634</span></span>
+<span><span class="co">#&gt; 2002  52.97261  53.15249</span></span>
+<span><span class="co">#&gt; 2003  55.07420  55.25544</span></span>
+<span><span class="co">#&gt; 2004  58.05206  58.10890</span></span>
+<span><span class="co">#&gt; 2005  59.74558  60.03535</span></span>
+<span><span class="co">#&gt; 2006  62.18779  62.46086</span></span>
+<span><span class="co">#&gt; 2007  64.63223  64.80593</span></span>
+<span><span class="co">#&gt; 2008  68.66243  69.03189</span></span>
+<span><span class="co">#&gt; 2009  71.32529  71.50399</span></span>
+<span><span class="co">#&gt; 2010  74.40086  74.64066</span></span>
+<span><span class="co">#&gt; 2011  76.99023  77.48331</span></span>
+<span><span class="co">#&gt; 2012  80.20706  80.25132</span></span>
+<span><span class="co">#&gt; 2013  83.10867  83.43538</span></span>
+<span><span class="co">#&gt; 2014  86.56489  86.83237</span></span>
+<span><span class="co">#&gt; 2015  88.48548  88.68687</span></span>
+<span><span class="co">#&gt; 2016  91.41636  91.67473</span></span>
+<span><span class="co">#&gt; 2017  97.48690  97.88655</span></span>
+<span><span class="co">#&gt; 2018 102.09704 102.62583</span></span>
+<span><span class="co">#&gt; 2019 105.16079 105.56388</span></span>
+<span><span class="co">#&gt; 2020 108.69159 108.93224</span></span>
+<span><span class="co">#&gt; 2021</span></span>
+<span></span>
+<span><span class="va">INPC_Ad</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/seasonal/man/final.html">final</a></span><span class="op">(</span><span class="va">Seas_INPC</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co">#</span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/seasonal/man/final.html">original</a></span><span class="op">(</span><span class="va">Seas_INPC</span><span class="op">)</span></span>
+<span><span class="co">#&gt;            Jan       Feb       Mar       Apr       May</span></span>
+<span><span class="co">#&gt; 2000  44.93083  45.32938  45.58068  45.84002  46.01138</span></span>
+<span><span class="co">#&gt; 2001  48.57548  48.54333  48.85089  49.09731  49.20997</span></span>
+<span><span class="co">#&gt; 2002  50.90047  50.86775  51.12795  51.40724  51.51143</span></span>
+<span><span class="co">#&gt; 2003  53.52544  53.67412  54.01293  54.10514  53.93056</span></span>
+<span><span class="co">#&gt; 2004  55.77432  56.10795  56.29807  56.38303  56.24160</span></span>
+<span><span class="co">#&gt; 2005  58.30916  58.50343  58.76712  58.97642  58.82825</span></span>
+<span><span class="co">#&gt; 2006  60.60363  60.69636  60.77251  60.86162  60.59067</span></span>
+<span><span class="co">#&gt; 2007  63.01621  63.19235  63.32911  63.29129  62.98253</span></span>
+<span><span class="co">#&gt; 2008  65.35056  65.54483  66.01989  66.17013  66.09864</span></span>
+<span><span class="co">#&gt; 2009  69.45615  69.60949  70.00995  70.25499  70.05036</span></span>
+<span><span class="co">#&gt; 2010  72.55205  72.97167  73.48973  73.25557  72.79398</span></span>
+<span><span class="co">#&gt; 2011  75.29599  75.57846  75.72345  75.71744  75.15926</span></span>
+<span><span class="co">#&gt; 2012  78.34305  78.50231  78.54739  78.30098  78.05382</span></span>
+<span><span class="co">#&gt; 2013  80.89278  81.29094  81.88743  81.94152  81.66882</span></span>
+<span><span class="co">#&gt; 2014  84.51905  84.73316  84.96529  84.80678  84.53558</span></span>
+<span><span class="co">#&gt; 2015  87.11010  87.27538  87.63072  87.40384  86.96737</span></span>
+<span><span class="co">#&gt; 2016  89.38638  89.77778  89.91000  89.62528  89.22562</span></span>
+<span><span class="co">#&gt; 2017  93.60388  94.14478  94.72249  94.83893  94.72549</span></span>
+<span><span class="co">#&gt; 2018  98.79500  99.17137  99.49216  99.15485  98.99408</span></span>
+<span><span class="co">#&gt; 2019 103.10800 103.07900 103.47600 103.53100 103.23300</span></span>
+<span><span class="co">#&gt; 2020 106.44700 106.88900 106.83800 105.75500 106.16200</span></span>
+<span><span class="co">#&gt; 2021 110.21000 110.90700 111.82400 112.19000 112.41900</span></span>
+<span><span class="co">#&gt;            Jun       Jul       Aug       Sep       Oct</span></span>
+<span><span class="co">#&gt; 2000  46.28392  46.46447  46.71979  47.06107  47.38514</span></span>
+<span><span class="co">#&gt; 2001  49.32636  49.19820  49.48969  49.95038  50.17614</span></span>
+<span><span class="co">#&gt; 2002  51.76259  51.91118  52.10856  52.42198  52.65304</span></span>
+<span><span class="co">#&gt; 2003  53.97511  54.05334  54.21549  54.53824  54.73821</span></span>
+<span><span class="co">#&gt; 2004  56.33174  56.47939  56.82804  57.29792  57.69475</span></span>
+<span><span class="co">#&gt; 2005  58.77178  59.00180  59.07225  59.30901  59.45458</span></span>
+<span><span class="co">#&gt; 2006  60.64300  60.80929  61.11961  61.73661  62.00652</span></span>
+<span><span class="co">#&gt; 2007  63.05817  63.32601  63.58400  64.07770  64.32740</span></span>
+<span><span class="co">#&gt; 2008  66.37217  66.74206  67.12749  67.58494  68.04549</span></span>
+<span><span class="co">#&gt; 2009  70.17935  70.37052  70.53888  70.89272  71.10719</span></span>
+<span><span class="co">#&gt; 2010  72.77118  72.92919  73.13175  73.51511  73.96893</span></span>
+<span><span class="co">#&gt; 2011  75.15551  75.51611  75.63555  75.82111  76.33271</span></span>
+<span><span class="co">#&gt; 2012  78.41367  78.85390  79.09054  79.43912  79.84104</span></span>
+<span><span class="co">#&gt; 2013  81.61924  81.59219  81.82433  82.13234  82.52299</span></span>
+<span><span class="co">#&gt; 2014  84.68207  84.91496  85.21997  85.59634  86.06963</span></span>
+<span><span class="co">#&gt; 2015  87.11311  87.24082  87.42488  87.75242  88.20392</span></span>
+<span><span class="co">#&gt; 2016  89.32403  89.55691  89.80933  90.35774  90.90615</span></span>
+<span><span class="co">#&gt; 2017  94.96364  95.32274  95.79377  96.09351  96.69827</span></span>
+<span><span class="co">#&gt; 2018  99.37646  99.90910 100.49200 100.91700 101.44000</span></span>
+<span><span class="co">#&gt; 2019 103.29900 103.68700 103.67000 103.94200 104.50300</span></span>
+<span><span class="co">#&gt; 2020 106.74300 107.44400 107.86700 108.11400 108.77400</span></span>
+<span><span class="co">#&gt; 2021 113.01800 113.68200                              </span></span>
+<span><span class="co">#&gt;            Nov       Dec</span></span>
+<span><span class="co">#&gt; 2000  47.79029  48.30767</span></span>
+<span><span class="co">#&gt; 2001  50.36515  50.43490</span></span>
+<span><span class="co">#&gt; 2002  53.07888  53.30993</span></span>
+<span><span class="co">#&gt; 2003  55.19254  55.42981</span></span>
+<span><span class="co">#&gt; 2004  58.18690  58.30709</span></span>
+<span><span class="co">#&gt; 2005  59.88249  60.25031</span></span>
+<span><span class="co">#&gt; 2006  62.33186  62.69242</span></span>
+<span><span class="co">#&gt; 2007  64.78122  65.04906</span></span>
+<span><span class="co">#&gt; 2008  68.81894  69.29555</span></span>
+<span><span class="co">#&gt; 2009  71.47605  71.77186</span></span>
+<span><span class="co">#&gt; 2010  74.56158  74.93095</span></span>
+<span><span class="co">#&gt; 2011  77.15833  77.79238</span></span>
+<span><span class="co">#&gt; 2012  80.38344  80.56824</span></span>
+<span><span class="co">#&gt; 2013  83.29227  83.77006</span></span>
+<span><span class="co">#&gt; 2014  86.76378  87.18898</span></span>
+<span><span class="co">#&gt; 2015  88.68547  89.04682</span></span>
+<span><span class="co">#&gt; 2016  91.61683  92.03903</span></span>
+<span><span class="co">#&gt; 2017  97.69517  98.27288</span></span>
+<span><span class="co">#&gt; 2018 102.30300 103.02000</span></span>
+<span><span class="co">#&gt; 2019 105.34600 105.93400</span></span>
+<span><span class="co">#&gt; 2020 108.85600 109.27100</span></span>
+<span><span class="co">#&gt; 2021</span></span>
+<span></span>
+<span></span>
+<span></span>
+<span><span class="co"># Forma Facil:</span></span>
+<span><span class="co">#runApp(view(Seas_INPC))</span></span></code></pre></div>
+<div class="figure" style="text-align: center">
+<span style="display:block;" id="fig:INPCAdj"></span>
+<img src="04-Desestacionalizacion_Filtros_files/figure-html/INPCAdj-1.png" alt="Índice Nacional de Precios al Consumidor ($INPC_t$) y su serie desestacionalizada utilizando un proceso X13-ARIMA-SEATS." width="100%"><p class="caption">
 Figure 5.1: Índice Nacional de Precios al Consumidor (<span class="math inline">\(INPC_t\)</span>) y su serie desestacionalizada utilizando un proceso X13-ARIMA-SEATS.
 </p>
 </div>
 </div>
 <div id="filtro-hodrick-prescott" class="section level2" number="5.2">
-<h2><span class="header-section-number">5.2</span> Filtro Hodrick-Prescott</h2>
+<h2>
+<span class="header-section-number">5.2</span> Filtro Hodrick-Prescott<a class="anchor" aria-label="anchor" href="#filtro-hodrick-prescott"><i class="fas fa-link"></i></a>
+</h2>
 <p>Como último tema de los procesos univariados y que no necesariamente aplican a series estacionarias, a continuación desarrollaremos el procedimiento conocido como filtro de Hodrick y Prescott (1997). El trabajo de estos autores era determinar una técnica de regresión que permitiera utilizar series agregadas o macroeconómicas para separarlas en dos componentes: uno de ciclo de negocios y otro de tendencia. En su trabajo orignal Hodrick y Prescott (1997) utilizaron datos trimestrales de alguna series como el Gross Domestic Product (GNP, por sus siglas enn Inglés), los agregados montearios M1, empleo, etc., de los Estados Unidos que fueron observados posteriormente a la Segunda Guerra Mundial.</p>
 <p>El marco conceptual de Hodrick y Prescott (1997) parte de suponer una serie <span class="math inline">\(X_t\)</span> que se puede descomponer en la suma de componente de crecimiento tendencial, <span class="math inline">\(g_t\)</span>, y su componente de ciclio de negocios, <span class="math inline">\(c_t\)</span>, de esta forma para <span class="math inline">\(t = 1, 2, \ldots, T\)</span> tenemos que:
 <span class="math display" id="eq:HPEq">\[\begin{equation}
     X_t = g_t + c_t
     \tag{5.2}
 \end{equation}\]</span></p>
-<p>En la ecuación <a href="desestacionalización-y-filtrado-de-series.html#eq:HPEq">(5.2)</a> se asume que el ajuste de la ruta seguida por <span class="math inline">\(g_t\)</span> es resultado de la suma de los cuadrados de su segunda diferencia. En esa misma ecuación sumiremos que <span class="math inline">\(c_t\)</span> son las desviaciones de <span class="math inline">\(g_t\)</span>, las cuales en el largo plazo tienen una media igual a cero (0). Por esta razón, se suele decir que el filtro de Hodrick y Prescott represeta una una descomposición de la serie en su componente de crecimiento natural y de sus desviaciones transitorias que en promedio son cero, en el largo plazo.</p>
+<p>En la ecuación <a href="desestacionalizaci%C3%B3n-y-filtrado-de-series.html#eq:HPEq">(5.2)</a> se asume que el ajuste de la ruta seguida por <span class="math inline">\(g_t\)</span> es resultado de la suma de los cuadrados de su segunda diferencia. En esa misma ecuación sumiremos que <span class="math inline">\(c_t\)</span> son las desviaciones de <span class="math inline">\(g_t\)</span>, las cuales en el largo plazo tienen una media igual a cero (0). Por esta razón, se suele decir que el filtro de Hodrick y Prescott represeta una una descomposición de la serie en su componente de crecimiento natural y de sus desviaciones transitorias que en promedio son cero, en el largo plazo.</p>
 <p>Estas consideraciones que hemos mencionado señalan que el procesimiento de Hodrick y Prescott (1997) implican resolver el siguiente problema minimización para determinar cada uno de los componentes en que <span class="math inline">\(X_t\)</span> se puede descomponer:
 <span class="math display" id="eq:HPEq1">\[\begin{equation}
     \min_{\{ g_t \}^T_{t = -1} } \left[ \sum^T_{t = 1} c^2_t + \lambda \sum^T_{t = 1} [ \Delta g_t - \Delta g_{t-1}]^2 \right]
@@ -354,11 +348,11 @@ Figure 5.1: Índice Nacional de Precios al Consumidor (<span class="math inline"
 <p><span class="math display">\[\sum_{t=1}^T (y_t - \tau_t)^2 + \lambda \sum_{t=1}^{T} [(\tau_{t} - \tau_{t-1}) - (\tau_{t-1} - \tau_{t-2})]^2\]</span></p>
 <p>Donde <span class="math inline">\(\lambda\)</span> es una parámetro fijo (determinado ex-ante) y <span class="math inline">\(\tau_t\)</span> es un componente de tendencia de <span class="math inline">\(y_t\)</span>.</p>
 <p>Sin pérdida de generalidad, asumiremos que <span class="math inline">\(\tau_{-1}\)</span> y <span class="math inline">\(\tau_{0}\)</span> son cero (0). De esta manera, la forma matricial del filtro HP es:
-<span class="math display">\[(Y - G)&#39;(Y - G) + \lambda G&#39; K&#39; K G\]</span></p>
+<span class="math display">\[(Y - G)'(Y - G) + \lambda G' K' K G\]</span></p>
 <p>La derivada de los anteriores:
-<span class="math display">\[-2 Y + 2 G + \lambda 2 K&#39; K G = 0\]</span></p>
+<span class="math display">\[-2 Y + 2 G + \lambda 2 K' K G = 0\]</span></p>
 <p>Despejando:
-<span class="math display">\[G_{hp} = [I_T + \lambda K&#39; K]^{-1} Y\]</span></p>
+<span class="math display">\[G_{hp} = [I_T + \lambda K' K]^{-1} Y\]</span></p>
 <p>Donde <span class="math inline">\(G\)</span> es el vector de tendencia, <span class="math inline">\(Y\)</span> es el vector de la serie de datos, <span class="math inline">\(\lambda\)</span> es la constante tradicional, y <span class="math inline">\(K\)</span> es de dimensión <span class="math inline">\(T \times T\)</span> y está dada por la expresión:</p>
 <p><span class="math display">\[K =
 \begin{pmatrix}
@@ -371,7 +365,7 @@ Figure 5.1: Índice Nacional de Precios al Consumidor (<span class="math inline"
 \end{pmatrix}
 \]</span></p>
 <p>Así:</p>
-<p><span class="math display">\[K&#39; =
+<p><span class="math display">\[K' =
 \begin{pmatrix}
 1 &amp; -2 &amp; 1 &amp; 0 &amp; \ldots &amp; 0 \\
 0 &amp; 1 &amp; -2 &amp; 1 &amp; \ldots &amp; 0 \\
@@ -381,311 +375,311 @@ Figure 5.1: Índice Nacional de Precios al Consumidor (<span class="math inline"
 0 &amp; 0 &amp; 0 &amp; 0 &amp; \ldots &amp; 1 \\
 \end{pmatrix}
 \]</span></p>
-<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb45-1"><a href="desestacionalización-y-filtrado-de-series.html#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="co">#install.packages(&quot;ggplot2&quot;)</span></span>
-<span id="cb45-2"><a href="desestacionalización-y-filtrado-de-series.html#cb45-2" aria-hidden="true" tabindex="-1"></a><span class="co">#install.packages(&quot;dplyr&quot;)</span></span>
-<span id="cb45-3"><a href="desestacionalización-y-filtrado-de-series.html#cb45-3" aria-hidden="true" tabindex="-1"></a><span class="co">#install.packages(&quot;readxl&quot;)</span></span>
-<span id="cb45-4"><a href="desestacionalización-y-filtrado-de-series.html#cb45-4" aria-hidden="true" tabindex="-1"></a><span class="co">#install.packages(stats)</span></span>
-<span id="cb45-5"><a href="desestacionalización-y-filtrado-de-series.html#cb45-5" aria-hidden="true" tabindex="-1"></a><span class="co">#install.packages(&quot;mFilter&quot;)</span></span>
-<span id="cb45-6"><a href="desestacionalización-y-filtrado-de-series.html#cb45-6" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
-<span id="cb45-7"><a href="desestacionalización-y-filtrado-de-series.html#cb45-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb45-8"><a href="desestacionalización-y-filtrado-de-series.html#cb45-8" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
-<span id="cb45-9"><a href="desestacionalización-y-filtrado-de-series.html#cb45-9" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readxl)</span>
-<span id="cb45-10"><a href="desestacionalización-y-filtrado-de-series.html#cb45-10" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(stats)</span>
-<span id="cb45-11"><a href="desestacionalización-y-filtrado-de-series.html#cb45-11" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(mFilter)</span>
-<span id="cb45-12"><a href="desestacionalización-y-filtrado-de-series.html#cb45-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-13"><a href="desestacionalización-y-filtrado-de-series.html#cb45-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Importamos Datos desde un archivo de R:</span></span>
-<span id="cb45-14"><a href="desestacionalización-y-filtrado-de-series.html#cb45-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-15"><a href="desestacionalización-y-filtrado-de-series.html#cb45-15" aria-hidden="true" tabindex="-1"></a><span class="co">#Los datos &quot;cargados&quot; son los originales y los ajustados por estacionalidad. Los cuales son:</span></span>
-<span id="cb45-16"><a href="desestacionalización-y-filtrado-de-series.html#cb45-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-17"><a href="desestacionalización-y-filtrado-de-series.html#cb45-17" aria-hidden="true" tabindex="-1"></a><span class="co">#* INPC: Indice Nacional de Precios al Consumidor (2QJul2018 = 100)</span></span>
-<span id="cb45-18"><a href="desestacionalización-y-filtrado-de-series.html#cb45-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-19"><a href="desestacionalización-y-filtrado-de-series.html#cb45-19" aria-hidden="true" tabindex="-1"></a><span class="co">#* TC: Tipo de Cambio FIX </span></span>
-<span id="cb45-20"><a href="desestacionalización-y-filtrado-de-series.html#cb45-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-21"><a href="desestacionalización-y-filtrado-de-series.html#cb45-21" aria-hidden="true" tabindex="-1"></a><span class="co">#* CETE28: Tasa de rendimiento promedio mensual de los Cetes 28, en por ciento anual</span></span>
-<span id="cb45-22"><a href="desestacionalización-y-filtrado-de-series.html#cb45-22" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-23"><a href="desestacionalización-y-filtrado-de-series.html#cb45-23" aria-hidden="true" tabindex="-1"></a><span class="co">#* IGAE: Indicador global de la actividad económica (2013 = 100)</span></span>
-<span id="cb45-24"><a href="desestacionalización-y-filtrado-de-series.html#cb45-24" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-25"><a href="desestacionalización-y-filtrado-de-series.html#cb45-25" aria-hidden="true" tabindex="-1"></a><span class="co">#* IPI: Industrial Production Index (2012 = 100)</span></span>
-<span id="cb45-26"><a href="desestacionalización-y-filtrado-de-series.html#cb45-26" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-27"><a href="desestacionalización-y-filtrado-de-series.html#cb45-27" aria-hidden="true" tabindex="-1"></a><span class="fu">load</span>(<span class="st">&quot;BD/Clase_11/Datos_Ad.RData&quot;</span>)</span>
-<span id="cb45-28"><a href="desestacionalización-y-filtrado-de-series.html#cb45-28" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-29"><a href="desestacionalización-y-filtrado-de-series.html#cb45-29" aria-hidden="true" tabindex="-1"></a>INPC_HP <span class="ot">&lt;-</span> <span class="fu">ts</span>(Datos_Ad<span class="sc">$</span>INPC_Ad, <span class="at">start =</span> <span class="fu">c</span>(<span class="dv">2000</span>, <span class="dv">1</span>), <span class="at">freq =</span> <span class="dv">12</span>)</span>
-<span id="cb45-30"><a href="desestacionalización-y-filtrado-de-series.html#cb45-30" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-31"><a href="desestacionalización-y-filtrado-de-series.html#cb45-31" aria-hidden="true" tabindex="-1"></a>TC <span class="ot">&lt;-</span> <span class="fu">ts</span>(Datos_Ad<span class="sc">$</span>TC_Ad, <span class="at">start =</span> <span class="fu">c</span>(<span class="dv">2000</span>, <span class="dv">1</span>), <span class="at">freq =</span> <span class="dv">12</span>)</span>
-<span id="cb45-32"><a href="desestacionalización-y-filtrado-de-series.html#cb45-32" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-33"><a href="desestacionalización-y-filtrado-de-series.html#cb45-33" aria-hidden="true" tabindex="-1"></a><span class="do">## Filtro Hodrick-Prescott:</span></span>
-<span id="cb45-34"><a href="desestacionalización-y-filtrado-de-series.html#cb45-34" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-35"><a href="desestacionalización-y-filtrado-de-series.html#cb45-35" aria-hidden="true" tabindex="-1"></a><span class="do">### INPC:</span></span>
-<span id="cb45-36"><a href="desestacionalización-y-filtrado-de-series.html#cb45-36" aria-hidden="true" tabindex="-1"></a><span class="co">#?hpfilter</span></span>
-<span id="cb45-37"><a href="desestacionalización-y-filtrado-de-series.html#cb45-37" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-38"><a href="desestacionalización-y-filtrado-de-series.html#cb45-38" aria-hidden="true" tabindex="-1"></a>INPC_hpf <span class="ot">&lt;-</span> <span class="fu">hpfilter</span>(INPC, <span class="at">freq =</span> <span class="dv">14400</span>)</span>
-<span id="cb45-39"><a href="desestacionalización-y-filtrado-de-series.html#cb45-39" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-40"><a href="desestacionalización-y-filtrado-de-series.html#cb45-40" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(INPC_hpf)</span>
-<span id="cb45-41"><a href="desestacionalización-y-filtrado-de-series.html#cb45-41" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1] &quot;cycle&quot;   &quot;trend&quot;   &quot;fmatrix&quot; &quot;title&quot;   &quot;xname&quot;  </span></span>
-<span id="cb45-42"><a href="desestacionalización-y-filtrado-de-series.html#cb45-42" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [6] &quot;call&quot;    &quot;type&quot;    &quot;lambda&quot;  &quot;method&quot;  &quot;x&quot;</span></span>
-<span id="cb45-43"><a href="desestacionalización-y-filtrado-de-series.html#cb45-43" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-44"><a href="desestacionalización-y-filtrado-de-series.html#cb45-44" aria-hidden="true" tabindex="-1"></a><span class="co">#</span></span>
-<span id="cb45-45"><a href="desestacionalización-y-filtrado-de-series.html#cb45-45" aria-hidden="true" tabindex="-1"></a>INPC_hpf<span class="sc">$</span>cycle</span>
-<span id="cb45-46"><a href="desestacionalización-y-filtrado-de-series.html#cb45-46" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;               Jan          Feb          Mar          Apr</span></span>
-<span id="cb45-47"><a href="desestacionalización-y-filtrado-de-series.html#cb45-47" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2000 -0.369995465 -0.204781721 -0.186791284 -0.160699237</span></span>
-<span id="cb45-48"><a href="desestacionalización-y-filtrado-de-series.html#cb45-48" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2001  0.491509101  0.231668069  0.312644248  0.333628596</span></span>
-<span id="cb45-49"><a href="desestacionalización-y-filtrado-de-series.html#cb45-49" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2002  0.158359973 -0.088834879 -0.042095361  0.024731472</span></span>
-<span id="cb45-50"><a href="desestacionalización-y-filtrado-de-series.html#cb45-50" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2003  0.274385097  0.220277762  0.357200149  0.248370572</span></span>
-<span id="cb45-51"><a href="desestacionalización-y-filtrado-de-series.html#cb45-51" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2004  0.133596492  0.271391596  0.266227824  0.156446397</span></span>
-<span id="cb45-52"><a href="desestacionalización-y-filtrado-de-series.html#cb45-52" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2005  0.353845486  0.358862377  0.433730438  0.454517921</span></span>
-<span id="cb45-53"><a href="desestacionalización-y-filtrado-de-series.html#cb45-53" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2006  0.371800378  0.270140468  0.150457395  0.042085487</span></span>
-<span id="cb45-54"><a href="desestacionalización-y-filtrado-de-series.html#cb45-54" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2007  0.318418692  0.272948983  0.185261500 -0.079965538</span></span>
-<span id="cb45-55"><a href="desestacionalización-y-filtrado-de-series.html#cb45-55" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2008 -0.210169454 -0.273903265 -0.059220058 -0.171510017</span></span>
-<span id="cb45-56"><a href="desestacionalización-y-filtrado-de-series.html#cb45-56" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2009  0.699236223  0.584232203  0.717372055  0.696292454</span></span>
-<span id="cb45-57"><a href="desestacionalización-y-filtrado-de-series.html#cb45-57" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2010  0.663445825  0.832260274  1.101207256  0.619570294</span></span>
-<span id="cb45-58"><a href="desestacionalización-y-filtrado-de-series.html#cb45-58" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2011  0.480043782  0.523426357  0.429572575  0.184783802</span></span>
-<span id="cb45-59"><a href="desestacionalización-y-filtrado-de-series.html#cb45-59" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2012  0.639598468  0.554912267  0.355701224 -0.135328774</span></span>
-<span id="cb45-60"><a href="desestacionalización-y-filtrado-de-series.html#cb45-60" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2013  0.243888923  0.396636329  0.748177918  0.557842172</span></span>
-<span id="cb45-61"><a href="desestacionalización-y-filtrado-de-series.html#cb45-61" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2014  0.958465086  0.934013767  0.928454894  0.533042168</span></span>
-<span id="cb45-62"><a href="desestacionalización-y-filtrado-de-series.html#cb45-62" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2015  0.713644671  0.640638229  0.756187115  0.287584986</span></span>
-<span id="cb45-63"><a href="desestacionalización-y-filtrado-de-series.html#cb45-63" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2016 -0.066111238  0.041374008 -0.116181201 -0.696785201</span></span>
-<span id="cb45-64"><a href="desestacionalización-y-filtrado-de-series.html#cb45-64" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2017  0.333265420  0.519162662  0.738165583  0.492725577</span></span>
-<span id="cb45-65"><a href="desestacionalización-y-filtrado-de-series.html#cb45-65" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2018  1.123948014  1.131474928  1.084873169  0.381819264</span></span>
-<span id="cb45-66"><a href="desestacionalización-y-filtrado-de-series.html#cb45-66" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2019  1.131318081  0.756941561  0.810348698  0.523253973</span></span>
-<span id="cb45-67"><a href="desestacionalización-y-filtrado-de-series.html#cb45-67" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2020  0.371739118  0.469219371  0.072193469 -1.358587671</span></span>
-<span id="cb45-68"><a href="desestacionalización-y-filtrado-de-series.html#cb45-68" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2021 -0.128049234  0.201907470  0.750955110  0.748376942</span></span>
-<span id="cb45-69"><a href="desestacionalización-y-filtrado-de-series.html#cb45-69" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;               May          Jun          Jul          Aug</span></span>
-<span id="cb45-70"><a href="desestacionalización-y-filtrado-de-series.html#cb45-70" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2000 -0.222464694 -0.182867609 -0.235003486 -0.212012132</span></span>
-<span id="cb45-71"><a href="desestacionalización-y-filtrado-de-series.html#cb45-71" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2001  0.222016360  0.115293619 -0.234850969 -0.164243748</span></span>
-<span id="cb45-72"><a href="desestacionalización-y-filtrado-de-series.html#cb45-72" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2002 -0.082549510 -0.041897157 -0.102845584 -0.114055000</span></span>
-<span id="cb45-73"><a href="desestacionalización-y-filtrado-de-series.html#cb45-73" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2003 -0.126500461 -0.281581688 -0.402428066 -0.438864993</span></span>
-<span id="cb45-74"><a href="desestacionalización-y-filtrado-de-series.html#cb45-74" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2004 -0.179191953 -0.282751358 -0.328312508 -0.172365454</span></span>
-<span id="cb45-75"><a href="desestacionalización-y-filtrado-de-series.html#cb45-75" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2005  0.118015956 -0.126799889 -0.085327242 -0.203790926</span></span>
-<span id="cb45-76"><a href="desestacionalización-y-filtrado-de-series.html#cb45-76" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2006 -0.428178375 -0.577230234 -0.614540398 -0.510201089</span></span>
-<span id="cb45-77"><a href="desestacionalización-y-filtrado-de-series.html#cb45-77" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2007 -0.619214781 -0.777264325 -0.746387263 -0.728647713</span></span>
-<span id="cb45-78"><a href="desestacionalización-y-filtrado-de-series.html#cb45-78" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2008 -0.507458213 -0.500077808 -0.397766722 -0.281037148</span></span>
-<span id="cb45-79"><a href="desestacionalización-y-filtrado-de-series.html#cb45-79" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2009  0.226851260  0.092413978  0.021568361 -0.070602259</span></span>
-<span id="cb45-80"><a href="desestacionalización-y-filtrado-de-series.html#cb45-80" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2010 -0.088013559 -0.355518277 -0.441120723 -0.481232069</span></span>
-<span id="cb45-81"><a href="desestacionalización-y-filtrado-de-series.html#cb45-81" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2011 -0.612311426 -0.855343408 -0.734553919 -0.855565336</span></span>
-<span id="cb45-82"><a href="desestacionalización-y-filtrado-de-series.html#cb45-82" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2012 -0.627470545 -0.512978505 -0.318451500 -0.327794750</span></span>
-<span id="cb45-83"><a href="desestacionalización-y-filtrado-de-series.html#cb45-83" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2013  0.041241618 -0.251742959 -0.521731636 -0.532100007</span></span>
-<span id="cb45-84"><a href="desestacionalización-y-filtrado-de-series.html#cb45-84" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2014  0.025603817 -0.063649951 -0.066189704  0.003542410</span></span>
-<span id="cb45-85"><a href="desestacionalización-y-filtrado-de-series.html#cb45-85" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2015 -0.393024017 -0.494322722 -0.617025665 -0.687194052</span></span>
-<span id="cb45-86"><a href="desestacionalización-y-filtrado-de-series.html#cb45-86" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2016 -1.398672260 -1.609015258 -1.691508944 -1.761073330</span></span>
-<span id="cb45-87"><a href="desestacionalización-y-filtrado-de-series.html#cb45-87" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2017  0.014700777 -0.113998904 -0.123567571 -0.022570414</span></span>
-<span id="cb45-88"><a href="desestacionalización-y-filtrado-de-series.html#cb45-88" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2018 -0.142947597 -0.122741741  0.049620433  0.274252050</span></span>
-<span id="cb45-89"><a href="desestacionalización-y-filtrado-de-series.html#cb45-89" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2019 -0.115684406 -0.389844570 -0.341596615 -0.698283565</span></span>
-<span id="cb45-90"><a href="desestacionalización-y-filtrado-de-series.html#cb45-90" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2020 -1.301378144 -1.072337698 -0.725535708 -0.658967082</span></span>
-<span id="cb45-91"><a href="desestacionalización-y-filtrado-de-series.html#cb45-91" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2021  0.608404074  0.838215643  1.132948535             </span></span>
-<span id="cb45-92"><a href="desestacionalización-y-filtrado-de-series.html#cb45-92" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;               Sep          Oct          Nov          Dec</span></span>
-<span id="cb45-93"><a href="desestacionalización-y-filtrado-de-series.html#cb45-93" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2000 -0.102590031 -0.009804947  0.164784483  0.452452299</span></span>
-<span id="cb45-94"><a href="desestacionalización-y-filtrado-de-series.html#cb45-94" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2001  0.076660243  0.083712374  0.055103689 -0.091703579</span></span>
-<span id="cb45-95"><a href="desestacionalización-y-filtrado-de-series.html#cb45-95" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2002 -0.008263469  0.016120866  0.236268433  0.262610542</span></span>
-<span id="cb45-96"><a href="desestacionalización-y-filtrado-de-series.html#cb45-96" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2003 -0.314265925 -0.312022839 -0.054984887 -0.014556554</span></span>
-<span id="cb45-97"><a href="desestacionalización-y-filtrado-de-series.html#cb45-97" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2004  0.105338549  0.310570219  0.611731956  0.541551594</span></span>
-<span id="cb45-98"><a href="desestacionalización-y-filtrado-de-series.html#cb45-98" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2005 -0.156504840 -0.201099726  0.035793536  0.211609037</span></span>
-<span id="cb45-99"><a href="desestacionalización-y-filtrado-de-series.html#cb45-99" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2006 -0.101638853 -0.042697807  0.069095994  0.213490457</span></span>
-<span id="cb45-100"><a href="desestacionalización-y-filtrado-de-series.html#cb45-100" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2007 -0.478454962 -0.475448693 -0.271395366 -0.256242421</span></span>
-<span id="cb45-101"><a href="desestacionalización-y-filtrado-de-series.html#cb45-101" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2008 -0.093089657  0.097524697  0.600960326  0.807816866</span></span>
-<span id="cb45-102"><a href="desestacionalización-y-filtrado-de-series.html#cb45-102" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2009  0.024201957 -0.018793254  0.094194169  0.135784587</span></span>
-<span id="cb45-103"><a href="desestacionalización-y-filtrado-de-series.html#cb45-103" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2010 -0.339736855 -0.127077202  0.225055362  0.354474134</span></span>
-<span id="cb45-104"><a href="desestacionalización-y-filtrado-de-series.html#cb45-104" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2011 -0.911182025 -0.641478939 -0.058417752  0.332512408</span></span>
-<span id="cb45-105"><a href="desestacionalización-y-filtrado-de-series.html#cb45-105" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2012 -0.225399361 -0.069754674  0.226409619  0.165143675</span></span>
-<span id="cb45-106"><a href="desestacionalización-y-filtrado-de-series.html#cb45-106" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2013 -0.466133438 -0.317018340  0.211325244  0.448893287</span></span>
-<span id="cb45-107"><a href="desestacionalización-y-filtrado-de-series.html#cb45-107" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2014  0.144633839  0.382463784  0.840814404  1.029674297</span></span>
-<span id="cb45-108"><a href="desestacionalización-y-filtrado-de-series.html#cb45-108" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2015 -0.618073241 -0.429539870 -0.215801653 -0.127377476</span></span>
-<span id="cb45-109"><a href="desestacionalización-y-filtrado-de-series.html#cb45-109" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2016 -1.541111965 -1.327358097 -0.957173954 -0.880849589</span></span>
-<span id="cb45-110"><a href="desestacionalización-y-filtrado-de-series.html#cb45-110" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2017 -0.093771040  0.139581509  0.765096705  0.971883324</span></span>
-<span id="cb45-111"><a href="desestacionalización-y-filtrado-de-series.html#cb45-111" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2018  0.343076789  0.512068283  1.023275341  1.390711211</span></span>
-<span id="cb45-112"><a href="desestacionalización-y-filtrado-de-series.html#cb45-112" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2019 -0.766224721 -0.545690894 -0.043899684  0.201969206</span></span>
-<span id="cb45-113"><a href="desestacionalización-y-filtrado-de-series.html#cb45-113" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2020 -0.770576342 -0.471262251 -0.751870056 -0.701212281</span></span>
-<span id="cb45-114"><a href="desestacionalización-y-filtrado-de-series.html#cb45-114" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2021</span></span>
-<span id="cb45-115"><a href="desestacionalización-y-filtrado-de-series.html#cb45-115" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-116"><a href="desestacionalización-y-filtrado-de-series.html#cb45-116" aria-hidden="true" tabindex="-1"></a>INPC_hpf<span class="sc">$</span>trend</span>
-<span id="cb45-117"><a href="desestacionalización-y-filtrado-de-series.html#cb45-117" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;            Jan       Feb       Mar       Apr       May</span></span>
-<span id="cb45-118"><a href="desestacionalización-y-filtrado-de-series.html#cb45-118" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2000  45.30083  45.53416  45.76747  46.00072  46.23384</span></span>
-<span id="cb45-119"><a href="desestacionalización-y-filtrado-de-series.html#cb45-119" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2001  48.08397  48.31166  48.53824  48.76368  48.98795</span></span>
-<span id="cb45-120"><a href="desestacionalización-y-filtrado-de-series.html#cb45-120" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2002  50.74211  50.95658  51.17004  51.38250  51.59398</span></span>
-<span id="cb45-121"><a href="desestacionalización-y-filtrado-de-series.html#cb45-121" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2003  53.25106  53.45384  53.65573  53.85677  54.05706</span></span>
-<span id="cb45-122"><a href="desestacionalización-y-filtrado-de-series.html#cb45-122" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2004  55.64072  55.83655  56.03184  56.22659  56.42079</span></span>
-<span id="cb45-123"><a href="desestacionalización-y-filtrado-de-series.html#cb45-123" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2005  57.95531  58.14457  58.33339  58.52190  58.71024</span></span>
-<span id="cb45-124"><a href="desestacionalización-y-filtrado-de-series.html#cb45-124" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2006  60.23183  60.42622  60.62205  60.81953  61.01885</span></span>
-<span id="cb45-125"><a href="desestacionalización-y-filtrado-de-series.html#cb45-125" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2007  62.69779  62.91940  63.14385  63.37126  63.60175</span></span>
-<span id="cb45-126"><a href="desestacionalización-y-filtrado-de-series.html#cb45-126" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2008  65.56073  65.81874  66.07911  66.34164  66.60609</span></span>
-<span id="cb45-127"><a href="desestacionalización-y-filtrado-de-series.html#cb45-127" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2009  68.75691  69.02526  69.29258  69.55870  69.82351</span></span>
-<span id="cb45-128"><a href="desestacionalización-y-filtrado-de-series.html#cb45-128" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2010  71.88860  72.13941  72.38852  72.63599  72.88199</span></span>
-<span id="cb45-129"><a href="desestacionalización-y-filtrado-de-series.html#cb45-129" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2011  74.81595  75.05503  75.29388  75.53266  75.77158</span></span>
-<span id="cb45-130"><a href="desestacionalización-y-filtrado-de-series.html#cb45-130" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2012  77.70345  77.94740  78.19169  78.43631  78.68129</span></span>
-<span id="cb45-131"><a href="desestacionalización-y-filtrado-de-series.html#cb45-131" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2013  80.64889  80.89431  81.13926  81.38368  81.62758</span></span>
-<span id="cb45-132"><a href="desestacionalización-y-filtrado-de-series.html#cb45-132" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2014  83.56059  83.79914  84.03684  84.27374  84.50998</span></span>
-<span id="cb45-133"><a href="desestacionalización-y-filtrado-de-series.html#cb45-133" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2015  86.39646  86.63474  86.87453  87.11626  87.36039</span></span>
-<span id="cb45-134"><a href="desestacionalización-y-filtrado-de-series.html#cb45-134" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2016  89.45249  89.73641  90.02618  90.32206  90.62429</span></span>
-<span id="cb45-135"><a href="desestacionalización-y-filtrado-de-series.html#cb45-135" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2017  93.27062  93.62562  93.98432  94.34621  94.71079</span></span>
-<span id="cb45-136"><a href="desestacionalización-y-filtrado-de-series.html#cb45-136" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2018  97.67105  98.03990  98.40728  98.77303  99.13703</span></span>
-<span id="cb45-137"><a href="desestacionalización-y-filtrado-de-series.html#cb45-137" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2019 101.97668 102.32206 102.66565 103.00775 103.34868</span></span>
-<span id="cb45-138"><a href="desestacionalización-y-filtrado-de-series.html#cb45-138" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2020 106.07526 106.41978 106.76581 107.11359 107.46338</span></span>
-<span id="cb45-139"><a href="desestacionalización-y-filtrado-de-series.html#cb45-139" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2021 110.33805 110.70509 111.07304 111.44162 111.81060</span></span>
-<span id="cb45-140"><a href="desestacionalización-y-filtrado-de-series.html#cb45-140" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;            Jun       Jul       Aug       Sep       Oct</span></span>
-<span id="cb45-141"><a href="desestacionalización-y-filtrado-de-series.html#cb45-141" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2000  46.46679  46.69947  46.93180  47.16366  47.39494</span></span>
-<span id="cb45-142"><a href="desestacionalización-y-filtrado-de-series.html#cb45-142" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2001  49.21107  49.43305  49.65393  49.87372  50.09242</span></span>
-<span id="cb45-143"><a href="desestacionalización-y-filtrado-de-series.html#cb45-143" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2002  51.80448  52.01403  52.22262  52.43025  52.63692</span></span>
-<span id="cb45-144"><a href="desestacionalización-y-filtrado-de-series.html#cb45-144" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2003  54.25669  54.45577  54.65435  54.85250  55.05023</span></span>
-<span id="cb45-145"><a href="desestacionalización-y-filtrado-de-series.html#cb45-145" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2004  56.61450  56.80770  57.00041  57.19258  57.38418</span></span>
-<span id="cb45-146"><a href="desestacionalización-y-filtrado-de-series.html#cb45-146" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2005  58.89858  59.08713  59.27605  59.46551  59.65568</span></span>
-<span id="cb45-147"><a href="desestacionalización-y-filtrado-de-series.html#cb45-147" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2006  61.22023  61.42383  61.62981  61.83825  62.04922</span></span>
-<span id="cb45-148"><a href="desestacionalización-y-filtrado-de-series.html#cb45-148" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2007  63.83543  64.07239  64.31264  64.55616  64.80285</span></span>
-<span id="cb45-149"><a href="desestacionalización-y-filtrado-de-series.html#cb45-149" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2008  66.87225  67.13983  67.40853  67.67802  67.94796</span></span>
-<span id="cb45-150"><a href="desestacionalización-y-filtrado-de-series.html#cb45-150" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2009  70.08694  70.34895  70.60949  70.86851  71.12598</span></span>
-<span id="cb45-151"><a href="desestacionalización-y-filtrado-de-series.html#cb45-151" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2010  73.12670  73.37031  73.61298  73.85485  74.09600</span></span>
-<span id="cb45-152"><a href="desestacionalización-y-filtrado-de-series.html#cb45-152" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2011  76.01085  76.25066  76.49112  76.73230  76.97419</span></span>
-<span id="cb45-153"><a href="desestacionalización-y-filtrado-de-series.html#cb45-153" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2012  78.92665  79.17235  79.41833  79.66452  79.91079</span></span>
-<span id="cb45-154"><a href="desestacionalización-y-filtrado-de-series.html#cb45-154" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2013  81.87098  82.11392  82.35643  82.59847  82.84001</span></span>
-<span id="cb45-155"><a href="desestacionalización-y-filtrado-de-series.html#cb45-155" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2014  84.74572  84.98115  85.21642  85.45171  85.68716</span></span>
-<span id="cb45-156"><a href="desestacionalización-y-filtrado-de-series.html#cb45-156" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2015  87.60743  87.85785  88.11207  88.37049  88.63346</span></span>
-<span id="cb45-157"><a href="desestacionalización-y-filtrado-de-series.html#cb45-157" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2016  90.93304  91.24842  91.57041  91.89886  92.23351</span></span>
-<span id="cb45-158"><a href="desestacionalización-y-filtrado-de-series.html#cb45-158" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2017  95.07764  95.44630  95.81634  96.18729  96.55869</span></span>
-<span id="cb45-159"><a href="desestacionalización-y-filtrado-de-series.html#cb45-159" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2018  99.49921  99.85948 100.21775 100.57392 100.92793</span></span>
-<span id="cb45-160"><a href="desestacionalización-y-filtrado-de-series.html#cb45-160" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2019 103.68884 104.02860 104.36828 104.70822 105.04869</span></span>
-<span id="cb45-161"><a href="desestacionalización-y-filtrado-de-series.html#cb45-161" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2020 107.81534 108.16954 108.52597 108.88458 109.24526</span></span>
-<span id="cb45-162"><a href="desestacionalización-y-filtrado-de-series.html#cb45-162" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2021 112.17978 112.54905                              </span></span>
-<span id="cb45-163"><a href="desestacionalización-y-filtrado-de-series.html#cb45-163" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;            Nov       Dec</span></span>
-<span id="cb45-164"><a href="desestacionalización-y-filtrado-de-series.html#cb45-164" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2000  47.62550  47.85522</span></span>
-<span id="cb45-165"><a href="desestacionalización-y-filtrado-de-series.html#cb45-165" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2001  50.31005  50.52660</span></span>
-<span id="cb45-166"><a href="desestacionalización-y-filtrado-de-series.html#cb45-166" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2002  52.84261  53.04732</span></span>
-<span id="cb45-167"><a href="desestacionalización-y-filtrado-de-series.html#cb45-167" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2003  55.24753  55.44437</span></span>
-<span id="cb45-168"><a href="desestacionalización-y-filtrado-de-series.html#cb45-168" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2004  57.57517  57.76554</span></span>
-<span id="cb45-169"><a href="desestacionalización-y-filtrado-de-series.html#cb45-169" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2005  59.84670  60.03870</span></span>
-<span id="cb45-170"><a href="desestacionalización-y-filtrado-de-series.html#cb45-170" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2006  62.26276  62.47893</span></span>
-<span id="cb45-171"><a href="desestacionalización-y-filtrado-de-series.html#cb45-171" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2007  65.05262  65.30530</span></span>
-<span id="cb45-172"><a href="desestacionalización-y-filtrado-de-series.html#cb45-172" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2008  68.21798  68.48774</span></span>
-<span id="cb45-173"><a href="desestacionalización-y-filtrado-de-series.html#cb45-173" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2009  71.38185  71.63607</span></span>
-<span id="cb45-174"><a href="desestacionalización-y-filtrado-de-series.html#cb45-174" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2010  74.33653  74.57648</span></span>
-<span id="cb45-175"><a href="desestacionalización-y-filtrado-de-series.html#cb45-175" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2011  77.21675  77.45987</span></span>
-<span id="cb45-176"><a href="desestacionalización-y-filtrado-de-series.html#cb45-176" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2012  80.15703  80.40310</span></span>
-<span id="cb45-177"><a href="desestacionalización-y-filtrado-de-series.html#cb45-177" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2013  83.08094  83.32116</span></span>
-<span id="cb45-178"><a href="desestacionalización-y-filtrado-de-series.html#cb45-178" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2014  85.92296  86.15931</span></span>
-<span id="cb45-179"><a href="desestacionalización-y-filtrado-de-series.html#cb45-179" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2015  88.90127  89.17420</span></span>
-<span id="cb45-180"><a href="desestacionalización-y-filtrado-de-series.html#cb45-180" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2016  92.57401  92.91988</span></span>
-<span id="cb45-181"><a href="desestacionalización-y-filtrado-de-series.html#cb45-181" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2017  96.93008  97.30100</span></span>
-<span id="cb45-182"><a href="desestacionalización-y-filtrado-de-series.html#cb45-182" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2018 101.27972 101.62929</span></span>
-<span id="cb45-183"><a href="desestacionalización-y-filtrado-de-series.html#cb45-183" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2019 105.38990 105.73203</span></span>
-<span id="cb45-184"><a href="desestacionalización-y-filtrado-de-series.html#cb45-184" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2020 109.60787 109.97221</span></span>
-<span id="cb45-185"><a href="desestacionalización-y-filtrado-de-series.html#cb45-185" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2021</span></span>
-<span id="cb45-186"><a href="desestacionalización-y-filtrado-de-series.html#cb45-186" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-187"><a href="desestacionalización-y-filtrado-de-series.html#cb45-187" aria-hidden="true" tabindex="-1"></a>INPC_hpf<span class="sc">$</span>lambda</span>
-<span id="cb45-188"><a href="desestacionalización-y-filtrado-de-series.html#cb45-188" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 14400</span></span>
-<span id="cb45-189"><a href="desestacionalización-y-filtrado-de-series.html#cb45-189" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-190"><a href="desestacionalización-y-filtrado-de-series.html#cb45-190" aria-hidden="true" tabindex="-1"></a>INPC_hpf<span class="sc">$</span>x</span>
-<span id="cb45-191"><a href="desestacionalización-y-filtrado-de-series.html#cb45-191" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;            Jan       Feb       Mar       Apr       May</span></span>
-<span id="cb45-192"><a href="desestacionalización-y-filtrado-de-series.html#cb45-192" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2000  44.93083  45.32938  45.58068  45.84002  46.01138</span></span>
-<span id="cb45-193"><a href="desestacionalización-y-filtrado-de-series.html#cb45-193" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2001  48.57548  48.54333  48.85089  49.09731  49.20997</span></span>
-<span id="cb45-194"><a href="desestacionalización-y-filtrado-de-series.html#cb45-194" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2002  50.90047  50.86775  51.12795  51.40724  51.51143</span></span>
-<span id="cb45-195"><a href="desestacionalización-y-filtrado-de-series.html#cb45-195" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2003  53.52544  53.67412  54.01293  54.10514  53.93056</span></span>
-<span id="cb45-196"><a href="desestacionalización-y-filtrado-de-series.html#cb45-196" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2004  55.77432  56.10795  56.29807  56.38303  56.24160</span></span>
-<span id="cb45-197"><a href="desestacionalización-y-filtrado-de-series.html#cb45-197" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2005  58.30916  58.50343  58.76712  58.97642  58.82825</span></span>
-<span id="cb45-198"><a href="desestacionalización-y-filtrado-de-series.html#cb45-198" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2006  60.60363  60.69636  60.77251  60.86162  60.59067</span></span>
-<span id="cb45-199"><a href="desestacionalización-y-filtrado-de-series.html#cb45-199" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2007  63.01621  63.19235  63.32911  63.29129  62.98253</span></span>
-<span id="cb45-200"><a href="desestacionalización-y-filtrado-de-series.html#cb45-200" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2008  65.35056  65.54483  66.01989  66.17013  66.09864</span></span>
-<span id="cb45-201"><a href="desestacionalización-y-filtrado-de-series.html#cb45-201" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2009  69.45615  69.60949  70.00995  70.25499  70.05036</span></span>
-<span id="cb45-202"><a href="desestacionalización-y-filtrado-de-series.html#cb45-202" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2010  72.55205  72.97167  73.48973  73.25557  72.79398</span></span>
-<span id="cb45-203"><a href="desestacionalización-y-filtrado-de-series.html#cb45-203" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2011  75.29599  75.57846  75.72345  75.71744  75.15926</span></span>
-<span id="cb45-204"><a href="desestacionalización-y-filtrado-de-series.html#cb45-204" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2012  78.34305  78.50231  78.54739  78.30098  78.05382</span></span>
-<span id="cb45-205"><a href="desestacionalización-y-filtrado-de-series.html#cb45-205" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2013  80.89278  81.29094  81.88743  81.94152  81.66882</span></span>
-<span id="cb45-206"><a href="desestacionalización-y-filtrado-de-series.html#cb45-206" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2014  84.51905  84.73316  84.96529  84.80678  84.53558</span></span>
-<span id="cb45-207"><a href="desestacionalización-y-filtrado-de-series.html#cb45-207" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2015  87.11010  87.27538  87.63072  87.40384  86.96737</span></span>
-<span id="cb45-208"><a href="desestacionalización-y-filtrado-de-series.html#cb45-208" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2016  89.38638  89.77778  89.91000  89.62528  89.22562</span></span>
-<span id="cb45-209"><a href="desestacionalización-y-filtrado-de-series.html#cb45-209" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2017  93.60388  94.14478  94.72249  94.83893  94.72549</span></span>
-<span id="cb45-210"><a href="desestacionalización-y-filtrado-de-series.html#cb45-210" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2018  98.79500  99.17137  99.49216  99.15485  98.99408</span></span>
-<span id="cb45-211"><a href="desestacionalización-y-filtrado-de-series.html#cb45-211" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2019 103.10800 103.07900 103.47600 103.53100 103.23300</span></span>
-<span id="cb45-212"><a href="desestacionalización-y-filtrado-de-series.html#cb45-212" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2020 106.44700 106.88900 106.83800 105.75500 106.16200</span></span>
-<span id="cb45-213"><a href="desestacionalización-y-filtrado-de-series.html#cb45-213" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2021 110.21000 110.90700 111.82400 112.19000 112.41900</span></span>
-<span id="cb45-214"><a href="desestacionalización-y-filtrado-de-series.html#cb45-214" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;            Jun       Jul       Aug       Sep       Oct</span></span>
-<span id="cb45-215"><a href="desestacionalización-y-filtrado-de-series.html#cb45-215" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2000  46.28392  46.46447  46.71979  47.06107  47.38514</span></span>
-<span id="cb45-216"><a href="desestacionalización-y-filtrado-de-series.html#cb45-216" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2001  49.32636  49.19820  49.48969  49.95038  50.17614</span></span>
-<span id="cb45-217"><a href="desestacionalización-y-filtrado-de-series.html#cb45-217" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2002  51.76259  51.91118  52.10856  52.42198  52.65304</span></span>
-<span id="cb45-218"><a href="desestacionalización-y-filtrado-de-series.html#cb45-218" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2003  53.97511  54.05334  54.21549  54.53824  54.73821</span></span>
-<span id="cb45-219"><a href="desestacionalización-y-filtrado-de-series.html#cb45-219" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2004  56.33174  56.47939  56.82804  57.29792  57.69475</span></span>
-<span id="cb45-220"><a href="desestacionalización-y-filtrado-de-series.html#cb45-220" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2005  58.77178  59.00180  59.07225  59.30901  59.45458</span></span>
-<span id="cb45-221"><a href="desestacionalización-y-filtrado-de-series.html#cb45-221" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2006  60.64300  60.80929  61.11961  61.73661  62.00652</span></span>
-<span id="cb45-222"><a href="desestacionalización-y-filtrado-de-series.html#cb45-222" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2007  63.05817  63.32601  63.58400  64.07770  64.32740</span></span>
-<span id="cb45-223"><a href="desestacionalización-y-filtrado-de-series.html#cb45-223" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2008  66.37217  66.74206  67.12749  67.58494  68.04549</span></span>
-<span id="cb45-224"><a href="desestacionalización-y-filtrado-de-series.html#cb45-224" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2009  70.17935  70.37052  70.53888  70.89272  71.10719</span></span>
-<span id="cb45-225"><a href="desestacionalización-y-filtrado-de-series.html#cb45-225" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2010  72.77118  72.92919  73.13175  73.51511  73.96893</span></span>
-<span id="cb45-226"><a href="desestacionalización-y-filtrado-de-series.html#cb45-226" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2011  75.15551  75.51611  75.63555  75.82111  76.33271</span></span>
-<span id="cb45-227"><a href="desestacionalización-y-filtrado-de-series.html#cb45-227" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2012  78.41367  78.85390  79.09054  79.43912  79.84104</span></span>
-<span id="cb45-228"><a href="desestacionalización-y-filtrado-de-series.html#cb45-228" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2013  81.61924  81.59219  81.82433  82.13234  82.52299</span></span>
-<span id="cb45-229"><a href="desestacionalización-y-filtrado-de-series.html#cb45-229" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2014  84.68207  84.91496  85.21997  85.59634  86.06963</span></span>
-<span id="cb45-230"><a href="desestacionalización-y-filtrado-de-series.html#cb45-230" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2015  87.11311  87.24082  87.42488  87.75242  88.20392</span></span>
-<span id="cb45-231"><a href="desestacionalización-y-filtrado-de-series.html#cb45-231" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2016  89.32403  89.55691  89.80933  90.35774  90.90615</span></span>
-<span id="cb45-232"><a href="desestacionalización-y-filtrado-de-series.html#cb45-232" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2017  94.96364  95.32274  95.79377  96.09351  96.69827</span></span>
-<span id="cb45-233"><a href="desestacionalización-y-filtrado-de-series.html#cb45-233" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2018  99.37646  99.90910 100.49200 100.91700 101.44000</span></span>
-<span id="cb45-234"><a href="desestacionalización-y-filtrado-de-series.html#cb45-234" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2019 103.29900 103.68700 103.67000 103.94200 104.50300</span></span>
-<span id="cb45-235"><a href="desestacionalización-y-filtrado-de-series.html#cb45-235" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2020 106.74300 107.44400 107.86700 108.11400 108.77400</span></span>
-<span id="cb45-236"><a href="desestacionalización-y-filtrado-de-series.html#cb45-236" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2021 113.01800 113.68200                              </span></span>
-<span id="cb45-237"><a href="desestacionalización-y-filtrado-de-series.html#cb45-237" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;            Nov       Dec</span></span>
-<span id="cb45-238"><a href="desestacionalización-y-filtrado-de-series.html#cb45-238" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2000  47.79029  48.30767</span></span>
-<span id="cb45-239"><a href="desestacionalización-y-filtrado-de-series.html#cb45-239" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2001  50.36515  50.43490</span></span>
-<span id="cb45-240"><a href="desestacionalización-y-filtrado-de-series.html#cb45-240" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2002  53.07888  53.30993</span></span>
-<span id="cb45-241"><a href="desestacionalización-y-filtrado-de-series.html#cb45-241" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2003  55.19254  55.42981</span></span>
-<span id="cb45-242"><a href="desestacionalización-y-filtrado-de-series.html#cb45-242" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2004  58.18690  58.30709</span></span>
-<span id="cb45-243"><a href="desestacionalización-y-filtrado-de-series.html#cb45-243" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2005  59.88249  60.25031</span></span>
-<span id="cb45-244"><a href="desestacionalización-y-filtrado-de-series.html#cb45-244" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2006  62.33186  62.69242</span></span>
-<span id="cb45-245"><a href="desestacionalización-y-filtrado-de-series.html#cb45-245" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2007  64.78122  65.04906</span></span>
-<span id="cb45-246"><a href="desestacionalización-y-filtrado-de-series.html#cb45-246" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2008  68.81894  69.29555</span></span>
-<span id="cb45-247"><a href="desestacionalización-y-filtrado-de-series.html#cb45-247" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2009  71.47605  71.77186</span></span>
-<span id="cb45-248"><a href="desestacionalización-y-filtrado-de-series.html#cb45-248" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2010  74.56158  74.93095</span></span>
-<span id="cb45-249"><a href="desestacionalización-y-filtrado-de-series.html#cb45-249" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2011  77.15833  77.79238</span></span>
-<span id="cb45-250"><a href="desestacionalización-y-filtrado-de-series.html#cb45-250" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2012  80.38344  80.56824</span></span>
-<span id="cb45-251"><a href="desestacionalización-y-filtrado-de-series.html#cb45-251" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2013  83.29227  83.77006</span></span>
-<span id="cb45-252"><a href="desestacionalización-y-filtrado-de-series.html#cb45-252" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2014  86.76378  87.18898</span></span>
-<span id="cb45-253"><a href="desestacionalización-y-filtrado-de-series.html#cb45-253" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2015  88.68547  89.04682</span></span>
-<span id="cb45-254"><a href="desestacionalización-y-filtrado-de-series.html#cb45-254" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2016  91.61683  92.03903</span></span>
-<span id="cb45-255"><a href="desestacionalización-y-filtrado-de-series.html#cb45-255" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2017  97.69517  98.27288</span></span>
-<span id="cb45-256"><a href="desestacionalización-y-filtrado-de-series.html#cb45-256" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2018 102.30300 103.02000</span></span>
-<span id="cb45-257"><a href="desestacionalización-y-filtrado-de-series.html#cb45-257" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2019 105.34600 105.93400</span></span>
-<span id="cb45-258"><a href="desestacionalización-y-filtrado-de-series.html#cb45-258" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2020 108.85600 109.27100</span></span>
-<span id="cb45-259"><a href="desestacionalización-y-filtrado-de-series.html#cb45-259" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2021</span></span></code></pre></div>
-<div class="figure" style="text-align: center"><span style="display:block;" id="fig:INPCHP"></span>
-<img src="04-Desestacionalizacion_Filtros_files/figure-html/INPCHP-1.png" alt="Descomposición del Índice Nacional de Precios al Consumidor ($INPC_t$) en su tendencia o trayectoria de largo plazo y su ciclo de corto plazo utilizando un filtro Hodrick y Prescott (1997)." width="100%" />
-<p class="caption">
+<div class="sourceCode" id="cb45"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co">#install.packages("ggplot2")</span></span>
+<span><span class="co">#install.packages("dplyr")</span></span>
+<span><span class="co">#install.packages("readxl")</span></span>
+<span><span class="co">#install.packages(stats)</span></span>
+<span><span class="co">#install.packages("mFilter")</span></span>
+<span><span class="co"># </span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org">ggplot2</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org">dplyr</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://readxl.tidyverse.org">readxl</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">stats</span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://www.mbalcilar.net">mFilter</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Importamos Datos desde un archivo de R:</span></span>
+<span></span>
+<span><span class="co">#Los datos "cargados" son los originales y los ajustados por estacionalidad. Los cuales son:</span></span>
+<span></span>
+<span><span class="co">#* INPC: Indice Nacional de Precios al Consumidor (2QJul2018 = 100)</span></span>
+<span></span>
+<span><span class="co">#* TC: Tipo de Cambio FIX </span></span>
+<span></span>
+<span><span class="co">#* CETE28: Tasa de rendimiento promedio mensual de los Cetes 28, en por ciento anual</span></span>
+<span></span>
+<span><span class="co">#* IGAE: Indicador global de la actividad económica (2013 = 100)</span></span>
+<span></span>
+<span><span class="co">#* IPI: Industrial Production Index (2012 = 100)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/load.html">load</a></span><span class="op">(</span><span class="st">"BD/Clase_11/Datos_Ad.RData"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">INPC_HP</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/ts.html">ts</a></span><span class="op">(</span><span class="va">Datos_Ad</span><span class="op">$</span><span class="va">INPC_Ad</span>, start <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2000</span>, <span class="fl">1</span><span class="op">)</span>, freq <span class="op">=</span> <span class="fl">12</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">TC</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/ts.html">ts</a></span><span class="op">(</span><span class="va">Datos_Ad</span><span class="op">$</span><span class="va">TC_Ad</span>, start <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2000</span>, <span class="fl">1</span><span class="op">)</span>, freq <span class="op">=</span> <span class="fl">12</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co">## Filtro Hodrick-Prescott:</span></span>
+<span></span>
+<span><span class="co">### INPC:</span></span>
+<span><span class="co">#?hpfilter</span></span>
+<span></span>
+<span><span class="va">INPC_hpf</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/mFilter/man/hpfilter.html">hpfilter</a></span><span class="op">(</span><span class="va">INPC</span>, freq <span class="op">=</span> <span class="fl">14400</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">INPC_hpf</span><span class="op">)</span></span>
+<span><span class="co">#&gt;  [1] "cycle"   "trend"   "fmatrix" "title"   "xname"  </span></span>
+<span><span class="co">#&gt;  [6] "call"    "type"    "lambda"  "method"  "x"</span></span>
+<span></span>
+<span><span class="co">#</span></span>
+<span><span class="va">INPC_hpf</span><span class="op">$</span><span class="va">cycle</span></span>
+<span><span class="co">#&gt;               Jan          Feb          Mar          Apr</span></span>
+<span><span class="co">#&gt; 2000 -0.369995465 -0.204781721 -0.186791284 -0.160699237</span></span>
+<span><span class="co">#&gt; 2001  0.491509101  0.231668069  0.312644248  0.333628596</span></span>
+<span><span class="co">#&gt; 2002  0.158359973 -0.088834879 -0.042095361  0.024731472</span></span>
+<span><span class="co">#&gt; 2003  0.274385097  0.220277762  0.357200149  0.248370572</span></span>
+<span><span class="co">#&gt; 2004  0.133596492  0.271391596  0.266227824  0.156446397</span></span>
+<span><span class="co">#&gt; 2005  0.353845486  0.358862377  0.433730438  0.454517921</span></span>
+<span><span class="co">#&gt; 2006  0.371800378  0.270140468  0.150457395  0.042085487</span></span>
+<span><span class="co">#&gt; 2007  0.318418692  0.272948983  0.185261500 -0.079965538</span></span>
+<span><span class="co">#&gt; 2008 -0.210169454 -0.273903265 -0.059220058 -0.171510017</span></span>
+<span><span class="co">#&gt; 2009  0.699236223  0.584232203  0.717372055  0.696292454</span></span>
+<span><span class="co">#&gt; 2010  0.663445825  0.832260274  1.101207256  0.619570294</span></span>
+<span><span class="co">#&gt; 2011  0.480043782  0.523426357  0.429572575  0.184783802</span></span>
+<span><span class="co">#&gt; 2012  0.639598468  0.554912267  0.355701224 -0.135328774</span></span>
+<span><span class="co">#&gt; 2013  0.243888923  0.396636329  0.748177918  0.557842172</span></span>
+<span><span class="co">#&gt; 2014  0.958465086  0.934013767  0.928454894  0.533042168</span></span>
+<span><span class="co">#&gt; 2015  0.713644671  0.640638229  0.756187115  0.287584986</span></span>
+<span><span class="co">#&gt; 2016 -0.066111238  0.041374008 -0.116181201 -0.696785201</span></span>
+<span><span class="co">#&gt; 2017  0.333265420  0.519162662  0.738165583  0.492725577</span></span>
+<span><span class="co">#&gt; 2018  1.123948014  1.131474928  1.084873169  0.381819264</span></span>
+<span><span class="co">#&gt; 2019  1.131318081  0.756941561  0.810348698  0.523253973</span></span>
+<span><span class="co">#&gt; 2020  0.371739118  0.469219371  0.072193469 -1.358587671</span></span>
+<span><span class="co">#&gt; 2021 -0.128049234  0.201907470  0.750955110  0.748376942</span></span>
+<span><span class="co">#&gt;               May          Jun          Jul          Aug</span></span>
+<span><span class="co">#&gt; 2000 -0.222464694 -0.182867609 -0.235003486 -0.212012132</span></span>
+<span><span class="co">#&gt; 2001  0.222016360  0.115293619 -0.234850969 -0.164243748</span></span>
+<span><span class="co">#&gt; 2002 -0.082549510 -0.041897157 -0.102845584 -0.114055000</span></span>
+<span><span class="co">#&gt; 2003 -0.126500461 -0.281581688 -0.402428066 -0.438864993</span></span>
+<span><span class="co">#&gt; 2004 -0.179191953 -0.282751358 -0.328312508 -0.172365454</span></span>
+<span><span class="co">#&gt; 2005  0.118015956 -0.126799889 -0.085327242 -0.203790926</span></span>
+<span><span class="co">#&gt; 2006 -0.428178375 -0.577230234 -0.614540398 -0.510201089</span></span>
+<span><span class="co">#&gt; 2007 -0.619214781 -0.777264325 -0.746387263 -0.728647713</span></span>
+<span><span class="co">#&gt; 2008 -0.507458213 -0.500077808 -0.397766722 -0.281037148</span></span>
+<span><span class="co">#&gt; 2009  0.226851260  0.092413978  0.021568361 -0.070602259</span></span>
+<span><span class="co">#&gt; 2010 -0.088013559 -0.355518277 -0.441120723 -0.481232069</span></span>
+<span><span class="co">#&gt; 2011 -0.612311426 -0.855343408 -0.734553919 -0.855565336</span></span>
+<span><span class="co">#&gt; 2012 -0.627470545 -0.512978505 -0.318451500 -0.327794750</span></span>
+<span><span class="co">#&gt; 2013  0.041241618 -0.251742959 -0.521731636 -0.532100007</span></span>
+<span><span class="co">#&gt; 2014  0.025603817 -0.063649951 -0.066189704  0.003542410</span></span>
+<span><span class="co">#&gt; 2015 -0.393024017 -0.494322722 -0.617025665 -0.687194052</span></span>
+<span><span class="co">#&gt; 2016 -1.398672260 -1.609015258 -1.691508944 -1.761073330</span></span>
+<span><span class="co">#&gt; 2017  0.014700777 -0.113998904 -0.123567571 -0.022570414</span></span>
+<span><span class="co">#&gt; 2018 -0.142947597 -0.122741741  0.049620433  0.274252050</span></span>
+<span><span class="co">#&gt; 2019 -0.115684406 -0.389844570 -0.341596615 -0.698283565</span></span>
+<span><span class="co">#&gt; 2020 -1.301378144 -1.072337698 -0.725535708 -0.658967082</span></span>
+<span><span class="co">#&gt; 2021  0.608404074  0.838215643  1.132948535             </span></span>
+<span><span class="co">#&gt;               Sep          Oct          Nov          Dec</span></span>
+<span><span class="co">#&gt; 2000 -0.102590031 -0.009804947  0.164784483  0.452452299</span></span>
+<span><span class="co">#&gt; 2001  0.076660243  0.083712374  0.055103689 -0.091703579</span></span>
+<span><span class="co">#&gt; 2002 -0.008263469  0.016120866  0.236268433  0.262610542</span></span>
+<span><span class="co">#&gt; 2003 -0.314265925 -0.312022839 -0.054984887 -0.014556554</span></span>
+<span><span class="co">#&gt; 2004  0.105338549  0.310570219  0.611731956  0.541551594</span></span>
+<span><span class="co">#&gt; 2005 -0.156504840 -0.201099726  0.035793536  0.211609037</span></span>
+<span><span class="co">#&gt; 2006 -0.101638853 -0.042697807  0.069095994  0.213490457</span></span>
+<span><span class="co">#&gt; 2007 -0.478454962 -0.475448693 -0.271395366 -0.256242421</span></span>
+<span><span class="co">#&gt; 2008 -0.093089657  0.097524697  0.600960326  0.807816866</span></span>
+<span><span class="co">#&gt; 2009  0.024201957 -0.018793254  0.094194169  0.135784587</span></span>
+<span><span class="co">#&gt; 2010 -0.339736855 -0.127077202  0.225055362  0.354474134</span></span>
+<span><span class="co">#&gt; 2011 -0.911182025 -0.641478939 -0.058417752  0.332512408</span></span>
+<span><span class="co">#&gt; 2012 -0.225399361 -0.069754674  0.226409619  0.165143675</span></span>
+<span><span class="co">#&gt; 2013 -0.466133438 -0.317018340  0.211325244  0.448893287</span></span>
+<span><span class="co">#&gt; 2014  0.144633839  0.382463784  0.840814404  1.029674297</span></span>
+<span><span class="co">#&gt; 2015 -0.618073241 -0.429539870 -0.215801653 -0.127377476</span></span>
+<span><span class="co">#&gt; 2016 -1.541111965 -1.327358097 -0.957173954 -0.880849589</span></span>
+<span><span class="co">#&gt; 2017 -0.093771040  0.139581509  0.765096705  0.971883324</span></span>
+<span><span class="co">#&gt; 2018  0.343076789  0.512068283  1.023275341  1.390711211</span></span>
+<span><span class="co">#&gt; 2019 -0.766224721 -0.545690894 -0.043899684  0.201969206</span></span>
+<span><span class="co">#&gt; 2020 -0.770576342 -0.471262251 -0.751870056 -0.701212281</span></span>
+<span><span class="co">#&gt; 2021</span></span>
+<span></span>
+<span><span class="va">INPC_hpf</span><span class="op">$</span><span class="va">trend</span></span>
+<span><span class="co">#&gt;            Jan       Feb       Mar       Apr       May</span></span>
+<span><span class="co">#&gt; 2000  45.30083  45.53416  45.76747  46.00072  46.23384</span></span>
+<span><span class="co">#&gt; 2001  48.08397  48.31166  48.53824  48.76368  48.98795</span></span>
+<span><span class="co">#&gt; 2002  50.74211  50.95658  51.17004  51.38250  51.59398</span></span>
+<span><span class="co">#&gt; 2003  53.25106  53.45384  53.65573  53.85677  54.05706</span></span>
+<span><span class="co">#&gt; 2004  55.64072  55.83655  56.03184  56.22659  56.42079</span></span>
+<span><span class="co">#&gt; 2005  57.95531  58.14457  58.33339  58.52190  58.71024</span></span>
+<span><span class="co">#&gt; 2006  60.23183  60.42622  60.62205  60.81953  61.01885</span></span>
+<span><span class="co">#&gt; 2007  62.69779  62.91940  63.14385  63.37126  63.60175</span></span>
+<span><span class="co">#&gt; 2008  65.56073  65.81874  66.07911  66.34164  66.60609</span></span>
+<span><span class="co">#&gt; 2009  68.75691  69.02526  69.29258  69.55870  69.82351</span></span>
+<span><span class="co">#&gt; 2010  71.88860  72.13941  72.38852  72.63599  72.88199</span></span>
+<span><span class="co">#&gt; 2011  74.81595  75.05503  75.29388  75.53266  75.77158</span></span>
+<span><span class="co">#&gt; 2012  77.70345  77.94740  78.19169  78.43631  78.68129</span></span>
+<span><span class="co">#&gt; 2013  80.64889  80.89431  81.13926  81.38368  81.62758</span></span>
+<span><span class="co">#&gt; 2014  83.56059  83.79914  84.03684  84.27374  84.50998</span></span>
+<span><span class="co">#&gt; 2015  86.39646  86.63474  86.87453  87.11626  87.36039</span></span>
+<span><span class="co">#&gt; 2016  89.45249  89.73641  90.02618  90.32206  90.62429</span></span>
+<span><span class="co">#&gt; 2017  93.27062  93.62562  93.98432  94.34621  94.71079</span></span>
+<span><span class="co">#&gt; 2018  97.67105  98.03990  98.40728  98.77303  99.13703</span></span>
+<span><span class="co">#&gt; 2019 101.97668 102.32206 102.66565 103.00775 103.34868</span></span>
+<span><span class="co">#&gt; 2020 106.07526 106.41978 106.76581 107.11359 107.46338</span></span>
+<span><span class="co">#&gt; 2021 110.33805 110.70509 111.07304 111.44162 111.81060</span></span>
+<span><span class="co">#&gt;            Jun       Jul       Aug       Sep       Oct</span></span>
+<span><span class="co">#&gt; 2000  46.46679  46.69947  46.93180  47.16366  47.39494</span></span>
+<span><span class="co">#&gt; 2001  49.21107  49.43305  49.65393  49.87372  50.09242</span></span>
+<span><span class="co">#&gt; 2002  51.80448  52.01403  52.22262  52.43025  52.63692</span></span>
+<span><span class="co">#&gt; 2003  54.25669  54.45577  54.65435  54.85250  55.05023</span></span>
+<span><span class="co">#&gt; 2004  56.61450  56.80770  57.00041  57.19258  57.38418</span></span>
+<span><span class="co">#&gt; 2005  58.89858  59.08713  59.27605  59.46551  59.65568</span></span>
+<span><span class="co">#&gt; 2006  61.22023  61.42383  61.62981  61.83825  62.04922</span></span>
+<span><span class="co">#&gt; 2007  63.83543  64.07239  64.31264  64.55616  64.80285</span></span>
+<span><span class="co">#&gt; 2008  66.87225  67.13983  67.40853  67.67802  67.94796</span></span>
+<span><span class="co">#&gt; 2009  70.08694  70.34895  70.60949  70.86851  71.12598</span></span>
+<span><span class="co">#&gt; 2010  73.12670  73.37031  73.61298  73.85485  74.09600</span></span>
+<span><span class="co">#&gt; 2011  76.01085  76.25066  76.49112  76.73230  76.97419</span></span>
+<span><span class="co">#&gt; 2012  78.92665  79.17235  79.41833  79.66452  79.91079</span></span>
+<span><span class="co">#&gt; 2013  81.87098  82.11392  82.35643  82.59847  82.84001</span></span>
+<span><span class="co">#&gt; 2014  84.74572  84.98115  85.21642  85.45171  85.68716</span></span>
+<span><span class="co">#&gt; 2015  87.60743  87.85785  88.11207  88.37049  88.63346</span></span>
+<span><span class="co">#&gt; 2016  90.93304  91.24842  91.57041  91.89886  92.23351</span></span>
+<span><span class="co">#&gt; 2017  95.07764  95.44630  95.81634  96.18729  96.55869</span></span>
+<span><span class="co">#&gt; 2018  99.49921  99.85948 100.21775 100.57392 100.92793</span></span>
+<span><span class="co">#&gt; 2019 103.68884 104.02860 104.36828 104.70822 105.04869</span></span>
+<span><span class="co">#&gt; 2020 107.81534 108.16954 108.52597 108.88458 109.24526</span></span>
+<span><span class="co">#&gt; 2021 112.17978 112.54905                              </span></span>
+<span><span class="co">#&gt;            Nov       Dec</span></span>
+<span><span class="co">#&gt; 2000  47.62550  47.85522</span></span>
+<span><span class="co">#&gt; 2001  50.31005  50.52660</span></span>
+<span><span class="co">#&gt; 2002  52.84261  53.04732</span></span>
+<span><span class="co">#&gt; 2003  55.24753  55.44437</span></span>
+<span><span class="co">#&gt; 2004  57.57517  57.76554</span></span>
+<span><span class="co">#&gt; 2005  59.84670  60.03870</span></span>
+<span><span class="co">#&gt; 2006  62.26276  62.47893</span></span>
+<span><span class="co">#&gt; 2007  65.05262  65.30530</span></span>
+<span><span class="co">#&gt; 2008  68.21798  68.48774</span></span>
+<span><span class="co">#&gt; 2009  71.38185  71.63607</span></span>
+<span><span class="co">#&gt; 2010  74.33653  74.57648</span></span>
+<span><span class="co">#&gt; 2011  77.21675  77.45987</span></span>
+<span><span class="co">#&gt; 2012  80.15703  80.40310</span></span>
+<span><span class="co">#&gt; 2013  83.08094  83.32116</span></span>
+<span><span class="co">#&gt; 2014  85.92296  86.15931</span></span>
+<span><span class="co">#&gt; 2015  88.90127  89.17420</span></span>
+<span><span class="co">#&gt; 2016  92.57401  92.91988</span></span>
+<span><span class="co">#&gt; 2017  96.93008  97.30100</span></span>
+<span><span class="co">#&gt; 2018 101.27972 101.62929</span></span>
+<span><span class="co">#&gt; 2019 105.38990 105.73203</span></span>
+<span><span class="co">#&gt; 2020 109.60787 109.97221</span></span>
+<span><span class="co">#&gt; 2021</span></span>
+<span></span>
+<span><span class="va">INPC_hpf</span><span class="op">$</span><span class="va">lambda</span></span>
+<span><span class="co">#&gt; [1] 14400</span></span>
+<span></span>
+<span><span class="va">INPC_hpf</span><span class="op">$</span><span class="va">x</span></span>
+<span><span class="co">#&gt;            Jan       Feb       Mar       Apr       May</span></span>
+<span><span class="co">#&gt; 2000  44.93083  45.32938  45.58068  45.84002  46.01138</span></span>
+<span><span class="co">#&gt; 2001  48.57548  48.54333  48.85089  49.09731  49.20997</span></span>
+<span><span class="co">#&gt; 2002  50.90047  50.86775  51.12795  51.40724  51.51143</span></span>
+<span><span class="co">#&gt; 2003  53.52544  53.67412  54.01293  54.10514  53.93056</span></span>
+<span><span class="co">#&gt; 2004  55.77432  56.10795  56.29807  56.38303  56.24160</span></span>
+<span><span class="co">#&gt; 2005  58.30916  58.50343  58.76712  58.97642  58.82825</span></span>
+<span><span class="co">#&gt; 2006  60.60363  60.69636  60.77251  60.86162  60.59067</span></span>
+<span><span class="co">#&gt; 2007  63.01621  63.19235  63.32911  63.29129  62.98253</span></span>
+<span><span class="co">#&gt; 2008  65.35056  65.54483  66.01989  66.17013  66.09864</span></span>
+<span><span class="co">#&gt; 2009  69.45615  69.60949  70.00995  70.25499  70.05036</span></span>
+<span><span class="co">#&gt; 2010  72.55205  72.97167  73.48973  73.25557  72.79398</span></span>
+<span><span class="co">#&gt; 2011  75.29599  75.57846  75.72345  75.71744  75.15926</span></span>
+<span><span class="co">#&gt; 2012  78.34305  78.50231  78.54739  78.30098  78.05382</span></span>
+<span><span class="co">#&gt; 2013  80.89278  81.29094  81.88743  81.94152  81.66882</span></span>
+<span><span class="co">#&gt; 2014  84.51905  84.73316  84.96529  84.80678  84.53558</span></span>
+<span><span class="co">#&gt; 2015  87.11010  87.27538  87.63072  87.40384  86.96737</span></span>
+<span><span class="co">#&gt; 2016  89.38638  89.77778  89.91000  89.62528  89.22562</span></span>
+<span><span class="co">#&gt; 2017  93.60388  94.14478  94.72249  94.83893  94.72549</span></span>
+<span><span class="co">#&gt; 2018  98.79500  99.17137  99.49216  99.15485  98.99408</span></span>
+<span><span class="co">#&gt; 2019 103.10800 103.07900 103.47600 103.53100 103.23300</span></span>
+<span><span class="co">#&gt; 2020 106.44700 106.88900 106.83800 105.75500 106.16200</span></span>
+<span><span class="co">#&gt; 2021 110.21000 110.90700 111.82400 112.19000 112.41900</span></span>
+<span><span class="co">#&gt;            Jun       Jul       Aug       Sep       Oct</span></span>
+<span><span class="co">#&gt; 2000  46.28392  46.46447  46.71979  47.06107  47.38514</span></span>
+<span><span class="co">#&gt; 2001  49.32636  49.19820  49.48969  49.95038  50.17614</span></span>
+<span><span class="co">#&gt; 2002  51.76259  51.91118  52.10856  52.42198  52.65304</span></span>
+<span><span class="co">#&gt; 2003  53.97511  54.05334  54.21549  54.53824  54.73821</span></span>
+<span><span class="co">#&gt; 2004  56.33174  56.47939  56.82804  57.29792  57.69475</span></span>
+<span><span class="co">#&gt; 2005  58.77178  59.00180  59.07225  59.30901  59.45458</span></span>
+<span><span class="co">#&gt; 2006  60.64300  60.80929  61.11961  61.73661  62.00652</span></span>
+<span><span class="co">#&gt; 2007  63.05817  63.32601  63.58400  64.07770  64.32740</span></span>
+<span><span class="co">#&gt; 2008  66.37217  66.74206  67.12749  67.58494  68.04549</span></span>
+<span><span class="co">#&gt; 2009  70.17935  70.37052  70.53888  70.89272  71.10719</span></span>
+<span><span class="co">#&gt; 2010  72.77118  72.92919  73.13175  73.51511  73.96893</span></span>
+<span><span class="co">#&gt; 2011  75.15551  75.51611  75.63555  75.82111  76.33271</span></span>
+<span><span class="co">#&gt; 2012  78.41367  78.85390  79.09054  79.43912  79.84104</span></span>
+<span><span class="co">#&gt; 2013  81.61924  81.59219  81.82433  82.13234  82.52299</span></span>
+<span><span class="co">#&gt; 2014  84.68207  84.91496  85.21997  85.59634  86.06963</span></span>
+<span><span class="co">#&gt; 2015  87.11311  87.24082  87.42488  87.75242  88.20392</span></span>
+<span><span class="co">#&gt; 2016  89.32403  89.55691  89.80933  90.35774  90.90615</span></span>
+<span><span class="co">#&gt; 2017  94.96364  95.32274  95.79377  96.09351  96.69827</span></span>
+<span><span class="co">#&gt; 2018  99.37646  99.90910 100.49200 100.91700 101.44000</span></span>
+<span><span class="co">#&gt; 2019 103.29900 103.68700 103.67000 103.94200 104.50300</span></span>
+<span><span class="co">#&gt; 2020 106.74300 107.44400 107.86700 108.11400 108.77400</span></span>
+<span><span class="co">#&gt; 2021 113.01800 113.68200                              </span></span>
+<span><span class="co">#&gt;            Nov       Dec</span></span>
+<span><span class="co">#&gt; 2000  47.79029  48.30767</span></span>
+<span><span class="co">#&gt; 2001  50.36515  50.43490</span></span>
+<span><span class="co">#&gt; 2002  53.07888  53.30993</span></span>
+<span><span class="co">#&gt; 2003  55.19254  55.42981</span></span>
+<span><span class="co">#&gt; 2004  58.18690  58.30709</span></span>
+<span><span class="co">#&gt; 2005  59.88249  60.25031</span></span>
+<span><span class="co">#&gt; 2006  62.33186  62.69242</span></span>
+<span><span class="co">#&gt; 2007  64.78122  65.04906</span></span>
+<span><span class="co">#&gt; 2008  68.81894  69.29555</span></span>
+<span><span class="co">#&gt; 2009  71.47605  71.77186</span></span>
+<span><span class="co">#&gt; 2010  74.56158  74.93095</span></span>
+<span><span class="co">#&gt; 2011  77.15833  77.79238</span></span>
+<span><span class="co">#&gt; 2012  80.38344  80.56824</span></span>
+<span><span class="co">#&gt; 2013  83.29227  83.77006</span></span>
+<span><span class="co">#&gt; 2014  86.76378  87.18898</span></span>
+<span><span class="co">#&gt; 2015  88.68547  89.04682</span></span>
+<span><span class="co">#&gt; 2016  91.61683  92.03903</span></span>
+<span><span class="co">#&gt; 2017  97.69517  98.27288</span></span>
+<span><span class="co">#&gt; 2018 102.30300 103.02000</span></span>
+<span><span class="co">#&gt; 2019 105.34600 105.93400</span></span>
+<span><span class="co">#&gt; 2020 108.85600 109.27100</span></span>
+<span><span class="co">#&gt; 2021</span></span></code></pre></div>
+<div class="figure" style="text-align: center">
+<span style="display:block;" id="fig:INPCHP"></span>
+<img src="04-Desestacionalizacion_Filtros_files/figure-html/INPCHP-1.png" alt="Descomposición del Índice Nacional de Precios al Consumidor ($INPC_t$) en su tendencia o trayectoria de largo plazo y su ciclo de corto plazo utilizando un filtro Hodrick y Prescott (1997)." width="100%"><p class="caption">
 Figure 5.2: Descomposición del Índice Nacional de Precios al Consumidor (<span class="math inline">\(INPC_t\)</span>) en su tendencia o trayectoria de largo plazo y su ciclo de corto plazo utilizando un filtro Hodrick y Prescott (1997).
 </p>
 </div>
 <p>En resumen, podemos decir que el filtro de Hodrick y Prescott (1997) es un algoritmo que mimiza las distancias o variaciones de la trayectoria de largo plazo. De esta forma, determina una trayectoria estable de largo plazo, por lo que las desviaciones respecto de esta trayectoria serán componentes de ciclos de negocio o cambios transitorios (tanto positivos como negativos).</p>
-<p>A contiuación, ilustraremos el filtro de Hodrick y Prescott (1997) para dos series desestacionalizadas: <span class="math inline">\(INPC_t\)</span> y <span class="math inline">\(TC_t\)</span>. Las Figura <a href="desestacionalización-y-filtrado-de-series.html#fig:INPCHP">5.2</a> y Figura <a href="desestacionalización-y-filtrado-de-series.html#fig:TCHP">5.3</a> muestran los resultados de la implementación del filtro.</p>
-<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb46-1"><a href="desestacionalización-y-filtrado-de-series.html#cb46-1" aria-hidden="true" tabindex="-1"></a>TC_hpf <span class="ot">&lt;-</span> <span class="fu">hpfilter</span>(TC, <span class="at">freq =</span> <span class="dv">14400</span>)</span>
-<span id="cb46-2"><a href="desestacionalización-y-filtrado-de-series.html#cb46-2" aria-hidden="true" tabindex="-1"></a><span class="co">#plot(TC_hpf)</span></span></code></pre></div>
-<div class="figure" style="text-align: center"><span style="display:block;" id="fig:TCHP"></span>
-<img src="04-Desestacionalizacion_Filtros_files/figure-html/TCHP-1.png" alt="Descomposición del Tipo de Cambio FIX ($TC_t$) en su tendencia o trayectoria de largo plazo y su ciclo de corto plazo utilizando un filtro Hodrick y Prescott (1997)." width="100%" />
-<p class="caption">
+<p>A contiuación, ilustraremos el filtro de Hodrick y Prescott (1997) para dos series desestacionalizadas: <span class="math inline">\(INPC_t\)</span> y <span class="math inline">\(TC_t\)</span>. Las Figura <a href="desestacionalizaci%C3%B3n-y-filtrado-de-series.html#fig:INPCHP">5.2</a> y Figura <a href="desestacionalizaci%C3%B3n-y-filtrado-de-series.html#fig:TCHP">5.3</a> muestran los resultados de la implementación del filtro.</p>
+<div class="sourceCode" id="cb46"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">TC_hpf</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/mFilter/man/hpfilter.html">hpfilter</a></span><span class="op">(</span><span class="va">TC</span>, freq <span class="op">=</span> <span class="fl">14400</span><span class="op">)</span></span>
+<span><span class="co">#plot(TC_hpf)</span></span></code></pre></div>
+<div class="figure" style="text-align: center">
+<span style="display:block;" id="fig:TCHP"></span>
+<img src="04-Desestacionalizacion_Filtros_files/figure-html/TCHP-1.png" alt="Descomposición del Tipo de Cambio FIX ($TC_t$) en su tendencia o trayectoria de largo plazo y su ciclo de corto plazo utilizando un filtro Hodrick y Prescott (1997)." width="100%"><p class="caption">
 Figure 5.3: Descomposición del Tipo de Cambio FIX (<span class="math inline">\(TC_t\)</span>) en su tendencia o trayectoria de largo plazo y su ciclo de corto plazo utilizando un filtro Hodrick y Prescott (1997).
 </p>
 </div>
 
 </div>
 </div>
-<div class="footnotes">
-<hr />
-<ol start="8">
-<li id="fn8"><p>La información y material respecto del modelo esta disponible en la dirección <a href="desestacionalización-y-filtrado-de-series.html#fnref8" class="footnote-back">↩︎</a></p></li>
-</ol>
-</div>
-  </main>
 
-  <div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
-    <nav id="toc" data-toggle="toc" aria-label="On this page">
-      <h2>On this page</h2>
-      <div id="book-on-this-page"></div>
+  <div class="chapter-nav">
+<div class="prev"><a href="procesos-estacionarios-univariados.html"><span class="header-section-number">4</span> Procesos estacionarios univariados</a></div>
+<div class="next"><a href="procesos-basados-en-vectores-autoregresivos.html"><span class="header-section-number">6</span> Procesos Basados en Vectores Autoregresivos</a></div>
+</div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
+    <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
+      <ul class="nav navbar-nav">
+<li><a class="nav-link" href="#desestacionalizaci%C3%B3n-y-filtrado-de-series"><span class="header-section-number">5</span> Desestacionalización y filtrado de Series</a></li>
+<li><a class="nav-link" href="#motivaci%C3%B3n"><span class="header-section-number">5.1</span> Motivación</a></li>
+<li><a class="nav-link" href="#filtro-hodrick-prescott"><span class="header-section-number">5.2</span> Filtro Hodrick-Prescott</a></li>
+</ul>
 
       <div class="book-extra">
         <ul class="list-unstyled">
-          <li><a id="book-source" href="#">View source <i class="fab fa-github"></i></a></li>
-          <li><a id="book-edit" href="#">Edit this page <i class="fab fa-github"></i></a></li>
+<li><a id="book-source" href="git@github.com:emilianoprzcls/bookdown-notas-series-de-tiempo.git/blob/master/04-Desestacionalizacion_Filtros.Rmd">View source <i class="fab fa-github"></i></a></li>
+          <li><a id="book-edit" href="git@github.com:emilianoprzcls/bookdown-notas-series-de-tiempo.git/edit/master/04-Desestacionalizacion_Filtros.Rmd">Edit this page <i class="fab fa-github"></i></a></li>
         </ul>
-      </div>
+</div>
     </nav>
-  </div>
+</div>
 
 </div>
 </div> <!-- .container -->
 
-<footer class="bg-primary text-light mt-5">
-  <div class="container"><div class="row">
+<footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
     <p>"<strong>Notas de Clase: Series de Tiempo</strong>" was written by Benjamín Oliva, Omar Alfaro-Rivera y Emiliano Pérez Caullieres. It was last built on 2022-08-07.</p>
@@ -696,11 +690,7 @@ Figure 5.3: Descomposición del Tipo de Cambio FIX (<span class="math inline">\(
   </div>
 
 </div></div>
-</footer>
-
-
-<!-- dynamically load mathjax for compatibility with self-contained -->
-<script>
+</footer><!-- dynamically load mathjax for compatibility with self-contained --><script>
   (function () {
     var script = document.createElement("script");
     script.type = "text/javascript";
@@ -712,8 +702,7 @@ Figure 5.3: Descomposición del Tipo de Cambio FIX (<span class="math inline">\(
     script.src = src;
     document.getElementsByTagName("head")[0].appendChild(script);
   })();
-</script>
-<script type="text/x-mathjax-config">const popovers = document.querySelectorAll('a.footnote-ref[data-toggle="popover"]');
+</script><script type="text/x-mathjax-config">const popovers = document.querySelectorAll('a.footnote-ref[data-toggle="popover"]');
 for (let popover of popovers) {
   const div = document.createElement('div');
   div.setAttribute('style', 'position: absolute; top: 0, left:0; width:0, height:0, overflow: hidden; visibility: hidden;');
@@ -731,5 +720,4 @@ for (let popover of popovers) {
 }
 </script>
 </body>
-
 </html>

@@ -127,13 +127,7 @@ DLDatos <- diff(log(Datos_co, base = exp(1)),
 
 <div class="figure" style="text-align: center">
 <img src="07-Cointegracion_files/figure-html/GCointegracion-1.png" alt="Series en niveles (logatirmos) y en diferencias logarítmicas para la prueba de Cointegración." width="100%" />
-<p class="caption">(\#fig:GCointegracion-1)Series en niveles (logatirmos) y en diferencias logarítmicas para la prueba de Cointegración.</p>
-</div><div class="figure" style="text-align: center">
-<img src="07-Cointegracion_files/figure-html/GCointegracion-2.png" alt="Series en niveles (logatirmos) y en diferencias logarítmicas para la prueba de Cointegración." width="100%" />
-<p class="caption">(\#fig:GCointegracion-2)Series en niveles (logatirmos) y en diferencias logarítmicas para la prueba de Cointegración.</p>
-</div><div class="figure" style="text-align: center">
-<img src="07-Cointegracion_files/figure-html/GCointegracion-3.png" alt="Series en niveles (logatirmos) y en diferencias logarítmicas para la prueba de Cointegración." width="100%" />
-<p class="caption">(\#fig:GCointegracion-3)Series en niveles (logatirmos) y en diferencias logarítmicas para la prueba de Cointegración.</p>
+<p class="caption">(\#fig:GCointegracion)Series en niveles (logatirmos) y en diferencias logarítmicas para la prueba de Cointegración.</p>
 </div>
 
 

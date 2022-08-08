@@ -1,57 +1,33 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-  <title>Capítulo 13 Apendice I | Notas de Clase: Series de Tiempo</title>
-
-    <meta name="author" content="Benjamín Oliva, Omar Alfaro-Rivera y Emiliano Pérez Caullieres" />
-  
-   <meta name="description" content="Trabajo siempre en proceso de mejora, para cualquier comentario o aclaración, contactar al correo benjov@ciencias.unam.mx o omarxalpha@gmail.com" />
-   <meta name="generator" content="placeholder" />
-  <meta property="og:title" content="Capítulo 13 Apendice I | Notas de Clase: Series de Tiempo" />
-  <meta property="og:type" content="book" />
-  
-  
-  <meta property="og:description" content="Trabajo siempre en proceso de mejora, para cualquier comentario o aclaración, contactar al correo benjov@ciencias.unam.mx o omarxalpha@gmail.com" />
-
-  <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Capítulo 13 Apendice I | Notas de Clase: Series de Tiempo" />
-  
-  <meta name="twitter:description" content="Trabajo siempre en proceso de mejora, para cualquier comentario o aclaración, contactar al correo benjov@ciencias.unam.mx o omarxalpha@gmail.com" />
-  
-  <!-- JS -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script>
-  <script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script>
-    <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    <link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet" />
-    <script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script>
-    <script src="libs/bs3compat-0.4.0/transition.js"></script>
-    <script src="libs/bs3compat-0.4.0/tabs.js"></script>
-    <script src="libs/bs3compat-0.4.0/bs3compat.js"></script>
-    <link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet" />
-    <script src="libs/bs4_book-1.0.0/bs4_book.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script>
-
-  <!-- CSS -->
-  <style type="text/css">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>Capítulo 13 Apendice I | Notas de Clase: Series de Tiempo</title>
+<meta name="author" content="Benjamín Oliva, Omar Alfaro-Rivera y Emiliano Pérez Caullieres">
+<meta name="description" content="13.1 Estimador de Mínimos Cuadrados Ordinarios y el análisis clásico de regresión El estimador de Mínimos Cuadrados Ordinarios (MCO) es el estimador básico en econometría o, propiamente dicho, en...">
+<meta name="generator" content="bookdown 0.27 with bs4_book()">
+<meta property="og:title" content="Capítulo 13 Apendice I | Notas de Clase: Series de Tiempo">
+<meta property="og:type" content="book">
+<meta property="og:description" content="13.1 Estimador de Mínimos Cuadrados Ordinarios y el análisis clásico de regresión El estimador de Mínimos Cuadrados Ordinarios (MCO) es el estimador básico en econometría o, propiamente dicho, en...">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Capítulo 13 Apendice I | Notas de Clase: Series de Tiempo">
+<meta name="twitter:description" content="13.1 Estimador de Mínimos Cuadrados Ordinarios y el análisis clásico de regresión El estimador de Mínimos Cuadrados Ordinarios (MCO) es el estimador básico en econometría o, propiamente dicho, en...">
+<!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
+<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.4.0/transition.js"></script><script src="libs/bs3compat-0.4.0/tabs.js"></script><script src="libs/bs3compat-0.4.0/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
+<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS --><style type="text/css">
     
     div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
   </style>
-      <link rel="stylesheet" href="style.css" />
-  
+<link rel="stylesheet" href="style.css">
 </head>
-
 <body data-spy="scroll" data-target="#toc">
 
 <div class="container-fluid">
 <div class="row">
-  <header class="col-sm-12 col-lg-3 sidebar sidebar-book">
-    <a class="sr-only sr-only-focusable" href="#content">Skip to main content</a>
+  <header class="col-sm-12 col-lg-3 sidebar sidebar-book"><a class="sr-only sr-only-focusable" href="#content">Skip to main content</a>
 
     <div class="d-flex align-items-start justify-content-between">
       <h1>
@@ -63,24 +39,39 @@
     <div id="main-nav" class="collapse-lg">
       <form role="search">
         <input id="search" class="form-control" type="search" placeholder="Search" aria-label="Search">
-      </form>
+</form>
 
-      <nav aria-label="Table of contents">
-        <h2>Table of contents</h2>
-        <div id="book-toc"></div>
+      <nav aria-label="Table of contents"><h2>Table of contents</h2>
+        <ul class="book-toc list-unstyled">
+<li><a class="" href="index.html"><span class="header-section-number">1</span> Introducción</a></li>
+<li><a class="" href="elementos-de-ecuaciones-en-diferencia.html"><span class="header-section-number">2</span> Elementos de Ecuaciones en Diferencia</a></li>
+<li><a class="" href="modelos-de-series-de-tiempo-estacionarias.html"><span class="header-section-number">3</span> Modelos de Series de Tiempo Estacionarias</a></li>
+<li><a class="" href="procesos-estacionarios-univariados.html"><span class="header-section-number">4</span> Procesos estacionarios univariados</a></li>
+<li><a class="" href="desestacionalizaci%C3%B3n-y-filtrado-de-series.html"><span class="header-section-number">5</span> Desestacionalización y filtrado de Series</a></li>
+<li><a class="" href="procesos-basados-en-vectores-autoregresivos.html"><span class="header-section-number">6</span> Procesos Basados en Vectores Autoregresivos</a></li>
+<li><a class="" href="procesos-no-estacionarios.html"><span class="header-section-number">7</span> Procesos No Estacionarios</a></li>
+<li><a class="" href="cointegraci%C3%B3n.html"><span class="header-section-number">8</span> Cointegración</a></li>
+<li><a class="" href="modelos-univariados-y-multivariados-de-volatilidad.html"><span class="header-section-number">9</span> Modelos Univariados y Multivariados de Volatilidad</a></li>
+<li><a class="" href="modelos-adrl.html"><span class="header-section-number">10</span> Modelos ADRL</a></li>
+<li><a class="" href="modelos-de-datos-panel.html"><span class="header-section-number">11</span> Modelos de Datos Panel</a></li>
+<li><a class="" href="otros-modelos-de-series-de-tiempo-no-lineales.html"><span class="header-section-number">12</span> Otros Modelos de Series de Tiempo No lineales</a></li>
+<li><a class="active" href="apendice-i.html"><span class="header-section-number">13</span> Apendice I</a></li>
+<li><a class="" href="ap%C3%A9ndice-ii.html"><span class="header-section-number">14</span> Apéndice II</a></li>
+</ul>
 
         <div class="book-extra">
-          <p><a id="book-repo" href="#">View book source <i class="fab fa-github"></i></a></li></p>
+          <p><a id="book-repo" href="git@github.com:emilianoprzcls/bookdown-notas-series-de-tiempo.git">View book source <i class="fab fa-github"></i></a></p>
         </div>
       </nav>
-    </div>
-  </header>
-
-  <main class="col-sm-12 col-md-9 col-lg-7" id="content">
-<div id="apendice-i" class="section level1" number="13">
-<h1><span class="header-section-number">Capítulo 13</span> Apendice I</h1>
+</div>
+  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="apendice-i" class="section level1" number="13">
+<h1>
+<span class="header-section-number">Capítulo 13</span> Apendice I<a class="anchor" aria-label="anchor" href="#apendice-i"><i class="fas fa-link"></i></a>
+</h1>
 <div id="estimador-de-mínimos-cuadrados-ordinarios-y-el-análisis-clásico-de-regresión" class="section level2" number="13.1">
-<h2><span class="header-section-number">13.1</span> Estimador de Mínimos Cuadrados Ordinarios y el análisis clásico de regresión</h2>
+<h2>
+<span class="header-section-number">13.1</span> Estimador de Mínimos Cuadrados Ordinarios y el análisis clásico de regresión<a class="anchor" aria-label="anchor" href="#estimador-de-m%C3%ADnimos-cuadrados-ordinarios-y-el-an%C3%A1lisis-cl%C3%A1sico-de-regresi%C3%B3n"><i class="fas fa-link"></i></a>
+</h2>
 <p>El estimador de Mínimos Cuadrados Ordinarios (MCO) es el estimador básico en econometría o, propiamente dicho, en el análisis de regresión. Esta sección cubre las propiedades finitas del estimador de MCO, mismas que son validas para cualquier tamaño de muestra dado. El material cubierto es totalmente estándar.</p>
 <p>Cualquier estudio econométrico inicia con un conjunto de proposiciones sobre algún fenómeno de la economía. Algunos ejemplos familiares son las ecuaciones de demanda, las funciones de producción y algunos otros modelos macroeconómicos. Así, la investigación empírica provee las estimaciones de los parámetros desconocidos en el modelo. La teoría especifica un conjunto de relaciones determinísticas sobre las variables.</p>
 <p>Dichas relaciones sulen estudiarse mediante el análisis de regresión múltiple, el cual permite el estudio de la relación entre una <em>variable dependiente</em> y otras más denominadas <em>variables independientes</em>. En adelante, en general diremos que la forma de representar la relación entre la variable dependiente y las variables independientes, tendrá la siguiente notación:
@@ -167,64 +158,64 @@
 \end{equation}</p>
 <p>Adicionalmente, de ahora en delante diremos que la regresión lineal dada por <span class="math inline">\(y_i = x_{i1}\beta_1 + x_{i2}\beta_2 + \ldots + x_{iK}\beta_K + \varepsilon_i\)</span>, se podrá escribir como:
 <span class="math display" id="eq:emq7">\[\begin{equation}
-y_i = (x_{i1}, x_{i2}, \ldots, x_{iK})(\beta_1, \beta_2, \ldots, \beta_K)&#39; + \varepsilon = \mathbf{X}&#39;_i \boldsymbol{\beta} + \varepsilon_i
+y_i = (x_{i1}, x_{i2}, \ldots, x_{iK})(\beta_1, \beta_2, \ldots, \beta_K)' + \varepsilon = \mathbf{X}'_i \boldsymbol{\beta} + \varepsilon_i
    \tag{13.1}
 \end{equation}\]</span></p>
-<p>Así, los parámetros desconocidos, <span class="math inline">\(\boldsymbol{\beta}\)</span>, de la relación estocástica dada por <span class="math inline">\(y_i = \mathbf{X}&#39;_i \boldsymbol{\beta} + \varepsilon_i\)</span> son el objeto de la estimación. En este sentido distingamos que <span class="math inline">\(\boldsymbol{\beta}\)</span> y <span class="math inline">\(\varepsilon_i\)</span> son, respectivamente, el conjumto de los parámetros y el término de error de la población, y que, por lo tanto, denotaremos a las estimaciones relsultantes de una muestra como <span class="math inline">\(\hat{\boldsymbol{\beta}}\)</span> y <span class="math inline">\(e_i\)</span>. Es decir, siempre que no podamos adquirir o conocer la iformación de todos los elementos de la población, nuestras aproximaciones muestrales se denotarán de forma distinta a las que refieran a la población.</p>
-<p>Así, los principios de <em>regresión poblacional</em> y <em>regresión muestral</em> están dados por las fórmulas <span class="math inline">\(E[y_i|\mathbf{X}_i] = \mathbf{X}&#39;_i\boldsymbol{\beta}\)</span> y <span class="math inline">\(\hat{y}_i = \mathbf{X}&#39;_i\hat{\boldsymbol{\beta}}\)</span>, respectivamente. Donde <span class="math inline">\(\hat{y}_i\)</span> es el estimador de <span class="math inline">\(E[y_i|\mathbf{X}_i]\)</span>.</p>
+<p>Así, los parámetros desconocidos, <span class="math inline">\(\boldsymbol{\beta}\)</span>, de la relación estocástica dada por <span class="math inline">\(y_i = \mathbf{X}'_i \boldsymbol{\beta} + \varepsilon_i\)</span> son el objeto de la estimación. En este sentido distingamos que <span class="math inline">\(\boldsymbol{\beta}\)</span> y <span class="math inline">\(\varepsilon_i\)</span> son, respectivamente, el conjumto de los parámetros y el término de error de la población, y que, por lo tanto, denotaremos a las estimaciones relsultantes de una muestra como <span class="math inline">\(\hat{\boldsymbol{\beta}}\)</span> y <span class="math inline">\(e_i\)</span>. Es decir, siempre que no podamos adquirir o conocer la iformación de todos los elementos de la población, nuestras aproximaciones muestrales se denotarán de forma distinta a las que refieran a la población.</p>
+<p>Así, los principios de <em>regresión poblacional</em> y <em>regresión muestral</em> están dados por las fórmulas <span class="math inline">\(E[y_i|\mathbf{X}_i] = \mathbf{X}'_i\boldsymbol{\beta}\)</span> y <span class="math inline">\(\hat{y}_i = \mathbf{X}'_i\hat{\boldsymbol{\beta}}\)</span>, respectivamente. Donde <span class="math inline">\(\hat{y}_i\)</span> es el estimador de <span class="math inline">\(E[y_i|\mathbf{X}_i]\)</span>.</p>
 <p>Por su parte, el término de error asociado será:
 <span class="math display" id="eq:emq8">\[\begin{equation}
-\varepsilon_i = y_i - {\bf{X}}&#39;_i \boldsymbol{\beta}
+\varepsilon_i = y_i - {\bf{X}}'_i \boldsymbol{\beta}
    \tag{13.2}
 \end{equation}\]</span></p>
 <p>si hablamos del caso poblacional o,
 <span class="math display" id="eq:emq9">\[\begin{equation}
-e_i = y_i - {\bf{X}}&#39;_i \hat{\boldsymbol{\beta}}
+e_i = y_i - {\bf{X}}'_i \hat{\boldsymbol{\beta}}
    \tag{13.3}
 \end{equation}\]</span></p>
 <p>cuando hagamos referencia al caso muestral. Es decir, nuestro estimador de <span class="math inline">\(\varepsilon_i\)</span> es <span class="math inline">\(e_i\)</span>. De lo dicho hasta ahora podemos escribir:
 <span class="math display" id="eq:emq10">\[\begin{equation}
-y_i = \mathbf{X}&#39;_i \boldsymbol{\beta} + \varepsilon_i = \mathbf{X}&#39;_i \hat{\boldsymbol{\beta}} + e_i
+y_i = \mathbf{X}'_i \boldsymbol{\beta} + \varepsilon_i = \mathbf{X}'_i \hat{\boldsymbol{\beta}} + e_i
    \tag{13.4}
 \end{equation}\]</span></p>
 <p>Intuitivamente, la ecuación (36) significa que siempre que poseamos una muestra de los elementos de la población, podremos explicar una parte de la variable dependiente, no su totalidad. En este sentido, el análisis de regresión consiste en un proceso de ajuste a la variable dependiente. Está es la idea que da origen al <span class="math inline">\(R^2\)</span> y otras medidas de bondad de ajuste, mismas que más adelante en el curso analizaremos.</p>
 <p>Regresando a la discusión central de esta sección, el método de MCO, en consecuencia, resulta en encontrar la combinación de parámetros <span class="math inline">\(\hat\beta\)</span> que permita minimizar la suma de los residuales al cuadrado dada por:
 <span class="math display" id="eq:emq11">\[\begin{equation}
-\sum^{n}_{i=1}{e^2_i} = \sum^{n}_{i=1}{(y_i - {\bf X}&#39;_i\hat{\boldsymbol{\beta}})^2}
+\sum^{n}_{i=1}{e^2_i} = \sum^{n}_{i=1}{(y_i - {\bf X}'_i\hat{\boldsymbol{\beta}})^2}
    \tag{13.5}
 \end{equation}\]</span></p>
-<p>donde <span class="math inline">\(\hat{\boldsymbol{\beta}}\)</span> denota el vector de estimadores <span class="math inline">\(\hat{\beta}_1\)</span>, <span class="math inline">\(\ldots\)</span>, <span class="math inline">\(\hat{\beta}_K\)</span>. En términos matriciales, dado que <span class="math inline">\((e_1, e_2, \ldots, e_n)&#39;(e_1, e_2, \ldots, e_n) = {\mathbf{e&#39;e}}\)</span>, el problema del método de MCO consiste en:
+<p>donde <span class="math inline">\(\hat{\boldsymbol{\beta}}\)</span> denota el vector de estimadores <span class="math inline">\(\hat{\beta}_1\)</span>, <span class="math inline">\(\ldots\)</span>, <span class="math inline">\(\hat{\beta}_K\)</span>. En términos matriciales, dado que <span class="math inline">\((e_1, e_2, \ldots, e_n)'(e_1, e_2, \ldots, e_n) = {\mathbf{e'e}}\)</span>, el problema del método de MCO consiste en:
 <span class="math display" id="eq:emq12">\[\begin{equation}
-Minimizar_{\hat{\boldsymbol \beta}} S(\hat{\boldsymbol \beta}) = Minimizar_{\hat{\boldsymbol \beta}} \mathbf{e&#39;e}
+Minimizar_{\hat{\boldsymbol \beta}} S(\hat{\boldsymbol \beta}) = Minimizar_{\hat{\boldsymbol \beta}} \mathbf{e'e}
    \tag{13.6}
 \end{equation}\]</span></p>
 <p><span class="math display" id="eq:emq13">\[\begin{equation}
-= Minimizar_{\hat{\boldsymbol \beta}} (\mathbf{Y}-\mathbf{X}\hat{\boldsymbol \beta})&#39;(\mathbf{Y}-\mathbf{X}\hat{\boldsymbol \beta})
+= Minimizar_{\hat{\boldsymbol \beta}} (\mathbf{Y}-\mathbf{X}\hat{\boldsymbol \beta})'(\mathbf{Y}-\mathbf{X}\hat{\boldsymbol \beta})
    \tag{13.7}
 \end{equation}\]</span></p>
-<p>Expandiendo la expresión <span class="math inline">\(\mathbf{e&#39;e}\)</span> obtenemos:
+<p>Expandiendo la expresión <span class="math inline">\(\mathbf{e'e}\)</span> obtenemos:
 <span class="math display" id="eq:emq14">\[\begin{equation}
-\mathbf{e&#39;e} = \mathbf{Y&#39;Y} - 2 \mathbf{Y&#39;X} \hat{\boldsymbol \beta} + \hat{\boldsymbol \beta}&#39; \mathbf{X&#39;X}\hat{\boldsymbol \beta}
+\mathbf{e'e} = \mathbf{Y'Y} - 2 \mathbf{Y'X} \hat{\boldsymbol \beta} + \hat{\boldsymbol \beta}' \mathbf{X'X}\hat{\boldsymbol \beta}
    \tag{13.8}
 \end{equation}\]</span></p>
 <p>De esta forma obtenemos que las condiciones necesarias de un mínimo son:
 <span class="math display" id="eq:emq15">\[\begin{equation}
-\frac{\partial S(\hat{\boldsymbol \beta})}{\partial \hat{\boldsymbol \beta}} = -2{\bf{X&#39;Y}} + 2{\bf{X&#39;X}} \hat{\boldsymbol{\beta}} = \bf{0}
+\frac{\partial S(\hat{\boldsymbol \beta})}{\partial \hat{\boldsymbol \beta}} = -2{\bf{X'Y}} + 2{\bf{X'X}} \hat{\boldsymbol{\beta}} = \bf{0}
    \tag{13.9}
 \end{equation}\]</span></p>
 <p>De ecuación anterior obtenemos para la solución del problema del mínimo a las ecuaciones siguientes conocidas como dadas por:
 <span class="math display" id="eq:emq16">\[\begin{equation}
-\bf{X&#39;X}\hat{\boldsymbol \beta} = \bf{X&#39;Y}
+\bf{X'X}\hat{\boldsymbol \beta} = \bf{X'Y}
    \tag{13.10}
 \end{equation}\]</span></p>
-<p>Notemos que dichas ecuaciones normales son en realidad un sistema de ecuaciones de <span class="math inline">\(K\)</span> variables o incógnitas. Por un lado, recordemos que <span class="math inline">\(\mathbf X\)</span> es una matriz de dimensión <span class="math inline">\(n \times K\)</span>, con lo cual <span class="math inline">\(\mathbf X&#39;\)</span> es de dimensión <span class="math inline">\(K \times n\)</span>. Así, el producto <span class="math inline">\(\mathbf{X&#39;X}\)</span> dará como resultado una matriz cuadrada de dimensión <span class="math inline">\(K \times K\)</span>. Por otro lado, sabemos que <span class="math inline">\(\mathbf Y\)</span> es un vector de tamaño <span class="math inline">\(n \times 1\)</span>, con lo cual el producto <span class="math inline">\(\mathbf{X&#39;Y}\)</span> da como resultado un vector de dimención <span class="math inline">\(K \times 1\)</span>. En conclusión, el sistema de ecuaciones normales consiste en <span class="math inline">\(K\)</span> ecuaciones con <span class="math inline">\(K\)</span> incógnitas (<span class="math inline">\(\hat{\beta}_1, \ldots, \hat{\beta}_K\)</span>). Ante este hecho, existen múltiples formas mediante las cuales se puede solucionar dicho sistema, sin embargo en nuesto caso seguiremos el siguiente procedimiento.</p>
-<p>Si la inversa de la matriz <span class="math inline">\(\mathbf{X&#39;X}\)</span> existe (recuerde que el procedimiento de MCO tradicional supone que <span class="math inline">\(\mathbf{X}\)</span> es de rango completo), la solución esta dada por la siguiente expresión:
+<p>Notemos que dichas ecuaciones normales son en realidad un sistema de ecuaciones de <span class="math inline">\(K\)</span> variables o incógnitas. Por un lado, recordemos que <span class="math inline">\(\mathbf X\)</span> es una matriz de dimensión <span class="math inline">\(n \times K\)</span>, con lo cual <span class="math inline">\(\mathbf X'\)</span> es de dimensión <span class="math inline">\(K \times n\)</span>. Así, el producto <span class="math inline">\(\mathbf{X'X}\)</span> dará como resultado una matriz cuadrada de dimensión <span class="math inline">\(K \times K\)</span>. Por otro lado, sabemos que <span class="math inline">\(\mathbf Y\)</span> es un vector de tamaño <span class="math inline">\(n \times 1\)</span>, con lo cual el producto <span class="math inline">\(\mathbf{X'Y}\)</span> da como resultado un vector de dimención <span class="math inline">\(K \times 1\)</span>. En conclusión, el sistema de ecuaciones normales consiste en <span class="math inline">\(K\)</span> ecuaciones con <span class="math inline">\(K\)</span> incógnitas (<span class="math inline">\(\hat{\beta}_1, \ldots, \hat{\beta}_K\)</span>). Ante este hecho, existen múltiples formas mediante las cuales se puede solucionar dicho sistema, sin embargo en nuesto caso seguiremos el siguiente procedimiento.</p>
+<p>Si la inversa de la matriz <span class="math inline">\(\mathbf{X'X}\)</span> existe (recuerde que el procedimiento de MCO tradicional supone que <span class="math inline">\(\mathbf{X}\)</span> es de rango completo), la solución esta dada por la siguiente expresión:
 <span class="math display" id="eq:emq17">\[\begin{equation}
-\hat{\boldsymbol \beta} = (\mathbf{X&#39;X})^{-1}\mathbf{X&#39;Y}
+\hat{\boldsymbol \beta} = (\mathbf{X'X})^{-1}\mathbf{X'Y}
    \tag{13.11}
 \end{equation}\]</span></p>
 <p>Esta expresión, a pesar de ser en apariencia compleja se puede ver como un conjunto de sumas. En general hemos supuesto que nuestra regresión a estimar esta descrita por la eccuación: <span class="math inline">\(y_i = x_{i1}\beta_1 + x_{i2}\beta_2 + \ldots + x_{iK}\beta_K + \varepsilon_i\)</span>, de esta forma tenemos <span class="math inline">\(K\)</span> variables independientes es nuestra regresión.</p>
-<p>Ahora bien, si denotamos a <span class="math inline">\(\mathbf{X}_k\)</span> como el vector columna formado por todas las observaciones de la muestra (<span class="math inline">\(i = 1, 2, \ldots, n\)</span>) para la variable <span class="math inline">\(k\)</span>, podemos decir que la matriz <span class="math inline">\(\mathbf X\)</span> que contiene todas las variable independientes se forma por la concatenación de cada uno de los <span class="math inline">\(K\)</span> vectores columna. Dicho esto, podemos ver que las matrices <span class="math inline">\(\mathbf{X}\)</span> y <span class="math inline">\(\mathbf{X&#39;}\)</span> se pueden expresar como:</p>
+<p>Ahora bien, si denotamos a <span class="math inline">\(\mathbf{X}_k\)</span> como el vector columna formado por todas las observaciones de la muestra (<span class="math inline">\(i = 1, 2, \ldots, n\)</span>) para la variable <span class="math inline">\(k\)</span>, podemos decir que la matriz <span class="math inline">\(\mathbf X\)</span> que contiene todas las variable independientes se forma por la concatenación de cada uno de los <span class="math inline">\(K\)</span> vectores columna. Dicho esto, podemos ver que las matrices <span class="math inline">\(\mathbf{X}\)</span> y <span class="math inline">\(\mathbf{X'}\)</span> se pueden expresar como:</p>
 <p><span class="math display">\[
 \mathbf{X} =
 \left[ \begin{array}{ccccc}
@@ -238,7 +229,7 @@ x_{n1} &amp; x_{n2} &amp; x_{n3} &amp; \ldots &amp; x_{nK}
 \end{array} \right]
 \]</span></p>
 <p><span class="math display">\[
-\bf{X&#39;} =
+\bf{X'} =
 \left[ \begin{array}{ccccc}
 x_{11} &amp; x_{21} &amp; x_{31} &amp; \ldots &amp; x_{n1} \\
 x_{12} &amp; x_{22} &amp; x_{32} &amp; \ldots &amp; x_{n2} \\
@@ -247,14 +238,14 @@ x_{13} &amp; x_{23} &amp; x_{33} &amp; \ldots &amp; x_{n3} \\
 x_{1K} &amp; x_{2K} &amp; x_{3K} &amp; \ldots &amp; x_{nK}
 \end{array} \right] =
 \left[ \begin{array}{c}
-\mathbf{X}_1&#39; \\
-\mathbf{X}_2&#39;\\
-\mathbf{X}_3&#39;\\
+\mathbf{X}_1' \\
+\mathbf{X}_2'\\
+\mathbf{X}_3'\\
 \vdots \\
-\mathbf{X}_K&#39;
+\mathbf{X}_K'
 \end{array} \right]
 \]</span></p>
-<p>Si suponemos que nuestra regresión tiene una constante, la especificación sería: <span class="math inline">\(y_i = \beta_1 + x_{i2}\beta_2 + \ldots + x_{iK}\beta_K + \varepsilon_i\)</span>, con unas matrices <span class="math inline">\(\mathbf X\)</span> y <span class="math inline">\(\mathbf X&#39;\)</span> dadas:
+<p>Si suponemos que nuestra regresión tiene una constante, la especificación sería: <span class="math inline">\(y_i = \beta_1 + x_{i2}\beta_2 + \ldots + x_{iK}\beta_K + \varepsilon_i\)</span>, con unas matrices <span class="math inline">\(\mathbf X\)</span> y <span class="math inline">\(\mathbf X'\)</span> dadas:
 <span class="math display">\[
 \mathbf{X} =
 \left[ \begin{array}{ccccc}
@@ -268,7 +259,7 @@ x_{1K} &amp; x_{2K} &amp; x_{3K} &amp; \ldots &amp; x_{nK}
 \end{array} \right]
 \]</span></p>
 <p><span class="math display">\[
-\bf{X&#39;} =
+\bf{X'} =
 \left[ \begin{array}{ccccc}
 1 &amp; 1 &amp; 1 &amp; \ldots &amp; 1 \\
 x_{12} &amp; x_{22} &amp; x_{32} &amp; \ldots &amp; x_{n2} \\
@@ -277,22 +268,22 @@ x_{13} &amp; x_{23} &amp; x_{33} &amp; \ldots &amp; x_{n3} \\
 x_{1K} &amp; x_{2K} &amp; x_{3K} &amp; \ldots &amp; x_{nK}
 \end{array} \right] =
 \left[ \begin{array}{c}
-\mathbf{1_n}&#39; \\
-\mathbf{X}_2&#39;\\
-\mathbf{X}_3&#39;\\
+\mathbf{1_n}' \\
+\mathbf{X}_2'\\
+\mathbf{X}_3'\\
 \vdots \\
-\mathbf{X}_K&#39;
+\mathbf{X}_K'
 \end{array} \right]
 \]</span></p>
 <p>Donde <span class="math inline">\(\mathbf{1_n}\)</span> es un vector columna compuesto de 1’s (unos). Retomando (14), desarrollemos cada uno de los casos anteriores, así obtenemos lo siguiente para el caso general:
 <span class="math display">\[
-\mathbf{X&#39;X} =
+\mathbf{X'X} =
 \left[ \begin{array}{c}
-\mathbf{X}_1&#39; \\
-\mathbf{X}_2&#39; \\
-\mathbf{X}_3&#39;\\
+\mathbf{X}_1' \\
+\mathbf{X}_2' \\
+\mathbf{X}_3'\\
 \vdots \\
-\mathbf{X}_K&#39;
+\mathbf{X}_K'
 \end{array} \right]
 \left[ \begin{array}{ccccc}
 \mathbf{X}_1 &amp; \mathbf{X}_2 &amp; \mathbf{X}_3 &amp; \ldots &amp; \mathbf{X}_K
@@ -300,15 +291,15 @@ x_{1K} &amp; x_{2K} &amp; x_{3K} &amp; \ldots &amp; x_{nK}
 \]</span></p>
 <p><span class="math display">\[
 \left[ \begin{array}{ccccc}
-\mathbf{X}_1&#39;\bf{X}_1 &amp; \mathbf{X}_1&#39;\mathbf{X}_2 &amp; \mathbf{X}_1&#39;\mathbf{X}_3 &amp; \ldots &amp; \mathbf{X}_1&#39;\mathbf{X}_K \\
-\mathbf{X}_2&#39;\mathbf{X}_1 &amp; \mathbf{X}_2&#39;\mathbf{X}_2 &amp; \mathbf{X}_2&#39;\mathbf{X}_3 &amp; \ldots &amp; \mathbf{X}_2&#39;\mathbf{X}_K \\
+\mathbf{X}_1'\bf{X}_1 &amp; \mathbf{X}_1'\mathbf{X}_2 &amp; \mathbf{X}_1'\mathbf{X}_3 &amp; \ldots &amp; \mathbf{X}_1'\mathbf{X}_K \\
+\mathbf{X}_2'\mathbf{X}_1 &amp; \mathbf{X}_2'\mathbf{X}_2 &amp; \mathbf{X}_2'\mathbf{X}_3 &amp; \ldots &amp; \mathbf{X}_2'\mathbf{X}_K \\
 \vdots &amp; \vdots &amp; \vdots &amp; \vdots &amp; \vdots \\
-\mathbf{X}_K&#39;\mathbf{X}_1 &amp; \mathbf{X}_K&#39;\mathbf{X}_2 &amp; \mathbf{X}_K&#39;\mathbf{X}_3 &amp; \ldots &amp; \mathbf{X}_K&#39;\mathbf{X}_K
+\mathbf{X}_K'\mathbf{X}_1 &amp; \mathbf{X}_K'\mathbf{X}_2 &amp; \mathbf{X}_K'\mathbf{X}_3 &amp; \ldots &amp; \mathbf{X}_K'\mathbf{X}_K
 \end{array} \right]
 \]</span></p>
 <p>Por lo tanto, obtenemos que:</p>
 <p><span class="math display">\[
-\mathbf{X&#39;X} =
+\mathbf{X'X} =
 \left[ \begin{array}{ccccc}
 \sum^{n}_{i=1}{x_{i1}^2} &amp; \sum^{n}_{i=1}{x_{i1}x_{i2}} &amp; \sum^{n}_{i=1}{x_{i1}x_{i3}} &amp; \ldots &amp; \sum^{n}_{i=1}{x_{i1}x_{iK}}\\
 \sum^{n}_{i=1}{x_{i2}x_{i1}} &amp; \sum^{n}_{i=1}{x^{2}_{i2}} &amp; \sum^{n}_{i=1}{x_{i2}x_{i3}} &amp; \ldots &amp; \sum^{n}_{i=1}{x_{i2}x_{iK}}\\
@@ -319,7 +310,7 @@ x_{1K} &amp; x_{2K} &amp; x_{3K} &amp; \ldots &amp; x_{nK}
 \]</span></p>
 <p>Por otro lado, cuando supongamos que existe un término constante:</p>
 <p><span class="math display">\[
-\mathbf{X&#39;X} =
+\mathbf{X'X} =
 \left[ \begin{array}{ccccc}
 n &amp; \sum^{n}_{i=1}{x_{i2}} &amp; \sum^{n}_{i=1}{x_{i3}} &amp; \ldots &amp; \sum^{n}_{i=1}{x_{iK}}\\
 \sum^{n}_{i=1}{x_{i2}} &amp; \sum^{n}_{i=1}{x^{2}_{i2}} &amp; \sum^{n}_{i=1}{x_{i2}x_{i3}} &amp; \ldots &amp; \sum^{n}_{i=1}{x_{i2}x_{iK}}\\
@@ -328,24 +319,24 @@ n &amp; \sum^{n}_{i=1}{x_{i2}} &amp; \sum^{n}_{i=1}{x_{i3}} &amp; \ldots &amp; \
 \sum^{n}_{i=1}{x_{iK}} &amp; \sum^{n}_{i=1}{x_{iK}x_{i2}} &amp; \sum^{n}_{i=1}{x_{iK}x_{i3}} &amp; \ldots &amp; \sum^{n}_{i=1}{x^2_{iK}}
 \end{array} \right]
 \]</span></p>
-<p>Adicionalmente, el producto <span class="math inline">\(\mathbf{X&#39;Y}\)</span>, en el caso general, se puede expresar como:</p>
+<p>Adicionalmente, el producto <span class="math inline">\(\mathbf{X'Y}\)</span>, en el caso general, se puede expresar como:</p>
 <p><span class="math display">\[
-\mathbf{X&#39;Y}
+\mathbf{X'Y}
 =
 \left[ \begin{array}{c}
-\mathbf{X}_1&#39; \\
-\mathbf{X}_2&#39; \\
-\mathbf{X}_3&#39;\\
+\mathbf{X}_1' \\
+\mathbf{X}_2' \\
+\mathbf{X}_3'\\
 \vdots \\
-\mathbf{X}_K&#39;
+\mathbf{X}_K'
 \end{array} \right] \mathbf{Y}
 =
 \left[ \begin{array}{c}
-\mathbf{X}_1&#39;\mathbf{Y}\\
-\mathbf{X}_2&#39;\mathbf{Y}\\
-\mathbf{X}_3&#39;\mathbf{Y}\\
+\mathbf{X}_1'\mathbf{Y}\\
+\mathbf{X}_2'\mathbf{Y}\\
+\mathbf{X}_3'\mathbf{Y}\\
 \vdots\\
-\mathbf{X}_K&#39;\mathbf{Y}
+\mathbf{X}_K'\mathbf{Y}
 \end{array} \right]
 =
 \left[ \begin{array}{c}
@@ -358,22 +349,22 @@ n &amp; \sum^{n}_{i=1}{x_{i2}} &amp; \sum^{n}_{i=1}{x_{i3}} &amp; \ldots &amp; \
 \]</span></p>
 <p>Si el modelo supone la existencia de un término constante, dicho producto se expresa como:</p>
 <p><span class="math display">\[
-\mathbf{X&#39;Y}
+\mathbf{X'Y}
 =
 \left[ \begin{array}{c}
-\mathbf{1_n}&#39; \\
-\mathbf{X}_2&#39; \\
-\mathbf{X}_3&#39;\\
+\mathbf{1_n}' \\
+\mathbf{X}_2' \\
+\mathbf{X}_3'\\
 \vdots \\
-\mathbf{X}_K&#39;
+\mathbf{X}_K'
 \end{array} \right] \mathbf{Y}
 =
 \left[ \begin{array}{c}
-\mathbf{1_n}&#39;\mathbf{Y}\\
-\mathbf{X}_2&#39;\mathbf{Y}\\
-\mathbf{X}_3&#39;\mathbf{Y}\\
+\mathbf{1_n}'\mathbf{Y}\\
+\mathbf{X}_2'\mathbf{Y}\\
+\mathbf{X}_3'\mathbf{Y}\\
 \vdots\\
-\mathbf{X}_K&#39;\mathbf{Y}
+\mathbf{X}_K'\mathbf{Y}
 \end{array} \right]
 =
 \left[ \begin{array}{c}
@@ -386,12 +377,12 @@ n &amp; \sum^{n}_{i=1}{x_{i2}} &amp; \sum^{n}_{i=1}{x_{i3}} &amp; \ldots &amp; \
 \]</span></p>
 <p>Finalmente, para que esta solución dada para el procedimiento de MCO sea un mínimo debemos buscar las condiciones de segundo orden:
 <span class="math display" id="eq:emq18">\[\begin{equation}
-\frac{\partial^2 S(\hat{\boldsymbol \beta})}{\partial \hat{\boldsymbol \beta} \partial \hat{\boldsymbol \beta&#39;}} = 2 \mathbf{X&#39;X}
+\frac{\partial^2 S(\hat{\boldsymbol \beta})}{\partial \hat{\boldsymbol \beta} \partial \hat{\boldsymbol \beta'}} = 2 \mathbf{X'X}
    \tag{13.12}
 \end{equation}\]</span></p>
-<p>donde la matriz <span class="math inline">\(\mathbf{X&#39;X}\)</span> debe ser positiva definida para que la solución de MCO sea un mínimo. Sea <span class="math inline">\(q = \mathbf{c&#39;X&#39;Xc}\)</span> para algún vector <span class="math inline">\(\mathbf{c}\)</span> distinto de cero. Entonces:</p>
+<p>donde la matriz <span class="math inline">\(\mathbf{X'X}\)</span> debe ser positiva definida para que la solución de MCO sea un mínimo. Sea <span class="math inline">\(q = \mathbf{c'X'Xc}\)</span> para algún vector <span class="math inline">\(\mathbf{c}\)</span> distinto de cero. Entonces:</p>
 <p><span class="math display">\[
-q = \mathbf{v&#39;v} = \sum_{i=1}^{n}{v_i^2} \textrm{, donde } \mathbf{v = Xc}
+q = \mathbf{v'v} = \sum_{i=1}^{n}{v_i^2} \textrm{, donde } \mathbf{v = Xc}
 \]</span></p>
 <p>Así, <span class="math inline">\(q\)</span> es positivo. Si <span class="math inline">\(\mathbf v\)</span> fuera cero, entonces existe una combinación lineal de las columnas de <span class="math inline">\(\mathbf X\)</span> que da como resultado cero, lo cual contradice el supuesto de que <span class="math inline">\(\mathbf X\)</span> es de rango completo. En todos los casos, si <span class="math inline">\(\mathbf X\)</span> es de rango completo, entonces la solución del método de MCO, <span class="math inline">\(\hat{\boldsymbol{\beta}}\)</span>, es la única que mínimiza la suma de los residuales al cuadrado.</p>
 <p>Finalmente, no debemos perder de vista que lo aqui espresado tiene un objeto, mostrar como este procedimiento de MCO es valido cuando suponemos regresiones del tipo:
@@ -402,7 +393,9 @@ y_t = \beta_0 + y_{t-1}\beta_1 + \ldots + y_{t-\tau}\beta_\tau + \varepsilon_t
 <p>Donde <span class="math inline">\(t = 0, 1, 2, \ldots, T\)</span> es un índice del tiempo, la variable dependiente es <span class="math inline">\(y_t\)</span> y las variables independientes son la misma variable independiente, pero en forma rezagada. Así, podemos definir un vector columna <span class="math inline">\(\mathbf{Y}_{t-k}\)</span> el vector columna de <span class="math inline">\(T\)</span> observaciones de la variable dependiente rezagada <span class="math inline">\(k\)</span> veces, donde <span class="math inline">\(k = 1, \ldots, \tau\)</span>, y que colocado en una matriz da por resultado un arreglo <span class="math inline">\(\mathbf{X}\)</span> de tamaño <span class="math inline">\(T-\tau \times \tau+1\)</span>.</p>
 </div>
 <div id="estimación-por-el-método-de-máxima-verosimilitud-mv" class="section level2" number="13.2">
-<h2><span class="header-section-number">13.2</span> Estimación por el método de Máxima Verosimilitud (MV)</h2>
+<h2>
+<span class="header-section-number">13.2</span> Estimación por el método de Máxima Verosimilitud (MV)<a class="anchor" aria-label="anchor" href="#estimaci%C3%B3n-por-el-m%C3%A9todo-de-m%C3%A1xima-verosimilitud-mv"><i class="fas fa-link"></i></a>
+</h2>
 <p>Ahora analicemos otro método de estimación que tiene más uso en series de tiempo: MV. Iniciemos con algo de notación. La función de densidad de probabilidad de una variable aleatoria <span class="math inline">\(y\)</span>, condicional en un conjunto de parámetros, <span class="math inline">\(\boldsymbol{\theta}\)</span>, la denotaremos como <span class="math inline">\(f(y|\boldsymbol{\theta})\)</span>. Dicha función identifica el mecanismo generador de datos subyacente a la muestra observable y al mismo tiempo prove una descripción matemática de los datos que el proceso generará.</p>
 <p>Por otro lado, la función de densidad conjunta de n observaciones <em>independientes e idénticamente distribuidas</em> (i.i.d) está dada por el siguiente producto de las funciones de densidad individuales:
 <span class="math display" id="eq:emq20">\[\begin{equation}
@@ -420,7 +413,7 @@ ln(L(\boldsymbol{\theta} | \boldsymbol{y})) = ln(\prod_{i=1}^n f(y_i|\boldsymbol
 ln(L(\boldsymbol{\theta} | \boldsymbol{y})) = l(\boldsymbol{\theta} | \boldsymbol{y})
    \tag{13.16}
 \end{equation}\]</span></p>
-<p>Dicho lo anterior, el objetivo de esta sección es mostrar el procedimiento de estimación de Máxima Verosimilitud aplicado a una regresión lineal. Retomemos la idea de que en nuestra ecuación de regresión lineal: <span class="math inline">\(y_i = \mathbf{X}_i&#39;\boldsymbol \beta + \varepsilon_i\)</span> para <span class="math inline">\(i = 1, \ldots, n\)</span>, el término de error <span class="math inline">\(\varepsilon_i\)</span> se distribuye como una normal con media cero y varianza constante, <span class="math inline">\(\sigma^2\)</span>:
+<p>Dicho lo anterior, el objetivo de esta sección es mostrar el procedimiento de estimación de Máxima Verosimilitud aplicado a una regresión lineal. Retomemos la idea de que en nuestra ecuación de regresión lineal: <span class="math inline">\(y_i = \mathbf{X}_i'\boldsymbol \beta + \varepsilon_i\)</span> para <span class="math inline">\(i = 1, \ldots, n\)</span>, el término de error <span class="math inline">\(\varepsilon_i\)</span> se distribuye como una normal con media cero y varianza constante, <span class="math inline">\(\sigma^2\)</span>:
 <span class="math display">\[
 \varepsilon_i \sim \mathbf{N}(0, \sigma^2)
 \]</span></p>
@@ -434,52 +427,52 @@ f(\varepsilon_i | \boldsymbol \theta) = \frac{1}{\sqrt{2 \pi \sigma^2}}e^{-\frac
 \]</span></p>
 <p>Sustituyendo la definición del término de error obetenemos la siguiente expresión:
 <span class="math display" id="eq:emq23">\[\begin{equation}
-f(\varepsilon_i | \boldsymbol \theta) = \frac{1}{\sqrt{2 \pi \sigma^2}}e^{-\frac{1}{2} \frac{(\mathbf{X}_i&#39;\boldsymbol \beta - y_i)^2}{\sigma^2}}
+f(\varepsilon_i | \boldsymbol \theta) = \frac{1}{\sqrt{2 \pi \sigma^2}}e^{-\frac{1}{2} \frac{(\mathbf{X}_i'\boldsymbol \beta - y_i)^2}{\sigma^2}}
    \tag{13.17}
 \end{equation}\]</span></p>
 <p>Donde el vector <span class="math inline">\(\boldsymbol \theta\)</span> se compone de el vector <span class="math inline">\(\boldsymbol \beta\)</span> y <span class="math inline">\(\sigma^2\)</span>.</p>
 <p>Por lo tanto, la función de verosimilitud asociada a este caso está dada por la siguiente expresión:
 <span class="math display" id="eq:emq24">\[\begin{equation}
-L(\boldsymbol{\theta} | \boldsymbol{\varepsilon}) = \prod_{i=1}^n f(\varepsilon_i|\boldsymbol{\theta}) = \prod_{i=1}^n\frac{1}{\sqrt{2 \pi \sigma^2}}e^{-\frac{1}{2} \frac{(\mathbf{X}_i&#39;\boldsymbol \beta - y_i)^2}{\sigma^2}}
+L(\boldsymbol{\theta} | \boldsymbol{\varepsilon}) = \prod_{i=1}^n f(\varepsilon_i|\boldsymbol{\theta}) = \prod_{i=1}^n\frac{1}{\sqrt{2 \pi \sigma^2}}e^{-\frac{1}{2} \frac{(\mathbf{X}_i'\boldsymbol \beta - y_i)^2}{\sigma^2}}
    \tag{13.18}
 \end{equation}\]</span></p>
 <p>Esta última ecuación, en su forma logarítmica, se puede expresar como:
 <span class="math display" id="eq:emq25">\[\begin{eqnarray}
 l(\boldsymbol{\theta} | \boldsymbol{\varepsilon})
 &amp; = &amp;
-\sum_{i=1}^n{ \left[ ln(1) - ln(\sqrt{2 \pi \sigma^2}) - \frac{1}{2} \frac{(y_i - \mathbf{X}_i&#39;\boldsymbol \beta)^2}{\sigma^2} \right]} \nonumber \\
+\sum_{i=1}^n{ \left[ ln(1) - ln(\sqrt{2 \pi \sigma^2}) - \frac{1}{2} \frac{(y_i - \mathbf{X}_i'\boldsymbol \beta)^2}{\sigma^2} \right]} \nonumber \\
 &amp; = &amp;
-\sum_{i=1}^n{ \left[- \frac{1}{2}ln(2 \pi \sigma^2) - \frac{1}{2} \frac{(y_i - \mathbf{X}_i&#39;\boldsymbol \beta)^2}{\sigma^2} \right]} \nonumber \\
+\sum_{i=1}^n{ \left[- \frac{1}{2}ln(2 \pi \sigma^2) - \frac{1}{2} \frac{(y_i - \mathbf{X}_i'\boldsymbol \beta)^2}{\sigma^2} \right]} \nonumber \\
 &amp; = &amp;
-- \frac{1}{2} \sum_{i=1}^n{ \left[ln(2 \pi \sigma^2) + \frac{(y_i - \mathbf{X}_i&#39;\boldsymbol \beta)^2}{\sigma^2} \right]} \nonumber \\
+- \frac{1}{2} \sum_{i=1}^n{ \left[ln(2 \pi \sigma^2) + \frac{(y_i - \mathbf{X}_i'\boldsymbol \beta)^2}{\sigma^2} \right]} \nonumber \\
 &amp; = &amp;
-- \frac{1}{2} \left[ \sum_{i=1}^n{ \left[ln(2 \pi \sigma^2) \right]} + \sum_{i=1}^n{ \left[\frac{(y_i - \mathbf{X}_i&#39;\boldsymbol \beta)^2}{\sigma^2} \right]} \right] \nonumber \\\nonumber \\
+- \frac{1}{2} \left[ \sum_{i=1}^n{ \left[ln(2 \pi \sigma^2) \right]} + \sum_{i=1}^n{ \left[\frac{(y_i - \mathbf{X}_i'\boldsymbol \beta)^2}{\sigma^2} \right]} \right] \nonumber \\\nonumber \\
 &amp; = &amp;
-- \frac{1}{2} \left[ n \times ln(2 \pi \sigma^2) + \frac{1}{\sigma^2} \sum_{i=1}^n{ \left[(y_i - \mathbf{X}_i&#39;\boldsymbol \beta)^2\right]} \right] \nonumber \\
+- \frac{1}{2} \left[ n \times ln(2 \pi \sigma^2) + \frac{1}{\sigma^2} \sum_{i=1}^n{ \left[(y_i - \mathbf{X}_i'\boldsymbol \beta)^2\right]} \right] \nonumber \\
 &amp; = &amp;
-- \frac{n}{2}ln(2 \pi \sigma^2) - \frac{1}{2 \sigma^2} \boldsymbol \varepsilon&#39; \boldsymbol \varepsilon \nonumber \\
+- \frac{n}{2}ln(2 \pi \sigma^2) - \frac{1}{2 \sigma^2} \boldsymbol \varepsilon' \boldsymbol \varepsilon \nonumber \\
 &amp; = &amp;
-- \frac{n}{2}ln(2 \pi \sigma^2) - \frac{1}{2 \sigma^2} (\mathbf{Y} - \mathbf{X} \boldsymbol \beta)&#39;(\mathbf{Y} - \mathbf{X} \boldsymbol \beta) \nonumber \\
+- \frac{n}{2}ln(2 \pi \sigma^2) - \frac{1}{2 \sigma^2} (\mathbf{Y} - \mathbf{X} \boldsymbol \beta)'(\mathbf{Y} - \mathbf{X} \boldsymbol \beta) \nonumber \\
 &amp; = &amp;
-- \frac{n}{2}ln(2 \pi \sigma^2) - \frac{1}{2 \sigma^2} (\mathbf{Y&#39;Y} - 2\mathbf{Y&#39;X} \boldsymbol \beta + \boldsymbol \beta&#39; \mathbf{X&#39;X} \boldsymbol \beta)
+- \frac{n}{2}ln(2 \pi \sigma^2) - \frac{1}{2 \sigma^2} (\mathbf{Y'Y} - 2\mathbf{Y'X} \boldsymbol \beta + \boldsymbol \beta' \mathbf{X'X} \boldsymbol \beta)
    \tag{13.19}
 \end{eqnarray}\]</span></p>
 <p>Establecida la función de verosimilitud, el siguiente paso consisten en la estimación de los parámetros. Para tal efecto debemos determinar las condiciones de primer orden, quedando de la siguiente forma:
 <span class="math display" id="eq:emq26">\[\begin{equation}
-\frac{\partial l(\boldsymbol{\theta} | \boldsymbol{\varepsilon})}{\partial \hat{\boldsymbol \beta}} = -2{\mathbf{X&#39;Y}} + 2{\mathbf{X&#39;X}} \hat{\boldsymbol{\beta}} = \mathbf{0}
+\frac{\partial l(\boldsymbol{\theta} | \boldsymbol{\varepsilon})}{\partial \hat{\boldsymbol \beta}} = -2{\mathbf{X'Y}} + 2{\mathbf{X'X}} \hat{\boldsymbol{\beta}} = \mathbf{0}
    \tag{13.20}
 \end{equation}\]</span></p>
 <p><span class="math display" id="eq:emq27">\[\begin{equation}
-\frac{\partial l(\boldsymbol{\theta} | \boldsymbol{\varepsilon})}{\partial \hat{\sigma}^2} = - \frac{n}{2 \sigma^2} + \frac{1}{2 (\sigma^2)^2} (\mathbf{Y} - \mathbf{X} \hat{\boldsymbol \beta})&#39;(\mathbf{Y} - \mathbf{X} \hat{\boldsymbol \beta}) = \bf{0}
+\frac{\partial l(\boldsymbol{\theta} | \boldsymbol{\varepsilon})}{\partial \hat{\sigma}^2} = - \frac{n}{2 \sigma^2} + \frac{1}{2 (\sigma^2)^2} (\mathbf{Y} - \mathbf{X} \hat{\boldsymbol \beta})'(\mathbf{Y} - \mathbf{X} \hat{\boldsymbol \beta}) = \bf{0}
 \tag{13.21}
 \end{equation}\]</span></p>
 <p>De las dos ecuaciones anteriores podemos deducir las fórmulas de nuestros estimadores de Máxima Verosimilitud:
 <span class="math display" id="eq:emq28">\[\begin{equation}
-\hat{\boldsymbol{\beta}} = (\mathbf{X&#39;X})^{-1}\mathbf{X&#39;Y}
+\hat{\boldsymbol{\beta}} = (\mathbf{X'X})^{-1}\mathbf{X'Y}
 \tag{13.22}
 \end{equation}\]</span></p>
 <p><span class="math display" id="eq:emq29">\[\begin{equation}
-\hat{\sigma}^2 = \frac{\mathbf{e&#39;e}}{n}
+\hat{\sigma}^2 = \frac{\mathbf{e'e}}{n}
 \tag{13.23}
 \end{equation}\]</span></p>
 <p>El procedimiento de de máxima verosimilitud es el más atractivo de los demás procedimientos de estimación, ya que sus propiedades asíntoticas son que:</p>
@@ -487,17 +480,21 @@ l(\boldsymbol{\theta} | \boldsymbol{\varepsilon})
 <p>Si se asume que la función de densidad conjunta cumple con las condiones de regularidad (que la primer derivada del logarítmo de la función de verosimilitud es continua en todo punto, y que las condiciones de primer órden y segundo órden son conocidas), podemos enunciar el suiguente:</p>
 <p><strong>Teorema. Propiedades de un Estimador de Máxima Verosimilitud}. Bajo condiciones de regularidad, el estimador de máxima verosimilitud posee las siguientes propiedades asíntoticas:</strong></p>
 <ol style="list-style-type: decimal">
-<li>Consistencia: <span class="math inline">\(plim \hat{\boldsymbol{\theta}} = \boldsymbol{\theta}_0\)</span></li>
+<li>Consistencia: <span class="math inline">\(plim \hat{\boldsymbol{\theta}} = \boldsymbol{\theta}_0\)</span>
+</li>
 <li>Normalidad asíntotica: <span class="math inline">\(\hat{\boldsymbol{\theta}} \sim N[\boldsymbol{\theta}_0, I(\boldsymbol{\theta}_0)^{-1}]\)</span>, donde
 <span class="math display">\[
-I(\boldsymbol{\theta}_0) = -E_0[\partial^2 ln(L)/\partial \boldsymbol{\theta}_0 \partial \boldsymbol{\theta}&#39;_0]
-\]</span></li>
+I(\boldsymbol{\theta}_0) = -E_0[\partial^2 ln(L)/\partial \boldsymbol{\theta}_0 \partial \boldsymbol{\theta}'_0]
+\]</span>
+</li>
 <li>Eficiencia asíntotica: <span class="math inline">\(\hat{\boldsymbol{\theta}}\)</span> es asíntoticamente eficiente y alcanza la cota inferior de Cramér-Rao.</li>
 <li>Invarianza. El estimador de máxima verosimilitud de <span class="math inline">\(\boldsymbol{\gamma}_0 = c(\boldsymbol{\theta}_0)\)</span> es <span class="math inline">\(c(\hat{\boldsymbol{\theta}})\)</span> si <span class="math inline">\(c(\boldsymbol{\theta}_0)\)</span> es una función continúa y diferenciable.</li>
 </ol>
 </div>
 <div id="métricas-de-bondad-de-ajuste" class="section level2" number="13.3">
-<h2><span class="header-section-number">13.3</span> Métricas de bondad de ajuste</h2>
+<h2>
+<span class="header-section-number">13.3</span> Métricas de bondad de ajuste<a class="anchor" aria-label="anchor" href="#m%C3%A9tricas-de-bondad-de-ajuste"><i class="fas fa-link"></i></a>
+</h2>
 <p>El criterio que dio origen a los estimadores de MCO consiste en el valor mínimo para la suma del cuadrado de todos los residuales. Esta suma es, por otro lado, una medida de ajuste de la línea de regresión a los datos. Sin embargo, esta medida puede ser facilmente alterada y, por lo tanto, rescalada por una simple multiplicación de los residuales por cualquier valor. Recordemos que el valor de los residuales esta basado en los valores de <span class="math inline">\(\bf{X}\)</span>, así podríamos pregntarnos por cuanto de la variación de <span class="math inline">\(\bf{Y}\)</span> es explicada por la varación de <span class="math inline">\(\bf{X}\)</span>.</p>
 <p>De la Figura 1 podemos afirmar que la variación total de la variable dependiente <span class="math inline">\(\bf{Y}\)</span> se puede descomponer en dos partes, es decir, la variación total de <span class="math inline">\(\bf{Y}\)</span> se puede expresar como la suma dada por:</p>
 <p><span class="math display">\[SST = \sum^{n}_{i=1}{(y_i - \bar{y})^2} \]</span></p>
@@ -533,30 +530,32 @@ I(\boldsymbol{\theta}_0) = -E_0[\partial^2 ln(L)/\partial \boldsymbol{\theta}_0 
 1 &amp; 1 &amp; 1 &amp; \ldots &amp; 1 \\
 \end{array} \right]
 =
-\bf{I}_n - i&#39;i
+\bf{I}_n - i'i
 \]</span></p>
 <p>De tal forma que para cualquier vector o matriz, <span class="math inline">\(\bf{W}\)</span>, sucede que: <span class="math inline">\(\bf{M^0}\bf{W}= \bf{W} - \bar{\bf{W}}\)</span>, por ello le llammos matriz saca promedios. Regresando a nuestra discusión, podemos escribir que:</p>
 <p><span class="math display">\[\bf{Y} - \bar{\bf{Y}} = \bf{M^0Y} = \bf{M^0X} \hat{\boldsymbol{\beta}} + \bf{M^0e}\]</span></p>
-<p>Recordemos que si <span class="math inline">\(\bf{M^0}\)</span> extrae los promedios, estonces <span class="math inline">\(\bf{M^0e} = e\)</span>. Así podemos verificar que el producto <span class="math inline">\(\bf{Y&#39;M^0}\bf{M^0Y}\)</span> es igual a:</p>
-<p><span class="math display">\[SST = ({\bf{Y}} - \bar{\bf{Y}})&#39;({\bf{Y}} - \bar{\bf{Y}}) = \sum^{n}_{i=1}{(y_i - {\bar{y}})^2} = \bf{Y&#39;M^0Y}\]</span></p>
-<p><span class="math display">\[\bf{Y&#39;M^0Y} = Y&#39;(\bf{M^0X} \hat{\boldsymbol{\beta}} + \bf{M^0e}) = (\bf{X} \hat{\boldsymbol{\beta}} + \bf{e})&#39;(\bf{M^0X} \hat{\boldsymbol{\beta}} + \bf{M^0e})\]</span>
-<span class="math display">\[= (\hat{\boldsymbol{\beta}}&#39; \bf{X&#39;} + \bf{e&#39;})(\bf{M^0X} \hat{\boldsymbol{\beta}} + \bf{M^0e}) \]</span>
-<span class="math display">\[= \hat{\boldsymbol{\beta}}&#39; \bf{X&#39;}\bf{M^0X} \hat{\boldsymbol{\beta}} + \hat{\boldsymbol{\beta}}&#39; \bf{X&#39;}\bf{M^0e} + \bf{e&#39;}\bf{M^0X} \hat{\boldsymbol{\beta}} + \bf{e&#39;}\bf{M^0e}\]</span></p>
+<p>Recordemos que si <span class="math inline">\(\bf{M^0}\)</span> extrae los promedios, estonces <span class="math inline">\(\bf{M^0e} = e\)</span>. Así podemos verificar que el producto <span class="math inline">\(\bf{Y'M^0}\bf{M^0Y}\)</span> es igual a:</p>
+<p><span class="math display">\[SST = ({\bf{Y}} - \bar{\bf{Y}})'({\bf{Y}} - \bar{\bf{Y}}) = \sum^{n}_{i=1}{(y_i - {\bar{y}})^2} = \bf{Y'M^0Y}\]</span></p>
+<p><span class="math display">\[\bf{Y'M^0Y} = Y'(\bf{M^0X} \hat{\boldsymbol{\beta}} + \bf{M^0e}) = (\bf{X} \hat{\boldsymbol{\beta}} + \bf{e})'(\bf{M^0X} \hat{\boldsymbol{\beta}} + \bf{M^0e})\]</span>
+<span class="math display">\[= (\hat{\boldsymbol{\beta}}' \bf{X'} + \bf{e'})(\bf{M^0X} \hat{\boldsymbol{\beta}} + \bf{M^0e}) \]</span>
+<span class="math display">\[= \hat{\boldsymbol{\beta}}' \bf{X'}\bf{M^0X} \hat{\boldsymbol{\beta}} + \hat{\boldsymbol{\beta}}' \bf{X'}\bf{M^0e} + \bf{e'}\bf{M^0X} \hat{\boldsymbol{\beta}} + \bf{e'}\bf{M^0e}\]</span></p>
 <p>Finlamente, como recordaran de clases pasadas, dijimos que sólo cuando nuestra regresión inclui constante la suma de residuales <span class="math inline">\(\sum^{n}_{i=1}{e_i} = 0\)</span>. De esta forma, el promedio de residuales <span class="math inline">\((\sum^{n}_{i=1}{e_i})/n = 0\)</span>. Es decir, que nuestra matriz saca promedio multiplicada por el vector de residuales es igual a <span class="math inline">\(\bf{M^0e} = e - \bar{e} = e\)</span>. Así:</p>
-<p><span class="math display">\[\bf{Y&#39;M^0Y} = \hat{\boldsymbol{\beta}}&#39; \bf{X&#39;}\bf{M^0X} \hat{\boldsymbol{\beta}} + \hat{\boldsymbol{\beta}}&#39; \bf{X&#39;}\bf{e} + \bf{e&#39;}\bf{X} \hat{\boldsymbol{\beta}} + \bf{e&#39;}\bf{e}\]</span></p>
-<p>Por otro lado, sabemos que la solución por el método de MCO garantiza que el producto de <span class="math inline">\(\bf{X&#39;e} = \bf{e&#39;X} = 0\)</span>.</p>
-<p><span class="math display">\[SST = \bf{Y&#39;M^0Y} = \hat{\boldsymbol{\beta}}&#39; \bf{X&#39;}\bf{M^0X} \hat{\boldsymbol{\beta}} + \bf{e&#39;}\bf{e}\]</span>
+<p><span class="math display">\[\bf{Y'M^0Y} = \hat{\boldsymbol{\beta}}' \bf{X'}\bf{M^0X} \hat{\boldsymbol{\beta}} + \hat{\boldsymbol{\beta}}' \bf{X'}\bf{e} + \bf{e'}\bf{X} \hat{\boldsymbol{\beta}} + \bf{e'}\bf{e}\]</span></p>
+<p>Por otro lado, sabemos que la solución por el método de MCO garantiza que el producto de <span class="math inline">\(\bf{X'e} = \bf{e'X} = 0\)</span>.</p>
+<p><span class="math display">\[SST = \bf{Y'M^0Y} = \hat{\boldsymbol{\beta}}' \bf{X'}\bf{M^0X} \hat{\boldsymbol{\beta}} + \bf{e'}\bf{e}\]</span>
 <span class="math display">\[SST = SSR + SSE\]</span></p>
 <p>O en palabras, la variavilidad total de <span class="math inline">\(\bf{Y}\)</span> se puede descomponer en dos: la variavilidad originada por la regresión y la variavilidad que no puede ser explicada, es decir, la del término de error.</p>
 <p>Dicho esto, porponemos el siguiente coeficiente de bondad de ajuste a los datos, el cual suele concerse como <span class="math inline">\(R^2\)</span>:</p>
 <p><span class="math display">\[R^2 = \frac{SSR}{SST} = \frac{SST - SSE}{SST} = 1 - \frac{SSE}{SST}\]</span></p>
 <p>En fórmula:</p>
-<p><span class="math display">\[R^2 = 1 - \frac{\bf{e&#39;e}}{\bf{Y&#39;M^0Y}}\]</span></p>
+<p><span class="math display">\[R^2 = 1 - \frac{\bf{e'e}}{\bf{Y'M^0Y}}\]</span></p>
 <p>Por último el <span class="math inline">\(R^2\)</span> ajustado solo es:</p>
-<p><span class="math display">\[R^2 = 1 - \frac{{\bf{e&#39;e}}/(n-K)}{{\bf{Y&#39;M^0Y}}/(n-1)}\]</span></p>
+<p><span class="math display">\[R^2 = 1 - \frac{{\bf{e'e}}/(n-K)}{{\bf{Y'M^0Y}}/(n-1)}\]</span></p>
 </div>
 <div id="pruebas-de-hipótesis" class="section level2" number="13.4">
-<h2><span class="header-section-number">13.4</span> Pruebas de Hipótesis</h2>
+<h2>
+<span class="header-section-number">13.4</span> Pruebas de Hipótesis<a class="anchor" aria-label="anchor" href="#pruebas-de-hip%C3%B3tesis"><i class="fas fa-link"></i></a>
+</h2>
 <p>El Análisis de Regresión se suele usar con mucha frecuencia para los siguientes propósitos: la estimación y predicción, y para probar algún tipo de hipótesis. La estimación y predicción se analizará con mayor detalle al final de esta clase y el sesiones futuras. Por lo que respecta a las pruebas de hipótesis estableceremos los siguiente.</p>
 <p>Recordemos que nuestro modelo general de regresión está dado por la siguiente expresión:</p>
 <p><span class="math display">\[{\bf Y} = {\bf X}{\boldsymbol \beta} + {\boldsymbol \varepsilon}\]</span></p>
@@ -646,41 +645,55 @@ q_J \\
 </blockquote>
 <p>Dicho lol anterior, el restante argumento versa sobre cómo hacer uso de estas restricciones conjuntas.</p>
 <div id="prueba-f" class="section level3" number="13.4.1">
-<h3><span class="header-section-number">13.4.1</span> Prueba F</h3>
+<h3>
+<span class="header-section-number">13.4.1</span> Prueba F<a class="anchor" aria-label="anchor" href="#prueba-f"><i class="fas fa-link"></i></a>
+</h3>
 <p>Cuando deseamos evaluar una hipótesis con más de una restricción se debe ocupar la prueba F. La cual se puede escribir como:</p>
-<p><span class="math display">\[F_{[J, n-K]} = \frac{({\bf R}{\boldsymbol \beta} - {\bf q})&#39; [s^2 {\bf R} ({\bf X&#39;X})^{-1} {\bf R}&#39;] ({\bf R}{\boldsymbol \beta} - {\bf q})}{J}\]</span></p>
+<p><span class="math display">\[F_{[J, n-K]} = \frac{({\bf R}{\boldsymbol \beta} - {\bf q})' [s^2 {\bf R} ({\bf X'X})^{-1} {\bf R}'] ({\bf R}{\boldsymbol \beta} - {\bf q})}{J}\]</span></p>
 <p>Esta estadística se distribuye como una F de Fisher con <span class="math inline">\(J\)</span> y <span class="math inline">\(n-K\)</span> grados de libertad.</p>
 </div>
 <div id="prueba-t" class="section level3" number="13.4.2">
-<h3><span class="header-section-number">13.4.2</span> Prueba t</h3>
+<h3>
+<span class="header-section-number">13.4.2</span> Prueba t<a class="anchor" aria-label="anchor" href="#prueba-t"><i class="fas fa-link"></i></a>
+</h3>
 <p>Cuando deseamos evaluar una hipótesis con solo una restricción se debe ocupar la prueba t. La cual se puede escribir como:</p>
-<p><span class="math display">\[t_{[n-K, \alpha/2]} = ({\bf R}{\boldsymbol \beta} - {\bf q})&#39; [s^2 {\bf R} ({\bf X&#39;X})^{-1} {\bf R}&#39;] ({\bf R}{\boldsymbol \beta} - {\bf q})\]</span></p>
+<p><span class="math display">\[t_{[n-K, \alpha/2]} = ({\bf R}{\boldsymbol \beta} - {\bf q})' [s^2 {\bf R} ({\bf X'X})^{-1} {\bf R}'] ({\bf R}{\boldsymbol \beta} - {\bf q})\]</span></p>
 <p>Esta estadística se distribuye como una t con <span class="math inline">\(n-K\)</span> grados de libertad.</p>
 
 </div>
 </div>
 </div>
-  </main>
-
-  <div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
-    <nav id="toc" data-toggle="toc" aria-label="On this page">
-      <h2>On this page</h2>
-      <div id="book-on-this-page"></div>
+  <div class="chapter-nav">
+<div class="prev"><a href="otros-modelos-de-series-de-tiempo-no-lineales.html"><span class="header-section-number">12</span> Otros Modelos de Series de Tiempo No lineales</a></div>
+<div class="next"><a href="ap%C3%A9ndice-ii.html"><span class="header-section-number">14</span> Apéndice II</a></div>
+</div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
+    <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
+      <ul class="nav navbar-nav">
+<li><a class="nav-link" href="#apendice-i"><span class="header-section-number">13</span> Apendice I</a></li>
+<li><a class="nav-link" href="#estimador-de-m%C3%ADnimos-cuadrados-ordinarios-y-el-an%C3%A1lisis-cl%C3%A1sico-de-regresi%C3%B3n"><span class="header-section-number">13.1</span> Estimador de Mínimos Cuadrados Ordinarios y el análisis clásico de regresión</a></li>
+<li><a class="nav-link" href="#estimaci%C3%B3n-por-el-m%C3%A9todo-de-m%C3%A1xima-verosimilitud-mv"><span class="header-section-number">13.2</span> Estimación por el método de Máxima Verosimilitud (MV)</a></li>
+<li><a class="nav-link" href="#m%C3%A9tricas-de-bondad-de-ajuste"><span class="header-section-number">13.3</span> Métricas de bondad de ajuste</a></li>
+<li>
+<a class="nav-link" href="#pruebas-de-hip%C3%B3tesis"><span class="header-section-number">13.4</span> Pruebas de Hipótesis</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#prueba-f"><span class="header-section-number">13.4.1</span> Prueba F</a></li>
+<li><a class="nav-link" href="#prueba-t"><span class="header-section-number">13.4.2</span> Prueba t</a></li>
+</ul>
+</li>
+</ul>
 
       <div class="book-extra">
         <ul class="list-unstyled">
-          <li><a id="book-source" href="#">View source <i class="fab fa-github"></i></a></li>
-          <li><a id="book-edit" href="#">Edit this page <i class="fab fa-github"></i></a></li>
+<li><a id="book-source" href="git@github.com:emilianoprzcls/bookdown-notas-series-de-tiempo.git/blob/master/12-Apendice.Rmd">View source <i class="fab fa-github"></i></a></li>
+          <li><a id="book-edit" href="git@github.com:emilianoprzcls/bookdown-notas-series-de-tiempo.git/edit/master/12-Apendice.Rmd">Edit this page <i class="fab fa-github"></i></a></li>
         </ul>
-      </div>
+</div>
     </nav>
-  </div>
+</div>
 
 </div>
 </div> <!-- .container -->
 
-<footer class="bg-primary text-light mt-5">
-  <div class="container"><div class="row">
+<footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
     <p>"<strong>Notas de Clase: Series de Tiempo</strong>" was written by Benjamín Oliva, Omar Alfaro-Rivera y Emiliano Pérez Caullieres. It was last built on 2022-08-07.</p>
@@ -691,11 +704,7 @@ q_J \\
   </div>
 
 </div></div>
-</footer>
-
-
-<!-- dynamically load mathjax for compatibility with self-contained -->
-<script>
+</footer><!-- dynamically load mathjax for compatibility with self-contained --><script>
   (function () {
     var script = document.createElement("script");
     script.type = "text/javascript";
@@ -707,8 +716,7 @@ q_J \\
     script.src = src;
     document.getElementsByTagName("head")[0].appendChild(script);
   })();
-</script>
-<script type="text/x-mathjax-config">const popovers = document.querySelectorAll('a.footnote-ref[data-toggle="popover"]');
+</script><script type="text/x-mathjax-config">const popovers = document.querySelectorAll('a.footnote-ref[data-toggle="popover"]');
 for (let popover of popovers) {
   const div = document.createElement('div');
   div.setAttribute('style', 'position: absolute; top: 0, left:0; width:0, height:0, overflow: hidden; visibility: hidden;');
@@ -726,5 +734,4 @@ for (let popover of popovers) {
 }
 </script>
 </body>
-
 </html>

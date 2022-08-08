@@ -1,57 +1,33 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-  <title>Capítulo 6 Procesos Basados en Vectores Autoregresivos | Notas de Clase: Series de Tiempo</title>
-
-    <meta name="author" content="Benjamín Oliva, Omar Alfaro-Rivera y Emiliano Pérez Caullieres" />
-  
-   <meta name="description" content="Trabajo siempre en proceso de mejora, para cualquier comentario o aclaración, contactar al correo benjov@ciencias.unam.mx o omarxalpha@gmail.com" />
-   <meta name="generator" content="placeholder" />
-  <meta property="og:title" content="Capítulo 6 Procesos Basados en Vectores Autoregresivos | Notas de Clase: Series de Tiempo" />
-  <meta property="og:type" content="book" />
-  
-  
-  <meta property="og:description" content="Trabajo siempre en proceso de mejora, para cualquier comentario o aclaración, contactar al correo benjov@ciencias.unam.mx o omarxalpha@gmail.com" />
-
-  <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Capítulo 6 Procesos Basados en Vectores Autoregresivos | Notas de Clase: Series de Tiempo" />
-  
-  <meta name="twitter:description" content="Trabajo siempre en proceso de mejora, para cualquier comentario o aclaración, contactar al correo benjov@ciencias.unam.mx o omarxalpha@gmail.com" />
-  
-  <!-- JS -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script>
-  <script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script>
-    <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    <link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet" />
-    <script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script>
-    <script src="libs/bs3compat-0.4.0/transition.js"></script>
-    <script src="libs/bs3compat-0.4.0/tabs.js"></script>
-    <script src="libs/bs3compat-0.4.0/bs3compat.js"></script>
-    <link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet" />
-    <script src="libs/bs4_book-1.0.0/bs4_book.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script>
-
-  <!-- CSS -->
-  <style type="text/css">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>Capítulo 6 Procesos Basados en Vectores Autoregresivos | Notas de Clase: Series de Tiempo</title>
+<meta name="author" content="Benjamín Oliva, Omar Alfaro-Rivera y Emiliano Pérez Caullieres">
+<meta name="description" content="PBVA En este capítulo romperemos el supuesto de que el análisis es univariado, ya que introduciremos la posibilidad de que los procesos generadores de datos compartan información entre dos o más...">
+<meta name="generator" content="bookdown 0.27 with bs4_book()">
+<meta property="og:title" content="Capítulo 6 Procesos Basados en Vectores Autoregresivos | Notas de Clase: Series de Tiempo">
+<meta property="og:type" content="book">
+<meta property="og:description" content="PBVA En este capítulo romperemos el supuesto de que el análisis es univariado, ya que introduciremos la posibilidad de que los procesos generadores de datos compartan información entre dos o más...">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Capítulo 6 Procesos Basados en Vectores Autoregresivos | Notas de Clase: Series de Tiempo">
+<meta name="twitter:description" content="PBVA En este capítulo romperemos el supuesto de que el análisis es univariado, ya que introduciremos la posibilidad de que los procesos generadores de datos compartan información entre dos o más...">
+<!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
+<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.4.0/transition.js"></script><script src="libs/bs3compat-0.4.0/tabs.js"></script><script src="libs/bs3compat-0.4.0/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
+<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS --><style type="text/css">
     
     div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
   </style>
-      <link rel="stylesheet" href="style.css" />
-  
+<link rel="stylesheet" href="style.css">
 </head>
-
 <body data-spy="scroll" data-target="#toc">
 
 <div class="container-fluid">
 <div class="row">
-  <header class="col-sm-12 col-lg-3 sidebar sidebar-book">
-    <a class="sr-only sr-only-focusable" href="#content">Skip to main content</a>
+  <header class="col-sm-12 col-lg-3 sidebar sidebar-book"><a class="sr-only sr-only-focusable" href="#content">Skip to main content</a>
 
     <div class="d-flex align-items-start justify-content-between">
       <h1>
@@ -63,26 +39,41 @@
     <div id="main-nav" class="collapse-lg">
       <form role="search">
         <input id="search" class="form-control" type="search" placeholder="Search" aria-label="Search">
-      </form>
+</form>
 
-      <nav aria-label="Table of contents">
-        <h2>Table of contents</h2>
-        <div id="book-toc"></div>
+      <nav aria-label="Table of contents"><h2>Table of contents</h2>
+        <ul class="book-toc list-unstyled">
+<li><a class="" href="index.html"><span class="header-section-number">1</span> Introducción</a></li>
+<li><a class="" href="elementos-de-ecuaciones-en-diferencia.html"><span class="header-section-number">2</span> Elementos de Ecuaciones en Diferencia</a></li>
+<li><a class="" href="modelos-de-series-de-tiempo-estacionarias.html"><span class="header-section-number">3</span> Modelos de Series de Tiempo Estacionarias</a></li>
+<li><a class="" href="procesos-estacionarios-univariados.html"><span class="header-section-number">4</span> Procesos estacionarios univariados</a></li>
+<li><a class="" href="desestacionalizaci%C3%B3n-y-filtrado-de-series.html"><span class="header-section-number">5</span> Desestacionalización y filtrado de Series</a></li>
+<li><a class="active" href="procesos-basados-en-vectores-autoregresivos.html"><span class="header-section-number">6</span> Procesos Basados en Vectores Autoregresivos</a></li>
+<li><a class="" href="procesos-no-estacionarios.html"><span class="header-section-number">7</span> Procesos No Estacionarios</a></li>
+<li><a class="" href="cointegraci%C3%B3n.html"><span class="header-section-number">8</span> Cointegración</a></li>
+<li><a class="" href="modelos-univariados-y-multivariados-de-volatilidad.html"><span class="header-section-number">9</span> Modelos Univariados y Multivariados de Volatilidad</a></li>
+<li><a class="" href="modelos-adrl.html"><span class="header-section-number">10</span> Modelos ADRL</a></li>
+<li><a class="" href="modelos-de-datos-panel.html"><span class="header-section-number">11</span> Modelos de Datos Panel</a></li>
+<li><a class="" href="otros-modelos-de-series-de-tiempo-no-lineales.html"><span class="header-section-number">12</span> Otros Modelos de Series de Tiempo No lineales</a></li>
+<li><a class="" href="apendice-i.html"><span class="header-section-number">13</span> Apendice I</a></li>
+<li><a class="" href="ap%C3%A9ndice-ii.html"><span class="header-section-number">14</span> Apéndice II</a></li>
+</ul>
 
         <div class="book-extra">
-          <p><a id="book-repo" href="#">View book source <i class="fab fa-github"></i></a></li></p>
+          <p><a id="book-repo" href="git@github.com:emilianoprzcls/bookdown-notas-series-de-tiempo.git">View book source <i class="fab fa-github"></i></a></p>
         </div>
       </nav>
-    </div>
-  </header>
-
-  <main class="col-sm-12 col-md-9 col-lg-7" id="content">
-<div id="procesos-basados-en-vectores-autoregresivos" class="section level1" number="6">
-<h1><span class="header-section-number">Capítulo 6</span> Procesos Basados en Vectores Autoregresivos</h1>
+</div>
+  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="procesos-basados-en-vectores-autoregresivos" class="section level1" number="6">
+<h1>
+<span class="header-section-number">Capítulo 6</span> Procesos Basados en Vectores Autoregresivos<a class="anchor" aria-label="anchor" href="#procesos-basados-en-vectores-autoregresivos"><i class="fas fa-link"></i></a>
+</h1>
 <p>PBVA</p>
 <p>En este capítulo romperemos el supuesto de que el análisis es univariado, ya que introduciremos la posibilidad de que los procesos generadores de datos compartan información entre dos o más series. Como primer aproximación desarrollaremos el concepto de Causalidad de Granger. Mediante esta metodología discutiremos cuando dos series se causan estadísticamente. Posteriormente, introduciremos una técnica más sofisticada conocida como la metodología de Vectores Autoregresivos (VAR), la cual es una generalización de los procesos AR que analizamos al principio del curso.</p>
 <div id="causalidad-de-granger" class="section level2" number="6.1">
-<h2><span class="header-section-number">6.1</span> Causalidad de Granger</h2>
+<h2>
+<span class="header-section-number">6.1</span> Causalidad de Granger<a class="anchor" aria-label="anchor" href="#causalidad-de-granger"><i class="fas fa-link"></i></a>
+</h2>
 <p>Hasta ahora hemos supuesto que una serie puede ser explicada únicamente con la información contenida en ella misma. No obstante, en adelante trataremos de analizar el caso en el que buscamos determinar relaciones entre variables y cómo el comportamiento de una serie influye en las demás. Algunas relaciones más importantes son las llamadas causalidad. En este caso analizaremos el procedimiento de Granger (1969), conocido como causalidad de Granger. En adelante asumiremos que las series involucradas son debílmente estacionarias.</p>
 <p>Sean <span class="math inline">\(X\)</span> y <span class="math inline">\(Y\)</span> dos series debílmente estacionarias. Definamos a <span class="math inline">\(I_t\)</span> un conjunto de toda la información disponible hasta el momento <span class="math inline">\(t\)</span>. Asimismo, digamos que <span class="math inline">\(\overline{X}_t\)</span> y <span class="math inline">\(\overline{Y}_t\)</span> son los conjuntos de toda la información disponible (actual y pasada) de <span class="math inline">\(X\)</span> y <span class="math inline">\(Y\)</span>, respectivamente. Es decir:</p>
 <p><span class="math display" id="eq:PBVA">\[\begin{eqnarray}
@@ -110,14 +101,18 @@
 <span class="math display" id="eq:PBVA4">\[\begin{equation}
     \sigma^2 (Y_{t+1} | \{ I_t, X_{t+1} \}) &lt; \sigma^2 (Y_{t+1} | I_t)
         \tag{6.5}
-\end{equation}\]</span></li>
+\end{equation}\]</span>
+</li>
 </ol>
 <p>La definción anterior aplica de igual forma si se reemplaza a <span class="math inline">\(X\)</span> por <span class="math inline">\(Y\)</span> y a <span class="math inline">\(Y\)</span> por <span class="math inline">\(X\)</span>, respectivamente. De acuerdo a la definición anterior, existen 5 diferentes posibilidades de relaciones causales entre las dos series:</p>
 <ol style="list-style-type: decimal">
-<li><span class="math inline">\(X\)</span> y <span class="math inline">\(Y\)</span> son independientes: <span class="math inline">\((X, Y)\)</span>;</li>
+<li>
+<span class="math inline">\(X\)</span> y <span class="math inline">\(Y\)</span> son independientes: <span class="math inline">\((X, Y)\)</span>;</li>
 <li>Existe solo causalidad instantanéa: <span class="math inline">\((X - Y)\)</span>;</li>
-<li><span class="math inline">\(X\)</span> causa a <span class="math inline">\(Y\)</span>: <span class="math inline">\((X \longrightarrow Y)\)</span>;</li>
-<li><span class="math inline">\(Y\)</span> causa a <span class="math inline">\(X\)</span>: <span class="math inline">\((X \longleftarrow Y)\)</span>, y</li>
+<li>
+<span class="math inline">\(X\)</span> causa a <span class="math inline">\(Y\)</span>: <span class="math inline">\((X \longrightarrow Y)\)</span>;</li>
+<li>
+<span class="math inline">\(Y\)</span> causa a <span class="math inline">\(X\)</span>: <span class="math inline">\((X \longleftarrow Y)\)</span>, y</li>
 <li>Ambas series se causan: <span class="math inline">\((X \longleftrightarrow Y)\)</span>.</li>
 </ol>
 <p>Por lo anterior, representaremos mediante una <span class="math inline">\(AR(p)\)</span> con variables exógenas lo siguiente:
@@ -170,80 +165,81 @@
             \tag{6.9}
 \end{equation}\]</span></p>
 <p>Ahora veámos un ejemplo. Consideremos como variables analizadas al Índice Nacional de Precios al Consumidor (<span class="math inline">\(INPC_t\)</span>), al Tipo de Cambio (<span class="math inline">\(TDC_t\)</span>) y al rendimiento anual de los Cetes a 28 días (<span class="math inline">\(CETE28_t\)</span>), todas desestacionalizadas para el periodo de enero de 2000 a julio de 2019. Dado que la metodología de Granger supone que las series son estacionarias, utilizaremos las diferencias logaritmicas de cada una de las tres series (es decir, utilizaremos una transformación del tipo <span class="math inline">\(ln(X_t) - ln(X_{t-1})\)</span>). La Figura <a href="procesos-basados-en-vectores-autoregresivos.html#fig:DLGranger">6.1</a> muestra las series en su transformación de diferencias logarítmicas.</p>
-<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb47-1"><a href="procesos-basados-en-vectores-autoregresivos.html#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="co">#DEPENDENCIAS</span></span>
-<span id="cb47-2"><a href="procesos-basados-en-vectores-autoregresivos.html#cb47-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb47-3"><a href="procesos-basados-en-vectores-autoregresivos.html#cb47-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
-<span id="cb47-4"><a href="procesos-basados-en-vectores-autoregresivos.html#cb47-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readxl)</span>
-<span id="cb47-5"><a href="procesos-basados-en-vectores-autoregresivos.html#cb47-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(stats)</span>
-<span id="cb47-6"><a href="procesos-basados-en-vectores-autoregresivos.html#cb47-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(zoo)</span>
-<span id="cb47-7"><a href="procesos-basados-en-vectores-autoregresivos.html#cb47-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lmtest)</span>
-<span id="cb47-8"><a href="procesos-basados-en-vectores-autoregresivos.html#cb47-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb47-9"><a href="procesos-basados-en-vectores-autoregresivos.html#cb47-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Importamos Datos desde un archivo de R:</span></span>
-<span id="cb47-10"><a href="procesos-basados-en-vectores-autoregresivos.html#cb47-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb47-11"><a href="procesos-basados-en-vectores-autoregresivos.html#cb47-11" aria-hidden="true" tabindex="-1"></a><span class="co">#Los datos &quot;cargados&quot; son los originales y los ajustados por estacionalidad. Los cuales son:</span></span>
-<span id="cb47-12"><a href="procesos-basados-en-vectores-autoregresivos.html#cb47-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb47-13"><a href="procesos-basados-en-vectores-autoregresivos.html#cb47-13" aria-hidden="true" tabindex="-1"></a><span class="co">#* INPC: Indice Nacional de Precios al Consumidor (2QJul2018 = 100)</span></span>
-<span id="cb47-14"><a href="procesos-basados-en-vectores-autoregresivos.html#cb47-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb47-15"><a href="procesos-basados-en-vectores-autoregresivos.html#cb47-15" aria-hidden="true" tabindex="-1"></a><span class="co">#* TC: Tipo de Cambio FIX </span></span>
-<span id="cb47-16"><a href="procesos-basados-en-vectores-autoregresivos.html#cb47-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb47-17"><a href="procesos-basados-en-vectores-autoregresivos.html#cb47-17" aria-hidden="true" tabindex="-1"></a><span class="co">#* CETE28: Tasa de rendimiento promedio mensual de los Cetes 28, en por ciento anual</span></span>
-<span id="cb47-18"><a href="procesos-basados-en-vectores-autoregresivos.html#cb47-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb47-19"><a href="procesos-basados-en-vectores-autoregresivos.html#cb47-19" aria-hidden="true" tabindex="-1"></a><span class="co">#* IGAE: Indicador global de la actividad económica (2013 = 100)</span></span>
-<span id="cb47-20"><a href="procesos-basados-en-vectores-autoregresivos.html#cb47-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb47-21"><a href="procesos-basados-en-vectores-autoregresivos.html#cb47-21" aria-hidden="true" tabindex="-1"></a><span class="co">#* IPI: Industrial Production Index (2012 = 100)</span></span>
-<span id="cb47-22"><a href="procesos-basados-en-vectores-autoregresivos.html#cb47-22" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb47-23"><a href="procesos-basados-en-vectores-autoregresivos.html#cb47-23" aria-hidden="true" tabindex="-1"></a><span class="fu">load</span>(<span class="st">&quot;BD/Clase_13/Datos_Ad.RData&quot;</span>)</span>
-<span id="cb47-24"><a href="procesos-basados-en-vectores-autoregresivos.html#cb47-24" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb47-25"><a href="procesos-basados-en-vectores-autoregresivos.html#cb47-25" aria-hidden="true" tabindex="-1"></a><span class="do">## Conversion a series de tiempo:</span></span>
-<span id="cb47-26"><a href="procesos-basados-en-vectores-autoregresivos.html#cb47-26" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb47-27"><a href="procesos-basados-en-vectores-autoregresivos.html#cb47-27" aria-hidden="true" tabindex="-1"></a>INPC_G <span class="ot">&lt;-</span> <span class="fu">ts</span>(Datos_Ad<span class="sc">$</span>INPC_Ad, </span>
-<span id="cb47-28"><a href="procesos-basados-en-vectores-autoregresivos.html#cb47-28" aria-hidden="true" tabindex="-1"></a>           <span class="at">start =</span> <span class="fu">c</span>(<span class="dv">2000</span>, <span class="dv">1</span>), </span>
-<span id="cb47-29"><a href="procesos-basados-en-vectores-autoregresivos.html#cb47-29" aria-hidden="true" tabindex="-1"></a>           <span class="at">freq =</span> <span class="dv">12</span>)</span>
-<span id="cb47-30"><a href="procesos-basados-en-vectores-autoregresivos.html#cb47-30" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb47-31"><a href="procesos-basados-en-vectores-autoregresivos.html#cb47-31" aria-hidden="true" tabindex="-1"></a>DLINPC_G <span class="ot">&lt;-</span> <span class="fu">ts</span>(<span class="fu">log</span>(Datos_Ad<span class="sc">$</span>INPC_Ad) <span class="sc">-</span> <span class="fu">lag</span>(<span class="fu">log</span>(Datos_Ad<span class="sc">$</span>INPC_Ad), <span class="at">k =</span> <span class="dv">1</span>), </span>
-<span id="cb47-32"><a href="procesos-basados-en-vectores-autoregresivos.html#cb47-32" aria-hidden="true" tabindex="-1"></a>             <span class="at">start =</span> <span class="fu">c</span>(<span class="dv">2000</span>, <span class="dv">1</span>), </span>
-<span id="cb47-33"><a href="procesos-basados-en-vectores-autoregresivos.html#cb47-33" aria-hidden="true" tabindex="-1"></a>             <span class="at">freq =</span> <span class="dv">12</span>)</span>
-<span id="cb47-34"><a href="procesos-basados-en-vectores-autoregresivos.html#cb47-34" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb47-35"><a href="procesos-basados-en-vectores-autoregresivos.html#cb47-35" aria-hidden="true" tabindex="-1"></a>TC_G <span class="ot">&lt;-</span> <span class="fu">ts</span>(Datos_Ad<span class="sc">$</span>TC_Ad, </span>
-<span id="cb47-36"><a href="procesos-basados-en-vectores-autoregresivos.html#cb47-36" aria-hidden="true" tabindex="-1"></a>         <span class="at">start =</span> <span class="fu">c</span>(<span class="dv">2000</span>, <span class="dv">1</span>), </span>
-<span id="cb47-37"><a href="procesos-basados-en-vectores-autoregresivos.html#cb47-37" aria-hidden="true" tabindex="-1"></a>         <span class="at">freq =</span> <span class="dv">12</span>)</span>
-<span id="cb47-38"><a href="procesos-basados-en-vectores-autoregresivos.html#cb47-38" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb47-39"><a href="procesos-basados-en-vectores-autoregresivos.html#cb47-39" aria-hidden="true" tabindex="-1"></a>DLTC_G <span class="ot">&lt;-</span> <span class="fu">ts</span>(<span class="fu">log</span>(Datos_Ad<span class="sc">$</span>TC_Ad) <span class="sc">-</span> <span class="fu">lag</span>(<span class="fu">log</span>(Datos_Ad<span class="sc">$</span>TC_Ad), <span class="at">k =</span> <span class="dv">1</span>), </span>
-<span id="cb47-40"><a href="procesos-basados-en-vectores-autoregresivos.html#cb47-40" aria-hidden="true" tabindex="-1"></a>           <span class="at">start =</span> <span class="fu">c</span>(<span class="dv">2000</span>, <span class="dv">1</span>), </span>
-<span id="cb47-41"><a href="procesos-basados-en-vectores-autoregresivos.html#cb47-41" aria-hidden="true" tabindex="-1"></a>           <span class="at">freq =</span> <span class="dv">12</span>)</span>
-<span id="cb47-42"><a href="procesos-basados-en-vectores-autoregresivos.html#cb47-42" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb47-43"><a href="procesos-basados-en-vectores-autoregresivos.html#cb47-43" aria-hidden="true" tabindex="-1"></a>CETE28_G <span class="ot">&lt;-</span> <span class="fu">ts</span>(Datos_Ad<span class="sc">$</span>CETE28_Ad, </span>
-<span id="cb47-44"><a href="procesos-basados-en-vectores-autoregresivos.html#cb47-44" aria-hidden="true" tabindex="-1"></a>             <span class="at">start =</span> <span class="fu">c</span>(<span class="dv">2000</span>, <span class="dv">1</span>), </span>
-<span id="cb47-45"><a href="procesos-basados-en-vectores-autoregresivos.html#cb47-45" aria-hidden="true" tabindex="-1"></a>             <span class="at">freq =</span> <span class="dv">12</span>)</span>
-<span id="cb47-46"><a href="procesos-basados-en-vectores-autoregresivos.html#cb47-46" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb47-47"><a href="procesos-basados-en-vectores-autoregresivos.html#cb47-47" aria-hidden="true" tabindex="-1"></a>DLCETE28_G <span class="ot">&lt;-</span> <span class="fu">ts</span>(<span class="fu">log</span>(Datos_Ad<span class="sc">$</span>CETE28_Ad) <span class="sc">-</span> <span class="fu">lag</span>(<span class="fu">log</span>(Datos_Ad<span class="sc">$</span>CETE28_Ad), <span class="at">k =</span> <span class="dv">1</span>), </span>
-<span id="cb47-48"><a href="procesos-basados-en-vectores-autoregresivos.html#cb47-48" aria-hidden="true" tabindex="-1"></a>               <span class="at">start =</span> <span class="fu">c</span>(<span class="dv">2000</span>, <span class="dv">1</span>), </span>
-<span id="cb47-49"><a href="procesos-basados-en-vectores-autoregresivos.html#cb47-49" aria-hidden="true" tabindex="-1"></a>               <span class="at">freq =</span> <span class="dv">12</span>)</span>
-<span id="cb47-50"><a href="procesos-basados-en-vectores-autoregresivos.html#cb47-50" aria-hidden="true" tabindex="-1"></a>DLIGAE_G <span class="ot">&lt;-</span> <span class="fu">ts</span>(<span class="fu">log</span>(Datos_Ad<span class="sc">$</span>IGAE_Ad) <span class="sc">-</span> <span class="fu">lag</span>(<span class="fu">log</span>(Datos_Ad<span class="sc">$</span>IGAE_Ad), <span class="at">k =</span> <span class="dv">1</span>), </span>
-<span id="cb47-51"><a href="procesos-basados-en-vectores-autoregresivos.html#cb47-51" aria-hidden="true" tabindex="-1"></a>             <span class="at">start =</span> <span class="fu">c</span>(<span class="dv">2000</span>, <span class="dv">1</span>), </span>
-<span id="cb47-52"><a href="procesos-basados-en-vectores-autoregresivos.html#cb47-52" aria-hidden="true" tabindex="-1"></a>             <span class="at">freq =</span> <span class="dv">12</span>)</span>
-<span id="cb47-53"><a href="procesos-basados-en-vectores-autoregresivos.html#cb47-53" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb47-54"><a href="procesos-basados-en-vectores-autoregresivos.html#cb47-54" aria-hidden="true" tabindex="-1"></a>DLIPI_G <span class="ot">&lt;-</span> <span class="fu">ts</span>(<span class="fu">log</span>(Datos_Ad<span class="sc">$</span>IPI_Ad) <span class="sc">-</span> <span class="fu">lag</span>(<span class="fu">log</span>(Datos_Ad<span class="sc">$</span>IPI_Ad), <span class="at">k =</span> <span class="dv">1</span>), </span>
-<span id="cb47-55"><a href="procesos-basados-en-vectores-autoregresivos.html#cb47-55" aria-hidden="true" tabindex="-1"></a>            <span class="at">start =</span> <span class="fu">c</span>(<span class="dv">2000</span>, <span class="dv">1</span>), </span>
-<span id="cb47-56"><a href="procesos-basados-en-vectores-autoregresivos.html#cb47-56" aria-hidden="true" tabindex="-1"></a>            <span class="at">freq =</span> <span class="dv">12</span>)</span>
-<span id="cb47-57"><a href="procesos-basados-en-vectores-autoregresivos.html#cb47-57" aria-hidden="true" tabindex="-1"></a><span class="do">## Graficas:</span></span></code></pre></div>
-<div class="figure" style="text-align: center"><span style="display:block;" id="fig:DLGranger"></span>
-<img src="05-VAR_files/figure-html/DLGranger-1.png" alt="Series en diferencias logarítmicas dadas por las siguientes expresiones: $DLINPC_t = ln(DLINPC_t) - ln(DLINPC_{t-1})$, $DLTC_t = ln(TC_t) - ln(TC_{t-1})$ y $DLCETE28_t = ln(CETE28_t) - ln(CETE28_{t-1})$." width="100%" />
-<p class="caption">
+<div class="sourceCode" id="cb47"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co">#DEPENDENCIAS</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org">ggplot2</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org">dplyr</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://readxl.tidyverse.org">readxl</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">stats</span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://zoo.R-Forge.R-project.org/">zoo</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">lmtest</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Importamos Datos desde un archivo de R:</span></span>
+<span></span>
+<span><span class="co">#Los datos "cargados" son los originales y los ajustados por estacionalidad. Los cuales son:</span></span>
+<span></span>
+<span><span class="co">#* INPC: Indice Nacional de Precios al Consumidor (2QJul2018 = 100)</span></span>
+<span></span>
+<span><span class="co">#* TC: Tipo de Cambio FIX </span></span>
+<span></span>
+<span><span class="co">#* CETE28: Tasa de rendimiento promedio mensual de los Cetes 28, en por ciento anual</span></span>
+<span></span>
+<span><span class="co">#* IGAE: Indicador global de la actividad económica (2013 = 100)</span></span>
+<span></span>
+<span><span class="co">#* IPI: Industrial Production Index (2012 = 100)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/load.html">load</a></span><span class="op">(</span><span class="st">"BD/Clase_13/Datos_Ad.RData"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co">## Conversion a series de tiempo:</span></span>
+<span></span>
+<span><span class="va">INPC_G</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/ts.html">ts</a></span><span class="op">(</span><span class="va">Datos_Ad</span><span class="op">$</span><span class="va">INPC_Ad</span>, </span>
+<span>           start <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2000</span>, <span class="fl">1</span><span class="op">)</span>, </span>
+<span>           freq <span class="op">=</span> <span class="fl">12</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">DLINPC_G</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/ts.html">ts</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span><span class="op">(</span><span class="va">Datos_Ad</span><span class="op">$</span><span class="va">INPC_Ad</span><span class="op">)</span> <span class="op">-</span> <span class="fu">lag</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span><span class="op">(</span><span class="va">Datos_Ad</span><span class="op">$</span><span class="va">INPC_Ad</span><span class="op">)</span>, k <span class="op">=</span> <span class="fl">1</span><span class="op">)</span>, </span>
+<span>             start <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2000</span>, <span class="fl">1</span><span class="op">)</span>, </span>
+<span>             freq <span class="op">=</span> <span class="fl">12</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">TC_G</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/ts.html">ts</a></span><span class="op">(</span><span class="va">Datos_Ad</span><span class="op">$</span><span class="va">TC_Ad</span>, </span>
+<span>         start <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2000</span>, <span class="fl">1</span><span class="op">)</span>, </span>
+<span>         freq <span class="op">=</span> <span class="fl">12</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">DLTC_G</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/ts.html">ts</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span><span class="op">(</span><span class="va">Datos_Ad</span><span class="op">$</span><span class="va">TC_Ad</span><span class="op">)</span> <span class="op">-</span> <span class="fu">lag</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span><span class="op">(</span><span class="va">Datos_Ad</span><span class="op">$</span><span class="va">TC_Ad</span><span class="op">)</span>, k <span class="op">=</span> <span class="fl">1</span><span class="op">)</span>, </span>
+<span>           start <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2000</span>, <span class="fl">1</span><span class="op">)</span>, </span>
+<span>           freq <span class="op">=</span> <span class="fl">12</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">CETE28_G</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/ts.html">ts</a></span><span class="op">(</span><span class="va">Datos_Ad</span><span class="op">$</span><span class="va">CETE28_Ad</span>, </span>
+<span>             start <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2000</span>, <span class="fl">1</span><span class="op">)</span>, </span>
+<span>             freq <span class="op">=</span> <span class="fl">12</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">DLCETE28_G</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/ts.html">ts</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span><span class="op">(</span><span class="va">Datos_Ad</span><span class="op">$</span><span class="va">CETE28_Ad</span><span class="op">)</span> <span class="op">-</span> <span class="fu">lag</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span><span class="op">(</span><span class="va">Datos_Ad</span><span class="op">$</span><span class="va">CETE28_Ad</span><span class="op">)</span>, k <span class="op">=</span> <span class="fl">1</span><span class="op">)</span>, </span>
+<span>               start <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2000</span>, <span class="fl">1</span><span class="op">)</span>, </span>
+<span>               freq <span class="op">=</span> <span class="fl">12</span><span class="op">)</span></span>
+<span><span class="va">DLIGAE_G</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/ts.html">ts</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span><span class="op">(</span><span class="va">Datos_Ad</span><span class="op">$</span><span class="va">IGAE_Ad</span><span class="op">)</span> <span class="op">-</span> <span class="fu">lag</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span><span class="op">(</span><span class="va">Datos_Ad</span><span class="op">$</span><span class="va">IGAE_Ad</span><span class="op">)</span>, k <span class="op">=</span> <span class="fl">1</span><span class="op">)</span>, </span>
+<span>             start <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2000</span>, <span class="fl">1</span><span class="op">)</span>, </span>
+<span>             freq <span class="op">=</span> <span class="fl">12</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">DLIPI_G</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/ts.html">ts</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span><span class="op">(</span><span class="va">Datos_Ad</span><span class="op">$</span><span class="va">IPI_Ad</span><span class="op">)</span> <span class="op">-</span> <span class="fu">lag</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span><span class="op">(</span><span class="va">Datos_Ad</span><span class="op">$</span><span class="va">IPI_Ad</span><span class="op">)</span>, k <span class="op">=</span> <span class="fl">1</span><span class="op">)</span>, </span>
+<span>            start <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2000</span>, <span class="fl">1</span><span class="op">)</span>, </span>
+<span>            freq <span class="op">=</span> <span class="fl">12</span><span class="op">)</span></span>
+<span><span class="co">## Graficas:</span></span></code></pre></div>
+<div class="figure" style="text-align: center">
+<span style="display:block;" id="fig:DLGranger"></span>
+<img src="05-VAR_files/figure-html/DLGranger-1.png" alt="Series en diferencias logarítmicas dadas por las siguientes expresiones: $DLINPC_t = ln(DLINPC_t) - ln(DLINPC_{t-1})$, $DLTC_t = ln(TC_t) - ln(TC_{t-1})$ y $DLCETE28_t = ln(CETE28_t) - ln(CETE28_{t-1})$." width="100%"><p class="caption">
 Figure 6.1: Series en diferencias logarítmicas dadas por las siguientes expresiones: <span class="math inline">\(DLINPC_t = ln(DLINPC_t) - ln(DLINPC_{t-1})\)</span>, <span class="math inline">\(DLTC_t = ln(TC_t) - ln(TC_{t-1})\)</span> y <span class="math inline">\(DLCETE28_t = ln(CETE28_t) - ln(CETE28_{t-1})\)</span>.
 </p>
 </div>
 <p>Por simplicidad, en el Cuadro <a href="procesos-basados-en-vectores-autoregresivos.html#tab:Granger01">6.1</a> se muestra el resultado de aplicar el test de Granger a diferentes especificaciones, con rezagos 4, 8, 12 y 16, sólo para la serie de Tipo de Cambio en diferencias logarítmicas. En cada una de las pruebas se compara el modelo considerado como regresor a la variable que es candidata de causar, respecto del modelo si considerar a dicha variable.</p>
-<table>
-<caption><span id="tab:Granger01">Table 6.1: </span> Prueba de si <span class="math inline">\(DLINPC_t\)</span> Granger causa a <span class="math inline">\(DLTC_t\)</span>. <em>Notas: *** significancia al 0.001%, ** significancia al 0.01% y* significancia 0.05%</em></caption>
-<thead>
-<tr class="header">
+<div class="inline-table"><table class="table table-sm">
+<caption>
+<span id="tab:Granger01">Table 6.1: </span> Prueba de si <span class="math inline">\(DLINPC_t\)</span> Granger causa a <span class="math inline">\(DLTC_t\)</span>. <em>Notas: *** significancia al 0.001%, ** significancia al 0.01% y* significancia 0.05%</em>
+</caption>
+<thead><tr class="header">
 <th align="center">Rezagos</th>
 <th align="center">Estadiística F</th>
 <th align="center">Probabilidad (<span class="math inline">\(&gt;\)</span>F)</th>
 <th align="center">Significancia</th>
-</tr>
-</thead>
+</tr></thead>
 <tbody>
 <tr class="odd">
 <td align="center">4</td>
@@ -270,11 +266,13 @@ Figure 6.1: Series en diferencias logarítmicas dadas por las siguientes expresi
 <td align="center">*</td>
 </tr>
 </tbody>
-</table>
+</table></div>
 <p>De acuerdo con el Cuadro <a href="procesos-basados-en-vectores-autoregresivos.html#tab:Granger01">6.1</a>, podemos concluir que existe información estadísticamente significativa para concluir que la inflación causa a la tasa de depreciación cambiaria, ambas medidas como las diferencias logaritmicas. El resto de los resultados para las otras combinaciones de causalidad se encuentran en el Scrip llamado Clase 13 ubicado en el repositorio de GitHub.</p>
 </div>
 <div id="definición-y-representación-del-sistema-o-modelo-varp" class="section level2" number="6.2">
-<h2><span class="header-section-number">6.2</span> Definición y representación del Sistema o Modelo VAR(p)</h2>
+<h2>
+<span class="header-section-number">6.2</span> Definición y representación del Sistema o Modelo VAR(p)<a class="anchor" aria-label="anchor" href="#definici%C3%B3n-y-representaci%C3%B3n-del-sistema-o-modelo-varp"><i class="fas fa-link"></i></a>
+</h2>
 <p>En esta sección ampliaremos la discusión planteada en el apartado anterior. En el sentido de que en la sección pasada nuestra discusión se limito al análisis de causalidad entre dos variables a la vez, que si bien es posible extenderlo a más variables es un procedimiento limitado a casos particulares por las siguientes razones.</p>
 <p>El procediento de causalidad de Granger supone que es posible identificar un sistema de ecuaciones que debe conformarse una vez que se ha identificado el sentido de la causalidad. Así, el proceso anterior necesita del conocimiento previo de las relaciones que existen entre las varibles.</p>
 <p>Adicionalmente, no resuleve el problema más general qué esta relacionado con cómo identificar la causalidad cuando se tienen múltiples variables con múltiples sentidos de causalidad. En esta sección analizaremos una mejor aproximación al probelma de cómo identificar la causalidad múltiple. Por lo tanto, como mécanismo para solucionar el problema planteado, analizaremos el caso de un Sistema o Modelo de Vectores Autoregresivos conocido como VAR.</p>
@@ -330,7 +328,7 @@ Figure 6.1: Series en diferencias logarítmicas dadas por las siguientes expresi
 <ol start="2" style="list-style-type: decimal">
 <li><p>Existe una matriz de varianzas y covarianzas entre los términos de error contemporáneos dada por:
 <span class="math display" id="eq:SigmaVAR">\[\begin{eqnarray}
-     \mathbb{E}[\mathbf{U}_t \mathbf{U}_t&#39;]
+     \mathbb{E}[\mathbf{U}_t \mathbf{U}_t']
      &amp; = &amp;
      \mathbb{E} \left[
      \begin{bmatrix}
@@ -358,7 +356,7 @@ Figure 6.1: Series en diferencias logarítmicas dadas por las siguientes expresi
 \end{eqnarray}\]</span></p></li>
 <li><p>La matriz de varianzas y covarianzas no comtemporáneas es nula. Es decir, que para todo <span class="math inline">\(t \neq s\)</span>:
 <span class="math display" id="eq:RhoVAR">\[\begin{eqnarray}
-     \mathbb{E} [\mathbf{U}_t \mathbf{U}_s&#39;]
+     \mathbb{E} [\mathbf{U}_t \mathbf{U}_s']
      &amp; = &amp;
      \mathbb{E} \left[
      \begin{bmatrix}
@@ -395,14 +393,14 @@ Figure 6.1: Series en diferencias logarítmicas dadas por las siguientes expresi
 \end{eqnarray}\]</span></p>
 <p>Por el lado de las matrices que representan la autocovarianza, estás resultan de resolver lo siguiente:
 <span class="math display" id="eq:VARMAq1">\[\begin{equation}
-    \Gamma_X(\tau) = E[(\mathbf{X}_t - \mu)(\mathbf{X}_{t-\tau} - \mu)&#39;]
+    \Gamma_X(\tau) = E[(\mathbf{X}_t - \mu)(\mathbf{X}_{t-\tau} - \mu)']
         \tag{6.17}
 \end{equation}\]</span></p>
 <p>Ahora, sin pérdida de generalidad digamos que la especificación VAR(p) en la ecuación <a href="procesos-basados-en-vectores-autoregresivos.html#eq:VARp">(6.10)</a> no tiene constante, por lo que <span class="math inline">\(\delta = 0\)</span>, lo que implica que <span class="math inline">\(\mu = 0\)</span>. De esta forma las matrices de autocovarianza resultan de:
 <span class="math display">\[\begin{eqnarray*}
-    \Gamma_X(\tau) &amp; = &amp; E[(\mathbf{X}_t)(\mathbf{X}_{t-\tau})&#39;] \\
-    &amp; = &amp; A_1 E[(\mathbf{X}_{t-1})(\mathbf{X}_{t-\tau})&#39;] + A_2 E[(\mathbf{X}_{t-2})(\mathbf{X}_{t-\tau})&#39;] \\
-    &amp;   &amp; + \ldots + A_p E[(\mathbf{X}_{t-p})(\mathbf{X}_{t-\tau})&#39;] + E[(\mathbf{U}_t(\mathbf{X}_{t-\tau})&#39;]
+    \Gamma_X(\tau) &amp; = &amp; E[(\mathbf{X}_t)(\mathbf{X}_{t-\tau})'] \\
+    &amp; = &amp; A_1 E[(\mathbf{X}_{t-1})(\mathbf{X}_{t-\tau})'] + A_2 E[(\mathbf{X}_{t-2})(\mathbf{X}_{t-\tau})'] \\
+    &amp;   &amp; + \ldots + A_p E[(\mathbf{X}_{t-p})(\mathbf{X}_{t-\tau})'] + E[(\mathbf{U}_t(\mathbf{X}_{t-\tau})']
 \end{eqnarray*}\]</span></p>
 <p>Finalmente, al igual que en el caso <span class="math inline">\(AR(p)\)</span> requerimos de una métrica que nos permita determinar el número de rezagos óptimo <span class="math inline">\(p\)</span> en el <span class="math inline">\(VAR(p)\)</span>. Así, establecemos criterios de información similares a los del <span class="math inline">\(AR(p)\)</span> dados por:</p>
 <p>1.Final Prediction Error (FPE):
@@ -439,47 +437,50 @@ Figure 6.1: Series en diferencias logarítmicas dadas por las siguientes expresi
             \right]
         \end{equation*}\]</span></p>
 <p>Ahora veámos un ejemplo de estimación de <span class="math inline">\(VAR(p)\)</span>. Para el ejemplo utilizaremos las series de INPC, Tipo de CAmbio, rendimiento de los Cetes a 28 días, el IGAE y el Índice de Producción Industrial de los Estados Unidos, todas desestacionalizadas y para el período de enero de 2000 a julio de 2019. Dado que el supuesto estacionariedad sigue presente en nuestro análisis, emplearemos cada una de las series en su versión de diferencias logaritmicas. La Figura <a href="procesos-basados-en-vectores-autoregresivos.html#fig:VARDLSeries">6.2</a> muestra las series referidas.</p>
-<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb48-1"><a href="procesos-basados-en-vectores-autoregresivos.html#cb48-1" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb48-2"><a href="procesos-basados-en-vectores-autoregresivos.html#cb48-2" aria-hidden="true" tabindex="-1"></a>Datos_G <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="fu">cbind</span>(DLINPC_G, DLTC_G, DLCETE28_G))</span>
-<span id="cb48-3"><a href="procesos-basados-en-vectores-autoregresivos.html#cb48-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb48-4"><a href="procesos-basados-en-vectores-autoregresivos.html#cb48-4" aria-hidden="true" tabindex="-1"></a>Datos_G <span class="ot">&lt;-</span> <span class="fu">cbind</span>(Datos_Ad[<span class="st">&quot;FECHA&quot;</span>], Datos_G)</span>
-<span id="cb48-5"><a href="procesos-basados-en-vectores-autoregresivos.html#cb48-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb48-6"><a href="procesos-basados-en-vectores-autoregresivos.html#cb48-6" aria-hidden="true" tabindex="-1"></a>Datos_G2 <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="fu">cbind</span>(DLINPC_G, DLTC_G, DLCETE28_G, DLIGAE_G, DLIPI_G))</span>
-<span id="cb48-7"><a href="procesos-basados-en-vectores-autoregresivos.html#cb48-7" aria-hidden="true" tabindex="-1"></a>Datos_G2 <span class="ot">&lt;-</span> <span class="fu">ts</span>(Datos_G2[<span class="dv">2</span> <span class="sc">:</span> <span class="dv">259</span>, ], </span>
-<span id="cb48-8"><a href="procesos-basados-en-vectores-autoregresivos.html#cb48-8" aria-hidden="true" tabindex="-1"></a>            <span class="at">start =</span> <span class="fu">c</span>(<span class="dv">2000</span>, <span class="dv">2</span>), <span class="at">freq =</span> <span class="dv">12</span>)</span></code></pre></div>
-<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb49-1"><a href="procesos-basados-en-vectores-autoregresivos.html#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(Datos_G2, <span class="at">plot.type =</span> <span class="st">&quot;s&quot;</span>, </span>
-<span id="cb49-2"><a href="procesos-basados-en-vectores-autoregresivos.html#cb49-2" aria-hidden="true" tabindex="-1"></a>     <span class="at">col =</span> <span class="fu">c</span>(<span class="st">&quot;darkgreen&quot;</span>, <span class="st">&quot;darkblue&quot;</span>, <span class="st">&quot;darkred&quot;</span>, <span class="st">&quot;black&quot;</span>, <span class="st">&quot;purple&quot;</span>), </span>
-<span id="cb49-3"><a href="procesos-basados-en-vectores-autoregresivos.html#cb49-3" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">&quot;Series en Diferencias logaritmicas&quot;</span>, </span>
-<span id="cb49-4"><a href="procesos-basados-en-vectores-autoregresivos.html#cb49-4" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">&quot;Tiempo&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Variacion&quot;</span>)</span>
-<span id="cb49-5"><a href="procesos-basados-en-vectores-autoregresivos.html#cb49-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb49-6"><a href="procesos-basados-en-vectores-autoregresivos.html#cb49-6" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">&quot;bottomright&quot;</span>, <span class="fu">c</span>(<span class="st">&quot;INPC&quot;</span>, <span class="st">&quot;TC&quot;</span>, <span class="st">&quot;CETES28&quot;</span>, <span class="st">&quot;IGAE&quot;</span>, <span class="st">&quot;IPI&quot;</span>),</span>
-<span id="cb49-7"><a href="procesos-basados-en-vectores-autoregresivos.html#cb49-7" aria-hidden="true" tabindex="-1"></a>       <span class="at">cex =</span> <span class="fl">0.6</span>, <span class="at">lty =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">1</span>, </span>
-<span id="cb49-8"><a href="procesos-basados-en-vectores-autoregresivos.html#cb49-8" aria-hidden="true" tabindex="-1"></a>       <span class="at">col =</span> <span class="fu">c</span>(<span class="st">&quot;darkgreen&quot;</span>, <span class="st">&quot;darkblue&quot;</span>, <span class="st">&quot;darkred&quot;</span>, <span class="st">&quot;black&quot;</span>, <span class="st">&quot;purple&quot;</span>))</span></code></pre></div>
-<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb50-1"><a href="procesos-basados-en-vectores-autoregresivos.html#cb50-1" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb50-2"><a href="procesos-basados-en-vectores-autoregresivos.html#cb50-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb50-3"><a href="procesos-basados-en-vectores-autoregresivos.html#cb50-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb50-4"><a href="procesos-basados-en-vectores-autoregresivos.html#cb50-4" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(Datos_G2, <span class="at">plot.type =</span> <span class="st">&quot;m&quot;</span>, </span>
-<span id="cb50-5"><a href="procesos-basados-en-vectores-autoregresivos.html#cb50-5" aria-hidden="true" tabindex="-1"></a>     <span class="at">col =</span> <span class="st">&quot;darkgreen&quot;</span>, </span>
-<span id="cb50-6"><a href="procesos-basados-en-vectores-autoregresivos.html#cb50-6" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">&quot;Series en Diferencias logaritmicas&quot;</span>, <span class="at">xlab =</span> <span class="st">&quot;Tiempo&quot;</span>)</span></code></pre></div>
-<div class="figure" style="text-align: center"><span style="display:block;" id="fig:VARDLSeries"></span>
-<img src="05-VAR_files/figure-html/VARDLSeries-1.png" alt="Series en diferencias logarítmicas, enero de 2000 a julio de 201p" width="100%" />
-<p class="caption">
+<div class="sourceCode" id="cb48"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span></span>
+<span><span class="va">Datos_G</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/cbind.html">cbind</a></span><span class="op">(</span><span class="va">DLINPC_G</span>, <span class="va">DLTC_G</span>, <span class="va">DLCETE28_G</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">Datos_G</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html">cbind</a></span><span class="op">(</span><span class="va">Datos_Ad</span><span class="op">[</span><span class="st">"FECHA"</span><span class="op">]</span>, <span class="va">Datos_G</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">Datos_G2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/cbind.html">cbind</a></span><span class="op">(</span><span class="va">DLINPC_G</span>, <span class="va">DLTC_G</span>, <span class="va">DLCETE28_G</span>, <span class="va">DLIGAE_G</span>, <span class="va">DLIPI_G</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">Datos_G2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/ts.html">ts</a></span><span class="op">(</span><span class="va">Datos_G2</span><span class="op">[</span><span class="fl">2</span> <span class="op">:</span> <span class="fl">259</span>, <span class="op">]</span>, </span>
+<span>            start <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2000</span>, <span class="fl">2</span><span class="op">)</span>, freq <span class="op">=</span> <span class="fl">12</span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb49"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">Datos_G2</span>, plot.type <span class="op">=</span> <span class="st">"s"</span>, </span>
+<span>     col <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"darkgreen"</span>, <span class="st">"darkblue"</span>, <span class="st">"darkred"</span>, <span class="st">"black"</span>, <span class="st">"purple"</span><span class="op">)</span>, </span>
+<span>     main <span class="op">=</span> <span class="st">"Series en Diferencias logaritmicas"</span>, </span>
+<span>     xlab <span class="op">=</span> <span class="st">"Tiempo"</span>, ylab <span class="op">=</span> <span class="st">"Variacion"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/legend.html">legend</a></span><span class="op">(</span><span class="st">"bottomright"</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"INPC"</span>, <span class="st">"TC"</span>, <span class="st">"CETES28"</span>, <span class="st">"IGAE"</span>, <span class="st">"IPI"</span><span class="op">)</span>,</span>
+<span>       cex <span class="op">=</span> <span class="fl">0.6</span>, lty <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">1</span>, </span>
+<span>       col <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"darkgreen"</span>, <span class="st">"darkblue"</span>, <span class="st">"darkred"</span>, <span class="st">"black"</span>, <span class="st">"purple"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb50"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span></span>
+<span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">Datos_G2</span>, plot.type <span class="op">=</span> <span class="st">"m"</span>, </span>
+<span>     col <span class="op">=</span> <span class="st">"darkgreen"</span>, </span>
+<span>     main <span class="op">=</span> <span class="st">"Series en Diferencias logaritmicas"</span>, xlab <span class="op">=</span> <span class="st">"Tiempo"</span><span class="op">)</span></span></code></pre></div>
+<div class="figure" style="text-align: center">
+<span style="display:block;" id="fig:VARDLSeries"></span>
+<img src="05-VAR_files/figure-html/VARDLSeries-1.png" alt="Series en diferencias logarítmicas, enero de 2000 a julio de 201p" width="100%"><p class="caption">
 Figure 6.2: Series en diferencias logarítmicas, enero de 2000 a julio de 201p
 </p>
 </div>
 <p>Dicho lo anterior, a continuación mostraremos la tabla que resume el valor de los distintos criterios de información una especificación de un <span class="math inline">\(VAR(p)\)</span> con constante. Notése que es posible especificar un <span class="math inline">\(VAR(p)\)</span> con tendencia, caso que no aplica hasta este momento, ya que nuestro análisis de estacionariedad es claro respecto a la media constante (más adelante relajaremos este supuesto), lo cual elimina la poisiblidad de incluir una tendencia.</p>
 <p>En el Cuadro <a href="procesos-basados-en-vectores-autoregresivos.html#tab:SelectVAR">6.2</a> reportamos los resultados de aplicar una prueba de criterios de información para diferentes valores de reagos. Del cual se concluye que el número óptimo de residuales es 2 (según el crietrio AIC y el FPE) y 1 (según el criterio HQ y el SC). Recordemos que es común que el criterio AIC siempre reporte el mayor valor de rezagos, por lo que es una buena práctica utilizarlo como referente principal.</p>
-<table>
-<caption><span id="tab:SelectVAR">Table 6.2: </span> Criterios de información para diferentes especificaciones de modelos VAR(p) con término constante de la series <span class="math inline">\(DLINPC_t\)</span>, <span class="math inline">\(DLTC_t\)</span>, <span class="math inline">\(DLCETE28_t\)</span>, <span class="math inline">\(DLIGAE_t\)</span> y <span class="math inline">\(DLIPI_t\)</span>. <em>Nota: Se reporta el valor de los criterios de información.</em></caption>
-<thead>
-<tr class="header">
+<div class="inline-table"><table class="table table-sm">
+<caption>
+<span id="tab:SelectVAR">Table 6.2: </span> Criterios de información para diferentes especificaciones de modelos VAR(p) con término constante de la series <span class="math inline">\(DLINPC_t\)</span>, <span class="math inline">\(DLTC_t\)</span>, <span class="math inline">\(DLCETE28_t\)</span>, <span class="math inline">\(DLIGAE_t\)</span> y <span class="math inline">\(DLIPI_t\)</span>. <em>Nota: Se reporta el valor de los criterios de información.</em>
+</caption>
+<thead><tr class="header">
 <th align="center">Rezagos</th>
 <th align="center">AIC</th>
 <th align="center">HQ</th>
 <th align="center">SC</th>
 <th align="center">FPE</th>
-</tr>
-</thead>
+</tr></thead>
 <tbody>
 <tr class="odd">
 <td align="center">1</td>
@@ -510,10 +511,11 @@ Figure 6.2: Series en diferencias logarítmicas, enero de 2000 a julio de 201p
 <td align="center"><span class="math inline">\(\vdots\)</span></td>
 </tr>
 </tbody>
-</table>
+</table></div>
 <p>De esta forma, justificamos la estimación de un <span class="math inline">\(VAR(2)\)</span>. Los resultados del mismo se repotartan en los siguientes cuadros, en los que se reporta el resultado de una de las ecuaciones. Los resultados restantes se encuentran en el Scrip Clase 14 que se encuentra en repositorio de GitHub. Primero mostraremos los resutlados de las raíces del polinomio caracteristico en el Cuadro <a href="procesos-basados-en-vectores-autoregresivos.html#tab:RootsVAR">6.3</a>, seguido de un cuadro para la ecuación del IGAE en el Cuadro <a href="procesos-basados-en-vectores-autoregresivos.html#tab:IGAEVAR">6.4</a>(por simplicidad se omiten las otras cuatro ecuaciones del VAR(2)), y del Cuadro <a href="procesos-basados-en-vectores-autoregresivos.html#tab:SigmaVARp">6.5</a> con la matriz <span class="math inline">\(\mathbf{\Sigma}_{\hat{U}\hat{U}}\)</span> estimada del VAR.</p>
-<table>
-<caption><span id="tab:RootsVAR">Table 6.3: </span> Raíces del polinomio característico de un VAR(2).</caption>
+<div class="inline-table"><table class="table table-sm">
+<caption>
+<span id="tab:RootsVAR">Table 6.3: </span> Raíces del polinomio característico de un VAR(2).</caption>
 <tbody>
 <tr class="odd">
 <td align="center">0.7452</td>
@@ -530,18 +532,18 @@ Figure 6.2: Series en diferencias logarítmicas, enero de 2000 a julio de 201p
 <td align="center">0.06951</td>
 </tr>
 </tbody>
-</table>
-<table>
-<caption><span id="tab:IGAEVAR">Table 6.4: </span> Criterios de información para diferentes especificaciones de modelos VAR(p) con término constante de la series <span class="math inline">\(DLINPC_t\)</span>, <span class="math inline">\(DLTC_t\)</span>, <span class="math inline">\(DLCETE28_t\)</span>, <span class="math inline">\(DLIGAE_t\)</span> y <span class="math inline">\(DLIPI_t\)</span>. <em>Nota: *** significancia al 0.001%, ** significancia al 0.01%, significancia 0.05%</em></caption>
-<thead>
-<tr class="header">
+</table></div>
+<div class="inline-table"><table class="table table-sm">
+<caption>
+<span id="tab:IGAEVAR">Table 6.4: </span> Criterios de información para diferentes especificaciones de modelos VAR(p) con término constante de la series <span class="math inline">\(DLINPC_t\)</span>, <span class="math inline">\(DLTC_t\)</span>, <span class="math inline">\(DLCETE28_t\)</span>, <span class="math inline">\(DLIGAE_t\)</span> y <span class="math inline">\(DLIPI_t\)</span>. <em>Nota: *** significancia al 0.001%, ** significancia al 0.01%, significancia 0.05%</em>
+</caption>
+<thead><tr class="header">
 <th align="center">Variable</th>
 <th align="center">Coeficiente</th>
 <th align="center">Error Est.</th>
 <th align="center">Estad. t</th>
 <th align="center">Prob.(<span class="math inline">\(&gt;\)</span> t)</th>
-</tr>
-</thead>
+</tr></thead>
 <tbody>
 <tr class="odd">
 <td align="center"><span class="math inline">\(DLTC_{t-1}\)</span></td>
@@ -621,18 +623,17 @@ Figure 6.2: Series en diferencias logarítmicas, enero de 2000 a julio de 201p
 <td align="center">0.000217 ***</td>
 </tr>
 </tbody>
-</table>
-<table>
-<caption><span id="tab:SigmaVARp">Table 6.5: </span> Matriz <span class="math inline">\(\mathbf{\Sigma}_{\hat{U}\hat{U}}\)</span> estimada del VAR(2).</caption>
-<thead>
-<tr class="header">
+</table></div>
+<div class="inline-table"><table class="table table-sm">
+<caption>
+<span id="tab:SigmaVARp">Table 6.5: </span> Matriz <span class="math inline">\(\mathbf{\Sigma}_{\hat{U}\hat{U}}\)</span> estimada del VAR(2).</caption>
+<thead><tr class="header">
 <th align="center"><span class="math inline">\(DLINPC_t\)</span></th>
 <th align="center"><span class="math inline">\(DLTC_t\)</span></th>
 <th align="center"><span class="math inline">\(DLCE28_t\)</span></th>
 <th align="center"><span class="math inline">\(DLIGAE_t\)</span></th>
 <th align="center"><span class="math inline">\(DLIGAE_t\)</span></th>
-</tr>
-</thead>
+</tr></thead>
 <tbody>
 <tr class="odd">
 <td align="center"><span class="math inline">\(DLINPC_t\)</span></td>
@@ -670,24 +671,23 @@ Figure 6.2: Series en diferencias logarítmicas, enero de 2000 a julio de 201p
 <td align="center">8.75e-06</td>
 </tr>
 </tbody>
-</table>
+</table></div>
 <p>Finalmente, en el Cuadro <a href="procesos-basados-en-vectores-autoregresivos.html#tab:DiagnosVAR">6.6</a> reportamos las pruebas de diagnóstico del VAR(2). Incluímos las pruebas de normalidad, autocorrelación parcial y de heterocedásticidad.</p>
-<table>
-<caption><span id="tab:DiagnosVAR">Table 6.6: </span> Pruebas de diagnóstico sobre los residuales del VAR(2).</caption>
+<div class="inline-table"><table class="table table-sm">
+<caption>
+<span id="tab:DiagnosVAR">Table 6.6: </span> Pruebas de diagnóstico sobre los residuales del VAR(2).</caption>
 <colgroup>
-<col width="25%" />
-<col width="25%" />
-<col width="25%" />
-<col width="25%" />
+<col width="25%">
+<col width="25%">
+<col width="25%">
+<col width="25%">
 </colgroup>
-<thead>
-<tr class="header">
+<thead><tr class="header">
 <th align="center">Estadística (rezagos)</th>
 <th align="center">Coeficiente</th>
 <th align="center">p-value</th>
 <th align="center">Conclusión</th>
-</tr>
-</thead>
+</tr></thead>
 <tbody>
 <tr class="odd">
 <td align="center">Correlación Serial (<span class="math inline">\(\chi^2 (2)\)</span>)</td>
@@ -720,10 +720,12 @@ Figure 6.2: Series en diferencias logarítmicas, enero de 2000 a julio de 201p
 <td align="center">Los residuales no son homocedásticos</td>
 </tr>
 </tbody>
-</table>
+</table></div>
 </div>
 <div id="análisis-de-impulso-respuesta" class="section level2" number="6.3">
-<h2><span class="header-section-number">6.3</span> Análisis de Impulso-Respuesta</h2>
+<h2>
+<span class="header-section-number">6.3</span> Análisis de Impulso-Respuesta<a class="anchor" aria-label="anchor" href="#an%C3%A1lisis-de-impulso-respuesta"><i class="fas fa-link"></i></a>
+</h2>
 <p>Una de las grandes ventajas que aporta el análisis de los modelos VAR es el análisis de Impulso-Respuesta. Dicho análisis busca cuantificar el efecto que tiene en <span class="math inline">\(\mathbf{X}_t\)</span> una innovación o cambio en los residuales de cualquiera de las variables en un momento definido. Partamos dela ecuación <a href="procesos-basados-en-vectores-autoregresivos.html#eq:VARMAq">(6.16)</a> de forma que tenemos:</p>
 <p><span class="math display" id="eq:lst66">\[\begin{eqnarray}
     \mathbf{X}_t &amp; = &amp; \mathbf{A}^{-1}(L) \delta + \mathbf{A}^{-1}(L) \mathbf{U}_t \nonumber \\
@@ -733,272 +735,279 @@ Figure 6.2: Series en diferencias logarítmicas, enero de 2000 a julio de 201p
 \end{eqnarray}\]</span></p>
 <p>Donde <span class="math inline">\(\Psi_0 = I\)</span> y cada una de las <span class="math inline">\(\Psi_i = - \mathbf{B}_i\)</span>, <span class="math inline">\(i = 1, 2, \ldots\)</span>. De esta forma se verifica el efecto que tiene en <span class="math inline">\(\mathbf{X}_t\)</span> cada las innovaciones pasadas. Por lo que el análisis de Impulso-Respuesta cuantifica el efecto de cada una de esas matrices en las que hemos descompuesto a <span class="math inline">\(\mathbf{B}(L)\)</span>.</p>
 <p>Retomando el modelo <span class="math inline">\(VAR(2)\)</span> anteriormente estimado, en el Cuadro <a href="procesos-basados-en-vectores-autoregresivos.html#tab:IRVARTC">6.7</a> reportamos las gráficas de Impulso-respuesta de la serie <span class="math inline">\(DLTC_t\)</span> ante cambios en los residuales del resto de las series y de la propia serie.</p>
-<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb51-1"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Dependencias</span></span>
-<span id="cb51-2"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb51-3"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
-<span id="cb51-4"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(stats)</span>
-<span id="cb51-5"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(MASS)</span>
-<span id="cb51-6"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(strucchange)</span>
-<span id="cb51-7"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(zoo)</span>
-<span id="cb51-8"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-8" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sandwich)</span>
-<span id="cb51-9"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-9" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(urca)</span>
-<span id="cb51-10"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-10" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lmtest)</span>
-<span id="cb51-11"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-11" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(vars)</span>
-<span id="cb51-12"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb51-13"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-13" aria-hidden="true" tabindex="-1"></a><span class="co">#Datos</span></span>
-<span id="cb51-14"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-14" aria-hidden="true" tabindex="-1"></a>Datos_G3 <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="fu">cbind</span>(DLINPC_G, DLTC_G, DLCETE28_G, DLIGAE_G, DLIPI_G))</span>
-<span id="cb51-15"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-15" aria-hidden="true" tabindex="-1"></a>Datos_G3 <span class="ot">&lt;-</span> <span class="fu">ts</span>(Datos_G3[<span class="dv">2</span> <span class="sc">:</span> <span class="dv">259</span>, ], </span>
-<span id="cb51-16"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-16" aria-hidden="true" tabindex="-1"></a>            <span class="at">start =</span> <span class="fu">c</span>(<span class="dv">2000</span>, <span class="dv">2</span>), <span class="at">freq =</span> <span class="dv">12</span>)</span>
-<span id="cb51-17"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb51-18"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-18" aria-hidden="true" tabindex="-1"></a><span class="do">## VAR Estimación:</span></span>
-<span id="cb51-19"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-19" aria-hidden="true" tabindex="-1"></a><span class="fu">VARselect</span>(Datos_G3, <span class="at">lag.max =</span> <span class="dv">12</span>, <span class="at">type =</span> <span class="st">&quot;const&quot;</span>)</span>
-<span id="cb51-20"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $selection</span></span>
-<span id="cb51-21"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; AIC(n)  HQ(n)  SC(n) FPE(n) </span></span>
-<span id="cb51-22"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;      2      1      1      2 </span></span>
-<span id="cb51-23"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb51-24"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $criteria</span></span>
-<span id="cb51-25"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-25" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                    1             2             3</span></span>
-<span id="cb51-26"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-26" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; AIC(n) -4.195465e+01 -4.198941e+01 -4.195421e+01</span></span>
-<span id="cb51-27"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-27" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; HQ(n)  -4.178252e+01 -4.167385e+01 -4.149521e+01</span></span>
-<span id="cb51-28"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-28" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; SC(n)  -4.152717e+01 -4.120570e+01 -4.081426e+01</span></span>
-<span id="cb51-29"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-29" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; FPE(n)  6.016568e-19  5.812443e-19  6.024461e-19</span></span>
-<span id="cb51-30"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-30" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                    4             5             6</span></span>
-<span id="cb51-31"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-31" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; AIC(n) -4.186713e+01 -4.181541e+01 -4.179207e+01</span></span>
-<span id="cb51-32"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-32" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; HQ(n)  -4.126469e+01 -4.106953e+01 -4.090275e+01</span></span>
-<span id="cb51-33"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-33" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; SC(n)  -4.037095e+01 -3.996300e+01 -3.958342e+01</span></span>
-<span id="cb51-34"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-34" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; FPE(n)  6.580247e-19  6.942566e-19  7.126238e-19</span></span>
-<span id="cb51-35"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-35" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                    7             8             9</span></span>
-<span id="cb51-36"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-36" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; AIC(n) -4.183689e+01 -4.183860e+01 -4.181243e+01</span></span>
-<span id="cb51-37"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-37" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; HQ(n)  -4.080413e+01 -4.066240e+01 -4.049279e+01</span></span>
-<span id="cb51-38"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-38" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; SC(n)  -3.927201e+01 -3.891749e+01 -3.853508e+01</span></span>
-<span id="cb51-39"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-39" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; FPE(n)  6.840149e-19  6.863474e-19  7.091908e-19</span></span>
-<span id="cb51-40"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-40" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                   10            11            12</span></span>
-<span id="cb51-41"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-41" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; AIC(n) -4.169621e+01 -4.167191e+01 -4.160623e+01</span></span>
-<span id="cb51-42"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-42" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; HQ(n)  -4.023314e+01 -4.006540e+01 -3.985628e+01</span></span>
-<span id="cb51-43"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-43" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; SC(n)  -3.806263e+01 -3.768211e+01 -3.726019e+01</span></span>
-<span id="cb51-44"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-44" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; FPE(n)  8.031729e-19  8.312778e-19  8.986015e-19</span></span>
-<span id="cb51-45"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-45" aria-hidden="true" tabindex="-1"></a>VAR_p <span class="ot">&lt;-</span> <span class="fu">VAR</span>(Datos_G3, <span class="at">p =</span> <span class="dv">2</span>, <span class="at">type =</span> <span class="st">&quot;const&quot;</span>)</span>
-<span id="cb51-46"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-46" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb51-47"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-47" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(VAR_p)</span>
-<span id="cb51-48"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-48" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb51-49"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-49" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; VAR Estimation Results:</span></span>
-<span id="cb51-50"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-50" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ========================= </span></span>
-<span id="cb51-51"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-51" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Endogenous variables: DLINPC_G, DLTC_G, DLCETE28_G, DLIGAE_G, DLIPI_G </span></span>
-<span id="cb51-52"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-52" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Deterministic variables: const </span></span>
-<span id="cb51-53"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-53" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Sample size: 256 </span></span>
-<span id="cb51-54"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-54" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Log Likelihood: 3617.305 </span></span>
-<span id="cb51-55"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-55" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Roots of the characteristic polynomial:</span></span>
-<span id="cb51-56"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-56" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 0.4932 0.4932 0.4905 0.4905 0.4585 0.4585 0.4046 0.4046 0.2654 0.2654</span></span>
-<span id="cb51-57"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-57" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Call:</span></span>
-<span id="cb51-58"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-58" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; VAR(y = Datos_G3, p = 2, type = &quot;const&quot;)</span></span>
-<span id="cb51-59"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-59" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb51-60"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-60" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb51-61"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-61" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Estimation results for equation DLINPC_G: </span></span>
-<span id="cb51-62"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-62" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ========================================= </span></span>
-<span id="cb51-63"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-63" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; DLINPC_G = DLINPC_G.l1 + DLTC_G.l1 + DLCETE28_G.l1 + DLIGAE_G.l1 + DLIPI_G.l1 + DLINPC_G.l2 + DLTC_G.l2 + DLCETE28_G.l2 + DLIGAE_G.l2 + DLIPI_G.l2 + const </span></span>
-<span id="cb51-64"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-64" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb51-65"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-65" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                 Estimate Std. Error t value Pr(&gt;|t|)    </span></span>
-<span id="cb51-66"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-66" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; DLINPC_G.l1    0.3794127  0.0660203   5.747 2.69e-08 ***</span></span>
-<span id="cb51-67"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-67" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; DLTC_G.l1      0.0036715  0.0052749   0.696    0.487    </span></span>
-<span id="cb51-68"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-68" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; DLCETE28_G.l1 -0.0003844  0.0020534  -0.187    0.852    </span></span>
-<span id="cb51-69"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-69" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; DLIGAE_G.l1    0.0042967  0.0176732   0.243    0.808    </span></span>
-<span id="cb51-70"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-70" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; DLIPI_G.l1    -0.0154936  0.0105907  -1.463    0.145    </span></span>
-<span id="cb51-71"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-71" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; DLINPC_G.l2   -0.0408406  0.0667181  -0.612    0.541    </span></span>
-<span id="cb51-72"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-72" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; DLTC_G.l2      0.0057580  0.0051995   1.107    0.269    </span></span>
-<span id="cb51-73"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-73" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; DLCETE28_G.l2  0.0015534  0.0020603   0.754    0.452    </span></span>
-<span id="cb51-74"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-74" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; DLIGAE_G.l2   -0.0059282  0.0170903  -0.347    0.729    </span></span>
-<span id="cb51-75"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-75" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; DLIPI_G.l2     0.0042370  0.0105063   0.403    0.687    </span></span>
-<span id="cb51-76"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-76" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; const          0.0023632  0.0003116   7.583 6.97e-13 ***</span></span>
-<span id="cb51-77"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-77" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ---</span></span>
-<span id="cb51-78"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-78" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Signif. codes:  </span></span>
-<span id="cb51-79"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-79" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</span></span>
-<span id="cb51-80"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-80" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb51-81"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-81" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb51-82"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-82" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Residual standard error: 0.002139 on 245 degrees of freedom</span></span>
-<span id="cb51-83"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-83" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Multiple R-Squared: 0.1493,  Adjusted R-squared: 0.1146 </span></span>
-<span id="cb51-84"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-84" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; F-statistic:   4.3 on 10 and 245 DF,  p-value: 1.531e-05 </span></span>
-<span id="cb51-85"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-85" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb51-86"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-86" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb51-87"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-87" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Estimation results for equation DLTC_G: </span></span>
-<span id="cb51-88"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-88" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ======================================= </span></span>
-<span id="cb51-89"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-89" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; DLTC_G = DLINPC_G.l1 + DLTC_G.l1 + DLCETE28_G.l1 + DLIGAE_G.l1 + DLIPI_G.l1 + DLINPC_G.l2 + DLTC_G.l2 + DLCETE28_G.l2 + DLIGAE_G.l2 + DLIPI_G.l2 + const </span></span>
-<span id="cb51-90"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-90" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb51-91"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-91" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                Estimate Std. Error t value Pr(&gt;|t|)    </span></span>
-<span id="cb51-92"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-92" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; DLINPC_G.l1   -3.221572   0.887833  -3.629 0.000347 ***</span></span>
-<span id="cb51-93"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-93" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; DLTC_G.l1      0.284813   0.070937   4.015 7.91e-05 ***</span></span>
-<span id="cb51-94"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-94" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; DLCETE28_G.l1 -0.038985   0.027613  -1.412 0.159270    </span></span>
-<span id="cb51-95"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-95" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; DLIGAE_G.l1   -0.035047   0.237666  -0.147 0.882889    </span></span>
-<span id="cb51-96"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-96" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; DLIPI_G.l1     0.207555   0.142422   1.457 0.146309    </span></span>
-<span id="cb51-97"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-97" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; DLINPC_G.l2    1.185665   0.897215   1.321 0.187569    </span></span>
-<span id="cb51-98"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-98" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; DLTC_G.l2     -0.186162   0.069922  -2.662 0.008271 ** </span></span>
-<span id="cb51-99"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-99" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; DLCETE28_G.l2  0.034580   0.027707   1.248 0.213211    </span></span>
-<span id="cb51-100"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-100" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; DLIGAE_G.l2   -0.287855   0.229828  -1.252 0.211590    </span></span>
-<span id="cb51-101"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-101" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; DLIPI_G.l2     0.046610   0.141287   0.330 0.741761    </span></span>
-<span id="cb51-102"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-102" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; const          0.010145   0.004191   2.421 0.016220 *  </span></span>
-<span id="cb51-103"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-103" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ---</span></span>
-<span id="cb51-104"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-104" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Signif. codes:  </span></span>
-<span id="cb51-105"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-105" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</span></span>
-<span id="cb51-106"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-106" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb51-107"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-107" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb51-108"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-108" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Residual standard error: 0.02877 on 245 degrees of freedom</span></span>
-<span id="cb51-109"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-109" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Multiple R-Squared: 0.1237,  Adjusted R-squared: 0.08789 </span></span>
-<span id="cb51-110"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-110" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; F-statistic: 3.457 on 10 and 245 DF,  p-value: 0.0002874 </span></span>
-<span id="cb51-111"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-111" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb51-112"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-112" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb51-113"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-113" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Estimation results for equation DLCETE28_G: </span></span>
-<span id="cb51-114"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-114" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; =========================================== </span></span>
-<span id="cb51-115"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-115" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; DLCETE28_G = DLINPC_G.l1 + DLTC_G.l1 + DLCETE28_G.l1 + DLIGAE_G.l1 + DLIPI_G.l1 + DLINPC_G.l2 + DLTC_G.l2 + DLCETE28_G.l2 + DLIGAE_G.l2 + DLIPI_G.l2 + const </span></span>
-<span id="cb51-116"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-116" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb51-117"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-117" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                Estimate Std. Error t value Pr(&gt;|t|)  </span></span>
-<span id="cb51-118"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-118" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; DLINPC_G.l1    3.547010   2.044696   1.735   0.0840 .</span></span>
-<span id="cb51-119"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-119" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; DLTC_G.l1      0.106557   0.163369   0.652   0.5149  </span></span>
-<span id="cb51-120"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-120" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; DLCETE28_G.l1  0.106108   0.063594   1.669   0.0965 .</span></span>
-<span id="cb51-121"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-121" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; DLIGAE_G.l1   -0.124387   0.547350  -0.227   0.8204  </span></span>
-<span id="cb51-122"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-122" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; DLIPI_G.l1     0.269513   0.328001   0.822   0.4121  </span></span>
-<span id="cb51-123"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-123" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; DLINPC_G.l2   -3.562148   2.066305  -1.724   0.0860 .</span></span>
-<span id="cb51-124"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-124" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; DLTC_G.l2      0.128717   0.161031   0.799   0.4249  </span></span>
-<span id="cb51-125"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-125" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; DLCETE28_G.l2  0.038798   0.063810   0.608   0.5437  </span></span>
-<span id="cb51-126"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-126" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; DLIGAE_G.l2    0.870921   0.529299   1.645   0.1012  </span></span>
-<span id="cb51-127"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-127" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; DLIPI_G.l2    -0.116675   0.325388  -0.359   0.7202  </span></span>
-<span id="cb51-128"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-128" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; const         -0.005317   0.009652  -0.551   0.5822  </span></span>
-<span id="cb51-129"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-129" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ---</span></span>
-<span id="cb51-130"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-130" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Signif. codes:  </span></span>
-<span id="cb51-131"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-131" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</span></span>
-<span id="cb51-132"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-132" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb51-133"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-133" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb51-134"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-134" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Residual standard error: 0.06626 on 245 degrees of freedom</span></span>
-<span id="cb51-135"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-135" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Multiple R-Squared: 0.06876, Adjusted R-squared: 0.03075 </span></span>
-<span id="cb51-136"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-136" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; F-statistic: 1.809 on 10 and 245 DF,  p-value: 0.05961 </span></span>
-<span id="cb51-137"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-137" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb51-138"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-138" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb51-139"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-139" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Estimation results for equation DLIGAE_G: </span></span>
-<span id="cb51-140"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-140" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ========================================= </span></span>
-<span id="cb51-141"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-141" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; DLIGAE_G = DLINPC_G.l1 + DLTC_G.l1 + DLCETE28_G.l1 + DLIGAE_G.l1 + DLIPI_G.l1 + DLINPC_G.l2 + DLTC_G.l2 + DLCETE28_G.l2 + DLIGAE_G.l2 + DLIPI_G.l2 + const </span></span>
-<span id="cb51-142"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-142" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb51-143"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-143" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                Estimate Std. Error t value Pr(&gt;|t|)  </span></span>
-<span id="cb51-144"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-144" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; DLINPC_G.l1    1.184559   0.461082   2.569   0.0108 *</span></span>
-<span id="cb51-145"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-145" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; DLTC_G.l1     -0.063718   0.036840  -1.730   0.0850 .</span></span>
-<span id="cb51-146"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-146" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; DLCETE28_G.l1  0.008687   0.014341   0.606   0.5452  </span></span>
-<span id="cb51-147"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-147" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; DLIGAE_G.l1   -0.184057   0.123428  -1.491   0.1372  </span></span>
-<span id="cb51-148"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-148" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; DLIPI_G.l1     0.135931   0.073965   1.838   0.0673 .</span></span>
-<span id="cb51-149"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-149" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; DLINPC_G.l2   -1.042586   0.465955  -2.238   0.0262 *</span></span>
-<span id="cb51-150"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-150" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; DLTC_G.l2      0.022293   0.036313   0.614   0.5398  </span></span>
-<span id="cb51-151"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-151" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; DLCETE28_G.l2 -0.018839   0.014389  -1.309   0.1917  </span></span>
-<span id="cb51-152"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-152" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; DLIGAE_G.l2   -0.272896   0.119358  -2.286   0.0231 *</span></span>
-<span id="cb51-153"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-153" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; DLIPI_G.l2     0.132921   0.073375   1.812   0.0713 .</span></span>
-<span id="cb51-154"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-154" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; const          0.001485   0.002176   0.682   0.4958  </span></span>
-<span id="cb51-155"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-155" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ---</span></span>
-<span id="cb51-156"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-156" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Signif. codes:  </span></span>
-<span id="cb51-157"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-157" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</span></span>
-<span id="cb51-158"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-158" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb51-159"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-159" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb51-160"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-160" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Residual standard error: 0.01494 on 245 degrees of freedom</span></span>
-<span id="cb51-161"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-161" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Multiple R-Squared: 0.1046,  Adjusted R-squared: 0.06802 </span></span>
-<span id="cb51-162"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-162" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; F-statistic: 2.861 on 10 and 245 DF,  p-value: 0.002173 </span></span>
-<span id="cb51-163"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-163" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb51-164"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-164" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb51-165"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-165" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Estimation results for equation DLIPI_G: </span></span>
-<span id="cb51-166"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-166" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ======================================== </span></span>
-<span id="cb51-167"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-167" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; DLIPI_G = DLINPC_G.l1 + DLTC_G.l1 + DLCETE28_G.l1 + DLIGAE_G.l1 + DLIPI_G.l1 + DLINPC_G.l2 + DLTC_G.l2 + DLCETE28_G.l2 + DLIGAE_G.l2 + DLIPI_G.l2 + const </span></span>
-<span id="cb51-168"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-168" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb51-169"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-169" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                Estimate Std. Error t value Pr(&gt;|t|)  </span></span>
-<span id="cb51-170"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-170" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; DLINPC_G.l1    2.061526   0.801864   2.571   0.0107 *</span></span>
-<span id="cb51-171"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-171" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; DLTC_G.l1     -0.081057   0.064068  -1.265   0.2070  </span></span>
-<span id="cb51-172"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-172" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; DLCETE28_G.l1 -0.005573   0.024940  -0.223   0.8234  </span></span>
-<span id="cb51-173"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-173" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; DLIGAE_G.l1    0.454249   0.214653   2.116   0.0353 *</span></span>
-<span id="cb51-174"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-174" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; DLIPI_G.l1    -0.270920   0.128631  -2.106   0.0362 *</span></span>
-<span id="cb51-175"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-175" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; DLINPC_G.l2   -1.639854   0.810338  -2.024   0.0441 *</span></span>
-<span id="cb51-176"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-176" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; DLTC_G.l2      0.066871   0.063151   1.059   0.2907  </span></span>
-<span id="cb51-177"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-177" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; DLCETE28_G.l2 -0.026739   0.025024  -1.069   0.2863  </span></span>
-<span id="cb51-178"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-178" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; DLIGAE_G.l2   -0.196948   0.207574  -0.949   0.3437  </span></span>
-<span id="cb51-179"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-179" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; DLIPI_G.l2    -0.013132   0.127607  -0.103   0.9181  </span></span>
-<span id="cb51-180"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-180" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; const         -0.001787   0.003785  -0.472   0.6373  </span></span>
-<span id="cb51-181"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-181" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; ---</span></span>
-<span id="cb51-182"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-182" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Signif. codes:  </span></span>
-<span id="cb51-183"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-183" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</span></span>
-<span id="cb51-184"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-184" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb51-185"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-185" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb51-186"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-186" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Residual standard error: 0.02598 on 245 degrees of freedom</span></span>
-<span id="cb51-187"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-187" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Multiple R-Squared: 0.09088, Adjusted R-squared: 0.05377 </span></span>
-<span id="cb51-188"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-188" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; F-statistic: 2.449 on 10 and 245 DF,  p-value: 0.008383 </span></span>
-<span id="cb51-189"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-189" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb51-190"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-190" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb51-191"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-191" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb51-192"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-192" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Covariance matrix of residuals:</span></span>
-<span id="cb51-193"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-193" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;              DLINPC_G     DLTC_G DLCETE28_G   DLIGAE_G</span></span>
-<span id="cb51-194"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-194" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; DLINPC_G    4.577e-06 -3.256e-06  4.284e-07  6.192e-06</span></span>
-<span id="cb51-195"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-195" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; DLTC_G     -3.256e-06  8.276e-04  3.273e-04 -1.598e-04</span></span>
-<span id="cb51-196"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-196" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; DLCETE28_G  4.284e-07  3.273e-04  4.390e-03  7.695e-05</span></span>
-<span id="cb51-197"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-197" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; DLIGAE_G    6.192e-06 -1.598e-04  7.695e-05  2.232e-04</span></span>
-<span id="cb51-198"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-198" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; DLIPI_G     1.433e-05 -3.145e-04  1.211e-04  3.354e-04</span></span>
-<span id="cb51-199"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-199" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;               DLIPI_G</span></span>
-<span id="cb51-200"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-200" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; DLINPC_G    1.433e-05</span></span>
-<span id="cb51-201"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-201" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; DLTC_G     -3.145e-04</span></span>
-<span id="cb51-202"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-202" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; DLCETE28_G  1.211e-04</span></span>
-<span id="cb51-203"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-203" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; DLIGAE_G    3.354e-04</span></span>
-<span id="cb51-204"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-204" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; DLIPI_G     6.751e-04</span></span>
-<span id="cb51-205"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-205" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb51-206"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-206" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Correlation matrix of residuals:</span></span>
-<span id="cb51-207"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-207" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;             DLINPC_G   DLTC_G DLCETE28_G DLIGAE_G  DLIPI_G</span></span>
-<span id="cb51-208"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-208" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; DLINPC_G    1.000000 -0.05291   0.003022  0.19372  0.25782</span></span>
-<span id="cb51-209"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-209" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; DLTC_G     -0.052911  1.00000   0.171697 -0.37187 -0.42073</span></span>
-<span id="cb51-210"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-210" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; DLCETE28_G  0.003022  0.17170   1.000000  0.07774  0.07033</span></span>
-<span id="cb51-211"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-211" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; DLIGAE_G    0.193715 -0.37187   0.077740  1.00000  0.86403</span></span>
-<span id="cb51-212"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-212" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; DLIPI_G     0.257823 -0.42073   0.070327  0.86403  1.00000</span></span>
-<span id="cb51-213"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-213" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb51-214"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-214" aria-hidden="true" tabindex="-1"></a><span class="co">#Impulse response</span></span>
-<span id="cb51-215"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-215" aria-hidden="true" tabindex="-1"></a>IR_DLINPC <span class="ot">&lt;-</span> <span class="fu">irf</span>(VAR_p, <span class="at">n.ahead =</span> <span class="dv">12</span>, <span class="at">boot =</span> <span class="cn">TRUE</span>, </span>
-<span id="cb51-216"><a href="procesos-basados-en-vectores-autoregresivos.html#cb51-216" aria-hidden="true" tabindex="-1"></a>                 <span class="at">ci =</span> <span class="fl">0.95</span>, <span class="at">response =</span> <span class="st">&quot;DLINPC_G&quot;</span>)</span></code></pre></div>
-<div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb52-1"><a href="procesos-basados-en-vectores-autoregresivos.html#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Al correr esta línea de codigo se obtienen los </span></span>
-<span id="cb52-2"><a href="procesos-basados-en-vectores-autoregresivos.html#cb52-2" aria-hidden="true" tabindex="-1"></a><span class="co">#plots correspondientes a la tabla 6.7</span></span>
-<span id="cb52-3"><a href="procesos-basados-en-vectores-autoregresivos.html#cb52-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb52-4"><a href="procesos-basados-en-vectores-autoregresivos.html#cb52-4" aria-hidden="true" tabindex="-1"></a><span class="co">#plot(IR_DLINPC)</span></span></code></pre></div>
-<table>
-<caption><span id="tab:IRVARTC">Table 6.7: </span> Gráficas de Impulso-respuesta de la serie <span class="math inline">\(DLTC_t\)</span> ante cambios en los residuales del resto de las series y de la propia serie.</caption>
+<div class="sourceCode" id="cb51"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co">#Dependencias</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org">ggplot2</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org">dplyr</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">stats</span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://www.stats.ox.ac.uk/pub/MASS4/">MASS</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">strucchange</span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://zoo.R-Forge.R-project.org/">zoo</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://sandwich.R-Forge.R-project.org/">sandwich</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">urca</span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">lmtest</span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://www.pfaffikus.de">vars</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="co">#Datos</span></span>
+<span><span class="va">Datos_G3</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/cbind.html">cbind</a></span><span class="op">(</span><span class="va">DLINPC_G</span>, <span class="va">DLTC_G</span>, <span class="va">DLCETE28_G</span>, <span class="va">DLIGAE_G</span>, <span class="va">DLIPI_G</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">Datos_G3</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/ts.html">ts</a></span><span class="op">(</span><span class="va">Datos_G3</span><span class="op">[</span><span class="fl">2</span> <span class="op">:</span> <span class="fl">259</span>, <span class="op">]</span>, </span>
+<span>            start <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2000</span>, <span class="fl">2</span><span class="op">)</span>, freq <span class="op">=</span> <span class="fl">12</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co">## VAR Estimación:</span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/vars/man/VARselect.html">VARselect</a></span><span class="op">(</span><span class="va">Datos_G3</span>, lag.max <span class="op">=</span> <span class="fl">12</span>, type <span class="op">=</span> <span class="st">"const"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; $selection</span></span>
+<span><span class="co">#&gt; AIC(n)  HQ(n)  SC(n) FPE(n) </span></span>
+<span><span class="co">#&gt;      2      1      1      2 </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $criteria</span></span>
+<span><span class="co">#&gt;                    1             2             3</span></span>
+<span><span class="co">#&gt; AIC(n) -4.195465e+01 -4.198941e+01 -4.195421e+01</span></span>
+<span><span class="co">#&gt; HQ(n)  -4.178252e+01 -4.167385e+01 -4.149521e+01</span></span>
+<span><span class="co">#&gt; SC(n)  -4.152717e+01 -4.120570e+01 -4.081426e+01</span></span>
+<span><span class="co">#&gt; FPE(n)  6.016568e-19  5.812443e-19  6.024461e-19</span></span>
+<span><span class="co">#&gt;                    4             5             6</span></span>
+<span><span class="co">#&gt; AIC(n) -4.186713e+01 -4.181541e+01 -4.179207e+01</span></span>
+<span><span class="co">#&gt; HQ(n)  -4.126469e+01 -4.106953e+01 -4.090275e+01</span></span>
+<span><span class="co">#&gt; SC(n)  -4.037095e+01 -3.996300e+01 -3.958342e+01</span></span>
+<span><span class="co">#&gt; FPE(n)  6.580247e-19  6.942566e-19  7.126238e-19</span></span>
+<span><span class="co">#&gt;                    7             8             9</span></span>
+<span><span class="co">#&gt; AIC(n) -4.183689e+01 -4.183860e+01 -4.181243e+01</span></span>
+<span><span class="co">#&gt; HQ(n)  -4.080413e+01 -4.066240e+01 -4.049279e+01</span></span>
+<span><span class="co">#&gt; SC(n)  -3.927201e+01 -3.891749e+01 -3.853508e+01</span></span>
+<span><span class="co">#&gt; FPE(n)  6.840149e-19  6.863474e-19  7.091908e-19</span></span>
+<span><span class="co">#&gt;                   10            11            12</span></span>
+<span><span class="co">#&gt; AIC(n) -4.169621e+01 -4.167191e+01 -4.160623e+01</span></span>
+<span><span class="co">#&gt; HQ(n)  -4.023314e+01 -4.006540e+01 -3.985628e+01</span></span>
+<span><span class="co">#&gt; SC(n)  -3.806263e+01 -3.768211e+01 -3.726019e+01</span></span>
+<span><span class="co">#&gt; FPE(n)  8.031729e-19  8.312778e-19  8.986015e-19</span></span>
+<span><span class="va">VAR_p</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/vars/man/VAR.html">VAR</a></span><span class="op">(</span><span class="va">Datos_G3</span>, p <span class="op">=</span> <span class="fl">2</span>, type <span class="op">=</span> <span class="st">"const"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/urca/man/summary-methods.html">summary</a></span><span class="op">(</span><span class="va">VAR_p</span><span class="op">)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; VAR Estimation Results:</span></span>
+<span><span class="co">#&gt; ========================= </span></span>
+<span><span class="co">#&gt; Endogenous variables: DLINPC_G, DLTC_G, DLCETE28_G, DLIGAE_G, DLIPI_G </span></span>
+<span><span class="co">#&gt; Deterministic variables: const </span></span>
+<span><span class="co">#&gt; Sample size: 256 </span></span>
+<span><span class="co">#&gt; Log Likelihood: 3617.305 </span></span>
+<span><span class="co">#&gt; Roots of the characteristic polynomial:</span></span>
+<span><span class="co">#&gt; 0.4932 0.4932 0.4905 0.4905 0.4585 0.4585 0.4046 0.4046 0.2654 0.2654</span></span>
+<span><span class="co">#&gt; Call:</span></span>
+<span><span class="co">#&gt; VAR(y = Datos_G3, p = 2, type = "const")</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Estimation results for equation DLINPC_G: </span></span>
+<span><span class="co">#&gt; ========================================= </span></span>
+<span><span class="co">#&gt; DLINPC_G = DLINPC_G.l1 + DLTC_G.l1 + DLCETE28_G.l1 + DLIGAE_G.l1 + DLIPI_G.l1 + DLINPC_G.l2 + DLTC_G.l2 + DLCETE28_G.l2 + DLIGAE_G.l2 + DLIPI_G.l2 + const </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;                 Estimate Std. Error t value Pr(&gt;|t|)    </span></span>
+<span><span class="co">#&gt; DLINPC_G.l1    0.3794127  0.0660203   5.747 2.69e-08 ***</span></span>
+<span><span class="co">#&gt; DLTC_G.l1      0.0036715  0.0052749   0.696    0.487    </span></span>
+<span><span class="co">#&gt; DLCETE28_G.l1 -0.0003844  0.0020534  -0.187    0.852    </span></span>
+<span><span class="co">#&gt; DLIGAE_G.l1    0.0042967  0.0176732   0.243    0.808    </span></span>
+<span><span class="co">#&gt; DLIPI_G.l1    -0.0154936  0.0105907  -1.463    0.145    </span></span>
+<span><span class="co">#&gt; DLINPC_G.l2   -0.0408406  0.0667181  -0.612    0.541    </span></span>
+<span><span class="co">#&gt; DLTC_G.l2      0.0057580  0.0051995   1.107    0.269    </span></span>
+<span><span class="co">#&gt; DLCETE28_G.l2  0.0015534  0.0020603   0.754    0.452    </span></span>
+<span><span class="co">#&gt; DLIGAE_G.l2   -0.0059282  0.0170903  -0.347    0.729    </span></span>
+<span><span class="co">#&gt; DLIPI_G.l2     0.0042370  0.0105063   0.403    0.687    </span></span>
+<span><span class="co">#&gt; const          0.0023632  0.0003116   7.583 6.97e-13 ***</span></span>
+<span><span class="co">#&gt; ---</span></span>
+<span><span class="co">#&gt; Signif. codes:  </span></span>
+<span><span class="co">#&gt; 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Residual standard error: 0.002139 on 245 degrees of freedom</span></span>
+<span><span class="co">#&gt; Multiple R-Squared: 0.1493,  Adjusted R-squared: 0.1146 </span></span>
+<span><span class="co">#&gt; F-statistic:   4.3 on 10 and 245 DF,  p-value: 1.531e-05 </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Estimation results for equation DLTC_G: </span></span>
+<span><span class="co">#&gt; ======================================= </span></span>
+<span><span class="co">#&gt; DLTC_G = DLINPC_G.l1 + DLTC_G.l1 + DLCETE28_G.l1 + DLIGAE_G.l1 + DLIPI_G.l1 + DLINPC_G.l2 + DLTC_G.l2 + DLCETE28_G.l2 + DLIGAE_G.l2 + DLIPI_G.l2 + const </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;                Estimate Std. Error t value Pr(&gt;|t|)    </span></span>
+<span><span class="co">#&gt; DLINPC_G.l1   -3.221572   0.887833  -3.629 0.000347 ***</span></span>
+<span><span class="co">#&gt; DLTC_G.l1      0.284813   0.070937   4.015 7.91e-05 ***</span></span>
+<span><span class="co">#&gt; DLCETE28_G.l1 -0.038985   0.027613  -1.412 0.159270    </span></span>
+<span><span class="co">#&gt; DLIGAE_G.l1   -0.035047   0.237666  -0.147 0.882889    </span></span>
+<span><span class="co">#&gt; DLIPI_G.l1     0.207555   0.142422   1.457 0.146309    </span></span>
+<span><span class="co">#&gt; DLINPC_G.l2    1.185665   0.897215   1.321 0.187569    </span></span>
+<span><span class="co">#&gt; DLTC_G.l2     -0.186162   0.069922  -2.662 0.008271 ** </span></span>
+<span><span class="co">#&gt; DLCETE28_G.l2  0.034580   0.027707   1.248 0.213211    </span></span>
+<span><span class="co">#&gt; DLIGAE_G.l2   -0.287855   0.229828  -1.252 0.211590    </span></span>
+<span><span class="co">#&gt; DLIPI_G.l2     0.046610   0.141287   0.330 0.741761    </span></span>
+<span><span class="co">#&gt; const          0.010145   0.004191   2.421 0.016220 *  </span></span>
+<span><span class="co">#&gt; ---</span></span>
+<span><span class="co">#&gt; Signif. codes:  </span></span>
+<span><span class="co">#&gt; 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Residual standard error: 0.02877 on 245 degrees of freedom</span></span>
+<span><span class="co">#&gt; Multiple R-Squared: 0.1237,  Adjusted R-squared: 0.08789 </span></span>
+<span><span class="co">#&gt; F-statistic: 3.457 on 10 and 245 DF,  p-value: 0.0002874 </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Estimation results for equation DLCETE28_G: </span></span>
+<span><span class="co">#&gt; =========================================== </span></span>
+<span><span class="co">#&gt; DLCETE28_G = DLINPC_G.l1 + DLTC_G.l1 + DLCETE28_G.l1 + DLIGAE_G.l1 + DLIPI_G.l1 + DLINPC_G.l2 + DLTC_G.l2 + DLCETE28_G.l2 + DLIGAE_G.l2 + DLIPI_G.l2 + const </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;                Estimate Std. Error t value Pr(&gt;|t|)  </span></span>
+<span><span class="co">#&gt; DLINPC_G.l1    3.547010   2.044696   1.735   0.0840 .</span></span>
+<span><span class="co">#&gt; DLTC_G.l1      0.106557   0.163369   0.652   0.5149  </span></span>
+<span><span class="co">#&gt; DLCETE28_G.l1  0.106108   0.063594   1.669   0.0965 .</span></span>
+<span><span class="co">#&gt; DLIGAE_G.l1   -0.124387   0.547350  -0.227   0.8204  </span></span>
+<span><span class="co">#&gt; DLIPI_G.l1     0.269513   0.328001   0.822   0.4121  </span></span>
+<span><span class="co">#&gt; DLINPC_G.l2   -3.562148   2.066305  -1.724   0.0860 .</span></span>
+<span><span class="co">#&gt; DLTC_G.l2      0.128717   0.161031   0.799   0.4249  </span></span>
+<span><span class="co">#&gt; DLCETE28_G.l2  0.038798   0.063810   0.608   0.5437  </span></span>
+<span><span class="co">#&gt; DLIGAE_G.l2    0.870921   0.529299   1.645   0.1012  </span></span>
+<span><span class="co">#&gt; DLIPI_G.l2    -0.116675   0.325388  -0.359   0.7202  </span></span>
+<span><span class="co">#&gt; const         -0.005317   0.009652  -0.551   0.5822  </span></span>
+<span><span class="co">#&gt; ---</span></span>
+<span><span class="co">#&gt; Signif. codes:  </span></span>
+<span><span class="co">#&gt; 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Residual standard error: 0.06626 on 245 degrees of freedom</span></span>
+<span><span class="co">#&gt; Multiple R-Squared: 0.06876, Adjusted R-squared: 0.03075 </span></span>
+<span><span class="co">#&gt; F-statistic: 1.809 on 10 and 245 DF,  p-value: 0.05961 </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Estimation results for equation DLIGAE_G: </span></span>
+<span><span class="co">#&gt; ========================================= </span></span>
+<span><span class="co">#&gt; DLIGAE_G = DLINPC_G.l1 + DLTC_G.l1 + DLCETE28_G.l1 + DLIGAE_G.l1 + DLIPI_G.l1 + DLINPC_G.l2 + DLTC_G.l2 + DLCETE28_G.l2 + DLIGAE_G.l2 + DLIPI_G.l2 + const </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;                Estimate Std. Error t value Pr(&gt;|t|)  </span></span>
+<span><span class="co">#&gt; DLINPC_G.l1    1.184559   0.461082   2.569   0.0108 *</span></span>
+<span><span class="co">#&gt; DLTC_G.l1     -0.063718   0.036840  -1.730   0.0850 .</span></span>
+<span><span class="co">#&gt; DLCETE28_G.l1  0.008687   0.014341   0.606   0.5452  </span></span>
+<span><span class="co">#&gt; DLIGAE_G.l1   -0.184057   0.123428  -1.491   0.1372  </span></span>
+<span><span class="co">#&gt; DLIPI_G.l1     0.135931   0.073965   1.838   0.0673 .</span></span>
+<span><span class="co">#&gt; DLINPC_G.l2   -1.042586   0.465955  -2.238   0.0262 *</span></span>
+<span><span class="co">#&gt; DLTC_G.l2      0.022293   0.036313   0.614   0.5398  </span></span>
+<span><span class="co">#&gt; DLCETE28_G.l2 -0.018839   0.014389  -1.309   0.1917  </span></span>
+<span><span class="co">#&gt; DLIGAE_G.l2   -0.272896   0.119358  -2.286   0.0231 *</span></span>
+<span><span class="co">#&gt; DLIPI_G.l2     0.132921   0.073375   1.812   0.0713 .</span></span>
+<span><span class="co">#&gt; const          0.001485   0.002176   0.682   0.4958  </span></span>
+<span><span class="co">#&gt; ---</span></span>
+<span><span class="co">#&gt; Signif. codes:  </span></span>
+<span><span class="co">#&gt; 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Residual standard error: 0.01494 on 245 degrees of freedom</span></span>
+<span><span class="co">#&gt; Multiple R-Squared: 0.1046,  Adjusted R-squared: 0.06802 </span></span>
+<span><span class="co">#&gt; F-statistic: 2.861 on 10 and 245 DF,  p-value: 0.002173 </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Estimation results for equation DLIPI_G: </span></span>
+<span><span class="co">#&gt; ======================================== </span></span>
+<span><span class="co">#&gt; DLIPI_G = DLINPC_G.l1 + DLTC_G.l1 + DLCETE28_G.l1 + DLIGAE_G.l1 + DLIPI_G.l1 + DLINPC_G.l2 + DLTC_G.l2 + DLCETE28_G.l2 + DLIGAE_G.l2 + DLIPI_G.l2 + const </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;                Estimate Std. Error t value Pr(&gt;|t|)  </span></span>
+<span><span class="co">#&gt; DLINPC_G.l1    2.061526   0.801864   2.571   0.0107 *</span></span>
+<span><span class="co">#&gt; DLTC_G.l1     -0.081057   0.064068  -1.265   0.2070  </span></span>
+<span><span class="co">#&gt; DLCETE28_G.l1 -0.005573   0.024940  -0.223   0.8234  </span></span>
+<span><span class="co">#&gt; DLIGAE_G.l1    0.454249   0.214653   2.116   0.0353 *</span></span>
+<span><span class="co">#&gt; DLIPI_G.l1    -0.270920   0.128631  -2.106   0.0362 *</span></span>
+<span><span class="co">#&gt; DLINPC_G.l2   -1.639854   0.810338  -2.024   0.0441 *</span></span>
+<span><span class="co">#&gt; DLTC_G.l2      0.066871   0.063151   1.059   0.2907  </span></span>
+<span><span class="co">#&gt; DLCETE28_G.l2 -0.026739   0.025024  -1.069   0.2863  </span></span>
+<span><span class="co">#&gt; DLIGAE_G.l2   -0.196948   0.207574  -0.949   0.3437  </span></span>
+<span><span class="co">#&gt; DLIPI_G.l2    -0.013132   0.127607  -0.103   0.9181  </span></span>
+<span><span class="co">#&gt; const         -0.001787   0.003785  -0.472   0.6373  </span></span>
+<span><span class="co">#&gt; ---</span></span>
+<span><span class="co">#&gt; Signif. codes:  </span></span>
+<span><span class="co">#&gt; 0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Residual standard error: 0.02598 on 245 degrees of freedom</span></span>
+<span><span class="co">#&gt; Multiple R-Squared: 0.09088, Adjusted R-squared: 0.05377 </span></span>
+<span><span class="co">#&gt; F-statistic: 2.449 on 10 and 245 DF,  p-value: 0.008383 </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Covariance matrix of residuals:</span></span>
+<span><span class="co">#&gt;              DLINPC_G     DLTC_G DLCETE28_G   DLIGAE_G</span></span>
+<span><span class="co">#&gt; DLINPC_G    4.577e-06 -3.256e-06  4.284e-07  6.192e-06</span></span>
+<span><span class="co">#&gt; DLTC_G     -3.256e-06  8.276e-04  3.273e-04 -1.598e-04</span></span>
+<span><span class="co">#&gt; DLCETE28_G  4.284e-07  3.273e-04  4.390e-03  7.695e-05</span></span>
+<span><span class="co">#&gt; DLIGAE_G    6.192e-06 -1.598e-04  7.695e-05  2.232e-04</span></span>
+<span><span class="co">#&gt; DLIPI_G     1.433e-05 -3.145e-04  1.211e-04  3.354e-04</span></span>
+<span><span class="co">#&gt;               DLIPI_G</span></span>
+<span><span class="co">#&gt; DLINPC_G    1.433e-05</span></span>
+<span><span class="co">#&gt; DLTC_G     -3.145e-04</span></span>
+<span><span class="co">#&gt; DLCETE28_G  1.211e-04</span></span>
+<span><span class="co">#&gt; DLIGAE_G    3.354e-04</span></span>
+<span><span class="co">#&gt; DLIPI_G     6.751e-04</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Correlation matrix of residuals:</span></span>
+<span><span class="co">#&gt;             DLINPC_G   DLTC_G DLCETE28_G DLIGAE_G  DLIPI_G</span></span>
+<span><span class="co">#&gt; DLINPC_G    1.000000 -0.05291   0.003022  0.19372  0.25782</span></span>
+<span><span class="co">#&gt; DLTC_G     -0.052911  1.00000   0.171697 -0.37187 -0.42073</span></span>
+<span><span class="co">#&gt; DLCETE28_G  0.003022  0.17170   1.000000  0.07774  0.07033</span></span>
+<span><span class="co">#&gt; DLIGAE_G    0.193715 -0.37187   0.077740  1.00000  0.86403</span></span>
+<span><span class="co">#&gt; DLIPI_G     0.257823 -0.42073   0.070327  0.86403  1.00000</span></span>
+<span></span>
+<span><span class="co">#Impulse response</span></span>
+<span><span class="va">IR_DLINPC</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/vars/man/irf.html">irf</a></span><span class="op">(</span><span class="va">VAR_p</span>, n.ahead <span class="op">=</span> <span class="fl">12</span>, boot <span class="op">=</span> <span class="cn">TRUE</span>, </span>
+<span>                 ci <span class="op">=</span> <span class="fl">0.95</span>, response <span class="op">=</span> <span class="st">"DLINPC_G"</span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb52"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co">#Al correr esta línea de codigo se obtienen los </span></span>
+<span><span class="co">#plots correspondientes a la tabla 6.7</span></span>
+<span></span>
+<span><span class="co">#plot(IR_DLINPC)</span></span></code></pre></div>
+<div class="inline-table"><table class="table table-sm">
+<caption>
+<span id="tab:IRVARTC">Table 6.7: </span> Gráficas de Impulso-respuesta de la serie <span class="math inline">\(DLTC_t\)</span> ante cambios en los residuales del resto de las series y de la propia serie.</caption>
 <colgroup>
-<col width="50%" />
-<col width="50%" />
+<col width="50%">
+<col width="50%">
 </colgroup>
 <tbody>
 <tr class="odd">
-<td align="center"><img src="imagenes/IR_DLTC_1.png" width="350" /></td>
-<td align="center"><img src="imagenes/IR_DLTC_2.png" width="350" /></td>
+<td align="center"><img src="imagenes/IR_DLTC_1.png" width="350"></td>
+<td align="center"><img src="imagenes/IR_DLTC_2.png" width="350"></td>
 </tr>
 <tr class="even">
-<td align="center"><img src="imagenes/IR_DLTC_3.png" width="350" /></td>
-<td align="center"><img src="imagenes/IR_DLTC_4.png" width="350" /></td>
+<td align="center"><img src="imagenes/IR_DLTC_3.png" width="350"></td>
+<td align="center"><img src="imagenes/IR_DLTC_4.png" width="350"></td>
 </tr>
 <tr class="odd">
-<td align="center"><img src="imagenes/IR_DLTC_5.png" width="350" /></td>
+<td align="center"><img src="imagenes/IR_DLTC_5.png" width="350"></td>
 <td align="center"></td>
 </tr>
 </tbody>
-</table>
+</table></div>
 <p>Los resultados muestran que la respuesta de <span class="math inline">\(DLTC_t\)</span> ante impulsos en los términos de error fue estadísticamente significativo sólo para alguunos de los casos y en periodos cortos de tiempo. El resto de los resultados de Impulso-Respuesta se encuentra en el Scrip llamado Clase 15 que se ubica en el repositorio de GitHub.</p>
 
 </div>
 </div>
-  </main>
-
-  <div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
-    <nav id="toc" data-toggle="toc" aria-label="On this page">
-      <h2>On this page</h2>
-      <div id="book-on-this-page"></div>
+  <div class="chapter-nav">
+<div class="prev"><a href="desestacionalizaci%C3%B3n-y-filtrado-de-series.html"><span class="header-section-number">5</span> Desestacionalización y filtrado de Series</a></div>
+<div class="next"><a href="procesos-no-estacionarios.html"><span class="header-section-number">7</span> Procesos No Estacionarios</a></div>
+</div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
+    <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
+      <ul class="nav navbar-nav">
+<li><a class="nav-link" href="#procesos-basados-en-vectores-autoregresivos"><span class="header-section-number">6</span> Procesos Basados en Vectores Autoregresivos</a></li>
+<li><a class="nav-link" href="#causalidad-de-granger"><span class="header-section-number">6.1</span> Causalidad de Granger</a></li>
+<li><a class="nav-link" href="#definici%C3%B3n-y-representaci%C3%B3n-del-sistema-o-modelo-varp"><span class="header-section-number">6.2</span> Definición y representación del Sistema o Modelo VAR(p)</a></li>
+<li><a class="nav-link" href="#an%C3%A1lisis-de-impulso-respuesta"><span class="header-section-number">6.3</span> Análisis de Impulso-Respuesta</a></li>
+</ul>
 
       <div class="book-extra">
         <ul class="list-unstyled">
-          <li><a id="book-source" href="#">View source <i class="fab fa-github"></i></a></li>
-          <li><a id="book-edit" href="#">Edit this page <i class="fab fa-github"></i></a></li>
+<li><a id="book-source" href="git@github.com:emilianoprzcls/bookdown-notas-series-de-tiempo.git/blob/master/05-VAR.Rmd">View source <i class="fab fa-github"></i></a></li>
+          <li><a id="book-edit" href="git@github.com:emilianoprzcls/bookdown-notas-series-de-tiempo.git/edit/master/05-VAR.Rmd">Edit this page <i class="fab fa-github"></i></a></li>
         </ul>
-      </div>
+</div>
     </nav>
-  </div>
+</div>
 
 </div>
 </div> <!-- .container -->
 
-<footer class="bg-primary text-light mt-5">
-  <div class="container"><div class="row">
+<footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
     <p>"<strong>Notas de Clase: Series de Tiempo</strong>" was written by Benjamín Oliva, Omar Alfaro-Rivera y Emiliano Pérez Caullieres. It was last built on 2022-08-07.</p>
@@ -1009,11 +1018,7 @@ Figure 6.2: Series en diferencias logarítmicas, enero de 2000 a julio de 201p
   </div>
 
 </div></div>
-</footer>
-
-
-<!-- dynamically load mathjax for compatibility with self-contained -->
-<script>
+</footer><!-- dynamically load mathjax for compatibility with self-contained --><script>
   (function () {
     var script = document.createElement("script");
     script.type = "text/javascript";
@@ -1025,8 +1030,7 @@ Figure 6.2: Series en diferencias logarítmicas, enero de 2000 a julio de 201p
     script.src = src;
     document.getElementsByTagName("head")[0].appendChild(script);
   })();
-</script>
-<script type="text/x-mathjax-config">const popovers = document.querySelectorAll('a.footnote-ref[data-toggle="popover"]');
+</script><script type="text/x-mathjax-config">const popovers = document.querySelectorAll('a.footnote-ref[data-toggle="popover"]');
 for (let popover of popovers) {
   const div = document.createElement('div');
   div.setAttribute('style', 'position: absolute; top: 0, left:0; width:0, height:0, overflow: hidden; visibility: hidden;');
@@ -1044,5 +1048,4 @@ for (let popover of popovers) {
 }
 </script>
 </body>
-
 </html>
