@@ -86,9 +86,54 @@ Para ejemplificar el procedimiento de cointegración utilizaremos las series de 
 
 En el Scrip Clase 17 de la capeta de GoogleDrive se encuentra el desarrollo de este ejemplo. Por principio, probaremos que todas las series son I(1), lo cual es cierto (ver Scrip para mayores detalles). En la Figura \@ref(fig:GCointegracion) se muestran las series en niveles y en diferencias, con lo cual ilustramos como es viable que las series sean I(1).
 
+
+```r
+#Dependencias
+library(ggplot2)
+library(dplyr)
+library(stats)
+library(MASS)
+library(strucchange)
+library(zoo)
+library(sandwich)
+library(urca)
+library(lmtest)
+library(vars)
+
+# Importamos Datos desde un archivo de R:
+#Los datos "cargados" son los originales y los ajustados por estacionalidad. Los cuales son:
+#* INPC: Indice Nacional de Precios al Consumidor (2QJul2018 = 100)
+#* TC: Tipo de Cambio FIX 
+#* CETE28: Tasa de rendimiento promedio mensual de los Cetes 28, en por ciento anual
+#* IGAE: Indicador global de la actividad económica (2013 = 100)
+#* IPI: Industrial Production Index (2012 = 100)
+
+load("BD/Clase_17/Datos_Ad.RData")
+
+## Conversion a series de tiempo:
+Datos_co <- ts(Datos_Ad[7: 11], 
+            start = c(2000, 1), 
+            end = c(2021, 7), 
+            freq = 12)
+
+LDatos <- log(Datos_co)
+
+DLDatos <- diff(log(Datos_co, base = exp(1)), 
+                lag = 1, 
+                differences = 1)
+
+# Gráficas
+```
+
 <div class="figure" style="text-align: center">
-<img src="imagenes/G_Cointegracion.png" alt="Series en niveles (logatirmos) y en diferencias logarítmicas para la prueba de Cointegración." width="100%" />
-<p class="caption">(\#fig:GCointegracion)Series en niveles (logatirmos) y en diferencias logarítmicas para la prueba de Cointegración.</p>
+<img src="07-Cointegracion_files/figure-html/GCointegracion-1.png" alt="Series en niveles (logatirmos) y en diferencias logarítmicas para la prueba de Cointegración." width="100%" />
+<p class="caption">(\#fig:GCointegracion-1)Series en niveles (logatirmos) y en diferencias logarítmicas para la prueba de Cointegración.</p>
+</div><div class="figure" style="text-align: center">
+<img src="07-Cointegracion_files/figure-html/GCointegracion-2.png" alt="Series en niveles (logatirmos) y en diferencias logarítmicas para la prueba de Cointegración." width="100%" />
+<p class="caption">(\#fig:GCointegracion-2)Series en niveles (logatirmos) y en diferencias logarítmicas para la prueba de Cointegración.</p>
+</div><div class="figure" style="text-align: center">
+<img src="07-Cointegracion_files/figure-html/GCointegracion-3.png" alt="Series en niveles (logatirmos) y en diferencias logarítmicas para la prueba de Cointegración." width="100%" />
+<p class="caption">(\#fig:GCointegracion-3)Series en niveles (logatirmos) y en diferencias logarítmicas para la prueba de Cointegración.</p>
 </div>
 
 
@@ -141,8 +186,20 @@ Donde el vector esta normalizado para la serie $LINPC_t$, por lo que concluímos
 
 Considerando lo anterior, podemos determinar $\hat{U}_t$ para esta ecuación de cointegración. En la Figura \@ref(fig:GUCointegration) mostramos los residuales estimados. Derivado de la impección visual parecería que estos no son estacionarios, condición que debería ser cierta. De esta forma, una prueba deseable es aplicar todas la pruebas de raíces unitarias a esta serie para mostrar que es I(0). En el Scrip llamado Clase 18 en la carpeta de GoogleDrive se muestran algunas pruebas sobre esta serie y se encuentra que es posible que no sea estacionaria.
 
+
+```r
+ 
+# Residuales:
+TT <- ts(c(1:259), 
+         start = c(2000, 1), 
+         end = c(2021, 7), 
+         freq = 12)
+
+U <- LDatos[ , 1] + 0.7559141*LDatos[ , 2] - 0.3623270*LDatos[ , 3] - 5.0035388*LDatos[ , 4] + 4.2690269*LDatos[ , 5] - 3.2113796
+```
+
 <div class="figure" style="text-align: center">
-<img src="imagenes/G_U_Cointegration.png" alt="Series en niveles (logatirmos) y en diferencias logarítmicas para la prueba de Cointegración." width="100%" />
+<img src="07-Cointegracion_files/figure-html/GUCointegration-1.png" alt="Series en niveles (logatirmos) y en diferencias logarítmicas para la prueba de Cointegración." width="100%" />
 <p class="caption">(\#fig:GUCointegration)Series en niveles (logatirmos) y en diferencias logarítmicas para la prueba de Cointegración.</p>
 </div>
 
