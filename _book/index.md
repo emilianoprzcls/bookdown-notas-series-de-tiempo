@@ -1,7 +1,7 @@
 --- 
 title: "Notas de Clase: Series de Tiempo"
 author: "Benjamín Oliva, Omar Alfaro-Rivera y Emiliano Pérez Caullieres"
-date: "2022-08-07"
+date: "2022-08-13"
 site: bookdown::bookdown_site
 documentclass: book
 bibliography: [book.bib, packages.bib]
@@ -55,19 +55,58 @@ Un primer ejemplo que puede ilustrar la presencia de los dos tipos de
 enfoques antes mencionadas es la Figura \@ref(fig:fig1). En esta figura se muestra la evolución del Indicador Global de la Actividad Económica (IGAE) en su versión global o del total de la economía y en su versión únicamente para las actividades primarias entre enero de 2002 y mayo de 2021.
 
 
+
+```r
+
+Base_1 <- read_excel("BD/Base_1_TimeSeries.xlsx")
+IGAE_2013 <- ts(Base_1$IGAE_2013, start = 2002, freq = 12)
+IGAE_PRIM_2013 <- ts(Base_1$IGAE_PRIM_2013, start = 2002, freq = 12) 
+ICC <- ts(Base_1$ICC, start = 2002, freq = 12)
+ICC_LAG <- ts(Base_1$ICC_LAG, start = 2002, freq = 12)
+IPC_BMV <- ts(Base_1$IPC_BMV, start = 2002, freq = 12)
+TDC <- ts(Base_1$TDC, start = 2002, freq = 12)
+
+plot(IGAE_2013, type = "l", lwd = 1, col = "red", ylab = "Indice", xlab = "Tiempo", ylim = c(60,160)) 
+par(new = T) 
+# Indicador Global de la Actividad Econ?mica, Actividades Primarias, base 2008
+plot(IGAE_PRIM_2013, type = "l", lwd = 1, col = "blue", ylab = "Indice", xlab = "Tiempo", ylim = c(60,160))
+# Leyenda
+legend("topleft", c("IGAE","IGAE Act. Prim."), cex = 0.8, lty = 1:1, col = c("red", "blue"))
+```
+
 <div class="figure" style="text-align: center">
 <img src="index_files/figure-html/fig1-1.png" alt="Indicador Global de Actividad Económica (IGAE) Global y para las Actividades Primarias (2008=100), Ene.2002 - May.2021" width="672" />
 <p class="caption">(\#fig:fig1)Indicador Global de Actividad Económica (IGAE) Global y para las Actividades Primarias (2008=100), Ene.2002 - May.2021</p>
 </div>
 
+```r
+par(new = F)
+```
+
 Como se puede observar, el IGAE del total de la economía muestra, principalmente, que el enfoque del tiempo es más relevante. Es decir, que existe cierta persistencia en el indicador, lo que significa que la economía crece en razón del crecimiento reportado en periodos pasados. No obstante, lo que no podemos reconocer es que los eventos futuros tienen un efecto en el desempeño de la economía hoy día. Así, no es común observar cambios abruptos
 del indicador, salvo por la crisis global de 2008 y la reciente crisis causada
 por la Covid-19.
+
+
+```r
+
+plot(ICC, type = "l", lwd = 1, col = "red", ylab = "Indice", xlab = "Tiempo", ylim = c(29, 50))
+# Comando que indica a R que sin borrar la grafica anterior, grafique la siguiente.
+par(new = T) 
+# Indice ??Como considera usted la situacion economica del pais hoy en dia comparada con la de hace 12 meses?, base enero 2003
+plot(ICC_LAG, type = "l", lwd = 1, col = "blue", ylab = "Indice", xlab = "Tiempo", ylim = c(29,50))
+# Leyenda
+legend("bottomleft", c("ICC","ICC lag"), cex = 0.8, lty = 1:1, col = c("red", "blue"))
+```
 
 <div class="figure" style="text-align: center">
 <img src="index_files/figure-html/fig2-1.png" alt="Índice de Confianza del Consumidor (ICC): General y resultado de ¿Cómo considera usted la situación economica del país hoy en día comparada con la de hace 12 meses? (puntos), Ene.2002-may.2021" width="672" />
 <p class="caption">(\#fig:fig2)Índice de Confianza del Consumidor (ICC): General y resultado de ¿Cómo considera usted la situación economica del país hoy en día comparada con la de hace 12 meses? (puntos), Ene.2002-may.2021</p>
 </div>
+
+```r
+par(new = F)
+```
 
 Por el contrario, el IGAE de las actividades primarias muestra una presencia
 significativa de la importancia de la frecuencia. No pasa desapercibido que
@@ -83,10 +122,25 @@ Como segundo ejemplo, en la Figura \@ref(fig:fig2) se ilustra la evolución reci
 Destacamos que el ICC mide las expectativas de los consumidores en
 razón de la información pasada y de la esperada, segun dichos consumidores.
 
+
+```r
+par(mfrow=c(1,2))
+
+# Indice de Precios y Cotizaciones de la Bolsa Mexicana de Valores
+plot(IPC_BMV, type = "l", lwd = 1, col = "red", ylab = "Indice", xlab = "Tiempo", main = "Indice de Precios y Cotizaciones BMV")
+# Tipo de Cambio para Solventar Obligaciones en Moneda Extranjera
+plot(TDC, type = "l", lwd = 1, col = "blue", ylab = "Pesos X Dolar", xlab = "Tiempo", main = "Tipo de Cambio")
+```
+
 <div class="figure" style="text-align: center">
 <img src="index_files/figure-html/fig3-1.png" alt="Índice de Precios y Cotizaciones de la Bolsa Mexicana de Valores (Panel Derecho) y Tipo de Cambio para Solventar Obligaciones en Moneda Extranjera, pesos por dólar (Panel izquierdo), Ene.2002-May.2021 " width="672" />
 <p class="caption">(\#fig:fig3)Índice de Precios y Cotizaciones de la Bolsa Mexicana de Valores (Panel Derecho) y Tipo de Cambio para Solventar Obligaciones en Moneda Extranjera, pesos por dólar (Panel izquierdo), Ene.2002-May.2021 </p>
 </div>
+
+```r
+par(mfrow=c(1,1))
+
+```
 
 Así, es probable que las dos series de tiempo exhiban un gran peso para los
 eventos pasados, pero a la vez, un componente -probablemente menor- del
@@ -101,20 +155,55 @@ Como tercer ejemplo se muestra la evolución de dos series. La Figura \@ref(fig:
 Por otro lado, en la Figura \@ref(fig:fig3) se presenta la evolución del Tipo de Cambio (TDC){indicador financiero que se suele utilizar como medio de reserva de valor. Esto, en razón de que el TDC es conocido como un instrumento que en momentos de crisis toma valores contraciclicos de la economía mexicana. No obstante, ambos indicadores no son comparables. Para hacerlos comparbles
 en la Figura \@ref(fig:fig4) se presentan en versión índice con una base en el primer mes de la muestra. 
 
+
+```r
+
+IPC_BMV_I <- 100*IPC_BMV/IPC_BMV[1]
+TDC_I <- 100*TDC/TDC[1]
+# Indice del indice de Precios y Cotizaciones de la Bolsa Mexicana de Valores
+plot(IPC_BMV_I, type = "l", lwd = 1, col = "red", ylab = "Indice", xlab = "Tiempo", ylim = c(80,740))
+# Comando que indica a R que sin borrar la grafica anterior, grafique la siguiente.
+par(new = T)
+# Indice del Tipo de Cambio para Solventar Obligaciones en Moneda Extranjera
+plot(TDC_I, type = "l", lwd = 1, col = "blue", ylab = "Indice", xlab = "Tiempo", ylim = c(80,740))
+# Leyenda
+legend("topleft", c("Indice del IPC","Indice del TDC"), cex = 0.8, lty = 1:1, col = c("red", "blue"))
+```
+
 <div class="figure" style="text-align: center">
 <img src="index_files/figure-html/fig4-1.png" alt="Índice del índice de Precios y Cotizaciones de la Bolsa Mexicana de Valores (Panel Derecho) e Índice del Tipo de Cambio para Solventar Obligaciones en Moneda Extranjera (ambos enero de 2002 = 100), pesos por dólar (Panel izquierdo), Ene.2002-May.2021 " width="672" />
 <p class="caption">(\#fig:fig4)Índice del índice de Precios y Cotizaciones de la Bolsa Mexicana de Valores (Panel Derecho) e Índice del Tipo de Cambio para Solventar Obligaciones en Moneda Extranjera (ambos enero de 2002 = 100), pesos por dólar (Panel izquierdo), Ene.2002-May.2021 </p>
 </div>
+
+```r
+par(new = F)
+```
 
 En la perspectiva de la Figura \@ref(fig:fig4) se puede apreciar que el TDC no es tan rentable, ya que una inversión en la BMV mediante el IPC, en el largo plazo, muestra más redimientos. Asimismo, la Figura \@ref(fig:fig4) ilustra que en ambas series se observa un dominio de la condición de tiempo y no uno de frecuencia. Es decir, tanto el IPC como el TDC no responden a condiciones como ciclos o temporadas que si son observables en actividades económicas como las
 primarias. 
 
 Finalmente, la Figura \@ref(fig:fig5) ilustra un característica que también resulta de gran interés en el analásis de series de tiempo: los datos de alta frecuencia y de comportamiento no regular. Como se puede observar, en la Figura \@ref(fig:fig5) se muestran las diferencias logarítmicas de las series de IGAE de la actividad total, el IPC y el TDC.
 
+
+```r
+
+par(mfrow=c(3,1))
+# Indicador Global de la Actividad Econ?mica, base 2008
+plot(diff(log(IGAE_2013), lag = 1), type = "l", lwd = 1, col = "red", ylab = "Var. %", xlab = "Tiempo", main = "Indicador Global de la Actividad Economica") 
+# Indice de Precios y Cotizaciones de la Bolsa Mexicana de Valores
+plot(diff(log(IPC_BMV), lag = 1), type = "l", lwd = 1, col = "red", ylab = "Var. %", xlab = "Tiempo", main = "Indice de Precios y Cotizaciones BMV")
+# Tipo de Cambio para Solventar Obligaciones en Moneda Extranjera
+plot(diff(log(TDC), lag = 1), type = "l", lwd = 1, col = "blue", ylab = "Pesos X Dolar", xlab = "Tiempo", main = "Tipo de Cambio")
+```
+
 <div class="figure" style="text-align: center">
 <img src="index_files/figure-html/fig5-1.png" alt="Tasas de Crecimiento mensuales (diferencias logarítmicas) de Indicador Global de la Actividad Económica, Índice de Precios y Cotizaciones de la Bolsa Mexicana de Valores (Panel Derecho) y Tipo de Cambio para Solventar Obligaciones en Moneda Extranjera, Ene.2002-May.2021 " width="90%" />
 <p class="caption">(\#fig:fig5)Tasas de Crecimiento mensuales (diferencias logarítmicas) de Indicador Global de la Actividad Económica, Índice de Precios y Cotizaciones de la Bolsa Mexicana de Valores (Panel Derecho) y Tipo de Cambio para Solventar Obligaciones en Moneda Extranjera, Ene.2002-May.2021 </p>
 </div>
+
+```r
+par(mfrow=c(1,1))
+```
 
 Dichas diferencia se pueden interpretar como una tasa de crecimiento de las series por las siguientes razones. Consideremos una serie de tiempo dada por $y_t$, cuya versión logarítmica es $ln(y_t$). De esta forma, la diferencia logarítmica esta dada por la ecuación \@ref(eq:difflog):
 

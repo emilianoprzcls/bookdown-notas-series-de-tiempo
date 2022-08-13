@@ -198,7 +198,7 @@ Cov(X_t, X_{t-\tau}) &amp; = &amp; \mathbb{E}[(X_t - \mu)(X_{t-\tau} - \mu)] \no
 <p>La Figura <a href="procesos-estacionarios-univariados.html#fig:GAR1Real">4.1</a> ilustra el comportamiento que se debería observar en una serie considerando el procedimiento iterativo de construcción. Por su parte, la Figura <a href="procesos-estacionarios-univariados.html#fig:GAR1Teo">4.2</a> ilustra el proceso o trayectoria de la solución de la serie de tiempo. Finalmente, las Figuras <a href="procesos-estacionarios-univariados.html#fig:GAR1FACr">4.3</a> y <a href="procesos-estacionarios-univariados.html#fig:GAR1FACr">4.3</a> muestran el correlograma calculado considerando una función de autocorrelación aplicada al porceso real y una función de autocorrelación aplicada al proceso teórico, respectivamente.</p>
 <p>Recordemos que una trayectoria de equilibrio o solución de un <span class="math inline">\(AR(1)\)</span> es como se muestra en la ecuación <a href="procesos-estacionarios-univariados.html#eq:AR1Sol">(4.6)</a>. Así, nuestra serie simulada cumple con la característica de que los errores son más relevantes cuando la serie es corta. Por el contrario, los errores son menos relevantes, cuando la serie es muy larga. La Figura <a href="procesos-estacionarios-univariados.html#fig:GAR1Com">4.5</a> ilustra esta observación de la trayectoria de equilibrio.</p>
 <p>Para el segundo ejemplo consideremos una aplicación a una serie de tiempo en especifico: Pasajeros transportados mensualmente en el Sistema de Transporte Colectivo Metro (pasajeros medidos en millones).<a class="footnote-ref" tabindex="0" data-toggle="popover" data-content="&lt;p&gt;Fuente: INEGI, .&lt;/p&gt;"><sup>4</sup></a></p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org">ggplot2</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org">dplyr</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://readxl.tidyverse.org">readxl</a></span><span class="op">)</span></span>
@@ -245,7 +245,7 @@ Cov(X_t, X_{t-\tau}) &amp; = &amp; \mathbb{E}[(X_t - \mu)(X_{t-\tau} - \mu)] \no
 Figure 4.1: AR(1) considerando <span class="math inline">\(X_t=5+0.9X_{t-1}+U_t\)</span> ; <span class="math inline">\(X_0=50\)</span> y que <span class="math inline">\(U_t\)</span>~<span class="math inline">\(N(0, 4)\)</span> y que <span class="math inline">\(U_t \sim \mathcal{N}(0, 4)\)</span>
 </p>
 </div>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">X_t</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">Tiempo</span>, y <span class="op">=</span> <span class="va">X_t</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html">geom_line</a></span><span class="op">(</span>size <span class="op">=</span> <span class="fl">0.5</span>, color <span class="op">=</span> <span class="st">"darkblue"</span><span class="op">)</span> <span class="op">+</span></span>
@@ -267,7 +267,7 @@ Figure 4.1: AR(1) considerando <span class="math inline">\(X_t=5+0.9X_{t-1}+U_t\
 Figure 4.2: <span class="math inline">\(X_t = \frac{5}{1 - 0.9} + \sum_{j = 0}^{t-1} 0.9^j U_{t-j}\)</span>, y que <span class="math inline">\(U_t \sim \mathcal{N}(0, 4)\)</span>}
 </p>
 </div>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/stats/acf.html">acf</a></span><span class="op">(</span><span class="va">X_t</span><span class="op">$</span><span class="va">XR_t</span>, lag.max <span class="op">=</span> <span class="fl">30</span>, col <span class="op">=</span> <span class="st">"blue"</span>, </span>
 <span>    ylab <span class="op">=</span> <span class="st">"Autocorrelacion"</span>,</span>
@@ -279,7 +279,7 @@ Figure 4.2: <span class="math inline">\(X_t = \frac{5}{1 - 0.9} + \sum_{j = 0}^{
 Figure 4.3: Función de autocorrelación de un AR(1): <span class="math inline">\(\rho(\tau)=\frac{\gamma( au)}{\gamma(0)}\)</span>
 </p>
 </div>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/barplot.html">barplot</a></span><span class="op">(</span><span class="va">X_t</span><span class="op">$</span><span class="va">rho</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">30</span><span class="op">]</span>, names.arg <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">30</span><span class="op">)</span>, col <span class="op">=</span> <span class="st">"blue"</span>, border<span class="op">=</span><span class="st">"blue"</span>, density <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">10</span>,<span class="fl">20</span><span class="op">)</span>, </span>
 <span>        ylab <span class="op">=</span> <span class="st">"Autocorrelacion"</span>, </span>
@@ -291,7 +291,7 @@ Figure 4.3: Función de autocorrelación de un AR(1): <span class="math inline">
 Figure 4.4: Función de autocorrelación de un AR(1): <span class="math inline">\(\rho(\tau)= a_1^\tau\)</span>
 </p>
 </div>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">X_t</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">Tiempo</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html">geom_line</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>y <span class="op">=</span> <span class="va">XR_t</span><span class="op">)</span>, size <span class="op">=</span> <span class="fl">0.5</span>, color <span class="op">=</span> <span class="st">"darkred"</span><span class="op">)</span> <span class="op">+</span></span>
@@ -348,7 +348,7 @@ PaxDLMetro_t  =  0.0007 &amp; - &amp; 0.6194 PaxDLMetro_{t-1} \\
     X_t = a_0 + a_1 X_{t-1} + a_2 X_{t-2} + U_t
     \tag{4.11}
 \end{equation}\]</span></p>
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">stats</span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://readxl.tidyverse.org">readxl</a></span><span class="op">)</span></span>
 <span><span class="va">Datos</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://readxl.tidyverse.org/reference/read_excel.html">read_excel</a></span><span class="op">(</span><span class="st">"BD/Base_Transporte.xlsx"</span>, sheet <span class="op">=</span> <span class="st">"Datos"</span>, col_names <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
@@ -394,7 +394,7 @@ PaxDLMetro_t  =  0.0007 &amp; - &amp; 0.6194 PaxDLMetro_{t-1} \\
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">Pax_DLMetro</span>, xlab <span class="op">=</span> <span class="st">"Tiempo"</span>, </span>
 <span>     main <span class="op">=</span> <span class="st">"Diff LN Pasajeros transportados (Millones) en el SCM"</span>, </span>
 <span>     col <span class="op">=</span> <span class="st">"darkred"</span><span class="op">)</span></span></code></pre></div>
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html">par</a></span><span class="op">(</span>mfrow <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">3</span>,<span class="fl">1</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
@@ -415,7 +415,7 @@ PaxDLMetro_t  =  0.0007 &amp; - &amp; 0.6194 PaxDLMetro_{t-1} \\
 Figure 4.6: Pasajeros transportados (Millones) en el metro de la CDM en niveles y en diferencias logaritmicas.
 </p>
 </div>
-<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html">par</a></span><span class="op">(</span>mfrow<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">1</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p>Donde <span class="math inline">\(U_t\)</span> denota un proceso puramente aleatorio con media cero (<span class="math inline">\(0\)</span>), varianza constante (<span class="math inline">\(\sigma^2\)</span>) y autocovarianza cero (<span class="math inline">\(Cov(U_t, U_s) = 0\)</span>, con <span class="math inline">\(t \neq s\)</span>), y un parametro <span class="math inline">\(a_2 \neq 0\)</span>. Así, utilizando el operador rezago podemos reescribir la ecuación <a href="procesos-estacionarios-univariados.html#eq:AR2Eq">(4.11)</a> como:
@@ -540,7 +540,7 @@ Figure 4.6: Pasajeros transportados (Millones) en el metro de la CDM en niveles 
 <span class="math display">\[\begin{eqnarray}
 \hat{\sigma}^2 &amp; = &amp; 0.009378 &amp; y &amp; AIC &amp; = &amp; -418.3
 \end{eqnarray}\]</span></p>
-<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="va">Datos1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://readxl.tidyverse.org/reference/read_excel.html">read_excel</a></span><span class="op">(</span><span class="st">"BD/Clase_06/Base_Transporte.xlsx"</span>, sheet <span class="op">=</span> <span class="st">"Datos"</span>, col_names <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="va">Pax_Nal1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/ts.html">ts</a></span><span class="op">(</span><span class="va">Datos1</span><span class="op">$</span><span class="va">Pax_Nal</span>, </span>
@@ -557,7 +557,7 @@ Figure 4.6: Pasajeros transportados (Millones) en el metro de la CDM en niveles 
 <span><span class="co"># Diferencias mensuales:</span></span>
 <span><span class="va">DLPax_Nal1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/ts.html">ts</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span><span class="op">(</span><span class="va">Datos1</span><span class="op">$</span><span class="va">Pax_Nal</span><span class="op">)</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lag.html">lag</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span><span class="op">(</span><span class="va">Datos1</span><span class="op">$</span><span class="va">Pax_Nal</span><span class="op">)</span>, k <span class="op">=</span> <span class="fl">1</span><span class="op">)</span>,</span>
 <span>                start <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2000</span>, <span class="fl">1</span><span class="op">)</span>, freq <span class="op">=</span> <span class="fl">12</span><span class="op">)</span></span></code></pre></div>
-<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html">par</a></span><span class="op">(</span>mfrow<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">3</span>,<span class="fl">1</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
@@ -578,7 +578,7 @@ Figure 4.6: Pasajeros transportados (Millones) en el metro de la CDM en niveles 
 Figure 4.7: Pasajeros transportados (Millones) en el metro de la CDM en niveles y en diferencias logaritmicas.
 </p>
 </div>
-<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html">par</a></span><span class="op">(</span>mfrow<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">1</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
@@ -616,12 +616,12 @@ Figure 4.7: Pasajeros transportados (Millones) en el metro de la CDM en niveles 
 <span><span class="co">#&gt; sigma^2 estimated as 0.02963:  log likelihood = 87.79,  aic = -167.57</span></span>
 <span></span>
 <span><span class="co">#plot(AR_DLPax_Nal$residuals, xlab = "Tiempo", ylab = "",main = "Residuales del AR (2) para DLN \nde pasajeros en vuelos nacionales de salida",col = "darkred")</span></span></code></pre></div>
-<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/source.html">source</a></span><span class="op">(</span><span class="st">"BD/Clase_06/arroots.R"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/source.html">source</a></span><span class="op">(</span><span class="st">"BD/Clase_06/plot.armaroots.R"</span><span class="op">)</span></span></code></pre></div>
-<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html">par</a></span><span class="op">(</span>mfrow<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">2</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
@@ -636,7 +636,7 @@ Figure 4.7: Pasajeros transportados (Millones) en el metro de la CDM en niveles 
 Figure 4.8: Inverso de las Raíces del polinomio característico.
 </p>
 </div>
-<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html">par</a></span><span class="op">(</span>mfrow<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">1</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p>Para ambos casos entre parentésis indicamos los errores estándar y reportamos el estadístico de Akaike, AIC. Finalmente, podemos determinar si las soluciones serán convergentes, para ello en la Figura <a href="procesos-estacionarios-univariados.html#fig:GRootsAR2">4.8</a> mostramos las raíces asociadas a cada uno de los polinomios. De la inspección visual podemos concluir que ambas propuesta de AR(2) representan una solución convergente y estable.</p>
@@ -767,7 +767,7 @@ Figure 4.8: Inverso de las Raíces del polinomio característico.
 \hat{\sigma}^2 &amp; = &amp; 0.02371 &amp; y &amp; AIC &amp; = &amp; -198.16
 \end{eqnarray}\]</span></p>
 <p>Entre parentésis indicamos los errores estándar y reportamos el estadístico de Akaike, AIC. Finalmente, podemos determinar si las soluciones serán convergentes, para ello en la Figura <a href="procesos-estacionarios-univariados.html#fig:GRootsARp">4.10</a> mostramos las raíces asociadas a cada uno de los polinomios. De la inspección visual podemos concluir que el AR(4) representan una solución convergente y estable.</p>
-<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb35"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="va">Datos2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://readxl.tidyverse.org/reference/read_excel.html">read_excel</a></span><span class="op">(</span><span class="st">"BD/Clase_07/Base_Transporte.xlsx"</span>, sheet <span class="op">=</span> <span class="st">"Datos"</span>, col_names <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/source.html">source</a></span><span class="op">(</span><span class="st">"BD/Clase_07/arroots.R"</span><span class="op">)</span></span>
@@ -787,7 +787,7 @@ Figure 4.8: Inverso de las Raíces del polinomio característico.
 <span><span class="va">DLPax_Int2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/ts.html">ts</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span><span class="op">(</span><span class="va">Datos2</span><span class="op">$</span><span class="va">Pax_Int</span><span class="op">)</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lag.html">lag</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span><span class="op">(</span><span class="va">Datos2</span><span class="op">$</span><span class="va">Pax_Int</span><span class="op">)</span>, k <span class="op">=</span> <span class="fl">1</span><span class="op">)</span>,</span>
 <span>                start <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2000</span>, <span class="fl">1</span><span class="op">)</span>, </span>
 <span>                freq <span class="op">=</span> <span class="fl">12</span><span class="op">)</span></span></code></pre></div>
-<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb36"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html">par</a></span><span class="op">(</span>mfrow<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">3</span>,<span class="fl">1</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
@@ -808,10 +808,10 @@ Figure 4.8: Inverso de las Raíces del polinomio característico.
 Figure 4.9: Pasajeros en vuelos internacionales de salida en niveles y en diferencias logaritmicas.
 </p>
 </div>
-<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb37"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html">par</a></span><span class="op">(</span>mfrow<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">1</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb38"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># AR(p) en NIVELES:</span></span>
 <span></span>
 <span><span class="va">AR_LPax_Int2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/arima.html">arima</a></span><span class="op">(</span><span class="va">LPax_Int2</span>, order <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">4</span>, <span class="fl">0</span>, <span class="fl">0</span><span class="op">)</span>, method <span class="op">=</span> <span class="st">"ML"</span><span class="op">)</span></span>
@@ -852,7 +852,7 @@ Figure 4.9: Pasajeros en vuelos internacionales de salida en niveles y en difere
 <span><span class="co">#plot(AR_DLPax_Int$residuals, xlab = "Tiempo", ylab = "DLN Pasajeros",</span></span>
 <span>     <span class="co">#main = "Residuales de un AR(4) para pasajeros en vuelos internacionales de salida",</span></span>
 <span>     <span class="co">#col = "darkblue")</span></span></code></pre></div>
-<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb39"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">plot.armaroots</span><span class="op">(</span><span class="fu">arroots</span><span class="op">(</span><span class="va">AR_DLPax_Int2</span><span class="op">)</span>,main<span class="op">=</span><span class="st">"Inverse AR roots of \nAR(p): Diff LN PAx Int"</span><span class="op">)</span></span></code></pre></div>
 <div class="figure" style="text-align: center">
 <span style="display:block;" id="fig:GRootsARp"></span>
@@ -1017,7 +1017,7 @@ Figure 4.10: Inverso de las Raíces del polinomio característico.
 <span class="header-section-number">4.3</span> Procesos ARMA(p, q) y ARIMA(p, d, q)<a class="anchor" aria-label="anchor" href="#procesos-armap-q-y-arimap-d-q"><i class="fas fa-link"></i></a>
 </h2>
 <p>Hemos establecido algunas relaciones las de los porcesos AR y los procesos MA, es decir, cómo un <span class="math inline">\(MA(q)\)</span> de la serie <span class="math inline">\(X_t\)</span> puede ser reexpresada como un <span class="math inline">\(AR(\infty)\)</span> de la serie <span class="math inline">\(U_t\)</span>, y viceversa un <span class="math inline">\(AR(p)\)</span> de la serie <span class="math inline">\(X_t\)</span> puede ser reeexpresada como un <span class="math inline">\(MA(\infty)\)</span>.</p>
-<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb40"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">Datos3</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://readxl.tidyverse.org/reference/read_excel.html">read_excel</a></span><span class="op">(</span><span class="st">"BD/Clase_09/Base_Transporte_ARIMA.xlsx"</span>, sheet <span class="op">=</span> <span class="st">"Datos"</span>, col_names <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/source.html">source</a></span><span class="op">(</span><span class="st">"BD/Clase_09/maroots.R"</span><span class="op">)</span></span>
@@ -1085,7 +1085,7 @@ Figure 4.10: Inverso de las Raíces del polinomio característico.
 <span><span class="va">D_Dic</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/ts.html">ts</a></span><span class="op">(</span><span class="va">Datos3</span><span class="op">$</span><span class="va">D_Dic</span>, </span>
 <span>            start <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2000</span>, <span class="fl">1</span><span class="op">)</span>, </span>
 <span>            freq <span class="op">=</span> <span class="fl">12</span><span class="op">)</span></span></code></pre></div>
-<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb41"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/include_graphics.html">include_graphics</a></span><span class="op">(</span><span class="st">"imagenes/G_Roots_MAq.png"</span><span class="op">)</span></span></code></pre></div>
 <div class="figure" style="text-align: center">
@@ -1269,7 +1269,7 @@ Figure 4.11: Inverso de las Raíces del polinomio característico.
     \hat{\sigma}^2 &amp; = &amp; 0.007096 &amp; y &amp; AIC &amp; = &amp; -475.12
 \end{eqnarray}\]</span></p>
 <p>Donde entre parentésis indicamos los errores estándar. Adicionalmente, reportamos el estadístico de Akaike (AIC). Finalmente, podemos determinar si las soluciones serán convergentes, para ello en la Figura <a href="procesos-estacionarios-univariados.html#fig:GRootsARMA11">4.12</a> mostramos las raíces asociadas a cada uno de los polinomios. De la inspección visual podemos concluir que tenemos una solución convergente y estable. Por su parte la Figura <a href="procesos-estacionarios-univariados.html#fig:GResidualsARMA11">4.13</a> muestra los residuales de la estimación del <span class="math inline">\(ARMA(1, 1)\)</span>.</p>
-<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb42"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">Datos4</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://readxl.tidyverse.org/reference/read_excel.html">read_excel</a></span><span class="op">(</span><span class="st">"BD/Clase_10.5/Base_Transporte_ARIMA.xlsx"</span>, sheet <span class="op">=</span> <span class="st">"Datos"</span>, col_names <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Funciones que extrae y grafica las raices del polinomio caracteristico</span></span>
@@ -1364,7 +1364,7 @@ Figure 4.11: Inverso de las Raíces del polinomio característico.
 <span><span class="co">#&gt; s.e.  0.0374</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; sigma^2 estimated as 0.02558:  log likelihood = 106.7,  aic = -197.41</span></span></code></pre></div>
-<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb43"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html">par</a></span><span class="op">(</span>mfrow<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">2</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
@@ -1379,7 +1379,7 @@ Figure 4.11: Inverso de las Raíces del polinomio característico.
 Figure 4.12: Inverso de las Raíces del polinomio característico de un ARMA(1,1)
 </p>
 </div>
-<div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb44"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html">par</a></span><span class="op">(</span>mfrow<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">1</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p>En lo que resta de este capítulo, utilizaremos la serie en diferencias logarítmicas de los pasajeros en vuelos nacionales de salida, <span class="math inline">\(DLPaxNal_t\)</span>, para discutir los ejemplos que ilustran cada uno de los puntos teóricos que a continuación exponemos.</p>
@@ -1390,7 +1390,7 @@ Figure 4.12: Inverso de las Raíces del polinomio característico de un ARMA(1,1
 <span class="header-section-number">4.4</span> Función de Autocorrelación Parcial<a class="anchor" aria-label="anchor" href="#funci%C3%B3n-de-autocorrelaci%C3%B3n-parcial"><i class="fas fa-link"></i></a>
 </h2>
 <p>Ahora introduciremos el concepto de Función de Autocorrelación Parcial (PACF, por sus siglas en inglés). Primero, dadas las condiciones de estabilidad y de convergencia, si suponemos que un proceso AR, MA, ARMA o ARIMA tienen toda la información de los rezagos de la serie en conjunto y toda la información de los promedio móviles del término de error, resulta importante construir una métrica para distinguir el efecto de <span class="math inline">\(X_{t - \tau}\)</span> o el efecto de <span class="math inline">\(U_{t - \tau}\)</span> (para cualquier <span class="math inline">\(\tau\)</span>) sobre <span class="math inline">\(X_t\)</span> de forma individual.</p>
-<div class="sourceCode" id="cb35"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb45"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">ARMA_DLPax_Nal</span><span class="op">$</span><span class="va">residuals</span>,</span>
 <span>     main <span class="op">=</span> <span class="st">"Residuales de un ARIMA LN Pasajeros en vuelos nacionales de salida"</span>,</span>
@@ -1469,7 +1469,7 @@ Figure 4.13: Inverso de las Raíces del polinomio característico de un ARMA(1,1
 <p>Posterior al análisis analítico platearemos un enfoque para interpretar las funciones de autocorrelación y autocorrelación parcial. Este enfoque pretende aportar al principio de parcimonia, en el cual podemos identificar el número de parámetros que posiblemente puede describir mejor a la serie en un modelo ARMA(p, q).</p>
 <p>En el Cuadro <a href="procesos-estacionarios-univariados.html#tab:foo1">4.1</a> se muestra un resumen de las caranterísticas que debemos observar para determinar el número de parámetros de cada uno de los componentes AR y MA. Lo anterior por observación de las funciones de autocorrelación y autocorrelación parcial. Este enfoque no es el más formal, más adelante implemtaremos uno más formal y que puede ser más claro de cómo determinar el númeto de parámetros.</p>
 <p>Continuando con el ejemplo en la Figura <a href="procesos-estacionarios-univariados.html#fig:GACFPACF">4.14</a> mostramos tanto la Función de Autocorrelación como la Función de Autocorrelación Parcial. En esta identificamos que ambas gráficas muestran que el modelo que explica a la variable <span class="math inline">\(DLPaxNal_t\)</span> tiene tanto componentes AR como MA. Sin embargo, dado lo errático del comportamiento de ambas funciones, resulta complicado determinar cuál sería un buen número de parametros <span class="math inline">\(p\)</span> y <span class="math inline">\(q\)</span> a considerar en el <span class="math inline">\(ARMA(p,q)\)</span>. Por esta razón a continuación platearemos algunas pruebas más formales para determinar dichos parámetros.</p>
-<div class="sourceCode" id="cb36"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb46"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html">par</a></span><span class="op">(</span>mfrow<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">2</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
@@ -1486,7 +1486,7 @@ Figure 4.13: Inverso de las Raíces del polinomio característico de un ARMA(1,1
 Figure 4.14: Función de Autocorrelación y la Función de Autocorrelación Parcial de una serie <span class="math inline">\(DLPaxNal_t\)</span>.
 </p>
 </div>
-<div class="sourceCode" id="cb37"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb47"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html">par</a></span><span class="op">(</span>mfrow<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">1</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 </div>
@@ -1620,7 +1620,7 @@ HQ = ln \left[ \frac{1}{T} \sum_{t=1}^{T} \left( \hat{U}_t^{(p)} \right) ^2 \rig
 <p>Al respecto, en el Cuadro <a href="procesos-estacionarios-univariados.html#tab:SelecARMApq">4.2</a> reportamos el criterio de Akaike que resultan de aplicar dicho criterio a los residuales resultantes de cada combinación de procesos <span class="math inline">\(ARMA(p, q)\)</span>. La forma de escoger será aquel modelo que reporta el criterio de Akaike menor. En la cuarta columna de la tabla se señala el valor del criterio de información que resulta ser el mínimo de todos los posibles.</p>
 <p>El Cuadro <a href="procesos-estacionarios-univariados.html#tab:SelecARMApq">4.2</a> reporta los resultados para 36 diferentes modelos, todos incluyen variables exogenas. Como resultado del análisis concluimos que el modelo más adecuado es el 24, el cual considera un <span class="math inline">\(ARMA(4, 6)\)</span>, con variables dummies para controlar la estacionalidad de los meses de enero, febrero, julio y diciembre. En el Cuadro <a href="procesos-estacionarios-univariados.html#tab:ResultARMApq">4.3</a> mostramos los resutados del modelo.</p>
 <p>No obstante, una inspección de los residuales del modelo nos permite sospechar que requiere de incluir un par de dummies más. Ambas, asociadas con la caída del transporte aéreo en 2009, principalmente asociado con la crisis mundial de ese año. La Figura <a href="procesos-estacionarios-univariados.html#fig:GResidualsARMA46">4.15</a> muestra los residuales mencionados.</p>
-<div class="sourceCode" id="cb38"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb48"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Funciones que determinan el rezago optimo (que minimiza el criterio de Akaike)</span></span>
 <span><span class="co">#Esta es una prueba mas formar respecto de la meta inspeccion grafica</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/source.html">source</a></span><span class="op">(</span><span class="st">"BD/Clase_09/Lag_Opt_ARIMA_Exog.R"</span><span class="op">)</span></span>
@@ -1769,7 +1769,7 @@ HQ = ln \left[ \frac{1}{T} \sum_{t=1}^{T} \left( \hat{U}_t^{(p)} \right) ^2 \rig
 <span><span class="co">#&gt; s.e.   0.0564     0.0099   0.0412   0.0434  0.0514  0.0431</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; sigma^2 estimated as 0.01722:  log likelihood = 151.37,  aic = -276.73</span></span></code></pre></div>
-<div class="sourceCode" id="cb39"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb49"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">ARMA_Ex_DLPax_Nal</span><span class="op">$</span><span class="va">residuals</span>, </span>
 <span>     ylab <span class="op">=</span> <span class="st">""</span>,</span>
@@ -1792,7 +1792,7 @@ Figure 4.15: Residuales del ARMA(4, 6) de una serie <span class="math inline">\(
     \mathbb{E}_t[X_{t+\tau}] = \delta + a_1 \mathbb{E}_t[X_{t+\tau-1}] + a_2 \mathbb{E}_t[X_{t+\tau-2}] + \ldots + + a_p \mathbb{E}_t[X_{t+\tau-p}]
     \tag{4.77}
 \end{eqnarray}\]</span></p>
-<div class="sourceCode" id="cb40"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb50"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Nueva Estimacion del proceso ARIMA(p, 1, q):</span></span>
 <span><span class="co">#CON variables exogenas rezagos optimos:</span></span>
 <span><span class="fu">Lag_Opt_ARIMA_Exog</span><span class="op">(</span>p_max <span class="op">=</span> <span class="fl">6</span>, q_max <span class="op">=</span> <span class="fl">6</span>, </span>
@@ -1910,7 +1910,7 @@ Figure 4.15: Residuales del ARMA(4, 6) de una serie <span class="math inline">\(
 <span><span class="co">#&gt; s.e.      0.0504</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; sigma^2 estimated as 0.002315:  log likelihood = 405.25,  aic = -764.49</span></span></code></pre></div>
-<div class="sourceCode" id="cb41"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb51"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">ARMA_Ex_DLPax_Nal_2</span><span class="op">$</span><span class="va">residuals</span>, </span>
 <span>     ylab <span class="op">=</span> <span class="st">""</span>,</span>
@@ -2078,7 +2078,7 @@ Figure 4.16: Residuales del ARMA(4, 6) de una serie <span class="math inline">\(
 </tbody>
 </table></div>
 <p>Continuando con el ejemplo, en la Figura <a href="procesos-estacionarios-univariados.html#fig:PaxNalf">4.17</a> mostramos el resultado del pronóstico de la serie a partir del modelo ARMA(4, 6) que hemos discutido anteriormente.</p>
-<div class="sourceCode" id="cb42"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb52"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Forecast:</span></span>
 <span><span class="va">Predict_Datos</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://readxl.tidyverse.org/reference/read_excel.html">read_excel</a></span><span class="op">(</span><span class="st">"BD/Clase_10/Predict_Base_Transporte_ARIMA.xlsx"</span>, sheet <span class="op">=</span> <span class="st">"Datos"</span>, col_names <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span></span>
@@ -2170,7 +2170,7 @@ Figure 4.16: Residuales del ARMA(4, 6) de una serie <span class="math inline">\(
 <span><span class="op">}</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/View.html">View</a></span><span class="op">(</span><span class="va">Pronostico_Arima</span><span class="op">)</span></span></code></pre></div>
-<div class="sourceCode" id="cb43"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb53"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">Pronostico_Arima</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">Periodo</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html">geom_line</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>y <span class="op">=</span> <span class="va">Pax_Nal_f</span>, color <span class="op">=</span> <span class="st">"Pax_Nal_f"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
@@ -2249,7 +2249,7 @@ Figure 4.17: Pronóstico de la serie <span class="math inline">\(PaxNAl_t\)</spa
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Notas de Clase: Series de Tiempo</strong>" was written by Benjamín Oliva, Omar Alfaro-Rivera y Emiliano Pérez Caullieres. It was last built on 2022-08-07.</p>
+    <p>"<strong>Notas de Clase: Series de Tiempo</strong>" was written by Benjamín Oliva, Omar Alfaro-Rivera y Emiliano Pérez Caullieres. It was last built on 2022-08-13.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

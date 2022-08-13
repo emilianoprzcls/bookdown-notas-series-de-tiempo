@@ -88,7 +88,7 @@
 - Tasa de rendimiento promedio mensual de los Cetes 28, en por ciento anual, <span class="math inline">\(CETE28_t\)</span>
 - Indicador global de la actividad económica (base 2013 = 100), <span class="math inline">\(IGAE_t\)</span>
 - Industrial Production Index o Índice de Producción Industrial de los Estados Unidos (base 2012 = 100), <span class="math inline">\(IPI_t\)</span></p>
-<div class="sourceCode" id="cb44"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb54"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">knitr</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/knitr/man/opts_chunk.html">opts_chunk</a></span><span class="op">$</span><span class="fu">set</span><span class="op">(</span>echo <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co">#install.packages("ggplot2")</span></span>
@@ -375,7 +375,7 @@ Figure 5.1: Índice Nacional de Precios al Consumidor (<span class="math inline"
 0 &amp; 0 &amp; 0 &amp; 0 &amp; \ldots &amp; 1 \\
 \end{pmatrix}
 \]</span></p>
-<div class="sourceCode" id="cb45"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb55"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">#install.packages("ggplot2")</span></span>
 <span><span class="co">#install.packages("dplyr")</span></span>
 <span><span class="co">#install.packages("readxl")</span></span>
@@ -643,7 +643,7 @@ Figure 5.2: Descomposición del Índice Nacional de Precios al Consumidor (<span
 </div>
 <p>En resumen, podemos decir que el filtro de Hodrick y Prescott (1997) es un algoritmo que mimiza las distancias o variaciones de la trayectoria de largo plazo. De esta forma, determina una trayectoria estable de largo plazo, por lo que las desviaciones respecto de esta trayectoria serán componentes de ciclos de negocio o cambios transitorios (tanto positivos como negativos).</p>
 <p>A contiuación, ilustraremos el filtro de Hodrick y Prescott (1997) para dos series desestacionalizadas: <span class="math inline">\(INPC_t\)</span> y <span class="math inline">\(TC_t\)</span>. Las Figura <a href="desestacionalizaci%C3%B3n-y-filtrado-de-series.html#fig:INPCHP">5.2</a> y Figura <a href="desestacionalizaci%C3%B3n-y-filtrado-de-series.html#fig:TCHP">5.3</a> muestran los resultados de la implementación del filtro.</p>
-<div class="sourceCode" id="cb46"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb56"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">TC_hpf</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/mFilter/man/hpfilter.html">hpfilter</a></span><span class="op">(</span><span class="va">TC</span>, freq <span class="op">=</span> <span class="fl">14400</span><span class="op">)</span></span>
 <span><span class="co">#plot(TC_hpf)</span></span></code></pre></div>
 <div class="figure" style="text-align: center">
@@ -682,7 +682,7 @@ Figure 5.3: Descomposición del Tipo de Cambio FIX (<span class="math inline">\(
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Notas de Clase: Series de Tiempo</strong>" was written by Benjamín Oliva, Omar Alfaro-Rivera y Emiliano Pérez Caullieres. It was last built on 2022-08-07.</p>
+    <p>"<strong>Notas de Clase: Series de Tiempo</strong>" was written by Benjamín Oliva, Omar Alfaro-Rivera y Emiliano Pérez Caullieres. It was last built on 2022-08-13.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

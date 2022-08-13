@@ -63,7 +63,7 @@ Un primer ejemplo que puede ilustrar la presencia de los dos tipos de
 enfoques antes mencionadas es la Figura \@ref(fig:fig1). En esta figura se muestra la evolución del Indicador Global de la Actividad Económica (IGAE) en su versión global o del total de la economía y en su versión únicamente para las actividades primarias entre enero de 2002 y mayo de 2021.
 
 
-```{r fig1, fig.cap="Indicador Global de Actividad Económica (IGAE) Global y para las Actividades Primarias (2008=100), Ene.2002 - May.2021",  echo=FALSE, fig.align='center'}
+```{r fig1, fig.cap="Indicador Global de Actividad Económica (IGAE) Global y para las Actividades Primarias (2008=100), Ene.2002 - May.2021",  echo=TRUE, fig.align='center'}
 
 Base_1 <- read_excel("BD/Base_1_TimeSeries.xlsx")
 IGAE_2013 <- ts(Base_1$IGAE_2013, start = 2002, freq = 12)
@@ -87,7 +87,7 @@ Como se puede observar, el IGAE del total de la economía muestra, principalment
 del indicador, salvo por la crisis global de 2008 y la reciente crisis causada
 por la Covid-19.
 
-```{r fig2, fig.cap = "Índice de Confianza del Consumidor (ICC): General y resultado de ¿Cómo considera usted la situación economica del país hoy en día comparada con la de hace 12 meses? (puntos), Ene.2002-may.2021",  echo=FALSE, fig.align='center'}
+```{r fig2, fig.cap = "Índice de Confianza del Consumidor (ICC): General y resultado de ¿Cómo considera usted la situación economica del país hoy en día comparada con la de hace 12 meses? (puntos), Ene.2002-may.2021",  echo=TRUE, fig.align='center'}
 
 plot(ICC, type = "l", lwd = 1, col = "red", ylab = "Indice", xlab = "Tiempo", ylim = c(29, 50))
 # Comando que indica a R que sin borrar la grafica anterior, grafique la siguiente.
@@ -114,7 +114,7 @@ Como segundo ejemplo, en la Figura \@ref(fig:fig2) se ilustra la evolución reci
 Destacamos que el ICC mide las expectativas de los consumidores en
 razón de la información pasada y de la esperada, segun dichos consumidores.
 
-```{r fig3,fig.cap = "Índice de Precios y Cotizaciones de la Bolsa Mexicana de Valores (Panel Derecho) y Tipo de Cambio para Solventar Obligaciones en Moneda Extranjera, pesos por dólar (Panel izquierdo), Ene.2002-May.2021 ",  echo=FALSE, fig.align='center'}
+```{r fig3,fig.cap = "Índice de Precios y Cotizaciones de la Bolsa Mexicana de Valores (Panel Derecho) y Tipo de Cambio para Solventar Obligaciones en Moneda Extranjera, pesos por dólar (Panel izquierdo), Ene.2002-May.2021 ",  echo=TRUE, fig.align='center'}
 par(mfrow=c(1,2))
 
 # Indice de Precios y Cotizaciones de la Bolsa Mexicana de Valores
@@ -139,7 +139,7 @@ Como tercer ejemplo se muestra la evolución de dos series. La Figura \@ref(fig:
 Por otro lado, en la Figura \@ref(fig:fig3) se presenta la evolución del Tipo de Cambio (TDC){indicador financiero que se suele utilizar como medio de reserva de valor. Esto, en razón de que el TDC es conocido como un instrumento que en momentos de crisis toma valores contraciclicos de la economía mexicana. No obstante, ambos indicadores no son comparables. Para hacerlos comparbles
 en la Figura \@ref(fig:fig4) se presentan en versión índice con una base en el primer mes de la muestra. 
 
-```{r fig4, fig.cap = "Índice del índice de Precios y Cotizaciones de la Bolsa Mexicana de Valores (Panel Derecho) e Índice del Tipo de Cambio para Solventar Obligaciones en Moneda Extranjera (ambos enero de 2002 = 100), pesos por dólar (Panel izquierdo), Ene.2002-May.2021 ",  echo=FALSE, fig.align='center'}
+```{r fig4, fig.cap = "Índice del índice de Precios y Cotizaciones de la Bolsa Mexicana de Valores (Panel Derecho) e Índice del Tipo de Cambio para Solventar Obligaciones en Moneda Extranjera (ambos enero de 2002 = 100), pesos por dólar (Panel izquierdo), Ene.2002-May.2021 ",  echo=TRUE, fig.align='center'}
 
 IPC_BMV_I <- 100*IPC_BMV/IPC_BMV[1]
 TDC_I <- 100*TDC/TDC[1]
@@ -159,7 +159,7 @@ primarias.
 
 Finalmente, la Figura \@ref(fig:fig5) ilustra un característica que también resulta de gran interés en el analásis de series de tiempo: los datos de alta frecuencia y de comportamiento no regular. Como se puede observar, en la Figura \@ref(fig:fig5) se muestran las diferencias logarítmicas de las series de IGAE de la actividad total, el IPC y el TDC.
 
-```{r fig5, fig.cap = "Tasas de Crecimiento mensuales (diferencias logarítmicas) de Indicador Global de la Actividad Económica, Índice de Precios y Cotizaciones de la Bolsa Mexicana de Valores (Panel Derecho) y Tipo de Cambio para Solventar Obligaciones en Moneda Extranjera, Ene.2002-May.2021 ",  echo=FALSE, fig.align='center', out.width="90%"}
+```{r fig5, fig.cap = "Tasas de Crecimiento mensuales (diferencias logarítmicas) de Indicador Global de la Actividad Económica, Índice de Precios y Cotizaciones de la Bolsa Mexicana de Valores (Panel Derecho) y Tipo de Cambio para Solventar Obligaciones en Moneda Extranjera, Ene.2002-May.2021 ",  echo=TRUE, fig.align='center', out.width="90%"}
 
 par(mfrow=c(3,1))
 # Indicador Global de la Actividad Econ?mica, base 2008
